@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "id": "vergence",
+  "version": "${version}",
+  "name": "Vergence",
+  "description": "A unique cheat",
+  "authors": [],
+  "contact": {},
+  "license": "All-Rights-Reserved",
+  "icon": "assets/vergence/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "main": [
+      "cc.vergence.Vergence"
+    ]
+  },
+  "mixins": [
+    "vergence.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}

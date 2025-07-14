@@ -1,0 +1,4 @@
+{
+    "Client" : "Vergence_Client",
+    "Version" : "%client_version%"
+}

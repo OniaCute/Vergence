@@ -1,0 +1,37 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "cc.vergence.injections",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "accessors.PlayerMoveC2SPacketAccessor",
+    "mixins.LivingEntityMixin",
+    "mixins.MixinClientConnection",
+    "mixins.PlayerEntityMixin",
+    "accessors.ClientWorldAccessor",
+    "accessors.CreativeInventoryScreenAccessor",
+    "accessors.MinecraftClientAccessor",
+    "accessors.NativeImageAccessor",
+    "mixins.GameRendererMixin",
+    "mixins.MixinChatHud",
+    "mixins.MixinChatHudLine",
+    "mixins.MixinChatHudLineVisible",
+    "mixins.MixinChatInputSuggester",
+    "mixins.MixinChatMessages",
+    "mixins.MixinClientPlayerEntity",
+    "mixins.MixinClientPlayerInteractionManager",
+    "mixins.MixinClientPlayNetworkHandler",
+    "mixins.MixinKeyboard",
+    "mixins.MixinMinecraftClient",
+    "mixins.MixinMinecraftInGameHud",
+    "mixins.MixinMouseActive",
+    "mixins.MixinWindow",
+    "mixins.MixinWorldRenderer",
+    "mixins.MixinMinecraftClient"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "client": [
+  ]
+}

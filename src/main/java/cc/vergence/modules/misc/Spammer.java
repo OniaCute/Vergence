@@ -5,7 +5,6 @@ import cc.vergence.features.options.impl.DoubleOption;
 import cc.vergence.features.options.impl.EnumOption;
 import cc.vergence.features.options.impl.TextOption;
 import cc.vergence.modules.Module;
-import cc.vergence.modules.client.AntiCheat;
 
 public class Spammer extends Module {
     public static Spammer INSTANCE;

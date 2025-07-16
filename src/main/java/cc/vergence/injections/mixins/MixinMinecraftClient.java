@@ -3,13 +3,12 @@ package cc.vergence.injections.mixins;
 import cc.vergence.Vergence;
 import cc.vergence.features.managers.ModuleManager;
 import cc.vergence.modules.Module;
+import cc.vergence.modules.client.Title;
 import cc.vergence.modules.combat.NoCooldown;
 import cc.vergence.util.font.FontRenderers;
 import cc.vergence.util.interfaces.Wrapper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.RunArgs;
-import net.minecraft.client.gui.screen.DownloadingTerrainScreen;
-import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.util.thread.ReentrantThreadExecutor;
 import org.jetbrains.annotations.Nullable;
@@ -84,16 +83,7 @@ public abstract class MixinMinecraftClient extends ReentrantThreadExecutor<Runna
      */
     @Overwrite
     private String getWindowTitle() {
-        String[] text = {
-                "Get unique sense of the Minecraft.",
-                "No crack, No leak, No deserted."
-        };
-
-        Random random = new Random();
-        int randomIndex = random.nextInt(text.length);
-        String randomSentence = text[randomIndex];
-
-        return "Vergence Client | " + randomSentence + "  -  emotionclient.cc";
+        return Title.INSTANCE == null || Title.INSTANCE.getStatus() ? "Vergence Client | Get unique sense of the Minecraft" : Title.title;
     }
 
     @Inject(at = @At("HEAD"), method = "tick()V")
@@ -123,10 +113,10 @@ public abstract class MixinMinecraftClient extends ReentrantThreadExecutor<Runna
         }
     }
 
-//    @Inject(method = "doAttack", at = @At("HEAD"))
-//    private void doAttack(CallbackInfoReturnable<Boolean> info) {
-//        if (NoCooldown.INSTANCE != null && NoCooldown.INSTANCE.forAttack.getValue()) {
-//            attackCooldown = 0;
-//        }
-//    }
+    @Inject(method = "doAttack", at = @At("HEAD"))
+    private void doAttack(CallbackInfoReturnable<Boolean> info) {
+        if (NoCooldown.INSTANCE != null && NoCooldown.INSTANCE.forAttack.getValue()) {
+            attackCooldown = 0;
+        }
+    }
 }

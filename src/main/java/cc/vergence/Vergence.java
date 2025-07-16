@@ -41,6 +41,7 @@ public class Vergence implements ModInitializer {
     public static NetworkManager NETWORK;
     public static GuiManager GUI;
     public static HudManager HUD;
+    public static RotateManager ROTATE;
     public static ModuleManager MODULE;
     public static CommandManager COMMAND;
     public static NotifyManager NOTIFY;
@@ -122,6 +123,9 @@ public class Vergence implements ModInitializer {
 
         HUD = new HudManager();
         CONSOLE.logInfo("HUD Manager was loaded");
+
+        ROTATE = new RotateManager();
+        CONSOLE.logInfo("Rotate Manager was loaded");
 
         MODULE = new ModuleManager();
         CONSOLE.logInfo("Module Manager was loaded");

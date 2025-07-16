@@ -3,12 +3,10 @@ package cc.vergence.modules.movement;
 import cc.vergence.Vergence;
 import cc.vergence.features.enums.AntiCheats;
 import cc.vergence.features.event.events.PlayerUpdateEvent;
-import cc.vergence.features.managers.MessageManager;
 import cc.vergence.features.options.Option;
 import cc.vergence.features.options.impl.BooleanOption;
 import cc.vergence.features.options.impl.EnumOption;
 import cc.vergence.modules.Module;
-import cc.vergence.modules.client.AntiCheat;
 import net.minecraft.block.Blocks;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.util.math.BlockPos;
@@ -18,22 +16,23 @@ public class NoFall extends Module {
         super("NoFall", Category.MOVEMENT);
     }
 
-    public Option<Boolean> horizontalCollision = addOption(new BooleanOption("HorizontalCollision", false, v -> AntiCheat.INSTANCE.antiCheat.getValue().equals(AntiCheats.Grim)));
+    public Option<Enum<?>> antiCheat = addOption(new EnumOption("AntiCheat", AntiCheats.Legit));
+    public Option<Boolean> horizontalCollision = addOption(new BooleanOption("HorizontalCollision", false, v -> antiCheat.getValue().equals(AntiCheats.Grim)));
     public Option<Boolean> alwaysActive = addOption(new BooleanOption("AlwaysActive", false));
 
     @Override
     public String getDetails() {
-        return AntiCheat.INSTANCE != null ? AntiCheat.INSTANCE.antiCheat.getValue().name() : "Unknown";
+        return antiCheat.getValue().name();
     }
 
     @Override
     public void onPlayerUpdateEvent(PlayerUpdateEvent event) {
-        if (mc.player == null || AntiCheat.INSTANCE == null || !AntiCheat.INSTANCE.getStatus()) {
+        if (mc.player == null) {
             return ;
         }
 
 
-        if (AntiCheat.INSTANCE.antiCheat.getValue().equals(AntiCheats.Grim) && (isFalling() || alwaysActive.getValue())) {
+        if (antiCheat.getValue().equals(AntiCheats.Grim) && (isFalling() || alwaysActive.getValue())) {
             Vergence.NETWORK.sendPacket(new PlayerMoveC2SPacket.Full(mc.player.getX(), mc.player.getY() + 1.0e-9, mc.player.getZ(), mc.player.getYaw(), mc.player.getPitch(), true, horizontalCollision.getValue()));
             mc.player.onLanding();
         }

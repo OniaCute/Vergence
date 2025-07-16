@@ -434,6 +434,10 @@ public class FontUtil implements Wrapper {
         }
     }
 
+    public static void drawText(DrawContext context, String text, int x, int y, Color color, FontSize size, boolean shadow) {
+        drawText(context, text, x, y, color.getRGB(), size, shadow);
+    }
+
     public static void drawText(DrawContext context, String text, double x, double y, Color color, FontSize size, boolean shadow) {
         drawText(context, text, x, y, color.getRGB(), size, shadow);
     }

@@ -1,11 +1,5 @@
 package cc.vergence.features.themes;
 
-import cc.vergence.Vergence;
-import cc.vergence.features.account.VergenceAccount;
-import cc.vergence.features.managers.NotifyManager;
-import cc.vergence.features.notifications.NormalNotification;
-import cc.vergence.modules.client.Notify;
-
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -13,7 +7,7 @@ public class Theme {
     private String name;
     private String displayName;
     private String description;
-    private ArrayList<VergenceAccount> authors = new ArrayList<VergenceAccount>();
+    private ArrayList<String> authors = new ArrayList<>();
     private Color mainColor;
     private Color mainPageBackgroundColor;
     private Color categoryBackgroundColor;
@@ -84,7 +78,7 @@ public class Theme {
     private Color descriptionBackgroundColor;
     private Color descriptionTextColor;
 
-    public Theme(String name, String displayName, String description, ArrayList<VergenceAccount> authors) {
+    public Theme(String name, String displayName, String description, ArrayList<String> authors) {
         this.name = name;
         this.displayName = displayName;
         this.description = description;
@@ -116,20 +110,10 @@ public class Theme {
     }
 
     public void addAuthors(String name) {
-        VergenceAccount author = new VergenceAccount(name);
-        if (author.isExist()) {
-            this.authors.add(author);
-        } else {
-            NotifyManager.addNotification(new NormalNotification(
-                    Vergence.TEXT.get("Theme.Error.Notify.AuthorIsNotExist.title"),
-                    Vergence.TEXT.get("Theme.Error.Notify.AuthorIsNotExist.description"),
-                    Notify.INSTANCE.notificationAliveTime.getValue()
-            ));
-            Vergence.CONSOLE.logWarn("The author \"" + name + "\" of theme" + getDisplayName() + "(" + getName() + ")" + "doesn't exist!");
-        }
+        this.authors.add(name);
     }
 
-    public ArrayList<VergenceAccount> getAuthors() {
+    public ArrayList<String> getAuthors() {
         return authors;
     }
 

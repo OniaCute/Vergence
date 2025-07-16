@@ -53,6 +53,11 @@ public class Client extends Module {
                         ((ModuleComponent) component1).getModule().setDescription(Vergence.TEXT.get("Module.Modules." + ((ModuleComponent) component1).getModule().getName() + ".description"));
                         for (GuiComponent component3 : component2.getSubComponents()) {
                             if (component3 instanceof BooleanComponent) {
+                                if (((BooleanComponent) component3).getOption().getName().equals("_DRAW_")) {
+                                    ((BooleanComponent) component3).getOption().setDisplayName(Vergence.TEXT.get("Module.Special.ModuleDraw.name"));
+                                    ((BooleanComponent) component3).getOption().setDescription(Vergence.TEXT.get("Module.Special.ModuleDraw.description"));
+                                    continue;
+                                }
                                 ((BooleanComponent) component3).getOption().setDisplayName(Vergence.TEXT.get("Module.Modules." + ((ModuleComponent) component1).getModule().getName() + ".Options.BooleanOption." + ((BooleanComponent) component3).getOption().getName() + ".name"));
                                 ((BooleanComponent) component3).getOption().setDescription(Vergence.TEXT.get("Module.Modules." + ((ModuleComponent) component1).getModule().getName() + ".Options.BooleanOption." + ((BooleanComponent) component3).getOption().getName() + ".description"));
                             }

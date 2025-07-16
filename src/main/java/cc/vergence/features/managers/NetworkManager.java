@@ -11,6 +11,7 @@ import net.minecraft.network.listener.ServerPlayPacketListener;
 import net.minecraft.network.packet.Packet;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class NetworkManager implements Wrapper {
@@ -30,15 +31,19 @@ public class NetworkManager implements Wrapper {
     public void sendPacket(final Packet<?> p) {
         if (mc.getNetworkHandler() != null) {
             PACKETS.add(p);
-            mc.getNetworkHandler().sendPacket(p);
+            Vergence.NETWORK.sendPacket(p);
         }
     }
 
-    public void sendQuietPacket(final Packet<?> p) {
+    public void sendSilentPacket(final Packet<?> p) {
         if (mc.getNetworkHandler() != null) {
             PACKETS.add(p);
             ((IClientPlayNetworkHandler) mc.getNetworkHandler()).sendSilentPacket(p);
         }
+    }
+
+    public void sendIgnoredPacket(Packet<?> packet) {
+        Objects.requireNonNull(mc.getNetworkHandler()).getConnection().send(packet, null, true);
     }
 
     public void sendSequencedPacket(final SequencedPacketCreator p) {
@@ -68,8 +73,7 @@ public class NetworkManager implements Wrapper {
 
     public int getClientLatency() {
         if (mc.getNetworkHandler() != null) {
-            final PlayerListEntry playerEntry =
-                    mc.getNetworkHandler().getPlayerListEntry(mc.player.getGameProfile().getId());
+            final PlayerListEntry playerEntry = mc.getNetworkHandler().getPlayerListEntry(mc.player.getGameProfile().getId());
             if (playerEntry != null) {
                 return playerEntry.getLatency();
             }

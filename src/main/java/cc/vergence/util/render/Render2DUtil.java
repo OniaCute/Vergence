@@ -4,6 +4,7 @@ import cc.vergence.features.enums.Aligns;
 import cc.vergence.modules.client.Client;
 import cc.vergence.util.interfaces.Wrapper;
 import cc.vergence.util.maths.MathUtil;
+import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gl.ShaderProgramKeys;
 import net.minecraft.client.gui.DrawContext;
@@ -573,5 +574,25 @@ public class Render2DUtil implements Wrapper {
         bufferBuilder.vertex(matrix, x + width, y, 0).texture(u2, v).color(red, green, blue, alpha);
 
         BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
+    }
+
+    public static void renderQuad(MatrixStack matrices, float left, float top, float right, float bottom, Color color) {
+        Matrix4f matrix = matrices.peek().getPositionMatrix();
+        BufferBuilder buffer = RenderSystem.renderThreadTesselator().begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
+
+        buffer.vertex(matrix, left, top, 0.0f).color(color.getRGB());
+        buffer.vertex(matrix, left, bottom, 0.0f).color(color.getRGB());
+        buffer.vertex(matrix, right, bottom, 0.0f).color(color.getRGB());
+        buffer.vertex(matrix, right, top, 0.0f).color(color.getRGB());
+
+        RenderSystem.setShader(ShaderProgramKeys.POSITION_COLOR);
+        RenderSystem.enableBlend();
+        RenderSystem.blendFuncSeparate(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SrcFactor.ONE, GlStateManager.DstFactor.ZERO);
+        RenderSystem.disableDepthTest();
+
+        BufferRenderer.drawWithGlobalProgram(buffer.end());
+
+        RenderSystem.enableDepthTest();
+        RenderSystem.disableBlend();
     }
 }

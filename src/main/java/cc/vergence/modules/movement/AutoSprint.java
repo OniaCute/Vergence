@@ -4,7 +4,6 @@ import cc.vergence.features.options.Option;
 import cc.vergence.features.options.impl.BooleanOption;
 import cc.vergence.features.options.impl.DoubleOption;
 import cc.vergence.modules.Module;
-import cc.vergence.modules.client.AntiCheat;
 import cc.vergence.modules.combat.KillAura;
 
 public class AutoSprint extends Module {
@@ -16,7 +15,7 @@ public class AutoSprint extends Module {
 
     public Option<Boolean> forAttack = addOption(new BooleanOption("Attack", false));
     public Option<Double> attackCounteract = addOption(new DoubleOption("AttackCounteract", 0, 1, 0));
-    public Option<Boolean> useItem = addOption(new BooleanOption("Use Item", false));
+    public Option<Boolean> useItem = addOption(new BooleanOption("UseItem", false));
 
     @Override
     public String getDetails() {

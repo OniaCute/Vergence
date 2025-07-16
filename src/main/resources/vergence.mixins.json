@@ -4,20 +4,19 @@
   "package": "cc.vergence.injections",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "accessors.PlayerMoveC2SPacketAccessor",
-    "mixins.LivingEntityMixin",
-    "mixins.MixinClientConnection",
-    "mixins.PlayerEntityMixin",
     "accessors.ClientWorldAccessor",
     "accessors.CreativeInventoryScreenAccessor",
     "accessors.MinecraftClientAccessor",
     "accessors.NativeImageAccessor",
+    "accessors.PlayerMoveC2SPacketAccessor",
     "mixins.GameRendererMixin",
+    "mixins.LivingEntityMixin",
     "mixins.MixinChatHud",
     "mixins.MixinChatHudLine",
     "mixins.MixinChatHudLineVisible",
     "mixins.MixinChatInputSuggester",
     "mixins.MixinChatMessages",
+    "mixins.MixinClientConnection",
     "mixins.MixinClientPlayerEntity",
     "mixins.MixinClientPlayerInteractionManager",
     "mixins.MixinClientPlayNetworkHandler",
@@ -27,11 +26,12 @@
     "mixins.MixinMouseActive",
     "mixins.MixinWindow",
     "mixins.MixinWorldRenderer",
-    "mixins.MixinMinecraftClient"
+    "mixins.PlayerEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1
   },
   "client": [
+    "mixins.MixinPlayerListHud"
   ]
 }

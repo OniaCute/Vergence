@@ -5,13 +5,13 @@ import cc.vergence.features.options.Option;
 import cc.vergence.features.options.impl.*;
 import cc.vergence.modules.Module;
 import cc.vergence.modules.client.*;
-import cc.vergence.modules.client.AntiCheat;
 import cc.vergence.modules.combat.KillAura;
 import cc.vergence.modules.combat.NoCooldown;
 import cc.vergence.modules.combat.Reach;
 import cc.vergence.modules.exploit.AntiHungry;
 import cc.vergence.modules.exploit.Disabler;
 import cc.vergence.modules.hud.Watermark;
+import cc.vergence.modules.misc.BetterTab;
 import cc.vergence.modules.misc.FakePlayer;
 import cc.vergence.modules.misc.Spammer;
 import cc.vergence.modules.movement.*;
@@ -39,7 +39,6 @@ public class ModuleManager {
         registerModule(new BetterChat());
         registerModule(new Notify());
         registerModule(new HudEditor());
-        registerModule(new AntiCheat());
         registerModule(new Watermark());
         registerModule(new Spammer());
         registerModule(new AutoSprint());
@@ -58,6 +57,9 @@ public class ModuleManager {
         registerModule(new NoCooldown());
         registerModule(new PortalGod());
         registerModule(new NoFall());
+        registerModule(new BetterTab());
+        registerModule(new Title());
+        registerModule(new Placeholder());
 
         // special module
         registerModule(new SafeMode());
@@ -94,6 +96,11 @@ public class ModuleManager {
             option.setDescription(Vergence.TEXT.get("Module.Modules." + module.getName() + ".Options.BindOption." + option.getName() + ".description"));
         }
         else if (option instanceof BooleanOption) {
+            if (option.getName().equals("_DRAW_")) {
+                option.setDisplayName(Vergence.TEXT.get("Module.Special.ModuleDraw.name"));
+                option.setDescription(Vergence.TEXT.get("Module.Special.ModuleDraw.description"));
+                return ;
+            }
             option.setDisplayName(Vergence.TEXT.get("Module.Modules." + module.getName() + ".Options.BooleanOption." + option.getName() + ".name"));
             option.setDescription(Vergence.TEXT.get("Module.Modules." + module.getName() + ".Options.BooleanOption." + option.getName() + ".description"));
         }

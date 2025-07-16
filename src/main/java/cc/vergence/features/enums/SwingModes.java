@@ -1,7 +1,7 @@
 package cc.vergence.features.enums;
 
 public enum SwingModes {
-    Legit,
+    Both,
     Client,
     Server,
     None

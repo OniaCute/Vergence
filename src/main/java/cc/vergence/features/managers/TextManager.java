@@ -62,12 +62,11 @@ public class TextManager {
         englishLanguageBase.put("Module.Special.Messages.Blocked", "Module {a} is blocked by {b}.");
         englishLanguageBase.put("Module.Special.ModuleBind.name", "Hotkey");
         englishLanguageBase.put("Module.Special.ModuleBind.description", "The hotkey of the module");
+        englishLanguageBase.put("Module.Special.ModuleDraw.name", "Display");
+        englishLanguageBase.put("Module.Special.ModuleDraw.description", "Display module in ArrayList");
 
         englishLanguageBase.put("Theme.DefaultTheme.name", "Default Theme");
         englishLanguageBase.put("Theme.DefaultTheme.description", "The default theme of vergence client");
-
-        englishLanguageBase.put("Theme.Error.Notify.AuthorIsNotExist.title", "Theme Error");
-        englishLanguageBase.put("Theme.Error.Notify.AuthorIsNotExist.description", "The author of the theme does not exist!");
 
         englishLanguageBase.put("Module.Modules.ClickGUI.name", "Click GUI");
         englishLanguageBase.put("Module.Modules.ClickGUI.description", "The options of click gui");
@@ -126,23 +125,6 @@ public class TextManager {
         englishLanguageBase.put("Module.Modules.HudEditor.Options.BooleanOption.Outline.description", "Display the outline when the hud is selected");
         englishLanguageBase.put("Module.Modules.HudEditor.Options.ColorOption.OutlineColor.name", "Outline Color");
         englishLanguageBase.put("Module.Modules.HudEditor.Options.ColorOption.OutlineColor.description", "The outline color of hud");
-
-        englishLanguageBase.put("Module.Modules.AntiCheat.name", "Anti Cheat");
-        englishLanguageBase.put("Module.Modules.AntiCheat.description", "Manage each option about combat module");
-        englishLanguageBase.put("Module.Modules.AntiCheat.Options.EnumOption.AntiCheat.name", "Anti Cheat Mode");
-        englishLanguageBase.put("Module.Modules.AntiCheat.Options.EnumOption.AntiCheat.description", "The anti cheat mode of the module's operation");
-        englishLanguageBase.put("Module.Modules.AntiCheat.Options.MultipleOption.AttackTargets.name", "Targets");
-        englishLanguageBase.put("Module.Modules.AntiCheat.Options.MultipleOption.AttackTargets.description", "The attack targets of the combat-related functions");
-        englishLanguageBase.put("Module.Modules.AntiCheat.Options.BooleanOption.RotateSync.name", "Rotate Sync");
-        englishLanguageBase.put("Module.Modules.AntiCheat.Options.BooleanOption.RotateSync.description", "Synchronize your rotation with the server ");
-        englishLanguageBase.put("Module.Modules.AntiCheat.Options.EnumOption.RotateMode.name", "RotateMode Mode");
-        englishLanguageBase.put("Module.Modules.AntiCheat.Options.EnumOption.RotateMode.description", "The mode of the module rotate");
-        englishLanguageBase.put("Module.Modules.AntiCheat.Options.DoubleOption.RotateTime.name", "Rotate Time");
-        englishLanguageBase.put("Module.Modules.AntiCheat.Options.DoubleOption.RotateTime.description", "The time limit of the module rotate");
-        englishLanguageBase.put("Module.Modules.AntiCheat.Options.EnumOption.SwingMode.name", "Swing Mode");
-        englishLanguageBase.put("Module.Modules.AntiCheat.Options.EnumOption.SwingMode.description", "The mode of the module swing");
-        englishLanguageBase.put("Module.Modules.AntiCheat.Options.EnumOption.PlaceMode.name", "Place Mode");
-        englishLanguageBase.put("Module.Modules.AntiCheat.Options.EnumOption.PlaceMode.description", "The mode of the module place");
 
         englishLanguageBase.put("Module.Modules.Watermark.name", "Watermark");
         englishLanguageBase.put("Module.Modules.Watermark.description", "Draw a watermark on the screen");
@@ -250,21 +232,35 @@ public class TextManager {
         englishLanguageBase.put("Module.Modules.KillAura.name", "Kill Aura");
         englishLanguageBase.put("Module.Modules.KillAura.description", "Auto attack objects within a certain range");
         englishLanguageBase.put("Module.Modules.KillAura.Options.EnumOption.AntiCheat.name", "Anti Cheat");
-        englishLanguageBase.put("Module.Modules.KillAura.Options.EnumOption.AntiCheat.description", "Determine which anti cheat strategy to bypass");
+        englishLanguageBase.put("Module.Modules.KillAura.Options.EnumOption.AntiCheat.description", "Determine which functions need to be blocked by anti cheat mode");
         englishLanguageBase.put("Module.Modules.KillAura.Options.EnumOption.ClickType.name", "Click Type");
         englishLanguageBase.put("Module.Modules.KillAura.Options.EnumOption.ClickType.description", "Choose the click mode for auto attack");
         englishLanguageBase.put("Module.Modules.KillAura.Options.DoubleOption.Range.name", "Range");
-        englishLanguageBase.put("Module.Modules.KillAura.Options.DoubleOption.Range.description", "The maximum distance to attack targets");
+        englishLanguageBase.put("Module.Modules.KillAura.Options.DoubleOption.Range.description", "Maximum distance to attack targets");
         englishLanguageBase.put("Module.Modules.KillAura.Options.DoubleOption.FOV.name", "FOV");
-        englishLanguageBase.put("Module.Modules.KillAura.Options.DoubleOption.FOV.description", "The attack field of view angle");
-        englishLanguageBase.put("Module.Modules.KillAura.Options.DoubleOption.MinCPS.name", "Min CPS");
-        englishLanguageBase.put("Module.Modules.KillAura.Options.DoubleOption.MinCPS.description", "The minimum clicks per second");
-        englishLanguageBase.put("Module.Modules.KillAura.Options.DoubleOption.MaxCPS.name", "Max CPS");
-        englishLanguageBase.put("Module.Modules.KillAura.Options.DoubleOption.MaxCPS.description", "The maximum clicks per second");
-        englishLanguageBase.put("Module.Modules.KillAura.Options.DoubleOption.Delay.name", "Click Delay");
-        englishLanguageBase.put("Module.Modules.KillAura.Options.DoubleOption.Delay.description", "The delay between each click");
-        englishLanguageBase.put("Module.Modules.KillAura.Options.EnumOption.RotateType.name", "Rotate Mode");
-        englishLanguageBase.put("Module.Modules.KillAura.Options.EnumOption.RotateType.description", "The rotation mode to use while attacking");
+        englishLanguageBase.put("Module.Modules.KillAura.Options.DoubleOption.FOV.description", "Attack field of view angle");
+        englishLanguageBase.put("Module.Modules.KillAura.Options.DoubleOption.MinCPS.name", "MinCPS");
+        englishLanguageBase.put("Module.Modules.KillAura.Options.DoubleOption.MinCPS.description", "Minimum clicks per second");
+        englishLanguageBase.put("Module.Modules.KillAura.Options.DoubleOption.MaxCPS.name", "MaxCPS");
+        englishLanguageBase.put("Module.Modules.KillAura.Options.DoubleOption.MaxCPS.description", "Maximum clicks per second");
+        englishLanguageBase.put("Module.Modules.KillAura.Options.DoubleOption.Delay.name", "Delay");
+        englishLanguageBase.put("Module.Modules.KillAura.Options.DoubleOption.Delay.description", "Delay between each attack");
+        englishLanguageBase.put("Module.Modules.KillAura.Options.BooleanOption.CrosshairLock.name", "CrosshairLock");
+        englishLanguageBase.put("Module.Modules.KillAura.Options.BooleanOption.CrosshairLock.description", "No rotate when crosshair is on target");
+        englishLanguageBase.put("Module.Modules.KillAura.Options.EnumOption.RotateType.name", "RotateType");
+        englishLanguageBase.put("Module.Modules.KillAura.Options.EnumOption.RotateType.description", "Rotation type");
+        englishLanguageBase.put("Module.Modules.KillAura.Options.DoubleOption.RotateSpeed.name", "RotateSpeed");
+        englishLanguageBase.put("Module.Modules.KillAura.Options.DoubleOption.RotateSpeed.description", "Rotation speed");
+        englishLanguageBase.put("Module.Modules.KillAura.Options.BooleanOption.SmoothRotate.name", "SmoothRotate");
+        englishLanguageBase.put("Module.Modules.KillAura.Options.BooleanOption.SmoothRotate.description", "Enable smooth rotation");
+        englishLanguageBase.put("Module.Modules.KillAura.Options.DoubleOption.SmoothOffset.name", "SmoothOffset");
+        englishLanguageBase.put("Module.Modules.KillAura.Options.DoubleOption.SmoothOffset.description", "Smooth rotation offset");
+        englishLanguageBase.put("Module.Modules.KillAura.Options.BooleanOption.RotateLock.name", "RotateLock");
+        englishLanguageBase.put("Module.Modules.KillAura.Options.BooleanOption.RotateLock.description", "Lock rotation after attack");
+        englishLanguageBase.put("Module.Modules.KillAura.Options.DoubleOption.RotateLockTime.name", "RotateLockTime");
+        englishLanguageBase.put("Module.Modules.KillAura.Options.DoubleOption.RotateLockTime.description", "Rotation lock duration");
+        englishLanguageBase.put("Module.Modules.KillAura.Options.MultipleOption.Targets.name", "Targets");
+        englishLanguageBase.put("Module.Modules.KillAura.Options.MultipleOption.Targets.description", "Attack targets");
 
         englishLanguageBase.put("Module.Modules.Scaffold.name", "Scaffold");
         englishLanguageBase.put("Module.Modules.Scaffold.description", "Auto place block on the ground when moving");
@@ -334,9 +330,66 @@ public class TextManager {
         englishLanguageBase.put("Module.Modules.PortalGod.description", "Allow you to operate the GUI within the portal");
 
         englishLanguageBase.put("Module.Modules.NoFall.name", "No Fall Damage");
-        englishLanguageBase.put("Module.Modules.NoFall.description", "To protect you from getting hurt in case of a fall");
-        englishLanguageBase.put("Module.Modules.NoFall.Options.BooleanOption.HorizontalCollision.name", "Horizontal Collision");
-        englishLanguageBase.put("Module.Modules.NoFall.Options.BooleanOption.HorizontalCollision.description", "Whether to enable Horizontal Collision when sending packets");
+        englishLanguageBase.put("Module.Modules.NoFall.description", "Prevent fall damage");
+        englishLanguageBase.put("Module.Modules.NoFall.Options.EnumOption.AntiCheat.name", "Anti Cheat");
+        englishLanguageBase.put("Module.Modules.NoFall.Options.EnumOption.AntiCheat.description", "Determine which functions need to be blocked by anti cheat mode");
+        englishLanguageBase.put("Module.Modules.NoFall.Options.BooleanOption.HorizontalCollision.name", "HorizontalCollision");
+        englishLanguageBase.put("Module.Modules.NoFall.Options.BooleanOption.HorizontalCollision.description", "Enable horizontal collision check for Grim");
+        englishLanguageBase.put("Module.Modules.NoFall.Options.BooleanOption.AlwaysActive.name", "AlwaysActive");
+        englishLanguageBase.put("Module.Modules.NoFall.Options.BooleanOption.AlwaysActive.description", "Always active regardless of falling state");
+
+        englishLanguageBase.put("Module.Modules.Placeholder.name", "Placeholder Previewer");
+        englishLanguageBase.put("Module.Modules.Placeholder.description", "Display client and player information placeholders");
+        englishLanguageBase.put("Module.Modules.Placeholder.Options.TextOption.Placeholder_Client_ID.name", "{id}");
+        englishLanguageBase.put("Module.Modules.Placeholder.Options.TextOption.Placeholder_Client_ID.description", "Client ID placeholder");
+        englishLanguageBase.put("Module.Modules.Placeholder.Options.TextOption.Placeholder_Client_Name.name", "{name}");
+        englishLanguageBase.put("Module.Modules.Placeholder.Options.TextOption.Placeholder_Client_Name.description", "Client name placeholder");
+        englishLanguageBase.put("Module.Modules.Placeholder.Options.TextOption.Placeholder_Client_Full_Name.name", "{full_name}");
+        englishLanguageBase.put("Module.Modules.Placeholder.Options.TextOption.Placeholder_Client_Full_Name.description", "Client full name placeholder");
+        englishLanguageBase.put("Module.Modules.Placeholder.Options.TextOption.Placeholder_Client_Version.name", "{version}");
+        englishLanguageBase.put("Module.Modules.Placeholder.Options.TextOption.Placeholder_Client_Version.description", "Client version placeholder");
+        englishLanguageBase.put("Module.Modules.Placeholder.Options.TextOption.Placeholder_Player.name", "{player}");
+        englishLanguageBase.put("Module.Modules.Placeholder.Options.TextOption.Placeholder_Player.description", "Player name placeholder");
+        englishLanguageBase.put("Module.Modules.Placeholder.Options.TextOption.Placeholder_HP.name", "{hp}");
+        englishLanguageBase.put("Module.Modules.Placeholder.Options.TextOption.Placeholder_HP.description", "Player health placeholder");
+        englishLanguageBase.put("Module.Modules.Placeholder.Options.TextOption.Placeholder_Max_HP.name", "{max_hp}");
+        englishLanguageBase.put("Module.Modules.Placeholder.Options.TextOption.Placeholder_Max_HP.description", "Player max health placeholder");
+        englishLanguageBase.put("Module.Modules.Placeholder.Options.TextOption.Placeholder_Armor.name", "{armor}");
+        englishLanguageBase.put("Module.Modules.Placeholder.Options.TextOption.Placeholder_Armor.description", "Player armor placeholder");
+        englishLanguageBase.put("Module.Modules.Placeholder.Options.TextOption.Placeholder_OverWorld.name", "{world} (Overworld)");
+        englishLanguageBase.put("Module.Modules.Placeholder.Options.TextOption.Placeholder_OverWorld.description", "Overworld dimension placeholder");
+        englishLanguageBase.put("Module.Modules.Placeholder.Options.TextOption.Placeholder_Nether.name", "{world} (Nether)");
+        englishLanguageBase.put("Module.Modules.Placeholder.Options.TextOption.Placeholder_Nether.description", "Nether dimension placeholder");
+        englishLanguageBase.put("Module.Modules.Placeholder.Options.TextOption.Placeholder_TheEnd.name", "{world} (TheEnd)");
+        englishLanguageBase.put("Module.Modules.Placeholder.Options.TextOption.Placeholder_TheEnd.description", "The End dimension placeholder");
+
+        englishLanguageBase.put("Module.Modules.Title.name", "Title");
+        englishLanguageBase.put("Module.Modules.Title.description", "Customize and animate the window title");
+        englishLanguageBase.put("Module.Modules.Title.Options.TextOption.Title.name", "Title");
+        englishLanguageBase.put("Module.Modules.Title.Options.TextOption.Title.description", "Window title text");
+        englishLanguageBase.put("Module.Modules.Title.Options.BooleanOption.Animation.name", "Animation");
+        englishLanguageBase.put("Module.Modules.Title.Options.BooleanOption.Animation.description", "Enable title animation");
+        englishLanguageBase.put("Module.Modules.Title.Options.BooleanOption.ReverseAnimation.name", "Reverse Animation");
+        englishLanguageBase.put("Module.Modules.Title.Options.BooleanOption.ReverseAnimation.description", "Reverse the animation direction");
+        englishLanguageBase.put("Module.Modules.Title.Options.DoubleOption.AnimationDelay.name", "Animation Delay");
+        englishLanguageBase.put("Module.Modules.Title.Options.DoubleOption.AnimationDelay.description", "Delay between animation steps");
+
+        englishLanguageBase.put("Module.Modules.BetterTab.name", "Better Tab");
+        englishLanguageBase.put("Module.Modules.BetterTab.description", "Improve the player tab list with custom colors and limits");
+        englishLanguageBase.put("Module.Modules.BetterTab.Options.DoubleOption.PlayerLimit.name", "Player Limit");
+        englishLanguageBase.put("Module.Modules.BetterTab.Options.DoubleOption.PlayerLimit.description", "Maximum players shown in tab list");
+        englishLanguageBase.put("Module.Modules.BetterTab.Options.BooleanOption.Myself.name", "Myself");
+        englishLanguageBase.put("Module.Modules.BetterTab.Options.BooleanOption.Myself.description", "Highlight yourself in tab");
+        englishLanguageBase.put("Module.Modules.BetterTab.Options.ColorOption.MyColor.name", "My Color");
+        englishLanguageBase.put("Module.Modules.BetterTab.Options.ColorOption.MyColor.description", "Color for yourself");
+        englishLanguageBase.put("Module.Modules.BetterTab.Options.BooleanOption.Friends.name", "Friends");
+        englishLanguageBase.put("Module.Modules.BetterTab.Options.BooleanOption.Friends.description", "Highlight friends in tab");
+        englishLanguageBase.put("Module.Modules.BetterTab.Options.ColorOption.FriendColor.name", "Friend Color");
+        englishLanguageBase.put("Module.Modules.BetterTab.Options.ColorOption.FriendColor.description", "Color for friends");
+        englishLanguageBase.put("Module.Modules.BetterTab.Options.BooleanOption.Enemies.name", "Enemies");
+        englishLanguageBase.put("Module.Modules.BetterTab.Options.BooleanOption.Enemies.description", "Highlight enemies in tab");
+        englishLanguageBase.put("Module.Modules.BetterTab.Options.ColorOption.EnemyColor.name", "Enemy Color");
+        englishLanguageBase.put("Module.Modules.BetterTab.Options.ColorOption.EnemyColor.description", "Color for enemies");
     }
 
     private void loadChinese() {

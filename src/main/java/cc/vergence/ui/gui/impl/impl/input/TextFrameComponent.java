@@ -30,7 +30,7 @@ public class TextFrameComponent extends GuiComponent implements Wrapper {
     }
 
     public boolean isListening() {
-        return isListening;
+        return this.option.isEditable() && isListening;
     }
 
     public void setListening(boolean listening) {
@@ -44,23 +44,23 @@ public class TextFrameComponent extends GuiComponent implements Wrapper {
                     if (option.getValue().length() + SelectionManager.getClipboard(mc).length() >= option.sizeLimit && option.sizeLimit != -1) {
                         return ;
                     }
-                    option.setValue(option.getValue() + SelectionManager.getClipboard(mc));
+                    option.setValue(option.getRawValue() + SelectionManager.getClipboard(mc));
                 }
             }
             case GLFW.GLFW_KEY_ESCAPE, GLFW.GLFW_KEY_ENTER, GLFW.GLFW_KEY_KP_ENTER -> {
                 isListening = false;
             }
             case GLFW.GLFW_KEY_BACKSPACE -> {
-                option.setValue(removeLastChar(option.getValue()));
+                option.setValue(removeLastChar(option.getRawValue()));
             }
         }
     }
 
     public void charType(char word) {
-        if (option.getValue().length() >= option.sizeLimit && option.sizeLimit != -1) {
+        if (option.getRawValue().length() >= option.sizeLimit && option.sizeLimit != -1) {
             return ;
         }
-        option.setValue(option.getValue() + word);
+        option.setValue(option.getRawValue() + word);
     }
 
     public static String removeLastChar(String string) {
@@ -112,7 +112,7 @@ public class TextFrameComponent extends GuiComponent implements Wrapper {
 
         FontUtil.drawTextWithAlign(
                 context,
-                option.getValue() + (this.showSuffixChar && this.isListening() ? "_" : ""),
+                option.getRawValue() + (this.showSuffixChar && this.isListening() ? "_" : ""),
                 this.getX() + 2,
                 this.getY() + 4,
                 this.getX() + this.getWidth() - 4,

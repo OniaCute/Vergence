@@ -10,6 +10,7 @@ public class DoubleOption extends Option<Double> {
     private double maxValue;
     private double minValue;
     private double increase;
+    private String unit = "";
     private HashMap<Integer, String> specialValueMap = new HashMap<>();
 
     public DoubleOption(String name, String description, double minValue, double maxValue, double value) {
@@ -74,6 +75,15 @@ public class DoubleOption extends Option<Double> {
         this.increase = increase;
     }
 
+    public DoubleOption setUnit(String unit) {
+        this.unit = unit;
+        return this;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
     public double getMinValue() {
         return minValue;
     }
@@ -88,7 +98,7 @@ public class DoubleOption extends Option<Double> {
 
     public String getValueAsText() {
         if (specialValueMap.get(this.getValue().intValue()) == null) {
-            return String.valueOf(getValue());
+            return String.valueOf(getValue()) + getUnit();
         }
         return specialValueMap.get(this.getValue().intValue());
     }

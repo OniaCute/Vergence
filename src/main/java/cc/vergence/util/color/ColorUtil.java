@@ -1,5 +1,9 @@
 package cc.vergence.util.color;
 
+import cc.vergence.modules.client.ClickGUI;
+import cc.vergence.modules.client.Client;
+import cc.vergence.util.maths.MathUtil;
+
 import java.awt.*;
 
 public class ColorUtil {
@@ -25,7 +29,23 @@ public class ColorUtil {
 
     public static int setAlpha(int color, int alpha) {
         return asRGBA(new Color(color).getRed(), new Color(color).getGreen(), new Color(color).getBlue(), alpha);
+    }
 
+    public static Color getRainbow() {
+        return getRainbow(255);
+    }
+
+    public static Color getRainbow(int alpha) {
+        return getRainbow(ClickGUI.INSTANCE.rainbowSpeed.getValue().longValue(), 1f, 1f, alpha, 0);
+    }
+
+    public static Color getRainbow(long speed, float saturation, float brightness, int alpha, long index) {
+        speed = (long) MathUtil.clamp(speed, 1, 20);
+
+        float hue = ((System.currentTimeMillis() + index) % (10500 - (500 * speed))) / (10500.0f - (500.0f * (float) speed));
+        Color color = new Color(Color.HSBtoRGB(MathUtil.clamp(hue, 0.0f, 1.0f), MathUtil.clamp(saturation, 0.0f, 1.0f), MathUtil.clamp(brightness, 0.0f, 1.0f)));
+
+        return new Color(color.getRed(), color.getGreen(), color.getBlue(), alpha);
     }
 
     public static int asRGBA(int r, int g, int b, int a) {

@@ -3,7 +3,6 @@ package cc.vergence.modules.movement;
 import cc.vergence.features.options.Option;
 import cc.vergence.features.options.impl.EnumOption;
 import cc.vergence.modules.Module;
-import cc.vergence.modules.client.AntiCheat;
 
 public class AutoWalk extends Module {
     public AutoWalk() {

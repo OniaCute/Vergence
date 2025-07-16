@@ -1,13 +1,14 @@
 package cc.vergence.modules.movement;
 
+import cc.vergence.Vergence;
 import cc.vergence.features.enums.AntiCheats;
 import cc.vergence.features.event.events.ClickSlotEvent;
 import cc.vergence.features.event.events.PacketEvent;
 import cc.vergence.features.options.Option;
 import cc.vergence.features.options.impl.BooleanOption;
+import cc.vergence.features.options.impl.EnumOption;
 import cc.vergence.injections.accessors.CreativeInventoryScreenAccessor;
 import cc.vergence.modules.Module;
-import cc.vergence.modules.client.AntiCheat;
 import cc.vergence.util.player.MovementUtil;
 import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.gui.screen.ingame.*;
@@ -30,18 +31,19 @@ public class InventoryMove extends Module {
         super("InventoryMove", Category.MOVEMENT);
     }
 
-    public Option<Boolean> horizontalCollision = addOption(new BooleanOption("HorizontalCollision", false, v -> AntiCheat.INSTANCE.antiCheat.getValue().equals(AntiCheats.NCP)));
+    public Option<Enum<?>> antiCheat = addOption(new EnumOption("AntiCheat", AntiCheats.Legit));
+    public Option<Boolean> horizontalCollision = addOption(new BooleanOption("HorizontalCollision", false, v -> antiCheat.getValue().equals(AntiCheats.NCP)));
 
     private final Queue<ClickSlotC2SPacket> clicks = new LinkedList<>();
     private AtomicBoolean pause = new AtomicBoolean();
 
     @Override
     public String getDetails() {
-        return AntiCheat.INSTANCE != null ? AntiCheat.INSTANCE.antiCheat.getValue().name() : "Unknown";
+        return antiCheat.getValue().name();
     }
 
     public void onTick() {
-        if (mc.player == null || AntiCheat.INSTANCE == null || !AntiCheat.INSTANCE.getStatus()) {
+        if (mc.player == null || !antiCheat.getValue().equals(AntiCheats.Legit)) {
             return;
         }
 
@@ -53,50 +55,50 @@ public class InventoryMove extends Module {
     }
 
     public void onClickSlot(ClickSlotEvent event) {
-        if (!AntiCheat.INSTANCE.getStatus()) {
+        if (!antiCheat.getValue().equals(AntiCheats.Legit)) {
             return;
         }
 
-        if (AntiCheat.INSTANCE.antiCheat.getValue().equals(AntiCheats.Legit) && (MovementUtil.isMoving() || mc.options.jumpKey.isPressed())) {
+        if (antiCheat.getValue().equals(AntiCheats.Legit) && (MovementUtil.isMoving() || mc.options.jumpKey.isPressed())) {
             event.cancel();
         }
     }
 
     @Override
     public void onSendPacket(PacketEvent.Send event, Packet<?> packet) {
-        if (mc.player == null || AntiCheat.INSTANCE == null || !MovementUtil.isMoving() || !mc.options.jumpKey.isPressed() || pause.get() || !AntiCheat.INSTANCE.getStatus()) {
+        if (mc.player == null || !MovementUtil.isMoving() || !mc.options.jumpKey.isPressed() || pause.get()) {
             return;
         }
 
         if (packet instanceof ClickSlotC2SPacket click){
-            if (AntiCheat.INSTANCE.antiCheat.getValue().equals(AntiCheats.Grim)) {
+            if (antiCheat.getValue().equals(AntiCheats.Grim)) {
                 if (click.getActionType() != SlotActionType.PICKUP && click.getActionType() != SlotActionType.PICKUP_ALL) {
-                    mc.getNetworkHandler().sendPacket(new CloseHandledScreenC2SPacket(0));
+                    Vergence.NETWORK.sendPacket(new CloseHandledScreenC2SPacket(0));
                 }
             }
-            else if (AntiCheat.INSTANCE.antiCheat.getValue().equals(AntiCheats.NCP)) {
+            else if (antiCheat.getValue().equals(AntiCheats.NCP)) {
                 if (mc.player.isOnGround() && !mc.world.getBlockCollisions(mc.player, mc.player.getBoundingBox().offset(0.0, 0.0656, 0.0)).iterator().hasNext()) {
                     if (mc.player.isSprinting())
-                        mc.getNetworkHandler().sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.STOP_SPRINTING));
-                    mc.getNetworkHandler().sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), mc.player.getY() + 0.0656, mc.player.getZ(), false, horizontalCollision.getValue()));
+                        Vergence.NETWORK.sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.STOP_SPRINTING));
+                    Vergence.NETWORK.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), mc.player.getY() + 0.0656, mc.player.getZ(), false, horizontalCollision.getValue()));
                 }
             }
-            else if (AntiCheat.INSTANCE.antiCheat.getValue().equals(AntiCheats.Matrix)) {
-                mc.getNetworkHandler().sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.STOP_SPRINTING));
+            else if (antiCheat.getValue().equals(AntiCheats.Matrix)) {
+                Vergence.NETWORK.sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.STOP_SPRINTING));
                 mc.options.forwardKey.setPressed(false);
                 mc.player.input.movementForward = 0;
             }
-            else if (AntiCheat.INSTANCE.antiCheat.getValue().equals(AntiCheats.None)) {
+            else if (antiCheat.getValue().equals(AntiCheats.None)) {
                 clicks.add(click);
                 event.cancel();
             }
         }
 
         else if (packet instanceof CloseHandledScreenC2SPacket) {
-            if (AntiCheat.INSTANCE.antiCheat.getValue().equals(AntiCheats.None)) {
+            if (antiCheat.getValue().equals(AntiCheats.None)) {
                 pause.set(true);
                 while (!clicks.isEmpty()) {
-                    mc.getNetworkHandler().sendPacket(clicks.poll());
+                    Vergence.NETWORK.sendPacket(clicks.poll());
                 }
                 pause.set(false);
             }

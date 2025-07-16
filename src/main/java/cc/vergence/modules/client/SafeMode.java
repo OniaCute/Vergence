@@ -41,7 +41,7 @@ public class SafeMode extends Module {
     public void onEnable() {
         switch ((AntiCheats) antiCheatMode.getValue()) {
             case None -> {
-                if (KillAura.INSTANCE.getStatus() && !KillAura.INSTANCE.antiCheat.getValue().equals(antiCheatMode.getValue())){
+                if (!KillAura.INSTANCE.antiCheat.getValue().equals(antiCheatMode.getValue())){
                     defaultValue.put(KillAura.INSTANCE, KillAura.INSTANCE.getStatus());
                     KillAura.INSTANCE.block(this);
                 }
@@ -56,10 +56,6 @@ public class SafeMode extends Module {
                 if (Reach.INSTANCE.getStatus()){
                     defaultValue.put(Reach.INSTANCE, Reach.INSTANCE.getStatus());
                     Reach.INSTANCE.block(this);
-                }
-                if (AntiCheat.INSTANCE.getStatus() && !AntiCheat.INSTANCE.antiCheat.getValue().equals(antiCheatMode.getValue())){
-                    defaultValue.put(AntiCheat.INSTANCE, AntiCheat.INSTANCE.getStatus());
-                    AntiCheat.INSTANCE.block(this);
                 }
                 if (Spammer.INSTANCE.getStatus() && Spammer.INSTANCE.cooldown.getValue() < 300){
                     defaultValue.put(Spammer.INSTANCE, Spammer.INSTANCE.getStatus());

@@ -1,5 +1,6 @@
 package cc.vergence.modules.movement;
 
+import cc.vergence.Vergence;
 import cc.vergence.features.managers.MessageManager;
 import cc.vergence.features.options.Option;
 import cc.vergence.features.options.impl.BooleanOption;
@@ -138,7 +139,7 @@ public class SafeWalk extends Module implements Wrapper {
 
     private void sendSneakPacket(boolean sneak) {
         if (mc.getNetworkHandler() != null) {
-            mc.getNetworkHandler().sendPacket(
+            Vergence.NETWORK.sendPacket(
                     new net.minecraft.network.packet.c2s.play.ClientCommandC2SPacket(
                             mc.player,
                             sneak ?

@@ -30,19 +30,36 @@ public class NetworkManager implements Wrapper {
 
     public void sendPacket(final Packet<?> p) {
         if (mc.getNetworkHandler() != null) {
+            mc.getNetworkHandler().sendPacket(p);
+        }
+    }
+
+    public void sendPacketWithChach(final Packet<?> p) {
+        if (mc.getNetworkHandler() != null) {
             PACKETS.add(p);
-            Vergence.NETWORK.sendPacket(p);
+            mc.getNetworkHandler().sendPacket(p);
         }
     }
 
     public void sendSilentPacket(final Packet<?> p) {
+        if (mc.getNetworkHandler() != null) {
+            ((IClientPlayNetworkHandler) mc.getNetworkHandler()).sendSilentPacket(p);
+        }
+    }
+
+    public void sendSilentPacketWithChach(final Packet<?> p) {
         if (mc.getNetworkHandler() != null) {
             PACKETS.add(p);
             ((IClientPlayNetworkHandler) mc.getNetworkHandler()).sendSilentPacket(p);
         }
     }
 
-    public void sendIgnoredPacket(Packet<?> packet) {
+    public void sendIgnoredPacket(final Packet<?> packet) {
+        Objects.requireNonNull(mc.getNetworkHandler()).getConnection().send(packet, null, true);
+    }
+
+    public void sendIgnoredPacketWithChach(final Packet<?> packet) {
+        PACKETS.add(packet);
         Objects.requireNonNull(mc.getNetworkHandler()).getConnection().send(packet, null, true);
     }
 

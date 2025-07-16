@@ -85,7 +85,7 @@ public class HudManager implements Wrapper {
                     context,
                     currentHud.getDisplayName(),
                     currentHud.getX(),
-                    currentHud.getY() + FontUtil.getHeight(FontSize.SMALLEST) + FontUtil.getHeight(FontSize.SMALLEST),
+                    currentHud.getY() + currentHud.getHeight() + 2 + FontUtil.getHeight(FontSize.SMALLEST),
                     (HudEditor.INSTANCE != null ? HudEditor.INSTANCE.textColor.getValue() : new Color(0, 0, 0)),
                     FontSize.SMALLEST
             );

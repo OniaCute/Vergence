@@ -10,6 +10,7 @@ import cc.vergence.modules.combat.NoCooldown;
 import cc.vergence.modules.combat.Reach;
 import cc.vergence.modules.exploit.AntiHungry;
 import cc.vergence.modules.exploit.Disabler;
+import cc.vergence.modules.hud.ModuleList;
 import cc.vergence.modules.hud.Watermark;
 import cc.vergence.modules.misc.BetterTab;
 import cc.vergence.modules.misc.FakePlayer;
@@ -60,6 +61,7 @@ public class ModuleManager {
         registerModule(new BetterTab());
         registerModule(new Title());
         registerModule(new Placeholder());
+        registerModule(new ModuleList());
 
         // special module
         registerModule(new SafeMode());

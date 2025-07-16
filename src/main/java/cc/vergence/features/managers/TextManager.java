@@ -390,6 +390,35 @@ public class TextManager {
         englishLanguageBase.put("Module.Modules.BetterTab.Options.BooleanOption.Enemies.description", "Highlight enemies in tab");
         englishLanguageBase.put("Module.Modules.BetterTab.Options.ColorOption.EnemyColor.name", "Enemy Color");
         englishLanguageBase.put("Module.Modules.BetterTab.Options.ColorOption.EnemyColor.description", "Color for enemies");
+
+        englishLanguageBase.put("Module.Modules.ModuleList.name", "Module List");
+        englishLanguageBase.put("Module.Modules.ModuleList.description", "Display a list of enabled modules on the HUD");
+        englishLanguageBase.put("Module.Modules.ModuleList.Options.EnumOption.Align.name", "Align");
+        englishLanguageBase.put("Module.Modules.ModuleList.Options.EnumOption.Align.description", "module list alignment");
+        englishLanguageBase.put("Module.Modules.ModuleList.Options.EnumOption.FontSize.name", "FontSize");
+        englishLanguageBase.put("Module.Modules.ModuleList.Options.EnumOption.FontSize.description", "Font size for module names");
+        englishLanguageBase.put("Module.Modules.ModuleList.Options.ColorOption.TextColor.name", "TextColor");
+        englishLanguageBase.put("Module.Modules.ModuleList.Options.ColorOption.TextColor.description", "Module name color");
+        englishLanguageBase.put("Module.Modules.ModuleList.Options.BooleanOption.Background.name", "Background");
+        englishLanguageBase.put("Module.Modules.ModuleList.Options.BooleanOption.Background.description", "Enable background");
+        englishLanguageBase.put("Module.Modules.ModuleList.Options.ColorOption.BackgroundColor.name", "Background Color");
+        englishLanguageBase.put("Module.Modules.ModuleList.Options.ColorOption.BackgroundColor.description", "Background color");
+        englishLanguageBase.put("Module.Modules.ModuleList.Options.BooleanOption.Rounded.name", "Rounded");
+        englishLanguageBase.put("Module.Modules.ModuleList.Options.BooleanOption.Rounded.description", "Round background corners");
+        englishLanguageBase.put("Module.Modules.ModuleList.Options.DoubleOption.Radius.name", "Radius");
+        englishLanguageBase.put("Module.Modules.ModuleList.Options.DoubleOption.Radius.description", "Corner radius");
+        englishLanguageBase.put("Module.Modules.ModuleList.Options.BooleanOption.Rect.name", "Rect");
+        englishLanguageBase.put("Module.Modules.ModuleList.Options.BooleanOption.Rect.description", "Enable rectangle behind text");
+        englishLanguageBase.put("Module.Modules.ModuleList.Options.ColorOption.RectColor.name", "Rect Color");
+        englishLanguageBase.put("Module.Modules.ModuleList.Options.ColorOption.RectColor.description", "Rectangle color");
+        englishLanguageBase.put("Module.Modules.ModuleList.Options.BooleanOption.RoundedRect.name", "Rounded Rect");
+        englishLanguageBase.put("Module.Modules.ModuleList.Options.BooleanOption.RoundedRect.description", "Round rectangle corners");
+        englishLanguageBase.put("Module.Modules.ModuleList.Options.DoubleOption.RadiusRect.name", "Radius Rect");
+        englishLanguageBase.put("Module.Modules.ModuleList.Options.DoubleOption.RadiusRect.description", "Rectangle corner radius");
+        englishLanguageBase.put("Module.Modules.ModuleList.Options.BooleanOption.Animation.name", "Animation");
+        englishLanguageBase.put("Module.Modules.ModuleList.Options.BooleanOption.Animation.description", "Enable fade-in animation");
+        englishLanguageBase.put("Module.Modules.ModuleList.Options.DoubleOption.AnimationTime.name", "Animation Time");
+        englishLanguageBase.put("Module.Modules.ModuleList.Options.DoubleOption.AnimationTime.description", "Animation duration");
     }
 
     private void loadChinese() {

@@ -149,7 +149,7 @@ public class ModuleList extends Module {
             Color animatedTextColor = alphaColor(textColor.getValue(), Math.min(alpha, 1));
             Color animatedDetailsColor = alphaColor(detailsColor.getValue(), Math.min(alpha, 1));
 
-            if (background.getValue()) {
+            if (alpha > 0.001 && background.getValue()) {
                 Color bg = alphaColor(backgroundColor.getValue(), alpha);
                 if (rounded.getValue()) {
                     double dynamicRadius = radius.getValue() * alpha;
@@ -158,7 +158,7 @@ public class ModuleList extends Module {
                     Render2DUtil.drawRect(context, bgX, bgY, bgWidth, bgHeight, bg);
                 }
             }
-            if (alpha > 0.001) {
+            if (alpha > 0.001 && rect.getValue()) {
                 double rectX = switch (aligns) {
                     case RIGHT, RIGHT_TOP, RIGHT_BOTTOM -> drawX + animWidth + pad;
                     default -> drawX - pad - rectWidth.getValue();

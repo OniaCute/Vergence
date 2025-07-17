@@ -77,4 +77,21 @@ public class EnumUtil {
         int index = current.ordinal();
         return (index == values.length - 1) ? values[0] : values[index + 1];
     }
+
+    public static Enum<?> getValueByString(Enum<?> sampleEnum, String name) {
+        if (sampleEnum == null || name == null) {
+            return null;
+        }
+        Class<? extends Enum<?>> enumClass = sampleEnum.getDeclaringClass();
+        for (Enum<?> constant : enumClass.getEnumConstants()) {
+            if (constant.name().equalsIgnoreCase(name)) {
+                return constant;
+            }
+        }
+        return null;
+    }
+
+    public static <E extends Enum<E>> Class<E> castEnumClass(Class<?> enumClass) {
+        return (Class<E>) enumClass;
+    }
 }

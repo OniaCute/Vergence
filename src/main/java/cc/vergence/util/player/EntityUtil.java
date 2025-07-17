@@ -1,8 +1,12 @@
 package cc.vergence.util.player;
 
+import cc.vergence.features.enums.Hands;
+import cc.vergence.features.enums.SwingModes;
 import cc.vergence.util.interfaces.Wrapper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.network.packet.c2s.play.HandSwingC2SPacket;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
@@ -50,5 +54,21 @@ public class EntityUtil implements Wrapper {
         }
 
         return new Vec3d(entityMotionPosX, entityMotionPosY, entityMotionPosZ);
+    }
+
+    public static void swingHand(Hands hand, SwingModes mode) {
+        switch (hand) {
+            case MainHand -> swingHand(Hand.MAIN_HAND, mode);
+            case OffHand -> swingHand(Hand.OFF_HAND, mode);
+        }
+    }
+
+    public static void swingHand(Hand hand, SwingModes mode) {
+        switch (mode) {
+            case Both -> mc.player.swingHand(hand);
+            case Client -> mc.player.swingHand(hand, false);
+            case Server -> mc.player.networkHandler.sendPacket(new HandSwingC2SPacket(hand));
+            default -> {return;} // none swing
+        }
     }
 }

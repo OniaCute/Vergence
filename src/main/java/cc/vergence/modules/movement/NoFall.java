@@ -12,8 +12,10 @@ import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.util.math.BlockPos;
 
 public class NoFall extends Module {
+    public static NoFall INSTANCE;
     public NoFall() {
         super("NoFall", Category.MOVEMENT);
+        INSTANCE = this;
     }
 
     public Option<Enum<?>> antiCheat = addOption(new EnumOption("AntiCheat", AntiCheats.Legit));
@@ -30,8 +32,6 @@ public class NoFall extends Module {
         if (mc.player == null) {
             return ;
         }
-
-
         if (antiCheat.getValue().equals(AntiCheats.Grim) && (isFalling() || alwaysActive.getValue())) {
             Vergence.NETWORK.sendPacket(new PlayerMoveC2SPacket.Full(mc.player.getX(), mc.player.getY() + 1.0e-9, mc.player.getZ(), mc.player.getYaw(), mc.player.getPitch(), true, horizontalCollision.getValue()));
             mc.player.onLanding();

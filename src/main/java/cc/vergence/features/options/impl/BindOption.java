@@ -3,6 +3,8 @@ package cc.vergence.features.options.impl;
 import cc.vergence.features.options.Option;
 import cc.vergence.util.interfaces.Wrapper;
 import cc.vergence.util.other.FastTimerUtil;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
 import net.minecraft.client.util.InputUtil;
 import org.lwjgl.glfw.GLFW;
 
@@ -104,6 +106,9 @@ public class BindOption extends Option<Integer> implements Wrapper {
         };
     }
 
+    public JsonElement getJsonValue() {
+        return new JsonPrimitive(getValue());
+    }
 
     public enum BindType {
         Press,

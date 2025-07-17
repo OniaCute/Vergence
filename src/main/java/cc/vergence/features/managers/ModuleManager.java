@@ -5,21 +5,13 @@ import cc.vergence.features.options.Option;
 import cc.vergence.features.options.impl.*;
 import cc.vergence.modules.Module;
 import cc.vergence.modules.client.*;
-import cc.vergence.modules.combat.KillAura;
-import cc.vergence.modules.combat.NoCooldown;
-import cc.vergence.modules.combat.Reach;
-import cc.vergence.modules.exploit.AntiHungry;
-import cc.vergence.modules.exploit.Disabler;
-import cc.vergence.modules.hud.ModuleList;
-import cc.vergence.modules.hud.Watermark;
-import cc.vergence.modules.misc.BetterTab;
-import cc.vergence.modules.misc.FakePlayer;
-import cc.vergence.modules.misc.Spammer;
+import cc.vergence.modules.combat.*;
+import cc.vergence.modules.exploit.*;
+import cc.vergence.modules.hud.*;
+import cc.vergence.modules.misc.*;
 import cc.vergence.modules.movement.*;
-import cc.vergence.modules.player.FastUse;
-import cc.vergence.modules.player.PortalGod;
-import cc.vergence.modules.visual.ESP;
-import cc.vergence.modules.visual.FOVModifier;
+import cc.vergence.modules.player.*;
+import cc.vergence.modules.visual.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -62,6 +54,7 @@ public class ModuleManager {
         registerModule(new Title());
         registerModule(new Placeholder());
         registerModule(new ModuleList());
+        registerModule(new Advertiser());
 
         // special module
         registerModule(new SafeMode());

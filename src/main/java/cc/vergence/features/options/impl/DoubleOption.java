@@ -1,6 +1,8 @@
 package cc.vergence.features.options.impl;
 
 import cc.vergence.features.options.Option;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -106,5 +108,9 @@ public class DoubleOption extends Option<Double> {
     public DoubleOption addSpecialValue(Integer number, String displayString) {
         specialValueMap.put(number, displayString);
         return this;
+    }
+
+    public JsonElement getJsonValue() {
+        return new JsonPrimitive(getValue());
     }
 }

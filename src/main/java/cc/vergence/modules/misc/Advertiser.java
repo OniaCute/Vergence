@@ -17,26 +17,27 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
 
-public class Spammer extends Module {
-    public static Spammer INSTANCE;
+public class Advertiser extends Module {
+    public static Advertiser INSTANCE;
     private int index = 0;
     private final Random random = new Random();
     private ArrayList<String> messages = new ArrayList<>();
     private FastTimerUtil timer = new FastTimerUtil();
 
-    public Spammer() {
-        super("Spammer", Category.MISC);
+    public Advertiser() {
+        super("Advertiser", Category.MISC);
         INSTANCE = this;
         timer.reset();
     }
 
-    public Option<Double> cooldown = addOption(new DoubleOption("Cooldown", 0, 120, 30).setUnit("s"));
-    public Option<Enum<?>> listOrder = addOption(new EnumOption("ListOrder", ListOrder.Random));
+    public Option<Double> cooldown = addOption(new DoubleOption("Cooldown", 0, 600, 30).setUnit("s"));
+    public Option<String> command = addOption(new TextOption("Command", "/tell"));
+    public Option<Enum<?>> listOrder = addOption(new EnumOption("ListOrder", Spammer.ListOrder.Random));
     public Option<String> fileName = addOption(new TextOption("FileName", "default.txt"));
 
     @Override
     public String getDetails() {
-        return String.valueOf(cooldown.getValue().intValue());
+        return "";
     }
 
     @Override
@@ -48,14 +49,14 @@ public class Spammer extends Module {
 
         if (timer.passedS(cooldown.getValue())) {
             String msg;
-            if (listOrder.getValue() == ListOrder.Random) {
+            if (listOrder.getValue() == Spammer.ListOrder.Random) {
                 msg = messages.get(random.nextInt(messages.size()));
             } else {
                 msg = messages.get(index);
                 index = (index + 1) % messages.size();
             }
             if (!msg.trim().isEmpty()) {
-                Objects.requireNonNull(mc.getNetworkHandler()).sendChatMessage(msg);
+                Objects.requireNonNull(mc.getNetworkHandler()).sendCommand(command + " " + msg);
             }
             timer.reset();
         }
@@ -69,12 +70,10 @@ public class Spammer extends Module {
 
     private void loadMessages() {
         messages.clear();
-        Path path = Paths.get(ConfigManager.MISC_SPAMMER_FOLDER + "/" + fileName.getValue());
+        Path path = Paths.get(ConfigManager.MISC_ADVERTISER_FOLDER + "/" + fileName.getValue());
         try {
             if (Files.exists(path)) {
                 messages.addAll(Files.readAllLines(path));
-            } else {
-                MessageManager.newMessage(this, "File not found : " + fileName.getName());
             }
         } catch (IOException e) {
             e.printStackTrace();

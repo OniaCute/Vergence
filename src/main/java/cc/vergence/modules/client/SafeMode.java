@@ -9,7 +9,7 @@ import cc.vergence.modules.combat.KillAura;
 import cc.vergence.modules.combat.Reach;
 import cc.vergence.modules.exploit.AntiHungry;
 import cc.vergence.modules.misc.Spammer;
-import cc.vergence.modules.movement.Scaffold;
+import cc.vergence.modules.movement.*;
 import cc.vergence.modules.player.FastUse;
 
 import java.util.HashMap;
@@ -29,7 +29,7 @@ public class SafeMode extends Module {
 
     @Override
     public String getDetails() {
-        return antiCheatMode.getValue().equals(AntiCheats.Grim) ? "Legit" : "Unsafe";
+        return antiCheatMode.getValue().equals(AntiCheats.Legit) ? "Legit" : "Unsafe";
     }
 
     @Override
@@ -41,29 +41,45 @@ public class SafeMode extends Module {
     public void onEnable() {
         switch ((AntiCheats) antiCheatMode.getValue()) {
             case None -> {
-                if (!KillAura.INSTANCE.antiCheat.getValue().equals(antiCheatMode.getValue())){
+                if (!KillAura.INSTANCE.antiCheat.getValue().equals(antiCheatMode.getValue())) {
                     defaultValue.put(KillAura.INSTANCE, KillAura.INSTANCE.getStatus());
                     KillAura.INSTANCE.block(this);
                 }
-                if (Scaffold.INSTANCE.getStatus() && !Scaffold.INSTANCE.antiCheat.getValue().equals(antiCheatMode.getValue())){
+                if (!Scaffold.INSTANCE.antiCheat.getValue().equals(antiCheatMode.getValue())) {
                     defaultValue.put(Scaffold.INSTANCE, Scaffold.INSTANCE.getStatus());
                     Scaffold.INSTANCE.block(this);
                 }
-                if (FastUse.INSTANCE.getStatus() && FastUse.INSTANCE.delay.getValue() < 2){
+                if (FastUse.INSTANCE.delay.getValue() < 2) {
                     defaultValue.put(FastUse.INSTANCE, FastUse.INSTANCE.getStatus());
                     FastUse.INSTANCE.block(this);
                 }
-                if (Reach.INSTANCE.getStatus()){
+                if (Reach.INSTANCE != null) {
                     defaultValue.put(Reach.INSTANCE, Reach.INSTANCE.getStatus());
                     Reach.INSTANCE.block(this);
                 }
-                if (Spammer.INSTANCE.getStatus() && Spammer.INSTANCE.cooldown.getValue() < 300){
+                if (Spammer.INSTANCE.cooldown.getValue() < 300) {
                     defaultValue.put(Spammer.INSTANCE, Spammer.INSTANCE.getStatus());
                     Spammer.INSTANCE.block(this);
                 }
-                if (AntiHungry.INSTANCE.getStatus() && !AntiHungry.INSTANCE.antiCheat.getValue().equals(antiCheatMode.getValue())){
+                if (!AntiHungry.INSTANCE.antiCheat.getValue().equals(antiCheatMode.getValue())) {
                     defaultValue.put(AntiHungry.INSTANCE, AntiHungry.INSTANCE.getStatus());
                     AntiHungry.INSTANCE.block(this);
+                }
+                if (SafeWalk.INSTANCE.doInject.getValue()) {
+                    defaultValue.put(SafeWalk.INSTANCE, SafeWalk.INSTANCE.getStatus());
+                    SafeWalk.INSTANCE.block(this);
+                }
+                if (!InventoryMove.INSTANCE.antiCheat.getValue().equals(antiCheatMode.getValue())) {
+                    defaultValue.put(InventoryMove.INSTANCE, InventoryMove.INSTANCE.getStatus());
+                    InventoryMove.INSTANCE.block(this);
+                }
+                if (!NoFall.INSTANCE.antiCheat.getValue().equals(antiCheatMode.getValue())) {
+                    defaultValue.put(NoFall.INSTANCE, NoFall.INSTANCE.getStatus());
+                    NoFall.INSTANCE.block(this);
+                }
+                if (AutoSprint.INSTANCE.forAttack.getValue() || AutoSprint.INSTANCE.useItem.getValue()) {
+                    defaultValue.put(AutoSprint.INSTANCE, AutoSprint.INSTANCE.getStatus());
+                    AutoSprint.INSTANCE.block(this);
                 }
             }
         }

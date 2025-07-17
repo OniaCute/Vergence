@@ -27,8 +27,11 @@ import java.util.Queue;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class InventoryMove extends Module {
+    public static InventoryMove INSTANCE;
+
     public InventoryMove() {
         super("InventoryMove", Category.MOVEMENT);
+        INSTANCE = this;
     }
 
     public Option<Enum<?>> antiCheat = addOption(new EnumOption("AntiCheat", AntiCheats.Legit));

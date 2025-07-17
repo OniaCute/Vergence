@@ -3,7 +3,10 @@ package cc.vergence.features.options.impl;
 import cc.vergence.features.options.Option;
 import cc.vergence.modules.client.ClickGUI;
 import cc.vergence.modules.client.Client;
+import cc.vergence.util.color.ColorUtil;
 import cc.vergence.util.other.RandomUtil;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
 
 import java.awt.*;
 import java.util.function.Predicate;
@@ -64,5 +67,9 @@ public class ColorOption extends Option<Color> {
 
     public boolean isRainbow() {
         return isRainbow;
+    }
+
+    public JsonElement getJsonValue() {
+        return new JsonPrimitive(ColorUtil.asRGBA(getValue().getRed(), getValue().getGreen(), getValue().getBlue(), getValue().getAlpha()));
     }
 }

@@ -30,6 +30,11 @@ public class Placeholder extends Module {
     }
 
     @Override
+    public void onRegister() {
+        this.enable();
+    }
+
+    @Override
     public void onTick() {
         if (mc.player != null) {
             placeholder_player_name.setValue(mc.player.getName().getString());

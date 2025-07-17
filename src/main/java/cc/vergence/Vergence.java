@@ -43,6 +43,7 @@ public class Vergence implements ModInitializer {
     public static HudManager HUD;
     public static RotateManager ROTATE;
     public static ModuleManager MODULE;
+    public static ConfigManager CONFIG;
     public static CommandManager COMMAND;
     public static NotifyManager NOTIFY;
 
@@ -130,6 +131,9 @@ public class Vergence implements ModInitializer {
         MODULE = new ModuleManager();
         CONSOLE.logInfo("Module Manager was loaded");
 
+        CONFIG = new ConfigManager();
+        CONSOLE.logInfo("Config Manager was loaded");
+
         COMMAND = new CommandManager();
         CONSOLE.logInfo("Command Manager was loaded");
 
@@ -141,6 +145,8 @@ public class Vergence implements ModInitializer {
                 save();
             }
         }));
+
+        CONFIG.load(CONFIG.getCurrentConfig());
 
         CONSOLE.logInfo("Vergence Client Loaded!");
         CONSOLE.logInfo("Vergence Loaded In " + (System.currentTimeMillis() - LOAD_TIME) + " ms.");
@@ -155,6 +161,8 @@ public class Vergence implements ModInitializer {
 
     public static void save() {
         CONSOLE.logInfo("Vergence Client config is saving...");
+        CONFIG.save(CONFIG.getCurrentConfig());
+        CONSOLE.logInfo("Vergence Client config is saved...");
     }
 
 }

@@ -1,7 +1,7 @@
 package cc.vergence.features.enums;
 
 public enum PlaceModes {
-    Both,
+    Legit,
     Strict,
     AirPlace,
     None // blocked all client place

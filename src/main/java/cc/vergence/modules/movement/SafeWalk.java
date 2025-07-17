@@ -39,16 +39,28 @@ public class SafeWalk extends Module implements Wrapper {
 
     @Override
     public void onTick() {
-        if (mc.player == null || mc.world == null || !doShift.getValue()) return;
+        safeWalkAction(
+                doShift.getValue(),
+                randomThreshold.getValue(),
+                minThreshold.getValue(),
+                maxThreshold.getValue(),
+                threshold.getValue()
+        );
+    }
+
+    public void safeWalkAction(boolean doShift, boolean randomThreshold, double minThreshold, double maxThreshold, double threshold) {
+        if (mc.player == null || mc.world == null || !doShift) {
+            return;
+        }
 
         double edgeThreshold;
 
-        if (randomThreshold.getValue()) {
-            if (minThreshold.getValue().equals(maxThreshold.getValue())) {
-                edgeThreshold = minThreshold.getValue();
+        if (randomThreshold) {
+            if (minThreshold == maxThreshold) {
+                edgeThreshold = minThreshold;
             } else {
-                double min = minThreshold.getValue();
-                double max = maxThreshold.getValue();
+                double min = minThreshold;
+                double max = maxThreshold;
                 if (min > max) {
                     double temp = min;
                     min = max;
@@ -57,7 +69,7 @@ public class SafeWalk extends Module implements Wrapper {
                 edgeThreshold = RandomUtil.getDouble(min, max);
             }
         } else {
-            edgeThreshold = threshold.getValue();
+            edgeThreshold = threshold;
         }
 
         boolean nearEdge = isNearEdge(mc.player, edgeThreshold);

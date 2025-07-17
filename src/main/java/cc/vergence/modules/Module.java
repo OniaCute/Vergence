@@ -40,6 +40,7 @@ public abstract class Module implements Wrapper {
     private double height;
     private int priority = 0;
     private boolean status; // default disabled
+    private boolean alwaysEnable = false;
     private String details;
     private ArrayList<Option<?>> options = new ArrayList<>();
     private HashMap<String, Option<?>> optionHashMap = new HashMap<>();
@@ -78,6 +79,17 @@ public abstract class Module implements Wrapper {
         return mc.player == null || mc.world == null;
     }
 
+    public void setAlwaysEnable(boolean alwaysEnable) {
+        this.alwaysEnable = alwaysEnable;
+        this.bind.setValue(-1);
+        this.bind.setInvisibility(v -> false);
+        this.status = true;
+    }
+
+    public boolean isAlwaysEnable() {
+        return alwaysEnable;
+    }
+
     public abstract String getDetails();
 
     public void enable() {
@@ -96,7 +108,7 @@ public abstract class Module implements Wrapper {
     }
 
     public void disable() {
-        if (!this.getStatus()) {
+        if (!this.getStatus() || isAlwaysEnable()) {
             return;
         }
 
@@ -115,7 +127,7 @@ public abstract class Module implements Wrapper {
     }
 
     public void block(Module module) {
-        if (!this.getStatus()) {
+        if (isAlwaysEnable()) {
             return;
         }
 
@@ -126,7 +138,7 @@ public abstract class Module implements Wrapper {
     }
 
     public void unblock(boolean status) {
-        if (this.getStatus()) {
+        if (isAlwaysEnable()) {
             return;
         }
 

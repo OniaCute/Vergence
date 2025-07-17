@@ -38,7 +38,7 @@ public class Watermark extends Module {
     }
 
     public Option<Boolean> customTitle = addOption(new BooleanOption("CustomTitle"));
-    public Option<String> title = addOption(new TextOption("Title", "Vergence", v -> customTitle.getValue()));
+    public Option<String> title = addOption(new TextOption("Title", "{full_name} {version}", v -> customTitle.getValue()));
     public Option<Boolean> outline = addOption(new BooleanOption("Outline"));
     public Option<Double> outlineWidth = addOption(new DoubleOption("OutlineWidth", 1, 3, 1, v -> outline.getValue()));
     public Option<Boolean> rounded = addOption(new BooleanOption("Rounded"));

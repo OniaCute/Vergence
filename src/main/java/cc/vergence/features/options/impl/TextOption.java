@@ -6,6 +6,8 @@ import cc.vergence.features.options.Option;
 import cc.vergence.modules.client.Placeholder;
 import cc.vergence.util.interfaces.Wrapper;
 import cc.vergence.util.other.WorldUtil;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
 
 import java.util.Objects;
 import java.util.function.Predicate;
@@ -37,6 +39,10 @@ public class TextOption extends Option<String> implements Wrapper {
 
     @Override
     public String getValue() {
+        if (Placeholder.INSTANCE == null || !Placeholder.INSTANCE.getStatus()) {
+            return this.value;
+        }
+
         String formatText = this.getRawValue().toLowerCase();
         String sourceText = this.getRawValue();
         while (formatText.contains("{id}")) {
@@ -115,6 +121,10 @@ public class TextOption extends Option<String> implements Wrapper {
     public TextOption setEditable(boolean editable) {
         this.editable = editable;
         return this;
+    }
+
+    public JsonElement getJsonValue() {
+        return new JsonPrimitive(getRawValue());
     }
 
     public boolean isEditable() {

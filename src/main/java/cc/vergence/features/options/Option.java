@@ -1,5 +1,6 @@
 package cc.vergence.features.options;
 
+import cc.vergence.features.options.impl.*;
 import cc.vergence.modules.Module;
 
 import java.util.function.Predicate;
@@ -85,5 +86,30 @@ public abstract class Option<T> {
 
     public Module getModule() {
         return module;
+    }
+
+    public String getType() {
+        if (this instanceof DoubleOption) {
+            return "Double";
+        }
+        else if (this instanceof ColorOption) {
+            return "Color";
+        }
+        else if (this instanceof BooleanOption) {
+            return "Boolean";
+        }
+        else if (this instanceof TextOption) {
+            return "Text";
+        }
+        else if (this instanceof MultipleOption<?>) {
+            return "Multiple";
+        }
+        else if (this instanceof EnumOption) {
+            return "Enum";
+        }
+        else if (this instanceof BindOption) {
+            return "Bind";
+        }
+        return "<?>";
     }
 }

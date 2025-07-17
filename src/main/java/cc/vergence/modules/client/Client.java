@@ -33,6 +33,7 @@ public class Client extends Module {
 
     public Client() {
         super("Client", Category.CLIENT);
+        setAlwaysEnable(true);
         INSTANCE = this;
     }
 

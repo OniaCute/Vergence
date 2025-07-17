@@ -6,6 +6,8 @@
   "mixins": [
     "accessors.ClientWorldAccessor",
     "accessors.CreativeInventoryScreenAccessor",
+    "accessors.CustomPayloadC2SPacketAccessor",
+    "accessors.EntityAccessor",
     "accessors.MinecraftClientAccessor",
     "accessors.NativeImageAccessor",
     "accessors.PlayerMoveC2SPacketAccessor",

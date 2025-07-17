@@ -4,7 +4,12 @@ import cc.vergence.util.interfaces.Wrapper;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gl.ShaderProgramKeys;
 import net.minecraft.client.render.*;
+import net.minecraft.client.render.entity.EntityRenderDispatcher;
+import net.minecraft.client.render.entity.EntityRenderer;
+import net.minecraft.client.render.entity.state.EntityRenderState;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.Attackable;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.NotNull;
@@ -151,26 +156,5 @@ public class Render3DUtil implements Wrapper {
 
         GL11.glEnable(GL11.GL_DEPTH_TEST);
         RenderSystem.disableBlend();
-    }
-
-    // 世界坐标 → 屏幕坐标 (-1~1)
-    public static Vec3d toScreen(Vec3d pos) {
-        Camera camera = mc.gameRenderer.getCamera();
-        Matrix4f proj  = new Matrix4f(RenderSystem.getProjectionMatrix());
-        Matrix4f model = new Matrix4f(RenderSystem.getModelViewMatrix());
-        Matrix4f matrix = new Matrix4f();
-        proj.mul(model, matrix);
-
-        Vector4f vec = new Vector4f((float) pos.x, (float) pos.y, (float) pos.z, 1.0F);
-        vec.mul(matrix);
-
-        if (vec.w() == 0) return new Vec3d(0, 0, -1);
-
-        float wInv = 1F / vec.w();
-        float x = (vec.x() * wInv * 0.5F + 0.5F) * mc.getWindow().getFramebufferWidth();
-        float y = (1.0F - vec.y() * wInv * 0.5F - 0.5F) * mc.getWindow().getFramebufferHeight();
-        float z = vec.z() * wInv;
-
-        return new Vec3d(x, y, z);
     }
 }

@@ -31,7 +31,7 @@ public class MixinPlayerListHud {
         }
 
         int limit = BetterTab.INSTANCE.playerLimit.getValue().intValue();
-        if (limit < 3000 && original.size() > limit) {
+        if (limit < 10000 && original.size() > limit) {
             return original.subList(0, limit);
         }
         return original;

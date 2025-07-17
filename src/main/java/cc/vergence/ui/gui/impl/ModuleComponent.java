@@ -108,7 +108,7 @@ public class ModuleComponent extends GuiComponent {
 
         FontUtil.drawText(
                 context,
-                this.getDisplayName(),
+                this.getModule().getDisplayName(),
                 this.getX() + 3,
                 this.getY() + 2,
                 isHovered(mouseX, mouseY) ? (this.module.getStatus() ? Vergence.THEME.getTheme().getModuleEnabledTextColor() : Vergence.THEME.getTheme().getModuleHoveredTextColor()) : (this.module.getStatus() ? Vergence.THEME.getTheme().getModuleEnabledTextColor() : Vergence.THEME.getTheme().getModuleTextColor()),

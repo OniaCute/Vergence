@@ -169,29 +169,28 @@ public class Render2DUtil implements Wrapper {
     }
 
     public static void drawRoundedRectWithOutline(MatrixStack matrices, float x, float y, float width, float height, float radius, float outlineWidth, Color fillColor, Color outlineColor) {
-        float scaledX = x * getScaleFactor();
-        float scaledY = y * getScaleFactor();
-        float scaledWidth = (width + x) * getScaleFactor();
-        float scaledHeight = (height + y) * getScaleFactor();
-        float scaledRadius = radius * getScaleFactor();
-        float scaledOutline = outlineWidth * getScaleFactor();
-        renderRounded(matrices, outlineColor,
-                scaledX - scaledOutline,
-                scaledY - scaledOutline,
-                scaledWidth + scaledOutline,
-                scaledHeight + scaledOutline,
-                scaledRadius + scaledOutline,
-                64
-        );
-        renderRounded(matrices, fillColor,
-                scaledX,
-                scaledY,
-                scaledWidth,
-                scaledHeight,
-                scaledRadius,
-                64
-        );
+        float scale = Render2DUtil.getScaleFactor();
+        double scaledRadius = radius * scale;
+        double scaledOutline = outlineWidth * scale;
+        double innerX1 = x;
+        double innerY1 = y;
+        double innerX2 = x + width;
+        double innerY2 = y + height;
+        double outerX1 = x - scaledOutline;
+        double outerY1 = y - scaledOutline;
+        double outerX2 = x + width + scaledOutline;
+        double outerY2 = y + height + scaledOutline;
+        double outerRadius = scaledRadius + scaledOutline;
+        RenderSystem.enableBlend();
+        RenderSystem.defaultBlendFunc();
+        Render2DUtil.renderRounded(matrices, outlineColor, outerX1, outerY1, outerX2, outerY2, outerRadius, 64);
+        Render2DUtil.renderRounded(matrices,
+                new Color(0, 0, 0, 0),
+                innerX1, innerY1, innerX2, innerY2, scaledRadius, 64);
+        Render2DUtil.renderRounded(matrices, fillColor, innerX1, innerY1, innerX2, innerY2, scaledRadius, 64);
+        RenderSystem.disableBlend();
     }
+
 
 
     public static void drawCircle(MatrixStack matrices, Color c, double originX, double originY, double radius, int segments) {
@@ -246,7 +245,6 @@ public class Render2DUtil implements Wrapper {
         enableRender();
         RenderSystem.setShader(ShaderProgramKeys.POSITION_COLOR);
 
-        // 1. 绘制圆环
         float innerR = (float) (radius - inlineDistance - inlineWidth);
         float outerR = (float) (radius - inlineDistance);
         if (innerR > 0 && inlineWidth > 0) {
@@ -262,7 +260,6 @@ public class Render2DUtil implements Wrapper {
             BufferRenderer.drawWithGlobalProgram(buffer.end());
         }
 
-        // 2. 清空圆环内部（主色）
         if (innerR > 0) {
             BufferBuilder buffer = Tessellator.getInstance().begin(VertexFormat.DrawMode.TRIANGLE_FAN, VertexFormats.POSITION_COLOR);
             buffer.vertex(matrix, (float) originX, (float) originY, 0).color(br, bg, bb, ba);

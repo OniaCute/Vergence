@@ -25,4 +25,30 @@ public class EntityUtil implements Wrapper {
         }
         return 0.0f;
     }
+
+    public static Vec3d getMotionVec(Entity entity, int ticks, boolean collision) {
+        double dX = entity.getX() - entity.prevX;
+        double dY = entity.getY() - entity.prevY;
+        double dZ = entity.getZ() - entity.prevZ;
+        double entityMotionPosX = 0;
+        double entityMotionPosY = 0;
+        double entityMotionPosZ = 0;
+        if (collision) {
+            for (double i = 1; i <= ticks; i = i + 0.5) {
+                if (!mc.world.canCollide(entity, entity.getBoundingBox().offset(new Vec3d(dX * i, dY * i, dZ * i)))) {
+                    entityMotionPosX = dX * i;
+                    entityMotionPosY = dY * i;
+                    entityMotionPosZ = dZ * i;
+                } else {
+                    break;
+                }
+            }
+        } else {
+            entityMotionPosX = dX * ticks;
+            entityMotionPosY = dY * ticks;
+            entityMotionPosZ = dZ * ticks;
+        }
+
+        return new Vec3d(entityMotionPosX, entityMotionPosY, entityMotionPosZ);
+    }
 }

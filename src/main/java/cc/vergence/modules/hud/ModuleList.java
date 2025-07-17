@@ -6,10 +6,7 @@ import cc.vergence.features.enums.MouseButtons;
 import cc.vergence.features.managers.HudManager;
 import cc.vergence.features.managers.ModuleManager;
 import cc.vergence.features.options.Option;
-import cc.vergence.features.options.impl.BooleanOption;
-import cc.vergence.features.options.impl.ColorOption;
-import cc.vergence.features.options.impl.DoubleOption;
-import cc.vergence.features.options.impl.EnumOption;
+import cc.vergence.features.options.impl.*;
 import cc.vergence.features.screens.HudEditorScreen;
 import cc.vergence.modules.Module;
 import cc.vergence.util.animations.SimpleAnimation;
@@ -22,7 +19,6 @@ import java.awt.*;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 
 public class ModuleList extends Module {
     private boolean lastMouseStatus = false;
@@ -41,6 +37,9 @@ public class ModuleList extends Module {
 
     public Option<Enum<?>> align = addOption(new EnumOption("Align", Aligns.RIGHT_TOP));
     public Option<Enum<?>> fontSize = addOption(new EnumOption("FontSize", FontSize.SMALL));
+    public Option<Boolean> drawDetails = addOption(new BooleanOption("Details", true));
+    public Option<Color> detailsColor = addOption(new ColorOption("DetailsColor", new Color(21, 21, 21, 232), v -> drawDetails.getValue()));
+    public Option<Enum<?>> detailsType = addOption(new EnumOption("DetailsType", DetailsType.Bracket,v -> drawDetails.getValue()));
     public Option<Double> padding = addOption(new DoubleOption("Padding", -2, 6, 2).setUnit("px"));
     public Option<Color> textColor = addOption(new ColorOption("TextColor", new Color(21, 21, 21, 232)));
     public Option<Boolean> background = addOption(new BooleanOption("Background", false));
@@ -76,19 +75,22 @@ public class ModuleList extends Module {
 
         Set<Module> allModules = new LinkedHashSet<>(ModuleManager.modules);
 
-        allModules.forEach(module -> {
+        for (Module module : allModules) {
             simpleAnimations.computeIfAbsent(module, m -> new SimpleAnimation(0, animationTime.getValue().longValue()));
-            if (module.getStatus() && module.shouldDraw()) {
-                simpleAnimations.get(module).to(animEnabled ? 1 : 1);
+            if (applyAnimation.getValue()) {
+                simpleAnimations.get(module).to(module.getStatus() && module.shouldDraw() ? 1 : 0);
             } else {
-                simpleAnimations.get(module).to(animEnabled ? 0 : 0);
+                simpleAnimations.get(module).set(module.getStatus() && module.shouldDraw() ? 1 : 0);
             }
-        });
+        }
 
-        List<Module> modulesToDraw = allModules.stream()
+
+        List<Module> tempModules = allModules.stream()
                 .filter(m -> simpleAnimations.get(m).get() > 0.001)
-                .sorted(Comparator.comparingDouble(m -> -FontUtil.getWidth(size, m.getDisplayName())))
+                .sorted(Comparator.comparingDouble(m -> -FontUtil.getWidth(size, m.getDisplayName() + (drawDetails.getValue() ? m.getDetails() : 0))))
                 .toList();
+
+        ArrayList<Module> modulesToDraw = new ArrayList<>(tempModules);
 
         double lineHeight = FontUtil.getHeight(size) + pad;
         double baseX = getX();
@@ -98,58 +100,110 @@ public class ModuleList extends Module {
                 .mapToDouble(m -> FontUtil.getWidth(size, m.getDisplayName()) * simpleAnimations.get(m).get())
                 .max().orElse(0);
 
+        double actualMaxWidth = allModules.stream()
+                .filter(Module::shouldDraw)
+                .mapToDouble(m -> FontUtil.getWidth(size, m.getDisplayName() + (
+                        drawDetails.getValue() && !m.getDetails().isEmpty()
+                                ? (detailsType.getValue().equals(DetailsType.Bracket) ? " [" + m.getDetails() + "]"
+                                : " | " + m.getDetails())
+                                : ""
+                )))
+                .max().orElse(0);
+
+        modulesToDraw.sort((a, b) -> {
+            double wa = FontUtil.getWidth(size, a.getDisplayName() + (drawDetails.getValue() ? a.getDetails() : 0));
+            double wb = FontUtil.getWidth(size, b.getDisplayName() + (drawDetails.getValue() ? b.getDetails() : 0));
+            boolean bottom = aligns.name().contains("BOTTOM");
+            return bottom ? Double.compare(wa, wb) : Double.compare(wb, wa);
+        });
+
         double y = baseY;
         for (Module module : modulesToDraw) {
-            String name = module.getDisplayName();
-            double fullWidth = FontUtil.getWidth(size, name);
+            String moduleName = module.getDisplayName();
+            String detailsText = "";
+            if (drawDetails.getValue() && !module.getDetails().isEmpty()) {
+                if (detailsType.getValue().equals(DetailsType.Bracket)) {
+                    detailsText = " [" + module.getDetails() + "]";
+                } else if (detailsType.getValue().equals(DetailsType.Line)) {
+                    detailsText = " | " + module.getDetails();
+                }
+            }
+
             double alpha = simpleAnimations.get(module).get();
             if (alpha < 0.01) continue;
 
+            double moduleNameWidth = FontUtil.getWidth(size, moduleName);
+            double detailsWidth = FontUtil.getWidth(size, detailsText);
+            double fullWidth = moduleNameWidth + detailsWidth;
             double animWidth = fullWidth * alpha;
             double drawX = switch (aligns) {
                 case RIGHT, RIGHT_TOP, RIGHT_BOTTOM -> baseX + maxWidth - animWidth;
                 case CENTER, TOP, BOTTOM -> baseX + (maxWidth - animWidth) / 2;
                 default -> baseX;
             };
-
             double bgX = drawX - 1;
-            double bgY = y - 1;
+            double bgY = y;
             double bgWidth = animWidth + 2;
-            double bgHeight = FontUtil.getHeight(size) + 2;
+            double bgHeight = FontUtil.getHeight(size);
+            double drawY = y + 1;
+            Color animatedTextColor = alphaColor(textColor.getValue(), Math.min(alpha, 1));
+            Color animatedDetailsColor = alphaColor(detailsColor.getValue(), Math.min(alpha, 1));
 
             if (background.getValue()) {
+                Color bg = alphaColor(backgroundColor.getValue(), alpha);
                 if (rounded.getValue()) {
-                    Render2DUtil.drawRoundedRect(context.getMatrices(), bgX, bgY, bgWidth, bgHeight, radius.getValue() * alpha, backgroundColor.getValue()); // alpha is like animation progress
+                    double dynamicRadius = radius.getValue() * alpha;
+                    Render2DUtil.drawRoundedRect(context.getMatrices(), bgX, bgY, bgWidth, bgHeight, dynamicRadius, bg);
                 } else {
-                    Render2DUtil.drawRect(context, bgX, bgY, bgWidth, bgHeight, backgroundColor.getValue());
+                    Render2DUtil.drawRect(context, bgX, bgY, bgWidth, bgHeight, bg);
                 }
             }
-
-            if (rect.getValue()) {
+            if (alpha > 0.001) {
                 double rectX = switch (aligns) {
-                    case RIGHT, RIGHT_TOP, RIGHT_BOTTOM -> baseX + maxWidth + pad;
-                    default -> baseX - pad - 2;
+                    case RIGHT, RIGHT_TOP, RIGHT_BOTTOM -> drawX + animWidth + pad;
+                    default -> drawX - pad - rectWidth.getValue();
                 };
 
+                Color animatedRectColor = alphaColor(rectColor.getValue(), alpha);
+
                 if (roundedRect.getValue()) {
-                    Render2DUtil.drawRoundedRect(context.getMatrices(), rectX, y, rectWidth.getValue(), FontUtil.getHeight(size), radiusRect.getValue(), rectColor.getValue());
+                    Render2DUtil.drawRoundedRect(context.getMatrices(), rectX, y, rectWidth.getValue(), FontUtil.getHeight(size), radiusRect.getValue(), animatedRectColor);
                 } else {
-                    Render2DUtil.drawRect(context, rectX, y, rectWidth.getValue(), FontUtil.getHeight(size), rectColor.getValue());
+                    Render2DUtil.drawRect(context, rectX, y, rectWidth.getValue(), FontUtil.getHeight(size), animatedRectColor);
                 }
             }
 
-            Color finalColor = new Color(
-                    textColor.getValue().getRed(),
-                    textColor.getValue().getGreen(),
-                    textColor.getValue().getBlue(),
-                    (int) (textColor.getValue().getAlpha() * alpha)
-            );
+            switch (aligns) {
+                case RIGHT:
+                case RIGHT_TOP:
+                case RIGHT_BOTTOM:
+                    double detailsX = drawX + animWidth - detailsWidth;
+                    if (alpha > 0.001) {
+                        FontUtil.drawText(context, moduleName, drawX, drawY, animatedTextColor, size);
+                        FontUtil.drawText(context, detailsText, detailsX, drawY, animatedDetailsColor, size);
+                    }
+                    break;
+                case CENTER:
+                case TOP:
+                case BOTTOM:
+                    double moduleNameX = drawX + animWidth - fullWidth;
+                    if (alpha > 0.001) {
+                        FontUtil.drawText(context, moduleName, moduleNameX, drawY, animatedTextColor, size);
+                        FontUtil.drawText(context, detailsText, moduleNameX + moduleNameWidth, drawY, animatedDetailsColor, size);
+                    }
+                    break;
+                default:
+                    if (alpha > 0.001) {
+                        FontUtil.drawText(context, moduleName, drawX, drawY, animatedTextColor, size);
+                        FontUtil.drawText(context, detailsText, drawX + moduleNameWidth, drawY, animatedDetailsColor, size);
+                    }
+                    break;
+            }
 
-            FontUtil.drawText(context, name, drawX, y + 1, finalColor, size);
             y += lineHeight * (animEnabled ? alpha : 1);
         }
 
-        setWidth(maxWidth);
+        setWidth(actualMaxWidth + pad + (rect.getValue() ? rectWidth.getValue() : 0));
         setHeight(modulesToDraw.stream().mapToDouble(m -> lineHeight * (animEnabled ? simpleAnimations.get(m).get() : 1)).sum());
 
         if (HudManager.CLICKED_LEFT) {
@@ -168,5 +222,15 @@ public class ModuleList extends Module {
                 HudManager.currentHud = null;
             }
         }
+    }
+
+    public static Color alphaColor(Color color, double alpha) {
+        int a = (int) (color.getAlpha() * alpha);
+        return new Color(color.getRed(), color.getGreen(), color.getBlue(), Math.min(255, Math.max(0, a)));
+    }
+
+    public enum DetailsType {
+        Bracket,
+        Line
     }
 }

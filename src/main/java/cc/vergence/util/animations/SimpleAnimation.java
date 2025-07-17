@@ -19,6 +19,12 @@ public class SimpleAnimation {
         this.startTime = System.currentTimeMillis();
     }
 
+    public void set(double value) {
+        this.start = value;
+        this.end = value;
+        this.startTime = System.currentTimeMillis() - duration;
+    }
+
     public double get() {
         double elapsed = System.currentTimeMillis() - startTime;
         if (elapsed >= duration) return end;

@@ -134,7 +134,7 @@ public class Hotkeys extends Module {
                         getX() + maxWidth,
                         getY() + totalHeight + FontUtil.getHeight(size),
                         FontUtil.getWidth(size, module.getDisplayName()) + 4,
-                        radius.getValue(),
+                        FontUtil.getHeight(size),
                         module.getStatus() ? backgroundEnabledColor.getValue() : backgroundColor.getValue(),
                         Aligns.LEFT
                 );

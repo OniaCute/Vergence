@@ -11,6 +11,7 @@
     "accessors.MinecraftClientAccessor",
     "accessors.NativeImageAccessor",
     "accessors.PlayerMoveC2SPacketAccessor",
+    "accessors.AccessiblePassesShaderEffect",
     "mixins.GameRendererMixin",
     "mixins.LivingEntityMixin",
     "mixins.MixinChatHud",
@@ -28,12 +29,15 @@
     "mixins.MixinMouseActive",
     "mixins.MixinWindow",
     "mixins.MixinWorldRenderer",
-    "mixins.PlayerEntityMixin"
+    "mixins.PlayerEntityMixin",
+    "mixins.DownloadingTerrainScreenMixin",
+    "mixins.MixinPlayerListHud",
+    "mixins.MixinTitleScreen",
+    "mixins.ScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1
   },
   "client": [
-    "mixins.MixinPlayerListHud"
   ]
 }

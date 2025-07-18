@@ -56,6 +56,7 @@ public class ModuleManager {
         registerModule(new ModuleList());
         registerModule(new Advertiser());
         registerModule(new Hotkeys());
+        registerModule(new MainMenu());
 
         // special module
         registerModule(new SafeMode());

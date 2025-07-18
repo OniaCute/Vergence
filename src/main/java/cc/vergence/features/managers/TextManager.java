@@ -50,6 +50,11 @@ public class TextManager {
         englishLanguageBase.put("COMMANDS.MESSAGE.PREFIX.OK", "§bNow prefix is");
         englishLanguageBase.put("COMMANDS.MESSAGE.TOGGLE.UNKNOWN_MODULE", "§cUnknown Module");
 
+        englishLanguageBase.put("SCREEN.MainMenu.Buttons.SinglePlayer", "Single Player");
+        englishLanguageBase.put("SCREEN.MainMenu.Buttons.MultiPlayer", "Multiplayer");
+        englishLanguageBase.put("SCREEN.MainMenu.Buttons.Options", "Options");
+        englishLanguageBase.put("SCREEN.MainMenu.Buttons.Exit", "Exit");
+
         englishLanguageBase.put("Module.Category.CLIENT.name", "Client");
         englishLanguageBase.put("Module.Category.COMBAT.name", "Combat");
         englishLanguageBase.put("Module.Category.MOVEMENT.name", "Movement");
@@ -510,6 +515,27 @@ public class TextManager {
         englishLanguageBase.put("Module.Modules.Hotkeys.Options.ColorOption.TextEnabledColor.description", "Text color for enabled modules");
         englishLanguageBase.put("Module.Modules.Hotkeys.Options.ColorOption.BackgroundEnabledColor.name", "Background Enabled Color");
         englishLanguageBase.put("Module.Modules.Hotkeys.Options.ColorOption.BackgroundEnabledColor.description", "Background color for enabled modules");
+
+        englishLanguageBase.put("Module.Modules.MainMenu.name", "Main Menu");
+        englishLanguageBase.put("Module.Modules.MainMenu.description", "Customize the appearance of the main menu");
+        englishLanguageBase.put("Module.Modules.MainMenu.Options.TextOption.Title.name", "Title");
+        englishLanguageBase.put("Module.Modules.MainMenu.Options.TextOption.Title.description", "Main menu title text");
+        englishLanguageBase.put("Module.Modules.MainMenu.Options.ColorOption.TitleColor.name", "Title Color");
+        englishLanguageBase.put("Module.Modules.MainMenu.Options.ColorOption.TitleColor.description", "Color of the title text");
+        englishLanguageBase.put("Module.Modules.MainMenu.Options.ColorOption.TextColor.name", "Text Color");
+        englishLanguageBase.put("Module.Modules.MainMenu.Options.ColorOption.TextColor.description", "General text color in the menu");
+        englishLanguageBase.put("Module.Modules.MainMenu.Options.BooleanOption.Background.name", "Background");
+        englishLanguageBase.put("Module.Modules.MainMenu.Options.BooleanOption.Background.description", "Enable background");
+        englishLanguageBase.put("Module.Modules.MainMenu.Options.ColorOption.BackgroundColor.name", "Background Color");
+        englishLanguageBase.put("Module.Modules.MainMenu.Options.ColorOption.BackgroundColor.description", "Background color of the menu");
+        englishLanguageBase.put("Module.Modules.MainMenu.Options.ColorOption.ButtonTextColor.name", "Button Text Color");
+        englishLanguageBase.put("Module.Modules.MainMenu.Options.ColorOption.ButtonTextColor.description", "Text color for buttons");
+        englishLanguageBase.put("Module.Modules.MainMenu.Options.ColorOption.ButtonHoveredTextColor.name", "Button Hovered TextColor");
+        englishLanguageBase.put("Module.Modules.MainMenu.Options.ColorOption.ButtonHoveredTextColor.description", "Text color when button is hovered");
+        englishLanguageBase.put("Module.Modules.MainMenu.Options.ColorOption.ButtonBackgroundColor.name", "Button Background Color");
+        englishLanguageBase.put("Module.Modules.MainMenu.Options.ColorOption.ButtonBackgroundColor.description", "Background color for buttons");
+        englishLanguageBase.put("Module.Modules.MainMenu.Options.ColorOption.ButtonHoveredBackgroundColor.name", "Button Hovered Background Color");
+        englishLanguageBase.put("Module.Modules.MainMenu.Options.ColorOption.ButtonHoveredBackgroundColor.description", "Background color when button is hovered");
     }
 
     private void loadChinese() {

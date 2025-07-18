@@ -95,6 +95,7 @@ public class ClickGuiScreen extends Screen {
 
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float partialTicks) {
+        applyBlur();
         Vergence.EVENTS.onMouseMoveInClickGuiScreen(context, mouseX, mouseY);
     }
 

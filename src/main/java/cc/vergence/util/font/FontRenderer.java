@@ -1,6 +1,5 @@
 package cc.vergence.util.font;
 
-
 import cc.vergence.util.interfaces.Wrapper;
 import com.google.common.base.Preconditions;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -67,7 +66,6 @@ public class FontRenderer implements Closeable, Wrapper {
         return FontRenderer.BLOCK_SIZE * (int) Math.floor((double) x / (double) FontRenderer.BLOCK_SIZE);
     }
 
-
     public static @NotNull String stripControlCodes(@NotNull String text) {
         char[] chars = text.toCharArray();
         StringBuilder f = new StringBuilder();
@@ -124,6 +122,7 @@ public class FontRenderer implements Closeable, Wrapper {
         drawString(stack, s, x + 1, y + 1, 0, 0, 0, a, true);
         drawString(stack, s, x, y, r, g, b, a, false);
     }
+
     public void drawString(MatrixStack stack, String s, float x, float y, float r, float g, float b, float a, boolean shadow) {
         sizeCheck();
         float r2 = r, g2 = g, b2 = b;
@@ -134,8 +133,8 @@ public class FontRenderer implements Closeable, Wrapper {
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
         RenderSystem.disableCull();
-        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
-        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
+        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_NEAREST);
+        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST);
 
         RenderSystem.setShader(ShaderProgramKeys.POSITION_TEX_COLOR);
         Matrix4f mat = stack.peek().getPositionMatrix();
@@ -219,6 +218,71 @@ public class FontRenderer implements Closeable, Wrapper {
         GLYPH_PAGE_CACHE.clear();
     }
 
+    @Override
+    public void close() {
+        for (GlyphMap map : maps) {
+            map.destroy();
+        }
+        maps.clear();
+        allGlyphs.clear();
+    }
+
+    public static int getGuiScale() {
+        return (int) mc.getWindow().getScaleFactor();
+    }
+
+    public static int @NotNull [] RGBIntToRGB(int in) {
+        int red = in >> 8 * 2 & 0xFF;
+        int green = in >> 8 & 0xFF;
+        int blue = in & 0xFF;
+        return new int[]{red, green, blue};
+    }
+
+    public void drawCenteredString(MatrixStack stack, String s, float x, float y, float r, float g, float b, float a, boolean shadow) {
+        drawString(stack, s, x - getStringWidth(s) / 2f, y, r, g, b, a, shadow);
+    }
+
+    public float getStringWidth(String text) {
+        char[] c = stripControlCodes(text).toCharArray();
+        float currentLine = 0;
+        float maxPreviousLines = 0;
+        for (char c1 : c) {
+            if (c1 == '\n') {
+                maxPreviousLines = Math.max(currentLine, maxPreviousLines);
+                currentLine = 0;
+                continue;
+            }
+            Glyph glyph = locateGlyph1(c1);
+
+            float gWidth = glyph == null ? 1f : glyph.width();
+
+            currentLine += gWidth / (float) this.scaleMul;
+        }
+        return Math.max(currentLine, maxPreviousLines);
+    }
+
+    public float getStringHeight(String text) {
+        char[] c = stripControlCodes(text).toCharArray();
+        if (c.length == 0) {
+            c = new char[]{' '};
+        }
+        float currentLine = 0;
+        float previous = 0;
+        for (char c1 : c) {
+            if (c1 == '\n') {
+                if (currentLine == 0) {
+                    currentLine = locateGlyph1(' ').height() / (float) this.scaleMul;
+                }
+                previous += currentLine;
+                currentLine = 0;
+                continue;
+            }
+            Glyph glyph = locateGlyph1(c1);
+            float gHeight = glyph != null ? glyph.height() : 1f;
+            currentLine = Math.max(gHeight / (float) this.scaleMul, currentLine);
+        }
+        return currentLine + previous;
+    }
 
     public void drawGradientString(@NotNull MatrixStack stack, @NotNull String s, float x, float y) {
         sizeCheck();
@@ -234,7 +298,7 @@ public class FontRenderer implements Closeable, Wrapper {
         GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
 
         RenderSystem.setShader(ShaderProgramKeys.POSITION_TEX_COLOR);
-        // 获取实例
+
         Tessellator tess = Tessellator.getInstance();
         BufferBuilder bb = tess.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE_COLOR);
 
@@ -294,73 +358,6 @@ public class FontRenderer implements Closeable, Wrapper {
 
         stack.pop();
         GLYPH_PAGE_CACHE.clear();
-    }
-
-    public void drawCenteredString(MatrixStack stack, String s, float x, float y, float r, float g, float b, float a, boolean shadow) {
-        drawString(stack, s, x - getStringWidth(s) / 2f, y, r, g, b, a, shadow);
-    }
-
-    public float getStringWidth(String text) {
-        char[] c = stripControlCodes(text).toCharArray();
-        float currentLine = 0;
-        float maxPreviousLines = 0;
-        for (char c1 : c) {
-            if (c1 == '\n') {
-                maxPreviousLines = Math.max(currentLine, maxPreviousLines);
-                currentLine = 0;
-                continue;
-            }
-            Glyph glyph = locateGlyph1(c1);
-
-            float gWidth = glyph == null ? 1f : glyph.width();
-
-            currentLine += gWidth / (float) this.scaleMul;
-        }
-        return Math.max(currentLine, maxPreviousLines);
-    }
-
-    public float getStringHeight(String text) {
-        char[] c = stripControlCodes(text).toCharArray();
-        if (c.length == 0) {
-            c = new char[]{' '};
-        }
-        float currentLine = 0;
-        float previous = 0;
-        for (char c1 : c) {
-            if (c1 == '\n') {
-                if (currentLine == 0) {
-                    currentLine = locateGlyph1(' ').height() / (float) this.scaleMul;
-                }
-                previous += currentLine;
-                currentLine = 0;
-                continue;
-            }
-            Glyph glyph = locateGlyph1(c1);
-            float gHeight = glyph != null ? glyph.height() : 1f;
-            currentLine = Math.max(gHeight / (float) this.scaleMul, currentLine);
-        }
-        return currentLine + previous;
-    }
-
-    @Override
-    public void close() {
-        for (GlyphMap map : maps) {
-            map.destroy();
-        }
-        maps.clear();
-        allGlyphs.clear();
-    }
-
-    public static int getGuiScale() {
-        return (int) mc.getWindow().getScaleFactor();
-    }
-
-    @Contract(value = "_ -> new", pure = true)
-    public static int @NotNull [] RGBIntToRGB(int in) {
-        int red = in >> 8 * 2 & 0xFF;
-        int green = in >> 8 & 0xFF;
-        int blue = in & 0xFF;
-        return new int[]{red, green, blue};
     }
 
     @Contract(value = "-> new", pure = true)

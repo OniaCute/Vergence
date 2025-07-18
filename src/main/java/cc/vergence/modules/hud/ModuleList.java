@@ -77,6 +77,7 @@ public class ModuleList extends Module {
 
         for (Module module : allModules) {
             simpleAnimations.computeIfAbsent(module, m -> new SimpleAnimation(0, animationTime.getValue().longValue()));
+            simpleAnimations.get(module).setDuration(animationTime.getValue().longValue());
             if (applyAnimation.getValue()) {
                 simpleAnimations.get(module).to(module.getStatus() && module.shouldDraw() ? 1 : 0);
             } else {

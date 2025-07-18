@@ -2,13 +2,18 @@ package cc.vergence.injections.mixins;
 
 import cc.vergence.Vergence;
 import cc.vergence.features.managers.ModuleManager;
+import cc.vergence.features.screens.MainMenuScreen;
 import cc.vergence.modules.Module;
+import cc.vergence.modules.client.MainMenu;
 import cc.vergence.modules.client.Title;
 import cc.vergence.modules.combat.NoCooldown;
 import cc.vergence.util.font.FontRenderers;
 import cc.vergence.util.interfaces.Wrapper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.RunArgs;
+import net.minecraft.client.gui.screen.DeathScreen;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.util.thread.ReentrantThreadExecutor;
 import org.jetbrains.annotations.Nullable;
@@ -119,4 +124,16 @@ public abstract class MixinMinecraftClient extends ReentrantThreadExecutor<Runna
             attackCooldown = 0;
         }
     }
+
+
+    // "loading minecraft" problem
+//    @Inject(method = "setScreen", at = @At("RETURN"), cancellable = true)
+//    private void setScreen(Screen screen, CallbackInfo info) {
+//        if (screen instanceof TitleScreen) {
+//            if (MainMenu.INSTANCE != null && MainMenu.INSTANCE.getStatus() && isGameInitialized) {
+//                this.setScreen(new MainMenuScreen(), info);
+//                info.cancel();
+//            }
+//        }
+//    }
 }

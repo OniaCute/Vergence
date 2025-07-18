@@ -9,6 +9,7 @@ import cc.vergence.features.options.impl.*;
 import cc.vergence.features.screens.ClickGuiScreen;
 import cc.vergence.modules.Module;
 import cc.vergence.modules.client.ClickGUI;
+import cc.vergence.modules.client.Client;
 import cc.vergence.ui.gui.GuiComponent;
 import cc.vergence.ui.gui.impl.*;
 import cc.vergence.ui.gui.impl.impl.button.BooleanButtonComponent;
@@ -16,10 +17,7 @@ import cc.vergence.ui.gui.impl.impl.choice.BindChoicesComponent;
 import cc.vergence.ui.gui.impl.impl.choice.EnumChoicesComponent;
 import cc.vergence.ui.gui.impl.impl.choice.MultipleChoicesComponent;
 import cc.vergence.ui.gui.impl.impl.hovered.*;
-import cc.vergence.ui.gui.impl.impl.input.BindFrameComponent;
-import cc.vergence.ui.gui.impl.impl.input.ColorFrameComponent;
-import cc.vergence.ui.gui.impl.impl.input.DoubleFrameComponent;
-import cc.vergence.ui.gui.impl.impl.input.TextFrameComponent;
+import cc.vergence.ui.gui.impl.impl.input.*;
 import cc.vergence.ui.gui.impl.impl.color.ColorPalette;
 import cc.vergence.ui.gui.impl.impl.color.ColorPreviewer;
 import cc.vergence.ui.gui.impl.impl.slider.DoubleSlider;
@@ -35,6 +33,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import oshi.util.tuples.Pair;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class GuiManager implements Wrapper {
     private static GuiComponent currentComponent = null;
@@ -42,13 +41,15 @@ public class GuiManager implements Wrapper {
     public static ArrayList<GuiComponent> hoveredComponents = new ArrayList<>();
     public static ArrayList<GuiComponent> inputComponents = new ArrayList<>();
     public static ArrayList<GuiComponent> positionComponents = new ArrayList<>();
+    public static ArrayList<GuiComponent> allModuleComponent = new ArrayList<>();
+    public static ArrayList<GuiComponent> searchModuleComponent = new ArrayList<>();
     public static Pair<Double, Double> latestCategoryComponentPosition = new Pair<>(0.00, 0.00);
     public static Pair<Double, Double> latestModuleComponentPosition = new Pair<>(0.00, 0.00);
     public static Pair<Double, Double> latestOptionComponentPosition = new Pair<>(0.00, 0.00);
     public static double mouseScrolledOffset = 0;
     public static ScrollAnimation scrollAnimation = new ScrollAnimation(0, 0);
     public static ClickGuiScreen CLICK_GUI_SCREEN = new ClickGuiScreen();
-    public static Module.Category currentCategory = Module.Category.CLIENT;
+    public static Module.Category currentCategory = null;
     public static double MOUSE_X = 0;
     public static double MOUSE_Y = 0;
     public static boolean CLICKED_LEFT = false;
@@ -66,6 +67,7 @@ public class GuiManager implements Wrapper {
     private static double lastMouseX = -1;
     private static double lastMouseY = -1;
     private static boolean isDragging;
+    public static SearchFrameComponent SEARCH = new SearchFrameComponent();
 
 
     public GuiManager() {
@@ -158,6 +160,30 @@ public class GuiManager implements Wrapper {
         MAIN_PAGE_HEIGHT *= Render2DUtil.getScaleFactor();
         latestCategoryComponentPosition = new Pair<>(MAIN_PAGE_X, MAIN_PAGE_Y + 50);
 
+//        if (SEARCH.isListening() || !SEARCH.searchText.isEmpty()) {
+//            String query = SEARCH.searchText.toLowerCase();
+//            latestModuleComponentPosition = new Pair<>(MAIN_PAGE_X, MAIN_PAGE_Y + 37 + (mouseScrolledOffset * 8));
+//            for (GuiComponent categoryComponent : rootComponents) {
+//                for (GuiComponent moduleComponent : categoryComponent.getSubComponents()) {
+//                    Module module = ((ModuleComponent) moduleComponent).getModule();
+//                    String name = ClickGUI.INSTANCE.searchIgnoreCase.getValue() ? module.getName().toLowerCase() : module.getName();
+//                    String description = (module.getDescription() != null) ? module.getDescription().toLowerCase() : "";
+//                    if (name.contains(query) || (description.contains(query) && ClickGUI.INSTANCE.searchForDescription.getValue())) {
+//                        moduleComponent.setX(MAIN_PAGE_X + 111);
+//                        moduleComponent.setY(latestModuleComponentPosition.getB());
+//                        moduleComponent.setWidth((400 - 114));
+//                        moduleComponent.setHeight(FontUtil.getHeight(FontSize.MEDIUM) + FontUtil.getHeight(FontSize.SMALL) + 2);
+//                        latestModuleComponentPosition = new Pair<>(moduleComponent.getX(), moduleComponent.getY() + moduleComponent.getHeight() + 2);
+//                        if (((ModuleComponent) moduleComponent).isActuallySpread) {
+//                            layoutModuleAreaComponent(((ModuleComponent) moduleComponent));
+//                        }
+//                    }
+//                }
+//            }
+//            latestModuleComponentPosition = new Pair<>(0.00, 0.00);
+//            return;
+//        }
+
         for (GuiComponent categoryComponent : rootComponents) {
             latestModuleComponentPosition = new Pair<>(MAIN_PAGE_X, MAIN_PAGE_Y + 37 + (mouseScrolledOffset * 8));
             categoryComponent.setX(MAIN_PAGE_X + 3);
@@ -175,255 +201,8 @@ public class GuiManager implements Wrapper {
                     latestModuleComponentPosition = new Pair<>(moduleComponent.getX(), moduleComponent.getY() + moduleComponent.getHeight() + 2);
 
                     if (((ModuleComponent) moduleComponent).isActuallySpread) {
-                        for (GuiComponent tempComponent : moduleComponent.getSubComponents()) {
-                            ModuleAreaComponent moduleAreaComponent = (ModuleAreaComponent) tempComponent;
-                            moduleAreaComponent.setX(latestModuleComponentPosition.getA() + 3);
-                            moduleAreaComponent.setY(latestModuleComponentPosition.getB() - 2);
-                            moduleAreaComponent.setWidth(moduleComponent.getWidth() - 6);
-                            moduleAreaComponent.setHeight(0);
-                            latestOptionComponentPosition = new Pair<>(moduleAreaComponent.getX(), moduleAreaComponent.getY() + moduleAreaComponent.getHeight() + 2);
-
-                            for (GuiComponent optionComponent : moduleAreaComponent.getSubComponents()) {
-                                if (!shouldDisplayOptionComponent(optionComponent)) {
-                                    continue;
-                                }
-                                optionComponent.setX(latestOptionComponentPosition.getA());
-                                optionComponent.setY(latestOptionComponentPosition.getB());
-                                optionComponent.setWidth(moduleAreaComponent.getWidth());
-                                optionComponent.setHeight(15);
-                                moduleAreaComponent.setHeight(moduleAreaComponent.getHeight() + optionComponent.getHeight() + 1);
-                                latestOptionComponentPosition = new Pair<>(moduleAreaComponent.getX(), optionComponent.getY() + optionComponent.getHeight() + 1);
-                                if (optionComponent instanceof BooleanComponent) {
-                                    for (GuiComponent subComponent : optionComponent.getSubComponents()) {
-                                        if (subComponent instanceof HoverTextComponent hoverTextComponent) {
-                                            hoverTextComponent.setX(optionComponent.getX() + optionComponent.getWidth() + 6 + 2);
-                                            hoverTextComponent.setY(optionComponent.getY());
-                                            hoverTextComponent.setWidth(FontUtil.getWidth(FontSize.SMALLEST, ((BooleanComponent) optionComponent).getOption().getDescription()) + 4);
-                                            hoverTextComponent.setHeight(optionComponent.getHeight() - 2);
-                                        }
-                                        else if (subComponent instanceof BooleanButtonComponent button){
-                                            button.setX(optionComponent.getX() + optionComponent.getWidth() - optionComponent.getWidth() / 13);
-                                            button.setY(optionComponent.getY());
-                                            button.setWidth(optionComponent.getWidth() / 13);
-                                            button.setHeight(optionComponent.getHeight());
-                                        }
-                                    }
-                                }
-                                else if (optionComponent instanceof EnumComponent) {
-                                    for (GuiComponent subComponent : optionComponent.getSubComponents()) {
-                                        if (subComponent instanceof HoverTextComponent hoverTextComponent) {
-                                            hoverTextComponent.setX(optionComponent.getX() + optionComponent.getWidth() + 6 + 2);
-                                            hoverTextComponent.setY(optionComponent.getY());
-                                            hoverTextComponent.setWidth(FontUtil.getWidth(FontSize.SMALLEST, ((EnumComponent) optionComponent).getOption().getDescription()) + 4);
-                                            hoverTextComponent.setHeight(optionComponent.getHeight() - 2);
-                                        }
-                                        else if (subComponent instanceof EnumChoicesComponent enumChoicesComponent) {
-                                            enumChoicesComponent.setX(optionComponent.getX() + FontUtil.getWidth(FontSize.SMALL, ((EnumComponent) optionComponent).getOption().getDisplayName()) + 4);
-                                            enumChoicesComponent.setY(optionComponent.getY() + 1);
-                                            enumChoicesComponent.setWidth(optionComponent.getWidth() - FontUtil.getWidth(FontSize.SMALL, ((EnumComponent) optionComponent).getOption().getDisplayName()) - 6);
-                                            enumChoicesComponent.setHeight(optionComponent.getHeight() - 2);
-                                            for (GuiComponent subComponent2 : enumChoicesComponent.getSubComponents()) {
-                                                HoverEnumChoicesComponent hoverEnumChoicesComponent = (HoverEnumChoicesComponent) subComponent2;
-                                                hoverEnumChoicesComponent.setX(enumChoicesComponent.getX());
-                                                hoverEnumChoicesComponent.setY(enumChoicesComponent.getY() + enumChoicesComponent.getHeight() - 1);
-                                                hoverEnumChoicesComponent.setWidth(enumChoicesComponent.getWidth());
-                                                hoverEnumChoicesComponent.setHeight(0);
-                                                Pair<Double, Double> latestChoicePosition = new Pair<>(hoverEnumChoicesComponent.getX(), hoverEnumChoicesComponent.getY() + hoverEnumChoicesComponent.getHeight() + 1);
-                                                for (GuiComponent subComponent3 : hoverEnumChoicesComponent.getSubComponents()) {
-                                                    EnumChoiceComponent enumChoiceComponent = (EnumChoiceComponent) subComponent3;
-                                                    enumChoiceComponent.setX(latestChoicePosition.getA());
-                                                    enumChoiceComponent.setY(latestChoicePosition.getB());
-                                                    enumChoiceComponent.setWidth(hoverEnumChoicesComponent.getWidth());
-                                                    enumChoiceComponent.setHeight(14);
-                                                    hoverEnumChoicesComponent.setHeight(hoverEnumChoicesComponent.getHeight() + enumChoiceComponent.getHeight());
-
-                                                    latestChoicePosition = new Pair<>(enumChoicesComponent.getX(), enumChoiceComponent.getY() + enumChoiceComponent.getHeight());
-                                                }
-                                                hoverEnumChoicesComponent.setHeight(hoverEnumChoicesComponent.getHeight() + 2);
-                                            }
-                                        }
-                                    }
-                                }
-                                else if (optionComponent instanceof MultipleComponent) {
-                                    for (GuiComponent subComponent : optionComponent.getSubComponents()) {
-                                        if (subComponent instanceof HoverTextComponent hoverTextComponent) {
-                                            hoverTextComponent.setX(optionComponent.getX() + optionComponent.getWidth() + 6 + 2);
-                                            hoverTextComponent.setY(optionComponent.getY());
-                                            hoverTextComponent.setWidth(FontUtil.getWidth(FontSize.SMALLEST, ((MultipleComponent) optionComponent).getOption().getDescription()) + 4);
-                                            hoverTextComponent.setHeight(optionComponent.getHeight() - 2);
-                                        }
-                                        else if (subComponent instanceof MultipleChoicesComponent multipleChoicesComponent) {
-                                            multipleChoicesComponent.setX(optionComponent.getX() + FontUtil.getWidth(FontSize.SMALL, ((MultipleComponent) optionComponent).getOption().getDisplayName()) + 4);
-                                            multipleChoicesComponent.setY(optionComponent.getY() + 1);
-                                            multipleChoicesComponent.setWidth(optionComponent.getWidth() - FontUtil.getWidth(FontSize.SMALL, ((MultipleComponent) optionComponent).getOption().getDisplayName()) - 6);
-                                            multipleChoicesComponent.setHeight(optionComponent.getHeight() - 2);
-                                            for (GuiComponent subComponent2 : multipleChoicesComponent.getSubComponents()) {
-                                                HoverMultipleChoicesComponent hoverMultipleChoicesComponent = (HoverMultipleChoicesComponent) subComponent2;
-                                                hoverMultipleChoicesComponent.setX(multipleChoicesComponent.getX());
-                                                hoverMultipleChoicesComponent.setY(multipleChoicesComponent.getY() + multipleChoicesComponent.getHeight() - 1);
-                                                hoverMultipleChoicesComponent.setWidth(multipleChoicesComponent.getWidth());
-                                                hoverMultipleChoicesComponent.setHeight(0);
-                                                Pair<Double, Double> latestChoicePosition = new Pair<>(hoverMultipleChoicesComponent.getX(), hoverMultipleChoicesComponent.getY() + hoverMultipleChoicesComponent.getHeight() + 1);
-                                                for (GuiComponent subComponent3 : hoverMultipleChoicesComponent.getSubComponents()) {
-                                                    MultipleChoiceComponent multipleChoiceComponent = (MultipleChoiceComponent) subComponent3;
-                                                    multipleChoiceComponent.setX(latestChoicePosition.getA());
-                                                    multipleChoiceComponent.setY(latestChoicePosition.getB());
-                                                    multipleChoiceComponent.setWidth(hoverMultipleChoicesComponent.getWidth());
-                                                    multipleChoiceComponent.setHeight(14);
-                                                    hoverMultipleChoicesComponent.setHeight(hoverMultipleChoicesComponent.getHeight() + multipleChoiceComponent.getHeight());
-
-                                                    latestChoicePosition = new Pair<>(multipleChoicesComponent.getX(), multipleChoiceComponent.getY() + multipleChoiceComponent.getHeight());
-                                                }
-                                                hoverMultipleChoicesComponent.setHeight(hoverMultipleChoicesComponent.getHeight() + 2);
-                                            }
-                                        }
-                                    }
-                                }
-                                else if (optionComponent instanceof TextComponent) {
-                                    for (GuiComponent subComponent : optionComponent.getSubComponents()) {
-                                        if (subComponent instanceof HoverTextComponent hoverTextComponent) {
-                                            hoverTextComponent.setX(optionComponent.getX() + optionComponent.getWidth() + 6 + 2);
-                                            hoverTextComponent.setY(optionComponent.getY());
-                                            hoverTextComponent.setWidth(FontUtil.getWidth(FontSize.SMALLEST, ((TextComponent) optionComponent).getOption().getDescription()) + 4);
-                                            hoverTextComponent.setHeight(optionComponent.getHeight() - 2);
-                                        }
-                                        else if (subComponent instanceof TextFrameComponent textFrameComponent) {
-                                            textFrameComponent.setX(optionComponent.getX() + FontUtil.getWidth(FontSize.SMALL, ((TextComponent) optionComponent).getOption().getDisplayName()) + 4);
-                                            textFrameComponent.setY(optionComponent.getY() + 1);
-                                            textFrameComponent.setWidth(optionComponent.getWidth() - FontUtil.getWidth(FontSize.SMALL, ((TextComponent) optionComponent).getOption().getDisplayName()) - 6);
-                                            textFrameComponent.setHeight(optionComponent.getHeight() - 2);
-                                        }
-                                    }
-                                }
-                                else if (optionComponent instanceof DoubleComponent) {
-                                    double frameWidth = FontUtil.getWidth(FontSize.SMALLEST, "10000.00_") + 6;
-                                    double sliderWidth = 110;
-                                    double spacing = 4;
-                                    double totalWidth = frameWidth + spacing + sliderWidth;
-                                    double rightStartX = optionComponent.getX() + optionComponent.getWidth() - totalWidth;
-                                    double sliderY = optionComponent.getY() + (optionComponent.getHeight() - 3) / 2.0;
-                                    double frameY = optionComponent.getY() + 1;
-                                    double frameHeight = optionComponent.getHeight() - 2;
-                                    for (GuiComponent subComponent : optionComponent.getSubComponents()) {
-                                        if (subComponent instanceof HoverTextComponent hoverTextComponent) {
-                                            hoverTextComponent.setX(optionComponent.getX() + optionComponent.getWidth() + 6 + 2);
-                                            hoverTextComponent.setY(optionComponent.getY());
-                                            hoverTextComponent.setWidth(FontUtil.getWidth(FontSize.SMALLEST, ((DoubleComponent) optionComponent).getOption().getDescription()) + 4);
-                                            hoverTextComponent.setHeight(optionComponent.getHeight() - 2);
-                                        }
-                                        else if (subComponent instanceof DoubleFrameComponent frame) {
-                                            frame.setX(rightStartX + sliderWidth + spacing - 2);
-                                            frame.setY(frameY);
-                                            frame.setWidth(frameWidth);
-                                            frame.setHeight(frameHeight);
-
-                                            for (GuiComponent subComponent2 : frame.getSubComponents()) {
-                                                if (subComponent2 instanceof DoubleSlider slider) {
-                                                    slider.setX(rightStartX - 4);
-                                                    slider.setY(sliderY);
-                                                    slider.setWidth(sliderWidth);
-                                                    slider.setHeight(3);
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                                else if (optionComponent instanceof ColorComponent) {
-                                    double frameWidth = FontUtil.getWidth(FontSize.SMALLEST, "#FFFFFFFF_") + 6;
-                                    double previewSize = 10;
-                                    double spacing = 2;
-
-                                    double frameX = optionComponent.getX() + optionComponent.getWidth() - frameWidth;
-                                    double previewX = frameX - spacing - previewSize;
-
-                                    for (GuiComponent subComponent : optionComponent.getSubComponents()) {
-                                        if (subComponent instanceof HoverTextComponent hoverTextComponent) {
-                                            hoverTextComponent.setX(optionComponent.getX() + optionComponent.getWidth() + 6 + 2);
-                                            hoverTextComponent.setY(optionComponent.getY());
-                                            hoverTextComponent.setWidth(FontUtil.getWidth(FontSize.SMALLEST, ((ColorComponent) optionComponent).getOption().getDescription()) + 4);
-                                            hoverTextComponent.setHeight(optionComponent.getHeight() - 2);
-                                        }
-                                        else if (subComponent instanceof ColorPreviewer previewer) {
-                                            previewer.setX(previewX - spacing);
-                                            previewer.setY(optionComponent.getY() + (optionComponent.getHeight() - previewSize) / 2.0);
-                                            previewer.setWidth(previewSize);
-                                            previewer.setHeight(previewSize);
-                                            for (GuiComponent component1 : subComponent.getSubComponents()) {
-                                                component1.setX(previewX - spacing * 2 - frameWidth);
-                                                component1.setY(optionComponent.getY() + optionComponent.getHeight() + 2);
-                                                component1.setWidth(130);
-                                                component1.setHeight(90);
-                                            }
-                                        } else if (subComponent instanceof ColorFrameComponent frame) {
-                                            frame.setX(frameX - spacing);
-                                            frame.setY(optionComponent.getY() + 1);
-                                            frame.setWidth(frameWidth);
-                                            frame.setHeight(optionComponent.getHeight());
-                                        }
-                                    }
-                                }
-
-                                else if (optionComponent instanceof BindComponent) {
-                                    double frameWidth = FontUtil.getWidth(FontSize.SMALLEST, "SHIFT_RIGHT_SHIFT_") + 2;
-                                    double selectWidth = FontUtil.getWidth(FontSize.SMALLEST, "PRESS AND CLICK OPTION") + 8;
-                                    double spacing = 4;
-
-                                    double frameX = optionComponent.getX() + optionComponent.getWidth() - selectWidth - spacing - frameWidth;
-                                    double selectX = optionComponent.getX() + optionComponent.getWidth() - selectWidth - 2;
-
-                                    double frameY = optionComponent.getY() + 1;
-                                    double frameHeight = optionComponent.getHeight() - 2;
-
-                                    for (GuiComponent subComponent : optionComponent.getSubComponents()) {
-                                        if (subComponent instanceof HoverTextComponent hoverTextComponent) {
-                                            hoverTextComponent.setX(optionComponent.getX() + optionComponent.getWidth() + 6 + 2);
-                                            hoverTextComponent.setY(optionComponent.getY());
-                                            hoverTextComponent.setWidth(FontUtil.getWidth(FontSize.SMALLEST, ((BindComponent) optionComponent).getOption().getDescription()) + 4);
-                                            hoverTextComponent.setHeight(optionComponent.getHeight() - 2);
-                                        }
-                                        else if (subComponent instanceof BindFrameComponent inputFrame) {
-                                            inputFrame.setX(frameX - 2);
-                                            inputFrame.setY(frameY);
-                                            inputFrame.setWidth(frameWidth);
-                                            inputFrame.setHeight(frameHeight);
-                                        }
-                                        else if (subComponent instanceof BindChoicesComponent bindChoicesComponent) {
-                                            bindChoicesComponent.setX(selectX);
-                                            bindChoicesComponent.setY(frameY);
-                                            bindChoicesComponent.setWidth(selectWidth);
-                                            bindChoicesComponent.setHeight(frameHeight);
-
-                                            for (GuiComponent subComponent2 : bindChoicesComponent.getSubComponents()) {
-                                                if (subComponent2 instanceof HoverBindChoicesComponent hoverBindChoicesComponent) {
-                                                    hoverBindChoicesComponent.setX(selectX);
-                                                    hoverBindChoicesComponent.setY(bindChoicesComponent.getY() + bindChoicesComponent.getHeight() - 1);
-                                                    hoverBindChoicesComponent.setWidth(selectWidth);
-                                                    hoverBindChoicesComponent.setHeight(0);
-
-                                                    Pair<Double, Double> latestChoicePosition = new Pair<>(selectX, hoverBindChoicesComponent.getY() + hoverBindChoicesComponent.getHeight() + 1);
-                                                    for (GuiComponent subComponent3 : hoverBindChoicesComponent.getSubComponents()) {
-                                                        if (subComponent3 instanceof BindChoiceComponent choice) {
-                                                            choice.setX(latestChoicePosition.getA());
-                                                            choice.setY(latestChoicePosition.getB());
-                                                            choice.setWidth(selectWidth);
-                                                            choice.setHeight(14);
-                                                            hoverBindChoicesComponent.setHeight(hoverBindChoicesComponent.getHeight() + choice.getHeight());
-
-                                                            latestChoicePosition = new Pair<>(selectX, choice.getY() + choice.getHeight());
-                                                        }
-                                                    }
-                                                    hoverBindChoicesComponent.setHeight(hoverBindChoicesComponent.getHeight() + 2);
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-
-                            }
-                            moduleAreaComponent.setHeight(moduleAreaComponent.getHeight() + 3);
-                            moduleComponent.setHeight(moduleComponent.getHeight() + moduleAreaComponent.getHeight() + 2);
-                            latestModuleComponentPosition = new Pair<>(moduleComponent.getX(), moduleComponent.getY() + moduleComponent.getHeight() + 2);
-                        }
+                        layoutModuleAreaComponent(((ModuleComponent) moduleComponent));
+                        searchModuleComponent.add(moduleComponent);
                     }
                 }
             }
@@ -594,6 +373,7 @@ public class GuiManager implements Wrapper {
                 moduleComponent.addSub(moduleAreaComponent);
                 moduleComponent.setParentComponent(categoryComponent);
                 categoryComponent.addSub(moduleComponent);
+                allModuleComponent.add(moduleComponent);
             }
             rootComponents.add(categoryComponent);
         }
@@ -693,8 +473,23 @@ public class GuiManager implements Wrapper {
         }
 
         for (GuiComponent component : rootComponents) {
-            component.onDraw(context, MOUSE_X, MOUSE_Y, CLICKED_LEFT && !hoverComponentDrawing && !isDragging, CLICKED_RIGHT && !hoverComponentDrawing && !isDragging);
+            component.onDraw(context, MOUSE_X, MOUSE_Y, CLICKED_LEFT && !hoverComponentDrawing && !isDragging && notInTopBarChecking(), CLICKED_RIGHT && !hoverComponentDrawing && !isDragging && notInTopBarChecking());
         }
+
+//        SEARCH.setX(MAIN_PAGE_X + 106 + 3);
+//        SEARCH.setY(MAIN_PAGE_Y);
+//        SEARCH.setWidth(MAIN_PAGE_WIDTH - 106 - 6);
+//        SEARCH.setHeight(FontUtil.getHeight(FontSize.MEDIUM) + 2);
+//        SEARCH.onDraw(context, MOUSE_X, MOUSE_Y, CLICKED_LEFT, CLICKED_RIGHT);
+//
+//        if (SEARCH.isListening() || !SEARCH.searchText.isEmpty()) {
+//            for (GuiComponent component : allModuleComponent) {
+//                if (searchModuleComponent.contains(component)) {
+//                    component.onDraw(context, MOUSE_X, MOUSE_Y, CLICKED_LEFT && !hoverComponentDrawing && !isDragging && notInTopBarChecking(), CLICKED_RIGHT && !hoverComponentDrawing && !isDragging && !notInTopBarChecking());
+//                }
+//            }
+//            searchModuleComponent.clear();
+//        }
 
         Render2DUtil.popDisplayArea();
 
@@ -739,5 +534,276 @@ public class GuiManager implements Wrapper {
         }
 
         matrices.pop();
+    }
+
+    private static boolean notInTopBarChecking() {
+        return !((MOUSE_X >= MAIN_PAGE_X + 106) && (MOUSE_X <= MAIN_PAGE_X + MAIN_PAGE_WIDTH) && (MOUSE_Y >= MAIN_PAGE_Y) && (MOUSE_Y <= MAIN_PAGE_Y + 37));
+    }
+
+    private static void layoutModuleAreaComponent(ModuleComponent moduleComponent) {
+        for (GuiComponent tempComponent : moduleComponent.getSubComponents()) {
+            ModuleAreaComponent moduleAreaComponent = (ModuleAreaComponent) tempComponent;
+            moduleAreaComponent.setX(latestModuleComponentPosition.getA() + 3);
+            moduleAreaComponent.setY(latestModuleComponentPosition.getB() - 2);
+            moduleAreaComponent.setWidth(moduleComponent.getWidth() - 6);
+            moduleAreaComponent.setHeight(0);
+            latestOptionComponentPosition = new Pair<>(moduleAreaComponent.getX(), moduleAreaComponent.getY() + moduleAreaComponent.getHeight() + 2);
+
+            for (GuiComponent optionComponent : moduleAreaComponent.getSubComponents()) {
+                if (!shouldDisplayOptionComponent(optionComponent)) {
+                    continue;
+                }
+                optionComponent.setX(latestOptionComponentPosition.getA());
+                optionComponent.setY(latestOptionComponentPosition.getB());
+                optionComponent.setWidth(moduleAreaComponent.getWidth());
+                optionComponent.setHeight(15);
+                moduleAreaComponent.setHeight(moduleAreaComponent.getHeight() + optionComponent.getHeight() + 1);
+                latestOptionComponentPosition = new Pair<>(moduleAreaComponent.getX(), optionComponent.getY() + optionComponent.getHeight() + 1);
+
+                if (optionComponent instanceof BooleanComponent comp) {
+                    layoutBooleanComponent(comp);
+                }
+                else if (optionComponent instanceof EnumComponent comp) {
+                    layoutEnumComponent(comp);
+                }
+                else if (optionComponent instanceof DoubleComponent comp) {
+                    layoutDoubleComponent(comp);
+                }
+                else if (optionComponent instanceof BindComponent comp) {
+                    layoutBindComponent(comp);
+                }
+                else if (optionComponent instanceof TextComponent comp) {
+                    layoutTextComponent(comp);
+                }
+                else if (optionComponent instanceof MultipleComponent comp) {
+                    layoutMultipleComponent(comp);
+                }
+                else if (optionComponent instanceof ColorComponent comp) {
+                    layoutColorComponent(comp);
+                }
+            }
+            moduleAreaComponent.setHeight(moduleAreaComponent.getHeight() + 3);
+            moduleComponent.setHeight(moduleComponent.getHeight() + moduleAreaComponent.getHeight() + 2);
+            latestModuleComponentPosition = new Pair<>(moduleComponent.getX(), moduleComponent.getY() + moduleComponent.getHeight() + 2);
+        }
+    }
+
+    private static void layoutBooleanComponent(BooleanComponent optionComponent) {
+        for (GuiComponent subComponent : optionComponent.getSubComponents()) {
+            if (subComponent instanceof HoverTextComponent hoverTextComponent) {
+                hoverTextComponent.setX(optionComponent.getX() + optionComponent.getWidth() + 8);
+                hoverTextComponent.setY(optionComponent.getY());
+                hoverTextComponent.setWidth(FontUtil.getWidth(FontSize.SMALLEST, optionComponent.getOption().getDescription()) + 4);
+                hoverTextComponent.setHeight(optionComponent.getHeight() - 2);
+            } else if (subComponent instanceof BooleanButtonComponent button) {
+                button.setX(optionComponent.getX() + optionComponent.getWidth() - optionComponent.getWidth() / 13);
+                button.setY(optionComponent.getY());
+                button.setWidth(optionComponent.getWidth() / 13);
+                button.setHeight(optionComponent.getHeight());
+            }
+        }
+    }
+
+    private static void layoutEnumComponent(EnumComponent optionComponent) {
+        for (GuiComponent subComponent : optionComponent.getSubComponents()) {
+            if (subComponent instanceof HoverTextComponent hoverTextComponent) {
+                hoverTextComponent.setX(optionComponent.getX() + optionComponent.getWidth() + 8);
+                hoverTextComponent.setY(optionComponent.getY());
+                hoverTextComponent.setWidth(FontUtil.getWidth(FontSize.SMALLEST, optionComponent.getOption().getDescription()) + 4);
+                hoverTextComponent.setHeight(optionComponent.getHeight() - 2);
+            } else if (subComponent instanceof EnumChoicesComponent enumChoicesComponent) {
+                double labelWidth = FontUtil.getWidth(FontSize.SMALL, optionComponent.getOption().getDisplayName());
+                enumChoicesComponent.setX(optionComponent.getX() + labelWidth + 4);
+                enumChoicesComponent.setY(optionComponent.getY() + 1);
+                enumChoicesComponent.setWidth(optionComponent.getWidth() - labelWidth - 6);
+                enumChoicesComponent.setHeight(optionComponent.getHeight() - 2);
+                for (GuiComponent subComponent2 : enumChoicesComponent.getSubComponents()) {
+                    HoverEnumChoicesComponent hoverEnumChoicesComponent = (HoverEnumChoicesComponent) subComponent2;
+                    hoverEnumChoicesComponent.setX(enumChoicesComponent.getX());
+                    hoverEnumChoicesComponent.setY(enumChoicesComponent.getY() + enumChoicesComponent.getHeight() - 1);
+                    hoverEnumChoicesComponent.setWidth(enumChoicesComponent.getWidth());
+                    hoverEnumChoicesComponent.setHeight(0);
+                    Pair<Double, Double> latestChoicePosition = new Pair<>(hoverEnumChoicesComponent.getX(), hoverEnumChoicesComponent.getY() + 1);
+                    for (GuiComponent subComponent3 : hoverEnumChoicesComponent.getSubComponents()) {
+                        EnumChoiceComponent choice = (EnumChoiceComponent) subComponent3;
+                        choice.setX(latestChoicePosition.getA());
+                        choice.setY(latestChoicePosition.getB());
+                        choice.setWidth(hoverEnumChoicesComponent.getWidth());
+                        choice.setHeight(14);
+                        hoverEnumChoicesComponent.setHeight(hoverEnumChoicesComponent.getHeight() + choice.getHeight());
+                        latestChoicePosition = new Pair<>(choice.getX(), choice.getY() + choice.getHeight());
+                    }
+                    hoverEnumChoicesComponent.setHeight(hoverEnumChoicesComponent.getHeight() + 2);
+                }
+            }
+        }
+    }
+
+    private static void layoutMultipleComponent(MultipleComponent optionComponent) {
+        for (GuiComponent subComponent : optionComponent.getSubComponents()) {
+            if (subComponent instanceof HoverTextComponent hoverTextComponent) {
+                hoverTextComponent.setX(optionComponent.getX() + optionComponent.getWidth() + 8);
+                hoverTextComponent.setY(optionComponent.getY());
+                hoverTextComponent.setWidth(FontUtil.getWidth(FontSize.SMALLEST, optionComponent.getOption().getDescription()) + 4);
+                hoverTextComponent.setHeight(optionComponent.getHeight() - 2);
+            } else if (subComponent instanceof MultipleChoicesComponent multipleChoicesComponent) {
+                double labelWidth = FontUtil.getWidth(FontSize.SMALL, optionComponent.getOption().getDisplayName());
+                multipleChoicesComponent.setX(optionComponent.getX() + labelWidth + 4);
+                multipleChoicesComponent.setY(optionComponent.getY() + 1);
+                multipleChoicesComponent.setWidth(optionComponent.getWidth() - labelWidth - 6);
+                multipleChoicesComponent.setHeight(optionComponent.getHeight() - 2);
+                for (GuiComponent subComponent2 : multipleChoicesComponent.getSubComponents()) {
+                    HoverMultipleChoicesComponent hover = (HoverMultipleChoicesComponent) subComponent2;
+                    hover.setX(multipleChoicesComponent.getX());
+                    hover.setY(multipleChoicesComponent.getY() + multipleChoicesComponent.getHeight() - 1);
+                    hover.setWidth(multipleChoicesComponent.getWidth());
+                    hover.setHeight(0);
+                    Pair<Double, Double> latestChoicePosition = new Pair<>(hover.getX(), hover.getY() + 1);
+                    for (GuiComponent subComponent3 : hover.getSubComponents()) {
+                        MultipleChoiceComponent choice = (MultipleChoiceComponent) subComponent3;
+                        choice.setX(latestChoicePosition.getA());
+                        choice.setY(latestChoicePosition.getB());
+                        choice.setWidth(hover.getWidth());
+                        choice.setHeight(14);
+                        hover.setHeight(hover.getHeight() + choice.getHeight());
+                        latestChoicePosition = new Pair<>(choice.getX(), choice.getY() + choice.getHeight());
+                    }
+                    hover.setHeight(hover.getHeight() + 2);
+                }
+            }
+        }
+    }
+
+    private static void layoutTextComponent(TextComponent optionComponent) {
+        for (GuiComponent subComponent : optionComponent.getSubComponents()) {
+            if (subComponent instanceof HoverTextComponent hoverTextComponent) {
+                hoverTextComponent.setX(optionComponent.getX() + optionComponent.getWidth() + 8);
+                hoverTextComponent.setY(optionComponent.getY());
+                hoverTextComponent.setWidth(FontUtil.getWidth(FontSize.SMALLEST, optionComponent.getOption().getDescription()) + 4);
+                hoverTextComponent.setHeight(optionComponent.getHeight() - 2);
+            } else if (subComponent instanceof TextFrameComponent frame) {
+                double labelWidth = FontUtil.getWidth(FontSize.SMALL, optionComponent.getOption().getDisplayName());
+                frame.setX(optionComponent.getX() + labelWidth + 4);
+                frame.setY(optionComponent.getY() + 1);
+                frame.setWidth(optionComponent.getWidth() - labelWidth - 6);
+                frame.setHeight(optionComponent.getHeight() - 2);
+            }
+        }
+    }
+
+    private static void layoutDoubleComponent(DoubleComponent optionComponent) {
+        double frameWidth = FontUtil.getWidth(FontSize.SMALLEST, "10000.00_") + 6;
+        double sliderWidth = 110;
+        double spacing = 4;
+        double totalWidth = frameWidth + spacing + sliderWidth;
+        double rightStartX = optionComponent.getX() + optionComponent.getWidth() - totalWidth;
+        double sliderY = optionComponent.getY() + (optionComponent.getHeight() - 3) / 2.0;
+        double frameY = optionComponent.getY() + 1;
+        double frameHeight = optionComponent.getHeight() - 2;
+
+        for (GuiComponent subComponent : optionComponent.getSubComponents()) {
+            if (subComponent instanceof HoverTextComponent hoverTextComponent) {
+                hoverTextComponent.setX(optionComponent.getX() + optionComponent.getWidth() + 8);
+                hoverTextComponent.setY(optionComponent.getY());
+                hoverTextComponent.setWidth(FontUtil.getWidth(FontSize.SMALLEST, optionComponent.getOption().getDescription()) + 4);
+                hoverTextComponent.setHeight(optionComponent.getHeight() - 2);
+            } else if (subComponent instanceof DoubleFrameComponent frame) {
+                frame.setX(rightStartX + sliderWidth + spacing - 2);
+                frame.setY(frameY);
+                frame.setWidth(frameWidth);
+                frame.setHeight(frameHeight);
+                for (GuiComponent subComponent2 : frame.getSubComponents()) {
+                    if (subComponent2 instanceof DoubleSlider slider) {
+                        slider.setX(rightStartX - 4);
+                        slider.setY(sliderY);
+                        slider.setWidth(sliderWidth);
+                        slider.setHeight(3);
+                    }
+                }
+            }
+        }
+    }
+
+    private static void layoutColorComponent(ColorComponent optionComponent) {
+        double frameWidth = FontUtil.getWidth(FontSize.SMALLEST, "#FFFFFFFF_") + 6;
+        double previewSize = 10;
+        double spacing = 2;
+
+        double frameX = optionComponent.getX() + optionComponent.getWidth() - frameWidth;
+        double previewX = frameX - spacing - previewSize;
+
+        for (GuiComponent subComponent : optionComponent.getSubComponents()) {
+            if (subComponent instanceof HoverTextComponent hoverTextComponent) {
+                hoverTextComponent.setX(optionComponent.getX() + optionComponent.getWidth() + 8);
+                hoverTextComponent.setY(optionComponent.getY());
+                hoverTextComponent.setWidth(FontUtil.getWidth(FontSize.SMALLEST, optionComponent.getOption().getDescription()) + 4);
+                hoverTextComponent.setHeight(optionComponent.getHeight() - 2);
+            } else if (subComponent instanceof ColorPreviewer previewer) {
+                previewer.setX(previewX - spacing);
+                previewer.setY(optionComponent.getY() + (optionComponent.getHeight() - previewSize) / 2.0);
+                previewer.setWidth(previewSize);
+                previewer.setHeight(previewSize);
+                for (GuiComponent popup : subComponent.getSubComponents()) {
+                    popup.setX(previewX - spacing * 2 - frameWidth);
+                    popup.setY(optionComponent.getY() + optionComponent.getHeight() + 2);
+                    popup.setWidth(130);
+                    popup.setHeight(90);
+                }
+            } else if (subComponent instanceof ColorFrameComponent frame) {
+                frame.setX(frameX - spacing);
+                frame.setY(optionComponent.getY() + 1);
+                frame.setWidth(frameWidth);
+                frame.setHeight(optionComponent.getHeight());
+            }
+        }
+    }
+
+    private static void layoutBindComponent(BindComponent optionComponent) {
+        double frameWidth = FontUtil.getWidth(FontSize.SMALLEST, "SHIFT_RIGHT_SHIFT_") + 2;
+        double selectWidth = FontUtil.getWidth(FontSize.SMALLEST, "PRESS AND CLICK OPTION") + 8;
+        double spacing = 4;
+
+        double frameX = optionComponent.getX() + optionComponent.getWidth() - selectWidth - spacing - frameWidth;
+        double selectX = optionComponent.getX() + optionComponent.getWidth() - selectWidth - 2;
+        double frameY = optionComponent.getY() + 1;
+        double frameHeight = optionComponent.getHeight() - 2;
+
+        for (GuiComponent subComponent : optionComponent.getSubComponents()) {
+            if (subComponent instanceof HoverTextComponent hoverTextComponent) {
+                hoverTextComponent.setX(optionComponent.getX() + optionComponent.getWidth() + 8);
+                hoverTextComponent.setY(optionComponent.getY());
+                hoverTextComponent.setWidth(FontUtil.getWidth(FontSize.SMALLEST, optionComponent.getOption().getDescription()) + 4);
+                hoverTextComponent.setHeight(optionComponent.getHeight() - 2);
+            } else if (subComponent instanceof BindFrameComponent inputFrame) {
+                inputFrame.setX(frameX - 2);
+                inputFrame.setY(frameY);
+                inputFrame.setWidth(frameWidth);
+                inputFrame.setHeight(frameHeight);
+            } else if (subComponent instanceof BindChoicesComponent bindChoicesComponent) {
+                bindChoicesComponent.setX(selectX);
+                bindChoicesComponent.setY(frameY);
+                bindChoicesComponent.setWidth(selectWidth);
+                bindChoicesComponent.setHeight(frameHeight);
+                for (GuiComponent subComponent2 : bindChoicesComponent.getSubComponents()) {
+                    if (subComponent2 instanceof HoverBindChoicesComponent hover) {
+                        hover.setX(selectX);
+                        hover.setY(bindChoicesComponent.getY() + bindChoicesComponent.getHeight() - 1);
+                        hover.setWidth(selectWidth);
+                        hover.setHeight(0);
+                        Pair<Double, Double> pos = new Pair<>(selectX, hover.getY() + 1);
+                        for (GuiComponent choice : hover.getSubComponents()) {
+                            BindChoiceComponent c = (BindChoiceComponent) choice;
+                            c.setX(pos.getA());
+                            c.setY(pos.getB());
+                            c.setWidth(selectWidth);
+                            c.setHeight(14);
+                            hover.setHeight(hover.getHeight() + c.getHeight());
+                            pos = new Pair<>(selectX, c.getY() + c.getHeight());
+                        }
+                        hover.setHeight(hover.getHeight() + 2);
+                    }
+                }
+            }
+        }
     }
 }

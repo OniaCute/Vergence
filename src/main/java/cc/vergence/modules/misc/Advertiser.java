@@ -56,7 +56,7 @@ public class Advertiser extends Module {
                 index = (index + 1) % messages.size();
             }
             if (!msg.trim().isEmpty()) {
-                Objects.requireNonNull(mc.getNetworkHandler()).sendCommand(command + " " + msg);
+                Objects.requireNonNull(mc.getNetworkHandler()).sendCommand(command.getValue() + " " + msg);
             }
             timer.reset();
         }

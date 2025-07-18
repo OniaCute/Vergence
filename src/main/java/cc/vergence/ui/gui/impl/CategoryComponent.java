@@ -43,6 +43,8 @@ public class CategoryComponent extends GuiComponent {
             GuiManager.setCurrentComponent(this);
             if (clickLeft) {
                 GuiManager.currentCategory = this.category;
+                GuiManager.SEARCH.searchText = "";
+                GuiManager.SEARCH.setListening(false);
                 GuiManager.scrollAnimation.reset();
                 GuiManager.scrollAnimation.to(0.00);
                 GuiManager.mouseScrolledOffset = 0;
@@ -55,13 +57,13 @@ public class CategoryComponent extends GuiComponent {
 
         Color targetColor;
         if (isHovered(mouseX, mouseY)) {
-            if (GuiManager.currentCategory.equals(this.category)) {
+            if (!(GuiManager.currentCategory == null) && GuiManager.currentCategory.equals(this.category)) {
                 targetColor = Vergence.THEME.getTheme().getCategoryCurrentBackgroundColor();
             } else {
                 targetColor = Vergence.THEME.getTheme().getCategoryHoveredBackgroundColor();
             }
         }
-        else if (GuiManager.currentCategory.equals(this.category)) {
+        else if (!(GuiManager.currentCategory == null) && GuiManager.currentCategory.equals(this.category)) {
             targetColor = Vergence.THEME.getTheme().getCategoryCurrentBackgroundColor();
         } else {
             targetColor = Vergence.THEME.getTheme().getCategoryBackgroundColor();
@@ -81,13 +83,13 @@ public class CategoryComponent extends GuiComponent {
 
         Color targetTextColor;
         if (isHovered(mouseX, mouseY)) {
-            if (GuiManager.currentCategory.equals(this.category)) {
+            if (!(GuiManager.currentCategory == null) && GuiManager.currentCategory.equals(this.category)) {
                 targetTextColor = Vergence.THEME.getTheme().getCategoryCurrentTextColor();
             } else {
                 targetTextColor = Vergence.THEME.getTheme().getCategoryHoveredTextColor();
             }
         }
-        else if (GuiManager.currentCategory.equals(this.category)) {
+        else if (!(GuiManager.currentCategory == null) && GuiManager.currentCategory.equals(this.category)) {
             targetTextColor = Vergence.THEME.getTheme().getCategoryCurrentTextColor();
         } else {
             targetTextColor = Vergence.THEME.getTheme().getCategoryTextColor();
@@ -106,8 +108,7 @@ public class CategoryComponent extends GuiComponent {
                 textColorAnimation.getCurrent(),
                 FontSize.LARGE
         );
-
-        if (GuiManager.currentCategory.equals(this.category)) {
+        if (!(GuiManager.currentCategory == null) && GuiManager.currentCategory.equals(this.category)) {
             for (GuiComponent component : this.subComponents) {
                 Render2DUtil.pushDisplayArea(
                         context.getMatrices(),

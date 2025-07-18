@@ -74,6 +74,10 @@ public class TextManager {
         englishLanguageBase.put("Module.Modules.ClickGUI.Options.TextOption.Title.description", "The title of client click gui");
         englishLanguageBase.put("Module.Modules.ClickGUI.Options.BooleanOption.ShowOptionDescription.name", "Show Option Description");
         englishLanguageBase.put("Module.Modules.ClickGUI.Options.BooleanOption.ShowOptionDescription.description", "display the options descriptions");
+        englishLanguageBase.put("Module.Modules.ClickGUI.Options.BooleanOption.SearchForDescription.name", "Search For Description");
+        englishLanguageBase.put("Module.Modules.ClickGUI.Options.BooleanOption.SearchForDescription.description", "Include option descriptions in search");
+        englishLanguageBase.put("Module.Modules.ClickGUI.Options.BooleanOption.SearchIgnoreCase.name", "Search Ignore Case");
+        englishLanguageBase.put("Module.Modules.ClickGUI.Options.BooleanOption.SearchIgnoreCase.description", "Ignore case when searching");
         englishLanguageBase.put("Module.Modules.ClickGUI.Options.BooleanOption.RainbowSync.name", "Rainbow SYNC");
         englishLanguageBase.put("Module.Modules.ClickGUI.Options.BooleanOption.RainbowSync.description", "Make all the colors of the rainbow the same");
         englishLanguageBase.put("Module.Modules.ClickGUI.Options.DoubleOption.RainbowOffset.name", "Rainbow Offset");
@@ -99,6 +103,8 @@ public class TextManager {
         englishLanguageBase.put("Module.Modules.Client.description", "Manage many settings of vergence client");
         englishLanguageBase.put("Module.Modules.Client.Options.BooleanOption.Sync.name", "SYNC");
         englishLanguageBase.put("Module.Modules.Client.Options.BooleanOption.Sync.description", "Share your Vergence user status so that you can be seen by other users who have enabled Sync and have their Vergence icons displayed.");
+        englishLanguageBase.put("Module.Modules.Client.Options.TextOption.Brand.name", "Brand");
+        englishLanguageBase.put("Module.Modules.Client.Options.TextOption.Brand.description", "Client brand name");
         englishLanguageBase.put("Module.Modules.Client.Options.EnumOption.UIScale.name", "UI Scale");
         englishLanguageBase.put("Module.Modules.Client.Options.EnumOption.UIScale.description", "The UI scale of client");
         englishLanguageBase.put("Module.Modules.Client.Options.EnumOption.Language.name", "Language");
@@ -266,6 +272,40 @@ public class TextManager {
         englishLanguageBase.put("Module.Modules.Scaffold.description", "Auto place block on the ground when moving");
         englishLanguageBase.put("Module.Modules.Scaffold.Options.EnumOption.AntiCheat.name", "Anti Cheat");
         englishLanguageBase.put("Module.Modules.Scaffold.Options.EnumOption.AntiCheat.description", "Determine which functions need to be blocked by anti cheat mode");
+        englishLanguageBase.put("Module.Modules.Scaffold.Options.EnumOption.SwingHand.name", "Swing Hand");
+        englishLanguageBase.put("Module.Modules.Scaffold.Options.EnumOption.SwingHand.description", "Which hand to swing when placing blocks");
+        englishLanguageBase.put("Module.Modules.Scaffold.Options.DoubleOption.PlaceableRange.name", "Placeable Range");
+        englishLanguageBase.put("Module.Modules.Scaffold.Options.DoubleOption.PlaceableRange.description", "Maximum range to place blocks");
+        englishLanguageBase.put("Module.Modules.Scaffold.Options.EnumOption.RotateMode.name", "Rotate Mode");
+        englishLanguageBase.put("Module.Modules.Scaffold.Options.EnumOption.RotateMode.description", "Rotation mode when placing blocks");
+        englishLanguageBase.put("Module.Modules.Scaffold.Options.BooleanOption.DoShift.name", "Do Shift");
+        englishLanguageBase.put("Module.Modules.Scaffold.Options.BooleanOption.DoShift.description", "Automatically sneak when placing blocks");
+        englishLanguageBase.put("Module.Modules.Scaffold.Options.BooleanOption.Rotate.name", "Rotate");
+        englishLanguageBase.put("Module.Modules.Scaffold.Options.BooleanOption.Rotate.description", "Enable rotation when placing blocks");
+        englishLanguageBase.put("Module.Modules.Scaffold.Options.DoubleOption.MinThreshold.name", "Min Threshold");
+        englishLanguageBase.put("Module.Modules.Scaffold.Options.DoubleOption.MinThreshold.description", "Minimum random edge threshold");
+        englishLanguageBase.put("Module.Modules.Scaffold.Options.DoubleOption.PlaceDelay.name", "Place Delay");
+        englishLanguageBase.put("Module.Modules.Scaffold.Options.DoubleOption.PlaceDelay.description", "Delay between block placements");
+        englishLanguageBase.put("Module.Modules.Scaffold.Options.EnumOption.PlaceMode.name", "Place Mode");
+        englishLanguageBase.put("Module.Modules.Scaffold.Options.EnumOption.PlaceMode.description", "Method of block placement");
+        englishLanguageBase.put("Module.Modules.Scaffold.Options.BooleanOption.RandomThreshold.name", "Random Threshold");
+        englishLanguageBase.put("Module.Modules.Scaffold.Options.BooleanOption.RandomThreshold.description", "Randomize placement threshold");
+        englishLanguageBase.put("Module.Modules.Scaffold.Options.EnumOption.SwingMode.name", "Swing Mode");
+        englishLanguageBase.put("Module.Modules.Scaffold.Options.EnumOption.SwingMode.description", "Swing animation mode");
+        englishLanguageBase.put("Module.Modules.Scaffold.Options.DoubleOption.MaxThreshold.name", "Max Threshold");
+        englishLanguageBase.put("Module.Modules.Scaffold.Options.DoubleOption.MaxThreshold.description", "Maximum random edge threshold");
+        englishLanguageBase.put("Module.Modules.Scaffold.Options.DoubleOption.RotateSpeed.name", "Rotate Speed");
+        englishLanguageBase.put("Module.Modules.Scaffold.Options.DoubleOption.RotateSpeed.description", "Rotation speed when placing blocks");
+        englishLanguageBase.put("Module.Modules.Scaffold.Options.BooleanOption.Swing.name", "Swing");
+        englishLanguageBase.put("Module.Modules.Scaffold.Options.BooleanOption.Swing.description", "Enable swing animation");
+        englishLanguageBase.put("Module.Modules.Scaffold.Options.BooleanOption.Sprint.name", "Sprint");
+        englishLanguageBase.put("Module.Modules.Scaffold.Options.BooleanOption.Sprint.description", "Keep sprinting while placing blocks");
+        englishLanguageBase.put("Module.Modules.Scaffold.Options.DoubleOption.RotateYawOffset.name", "Rotate Yaw Offset");
+        englishLanguageBase.put("Module.Modules.Scaffold.Options.DoubleOption.RotateYawOffset.description", "Yaw offset for rotation");
+        englishLanguageBase.put("Module.Modules.Scaffold.Options.DoubleOption.RotatePitchOffset.name", "Rotate Pitch Offset");
+        englishLanguageBase.put("Module.Modules.Scaffold.Options.DoubleOption.RotatePitchOffset.description", "Pitch offset for rotation");
+        englishLanguageBase.put("Module.Modules.Scaffold.Options.DoubleOption.Threshold.name", "Threshold");
+        englishLanguageBase.put("Module.Modules.Scaffold.Options.DoubleOption.Threshold.description", "Edge threshold for placement");
 
         englishLanguageBase.put("Module.Modules.Reach.name", "Reach");
         englishLanguageBase.put("Module.Modules.Reach.description", "Change the range of interaction and attack");
@@ -305,9 +345,13 @@ public class TextManager {
 
         englishLanguageBase.put("Module.Modules.Disabler.name", "Disabler");
         englishLanguageBase.put("Module.Modules.Disabler.description", "Attempt to disable certain anti cheat behaviors");
+        englishLanguageBase.put("Module.Modules.Disabler.Options.EnumOption.AntiCheat.name", "Anti Cheat");
+        englishLanguageBase.put("Module.Modules.Disabler.Options.EnumOption.AntiCheat.description", "Determine which functions need to be blocked by anti cheat mode");
 
         englishLanguageBase.put("Module.Modules.InventoryMove.name", "Inventory Move");
         englishLanguageBase.put("Module.Modules.InventoryMove.description", "Enable you to be able to move when opening certain GUI");
+        englishLanguageBase.put("Module.Modules.InventoryMove.Options.EnumOption.AntiCheat.name", "Anti Cheat");
+        englishLanguageBase.put("Module.Modules.InventoryMove.Options.EnumOption.AntiCheat.description", "Determine which functions need to be blocked by anti cheat mode");
         englishLanguageBase.put("Module.Modules.InventoryMove.Options.BooleanOption.HorizontalCollision.name", "Horizontal Collision");
         englishLanguageBase.put("Module.Modules.InventoryMove.Options.BooleanOption.HorizontalCollision.description", "Whether to enable Horizontal Collision when sending packets");
 
@@ -397,6 +441,14 @@ public class TextManager {
         englishLanguageBase.put("Module.Modules.ModuleList.Options.EnumOption.Align.description", "module list alignment");
         englishLanguageBase.put("Module.Modules.ModuleList.Options.EnumOption.FontSize.name", "FontSize");
         englishLanguageBase.put("Module.Modules.ModuleList.Options.EnumOption.FontSize.description", "Font size for module names");
+        englishLanguageBase.put("Module.Modules.ModuleList.Options.BooleanOption.Details.name", "Details");
+        englishLanguageBase.put("Module.Modules.ModuleList.Options.BooleanOption.Details.description", "Show module details");
+        englishLanguageBase.put("Module.Modules.ModuleList.Options.ColorOption.DetailsColor.name", "Details Color");
+        englishLanguageBase.put("Module.Modules.ModuleList.Options.ColorOption.DetailsColor.description", "Details text color");
+        englishLanguageBase.put("Module.Modules.ModuleList.Options.EnumOption.DetailsType.name", "Details Type");
+        englishLanguageBase.put("Module.Modules.ModuleList.Options.EnumOption.DetailsType.description", "Type of details to display");
+        englishLanguageBase.put("Module.Modules.ModuleList.Options.DoubleOption.Padding.name", "Padding");
+        englishLanguageBase.put("Module.Modules.ModuleList.Options.DoubleOption.Padding.description", "Padding between elements");
         englishLanguageBase.put("Module.Modules.ModuleList.Options.ColorOption.TextColor.name", "TextColor");
         englishLanguageBase.put("Module.Modules.ModuleList.Options.ColorOption.TextColor.description", "Module name color");
         englishLanguageBase.put("Module.Modules.ModuleList.Options.BooleanOption.Background.name", "Background");
@@ -408,7 +460,9 @@ public class TextManager {
         englishLanguageBase.put("Module.Modules.ModuleList.Options.DoubleOption.Radius.name", "Radius");
         englishLanguageBase.put("Module.Modules.ModuleList.Options.DoubleOption.Radius.description", "Corner radius");
         englishLanguageBase.put("Module.Modules.ModuleList.Options.BooleanOption.Rect.name", "Rect");
-        englishLanguageBase.put("Module.Modules.ModuleList.Options.BooleanOption.Rect.description", "Enable rectangle behind text");
+        englishLanguageBase.put("Module.Modules.ModuleList.Options.BooleanOption.Rect.description", "Enable rectangle around text");
+        englishLanguageBase.put("Module.Modules.ModuleList.Options.DoubleOption.RectWidth.name", "Rect Width");
+        englishLanguageBase.put("Module.Modules.ModuleList.Options.DoubleOption.RectWidth.description", "Rectangle width");
         englishLanguageBase.put("Module.Modules.ModuleList.Options.ColorOption.RectColor.name", "Rect Color");
         englishLanguageBase.put("Module.Modules.ModuleList.Options.ColorOption.RectColor.description", "Rectangle color");
         englishLanguageBase.put("Module.Modules.ModuleList.Options.BooleanOption.RoundedRect.name", "Rounded Rect");
@@ -419,6 +473,43 @@ public class TextManager {
         englishLanguageBase.put("Module.Modules.ModuleList.Options.BooleanOption.Animation.description", "Enable fade-in animation");
         englishLanguageBase.put("Module.Modules.ModuleList.Options.DoubleOption.AnimationTime.name", "Animation Time");
         englishLanguageBase.put("Module.Modules.ModuleList.Options.DoubleOption.AnimationTime.description", "Animation duration");
+
+
+        englishLanguageBase.put("Module.Modules.Advertiser.name", "Advertiser");
+        englishLanguageBase.put("Module.Modules.Advertiser.description", "Auto advertise messages in chat");
+        englishLanguageBase.put("Module.Modules.Advertiser.Options.TextOption.Command.name", "Command");
+        englishLanguageBase.put("Module.Modules.Advertiser.Options.TextOption.Command.description", "Command to execute for advertisement");
+        englishLanguageBase.put("Module.Modules.Advertiser.Options.DoubleOption.Cooldown.name", "Cooldown");
+        englishLanguageBase.put("Module.Modules.Advertiser.Options.DoubleOption.Cooldown.description", "Delay between advertisements");
+        englishLanguageBase.put("Module.Modules.Advertiser.Options.TextOption.FileName.name", "File Name");
+        englishLanguageBase.put("Module.Modules.Advertiser.Options.TextOption.FileName.description", "File containing advertisement messages");
+        englishLanguageBase.put("Module.Modules.Advertiser.Options.EnumOption.ListOrder.name", "List Order");
+        englishLanguageBase.put("Module.Modules.Advertiser.Options.EnumOption.ListOrder.description", "Order of advertisement messages");
+
+        englishLanguageBase.put("Module.Modules.Hotkeys.name", "Hotkeys");
+        englishLanguageBase.put("Module.Modules.Hotkeys.description", "Display bound hotkeys in a HUD list");
+        englishLanguageBase.put("Module.Modules.Hotkeys.Options.BooleanOption.OnlyEnabled.name", "Only Enabled");
+        englishLanguageBase.put("Module.Modules.Hotkeys.Options.BooleanOption.OnlyEnabled.description", "Show only hotkeys of enabled modules");
+        englishLanguageBase.put("Module.Modules.Hotkeys.Options.EnumOption.FontSize.name", "FontSize");
+        englishLanguageBase.put("Module.Modules.Hotkeys.Options.EnumOption.FontSize.description", "Font size for hotkey entries");
+        englishLanguageBase.put("Module.Modules.ModuleList.Options.DoubleOption.Padding.name", "Padding");
+        englishLanguageBase.put("Module.Modules.ModuleList.Options.DoubleOption.Padding.description", "Padding between elements");
+        englishLanguageBase.put("Module.Modules.Hotkeys.Options.BooleanOption.Rounded.name", "Rounded");
+        englishLanguageBase.put("Module.Modules.Hotkeys.Options.BooleanOption.Rounded.description", "Round background corners");
+        englishLanguageBase.put("Module.Modules.Hotkeys.Options.DoubleOption.Radius.name", "Radius");
+        englishLanguageBase.put("Module.Modules.Hotkeys.Options.DoubleOption.Radius.description", "Corner radius");
+        englishLanguageBase.put("Module.Modules.Hotkeys.Options.ColorOption.TextTopColor.name", "Text Top Color");
+        englishLanguageBase.put("Module.Modules.Hotkeys.Options.ColorOption.TextTopColor.description", "Color of the title text");
+        englishLanguageBase.put("Module.Modules.Hotkeys.Options.ColorOption.TextColor.name", "Text Color");
+        englishLanguageBase.put("Module.Modules.Hotkeys.Options.ColorOption.TextColor.description", "Color of hotkey text");
+        englishLanguageBase.put("Module.Modules.Hotkeys.Options.ColorOption.BackgroundTopColor.name", "Background Top Color");
+        englishLanguageBase.put("Module.Modules.Hotkeys.Options.ColorOption.BackgroundTopColor.description", "Background color of the title bar");
+        englishLanguageBase.put("Module.Modules.Hotkeys.Options.ColorOption.BackgroundColor.name", "Background Color");
+        englishLanguageBase.put("Module.Modules.Hotkeys.Options.ColorOption.BackgroundColor.description", "Background color of the list");
+        englishLanguageBase.put("Module.Modules.Hotkeys.Options.ColorOption.TextEnabledColor.name", "Text Enabled Color");
+        englishLanguageBase.put("Module.Modules.Hotkeys.Options.ColorOption.TextEnabledColor.description", "Text color for enabled modules");
+        englishLanguageBase.put("Module.Modules.Hotkeys.Options.ColorOption.BackgroundEnabledColor.name", "Background Enabled Color");
+        englishLanguageBase.put("Module.Modules.Hotkeys.Options.ColorOption.BackgroundEnabledColor.description", "Background color for enabled modules");
     }
 
     private void loadChinese() {

@@ -6,10 +6,7 @@ import cc.vergence.features.managers.GuiManager;
 import cc.vergence.modules.client.ClickGUI;
 import cc.vergence.ui.gui.GuiComponent;
 import cc.vergence.ui.gui.impl.CategoryComponent;
-import cc.vergence.ui.gui.impl.impl.input.BindFrameComponent;
-import cc.vergence.ui.gui.impl.impl.input.ColorFrameComponent;
-import cc.vergence.ui.gui.impl.impl.input.DoubleFrameComponent;
-import cc.vergence.ui.gui.impl.impl.input.TextFrameComponent;
+import cc.vergence.ui.gui.impl.impl.input.*;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
@@ -122,6 +119,11 @@ public class ClickGuiScreen extends Screen {
             else if (component instanceof ColorFrameComponent) {
                 if (((ColorFrameComponent) component).isListening()) {
                     ((ColorFrameComponent) component).keyType(keyCode);
+                }
+            }
+            else if (component instanceof SearchFrameComponent) {
+                if (((SearchFrameComponent) component).isListening()) {
+                    ((SearchFrameComponent) component).keyType(keyCode);
                 }
             }
         }

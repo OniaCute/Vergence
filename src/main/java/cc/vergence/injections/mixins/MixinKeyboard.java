@@ -7,10 +7,7 @@ import cc.vergence.features.options.impl.TextOption;
 import cc.vergence.features.screens.ClickGuiScreen;
 import cc.vergence.ui.gui.GuiComponent;
 import cc.vergence.ui.gui.impl.ColorComponent;
-import cc.vergence.ui.gui.impl.impl.input.BindFrameComponent;
-import cc.vergence.ui.gui.impl.impl.input.ColorFrameComponent;
-import cc.vergence.ui.gui.impl.impl.input.DoubleFrameComponent;
-import cc.vergence.ui.gui.impl.impl.input.TextFrameComponent;
+import cc.vergence.ui.gui.impl.impl.input.*;
 import cc.vergence.util.interfaces.Wrapper;
 import net.minecraft.client.Keyboard;
 import net.minecraft.client.MinecraftClient;
@@ -54,9 +51,12 @@ public class MixinKeyboard implements Wrapper {
                     for (char c : chars) {
                         cf.charType(c);
                     }
+                } else if (component instanceof SearchFrameComponent cf && cf.isListening()) {
+                    for (char c : chars) {
+                        cf.charType(c);
+                    }
                 }
             }
-
             ci.cancel();
         }
     }

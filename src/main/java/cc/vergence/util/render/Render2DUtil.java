@@ -275,9 +275,10 @@ public class Render2DUtil implements Wrapper {
         disableRender();
     }
 
-    public static void drawRectWithAlign(DrawContext context, double x, double y, double x2, double y2, double width, double height, Color color, Aligns align) {
+    public static Pair<Double, Double> drawRectWithAlign(DrawContext context, double x, double y, double x2, double y2, double width, double height, Color color, Aligns align) {
         double[] pos = getAlignPosition(x, y, x2, y2, width, height, align);
         drawRect(context, pos[0], pos[1], width, height, color);
+        return new Pair<>(pos[0], pos[1]);
     }
 
     public static void drawRectWithAlign(DrawContext context, float x, float y, float x2, float y2, float width, float height, int color, Aligns align) {

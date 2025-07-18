@@ -26,6 +26,8 @@ public class ClickGUI extends Module {
 
     public Option<String> title = addOption(new TextOption("Title", "Vergence", 10));
     public Option<Boolean> showOptionDescription = addOption(new BooleanOption("ShowOptionDescription", false));
+    public Option<Boolean> searchIgnoreCase = addOption(new BooleanOption("SearchIgnoreCase", true));
+    public Option<Boolean> searchForDescription = addOption(new BooleanOption("SearchForDescription", false));
     public Option<Boolean> rainbowSync = addOption(new BooleanOption("RainbowSync", false));
     public Option<Double> rainbowOffset = addOption(new DoubleOption("RainbowOffset", 10, 600, 340));
     public Option<Double> rainbowSpeed = addOption(new DoubleOption("RainbowSpeed", 10, 400, 200));

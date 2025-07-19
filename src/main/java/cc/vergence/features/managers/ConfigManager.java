@@ -90,7 +90,6 @@ public class ConfigManager implements Wrapper {
                 writer.close();
             } catch (IOException e) {
                 Vergence.CONSOLE.logError("Failed to create default file: " + folder.getName() + "/" + fileName);
-                e.printStackTrace();
             }
         }
     }
@@ -121,7 +120,9 @@ public class ConfigManager implements Wrapper {
     }
 
     public void load(@NotNull File config) {
-        if (!config.exists()) save(config);
+        if (!config.exists()) {
+            save(config);
+        }
         try {
             FileReader reader = new FileReader(config);
             JsonParser parser = new JsonParser();
@@ -135,6 +136,8 @@ public class ConfigManager implements Wrapper {
 
             JsonArray modules = null;
             JsonArray friends = null;
+            JsonArray enemies = null;
+            JsonArray client = null;
             try {
                 JsonObject modulesObject = (JsonObject) array.get(0);
                 modules = modulesObject.getAsJsonArray("Modules");
@@ -161,16 +164,31 @@ public class ConfigManager implements Wrapper {
             }
             try {
                 JsonObject modulesObject = (JsonObject) array.get(2);
-                friends = modulesObject.getAsJsonArray("Enemies");
-                for (JsonElement element : friends.getAsJsonArray()) {
+                enemies = modulesObject.getAsJsonArray("Enemies");
+                for (JsonElement element : enemies.getAsJsonArray()) {
                     String s = element.getAsString();
                     Vergence.FRIEND.resetFriend();
                     Vergence.FRIEND.addFriend(s);
                 }
             } catch (Exception ignored) {
             }
+            try {
+                JsonObject modulesObject = (JsonObject) array.get(3);
+                client = modulesObject.getAsJsonArray("Client");
+                if (!client.getAsJsonArray().get(0).getAsString().equals(Vergence.MOD_ID)) {
+                    Vergence.CONSOLE.logWarn("[CONFIG] Unmatched Mod Id, the config file may be not is a Vergence Client config file,");
+                }
+                if (!client.getAsJsonArray().get(1).getAsString().equals(Vergence.VERSION)) {
+                    Vergence.CONSOLE.logWarn("[CONFIG] Unmatched Mod Version, the config file may be out of the date.");
+                }
+                if (!client.getAsJsonArray().get(2).getAsString().equals(Vergence.CONFIG_TEMPLATE_VERSION)) {
+                    Vergence.CONSOLE.logWarn("[CONFIG] Unmatched Mod Version, the config file is no longer applicable to this version of the vergence client.");
+                }
+            } catch (Exception ignored) {
+                Vergence.CONSOLE.logWarn("[CONFIG] Client Info not found in config file, the config file may not be secure.");
+            }
 
-            Vergence.CONSOLE.logInfo("Loaded Config Item: " + config.getName(), true);
+            Vergence.CONSOLE.logInfo("Loaded Config: " + config.getName(), true);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -335,6 +353,7 @@ public class ConfigManager implements Wrapper {
             obj.add("Modules", getModuleArray());
             obj.add("Friends", getFriendArray());
             obj.add("Enemies", getEnemyArray());
+            obj.add("Client", getClientInfoArray());
             array.add(obj);
 
             FileWriter writer = new FileWriter(config);
@@ -345,6 +364,14 @@ public class ConfigManager implements Wrapper {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private @NotNull JsonArray getClientInfoArray() {
+        JsonArray array = new JsonArray();
+        array.add(new JsonPrimitive(Vergence.MOD_ID));
+        array.add(new JsonPrimitive(Vergence.VERSION));
+        array.add(new JsonPrimitive(Vergence.CONFIG_TEMPLATE_VERSION));
+        return array;
     }
 
     private @NotNull JsonArray getFriendArray() {

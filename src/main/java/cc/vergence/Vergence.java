@@ -18,11 +18,9 @@ public class Vergence implements ModInitializer {
     public static final String MOD_ID = "vergence";
     public static final String NAME = "Vergence";
     public static final String VERSION = "1.0.0";
+    public static final String CONFIG_TEMPLATE_VERSION = "vergence_1_0_vcg_json";
     public static final ArrayList<String> AUTHORS = new ArrayList<String>();
     public static String PREFIX = "$";
-    public static String HWID = "";
-    public static String AUTHID = "0X0000FF";
-    public static boolean AUTHED = false;
     public static boolean LOADED = false;
     public static long LOAD_TIME;
 

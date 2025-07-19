@@ -396,8 +396,6 @@ public class EventManager implements Wrapper {
                 module.onDraw2D(context, tickDelta);
             }
         }
-        Vergence.HUD.onDraw2D(context, tickDelta);
-        Vergence.GUI.onDraw2D(context, tickDelta);
     }
 
     public void onDraw3D(MatrixStack matrixStack,  float tickDelta) {
@@ -429,6 +427,18 @@ public class EventManager implements Wrapper {
             if (module.getStatus()) {
                 module.onClickSlot(slotActionType, slot, button, id);
             }
+        }
+    }
+
+    public void onRenderClickGui(DrawContext context, int mouseX, int mouseY, float partialTicks) {
+        if (Vergence.GUI != null) {
+            Vergence.GUI.onRenderClickGui(context, mouseX, mouseY, partialTicks);
+        }
+    }
+
+    public void onRenderHudEditor(DrawContext context, int mouseX, int mouseY, float partialTicks) {
+        if (Vergence.HUD != null) {
+            Vergence.HUD.onRenderHudEditor(context, mouseX, mouseY, partialTicks);
         }
     }
 }

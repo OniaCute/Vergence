@@ -92,7 +92,7 @@ public class HudEditorScreen extends Screen {
 
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float partialTicks) {
-        applyBlur();
+        Vergence.EVENTS.onRenderHudEditor(context, mouseX, mouseY, partialTicks);
         Vergence.EVENTS.onMouseMoveInHudEditorScreen(context, mouseX, mouseY);
     }
 }

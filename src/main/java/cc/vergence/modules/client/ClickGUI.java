@@ -25,6 +25,7 @@ public class ClickGUI extends Module {
     }
 
     public Option<String> title = addOption(new TextOption("Title", "Vergence", 10));
+    public Option<Boolean> blurBackground = addOption(new BooleanOption("BlurBackground", false));
     public Option<Boolean> showOptionDescription = addOption(new BooleanOption("ShowOptionDescription", false));
     public Option<Boolean> searchIgnoreCase = addOption(new BooleanOption("SearchIgnoreCase", true));
     public Option<Boolean> searchForDescription = addOption(new BooleanOption("SearchForDescription", false));

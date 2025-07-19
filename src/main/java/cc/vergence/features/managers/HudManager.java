@@ -26,11 +26,15 @@ public class HudManager implements Wrapper {
     public static boolean CLICKED_LEFT = false;
     public static boolean CLICKED_RIGHT = false;
 
-    public void onDraw2D(DrawContext context, float tickDelta) {
+    public void onRenderHudEditor(DrawContext context, int mouseX, int mouseY, float partialTicks) {
+        if (!HudEditor.INSTANCE.getStatus()) {
+            return ;
+        }
         if (mc.currentScreen instanceof HudEditorScreen) {
-            drawHudEditor(context, tickDelta);
+            drawHudEditor(context, partialTicks);
         }
     }
+
 
     public void onMouseClick(double mouseX, double mouseY, Screen screen, MouseButtons button) {
         if (button.equals(MouseButtons.LEFT)) {

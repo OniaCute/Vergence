@@ -77,6 +77,8 @@ public class TextManager {
         englishLanguageBase.put("Module.Modules.ClickGUI.description", "The options of click gui");
         englishLanguageBase.put("Module.Modules.ClickGUI.Options.TextOption.Title.name", "Title");
         englishLanguageBase.put("Module.Modules.ClickGUI.Options.TextOption.Title.description", "The title of client click gui");
+        englishLanguageBase.put("Module.Modules.ClickGUI.Options.BooleanOption.BlurBackground.name", "Blur Background");
+        englishLanguageBase.put("Module.Modules.ClickGUI.Options.BooleanOption.BlurBackground.description", "Use blur effect in background of ClickGui");
         englishLanguageBase.put("Module.Modules.ClickGUI.Options.BooleanOption.ShowOptionDescription.name", "Show Option Description");
         englishLanguageBase.put("Module.Modules.ClickGUI.Options.BooleanOption.ShowOptionDescription.description", "display the options descriptions");
         englishLanguageBase.put("Module.Modules.ClickGUI.Options.BooleanOption.SearchForDescription.name", "Search For Description");

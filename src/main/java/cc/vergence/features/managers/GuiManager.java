@@ -85,14 +85,15 @@ public class GuiManager implements Wrapper {
         GuiManager.currentComponent = currentComponent;
     }
 
-    public void onDraw2D(DrawContext context, float tickDelta) {
+    public void onRenderClickGui(DrawContext context, int mouseX, int mouseY, float partialTicks) {
         if (!ClickGUI.INSTANCE.getStatus()) {
             return ;
         }
-
+        MOUSE_X = mouseX;
+        MOUSE_Y = mouseY;
         if (isClickGuiInited) {
             updateClickGui();
-            drawClickGui(context, tickDelta);
+            drawClickGui(context, partialTicks);
         }
     }
 

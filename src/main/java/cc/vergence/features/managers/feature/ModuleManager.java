@@ -38,7 +38,7 @@ public class ModuleManager {
         registerModule(new Spammer());
         registerModule(new AutoSprint());
         registerModule(new FastUse());
-        registerModule(new ESP());
+        registerModule(new StorageESP());
         registerModule(new AntiHungry());
         registerModule(new KillAura());
         registerModule(new Scaffold());
@@ -68,6 +68,8 @@ public class ModuleManager {
         registerModule(new FreeCamera());
         registerModule(new CameraClip());
         registerModule(new FullBright());
+        registerModule(new SwingModifier());
+        registerModule(new HandModifier());
 
         // special module
         registerModule(new SafeMode());

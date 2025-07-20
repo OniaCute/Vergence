@@ -21,8 +21,8 @@ public class MixinCamera {
     @Shadow private boolean thirdPerson;
     @ModifyArgs(method = "update", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/Camera;clipToSpace(F)F"))
     private void update(Args args) {
-        if (CameraClip.INSTANCE != null && CameraClip.INSTANCE.getStatus() && !(CameraClip.INSTANCE.distance.getValue().intValue() == 0)) {
-            args.set(0, CameraClip.INSTANCE.distance.getValue());
+        if (CameraClip.INSTANCE != null && CameraClip.INSTANCE.getStatus()) {
+            args.set(0, CameraClip.INSTANCE.distance.getValue().floatValue());
         }
     }
 

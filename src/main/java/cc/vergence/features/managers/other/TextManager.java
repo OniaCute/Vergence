@@ -617,6 +617,54 @@ public class TextManager {
         englishLanguageBase.put("Module.Modules.FullBright.description", "Removes darkness and provides maximum visibility");
         englishLanguageBase.put("Module.Modules.FullBright.Options.EnumOption.Mode.name", "Mode");
         englishLanguageBase.put("Module.Modules.FullBright.Options.EnumOption.Mode.description", "Brightness implementation method");
+
+        englishLanguageBase.put("Module.Modules.SwingModifier.name", "Swing Modifier");
+        englishLanguageBase.put("Module.Modules.SwingModifier.description", "Customize attack swing animation speed and movement components");
+        englishLanguageBase.put("Module.Modules.SwingModifier.Options.DoubleOption.Speed.name", "Speed");
+        englishLanguageBase.put("Module.Modules.SwingModifier.Options.DoubleOption.Speed.description", "Swing animation speed multiplier");
+        englishLanguageBase.put("Module.Modules.SwingModifier.Options.BooleanOption.TranslateX.name", "Translate X");
+        englishLanguageBase.put("Module.Modules.SwingModifier.Options.BooleanOption.TranslateX.description", "Enable X-axis translation during swing");
+        englishLanguageBase.put("Module.Modules.SwingModifier.Options.BooleanOption.TranslateY.name", "Translate Y");
+        englishLanguageBase.put("Module.Modules.SwingModifier.Options.BooleanOption.TranslateY.description", "Enable Y-axis translation during swing");
+        englishLanguageBase.put("Module.Modules.SwingModifier.Options.BooleanOption.TranslateZ.name", "Translate Z");
+        englishLanguageBase.put("Module.Modules.SwingModifier.Options.BooleanOption.TranslateZ.description", "Enable Z-axis translation during swing");
+        englishLanguageBase.put("Module.Modules.SwingModifier.Options.BooleanOption.RotationX.name", "Rotation X");
+        englishLanguageBase.put("Module.Modules.SwingModifier.Options.BooleanOption.RotationX.description", "Enable pitch rotation during swing");
+        englishLanguageBase.put("Module.Modules.SwingModifier.Options.BooleanOption.RotationY.name", "Rotation Y");
+        englishLanguageBase.put("Module.Modules.SwingModifier.Options.BooleanOption.RotationY.description", "Enable yaw rotation during swing");
+        englishLanguageBase.put("Module.Modules.SwingModifier.Options.BooleanOption.RotationZ.name", "Rotation Z");
+        englishLanguageBase.put("Module.Modules.SwingModifier.Options.BooleanOption.RotationZ.description", "Enable roll rotation during swing");
+
+        englishLanguageBase.put("Module.Modules.HandModifier.name", "Hand Modifier");
+        englishLanguageBase.put("Module.Modules.HandModifier.description", "Customize first person hand position and swing progress and eating animation");
+        englishLanguageBase.put("Module.Modules.HandModifier.Options.BooleanOption.NoEatingAnimation.name", "No Eating Animation");
+        englishLanguageBase.put("Module.Modules.HandModifier.Options.BooleanOption.NoEatingAnimation.description", "Disable the eating animation");
+        englishLanguageBase.put("Module.Modules.HandModifier.Options.BooleanOption.MainHandModify.name", "Modify Main Hand");
+        englishLanguageBase.put("Module.Modules.HandModifier.Options.BooleanOption.MainHandModify.description", "Enable custom swing progress for the main hand");
+        englishLanguageBase.put("Module.Modules.HandModifier.Options.DoubleOption.MainHandProgress.name", "Main Hand Progress");
+        englishLanguageBase.put("Module.Modules.HandModifier.Options.DoubleOption.MainHandProgress.description", "Swing progress for the main hand (-1 to 1)");
+        englishLanguageBase.put("Module.Modules.HandModifier.Options.BooleanOption.OffHandModify.name", "Modify Off Hand");
+        englishLanguageBase.put("Module.Modules.HandModifier.Options.BooleanOption.OffHandModify.description", "Enable custom swing progress for the off hand");
+        englishLanguageBase.put("Module.Modules.HandModifier.Options.DoubleOption.OffHandProgress.name", "Off Hand Progress");
+        englishLanguageBase.put("Module.Modules.HandModifier.Options.DoubleOption.OffHandProgress.description", "Swing progress for the off hand (-1 to 1)");
+        englishLanguageBase.put("Module.Modules.HandModifier.Options.DoubleOption.TranslateX.name", "Translate X");
+        englishLanguageBase.put("Module.Modules.HandModifier.Options.DoubleOption.TranslateX.description", "Horizontal offset of the hand");
+        englishLanguageBase.put("Module.Modules.HandModifier.Options.DoubleOption.TranslateY.name", "Translate Y");
+        englishLanguageBase.put("Module.Modules.HandModifier.Options.DoubleOption.TranslateY.description", "Vertical offset of the hand");
+        englishLanguageBase.put("Module.Modules.HandModifier.Options.DoubleOption.TranslateZ.name", "Translate Z");
+        englishLanguageBase.put("Module.Modules.HandModifier.Options.DoubleOption.TranslateZ.description", "Forward/backward offset of the hand");
+        englishLanguageBase.put("Module.Modules.HandModifier.Options.DoubleOption.RotationX.name", "Rotation X");
+        englishLanguageBase.put("Module.Modules.HandModifier.Options.DoubleOption.RotationX.description", "Pitch rotation of the hand in degrees");
+        englishLanguageBase.put("Module.Modules.HandModifier.Options.DoubleOption.RotationY.name", "Rotation Y");
+        englishLanguageBase.put("Module.Modules.HandModifier.Options.DoubleOption.RotationY.description", "Yaw rotation of the hand in degrees");
+        englishLanguageBase.put("Module.Modules.HandModifier.Options.DoubleOption.RotationZ.name", "Rotation Z");
+        englishLanguageBase.put("Module.Modules.HandModifier.Options.DoubleOption.RotationZ.description", "Roll rotation of the hand in degrees");
+        englishLanguageBase.put("Module.Modules.HandModifier.Options.DoubleOption.ScaleX.name", "Scale X");
+        englishLanguageBase.put("Module.Modules.HandModifier.Options.DoubleOption.ScaleX.description", "Width scale multiplier of the hand");
+        englishLanguageBase.put("Module.Modules.HandModifier.Options.DoubleOption.ScaleY.name", "Scale Y");
+        englishLanguageBase.put("Module.Modules.HandModifier.Options.DoubleOption.ScaleY.description", "Height scale multiplier of the hand");
+        englishLanguageBase.put("Module.Modules.HandModifier.Options.DoubleOption.ScaleZ.name", "Scale Z");
+        englishLanguageBase.put("Module.Modules.HandModifier.Options.DoubleOption.ScaleZ.description", "Depth scale multiplier of the hand");
     }
 
     private void loadChinese() {

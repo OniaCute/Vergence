@@ -94,10 +94,12 @@ public class Chams extends Module implements Wrapper {
     }
 
     private boolean isValidEntity(Entity entity) {
-        if (targets.getValue().contains(TargetTypes.EnemyPlayers) && entity.getType() == EntityType.PLAYER)
+        if (targets.getValue().contains(TargetTypes.EnemyPlayers) && entity.getType() == EntityType.PLAYER || (entity.isInvisible() && targets.getValue().contains(TargetTypes.invisible))) {
             return true;
-        if (targets.getValue().contains(TargetTypes.Mobs) && entity.getType().getSpawnGroup() == SpawnGroup.MONSTER)
+        }
+        if (targets.getValue().contains(TargetTypes.Mobs) && entity.getType().getSpawnGroup() == SpawnGroup.MONSTER) {
             return true;
+        }
         return targets.getValue().contains(TargetTypes.Animals)
                 && (entity.getType().getSpawnGroup() == SpawnGroup.CREATURE
                 || entity.getType().getSpawnGroup() == SpawnGroup.WATER_CREATURE

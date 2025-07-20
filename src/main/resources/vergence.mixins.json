@@ -12,6 +12,11 @@
     "accessors.MinecraftClientAccessor",
     "accessors.NativeImageAccessor",
     "accessors.PlayerMoveC2SPacketAccessor",
+    "accessors.WorldRendererAccessor",
+    "mixins.entity.MixinLivingEntityRenderer",
+    "mixins.player.MixinCamera",
+    "mixins.render.MixinLightmapTextureManager",
+    "mixins.render.MixinWorldRenderer",
     "mixins.chat.MixinChatHud",
     "mixins.chat.MixinChatHudLine",
     "mixins.chat.MixinChatHudLineVisible",
@@ -38,8 +43,5 @@
     "defaultRequire": 1
   },
   "client": [
-    "accessors.WorldRendererAccessor",
-    "mixins.entity.LivingEntityRendererMixin",
-    "mixins.render.MixinWorldRenderer"
   ]
 }

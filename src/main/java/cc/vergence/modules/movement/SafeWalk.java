@@ -27,9 +27,9 @@ public class SafeWalk extends Module implements Wrapper {
     public Option<Boolean> doInject = addOption(new BooleanOption("DoInject", true));
     public Option<Boolean> doShift = addOption(new BooleanOption("DoShift", true));
     public Option<Boolean> randomThreshold = addOption(new BooleanOption("RandomThreshold", true, v -> doShift.getValue()));
-    public Option<Double> threshold = addOption(new DoubleOption("Threshold", 0.05, 0.3, 0.15, v -> doShift.getValue() && !randomThreshold.getValue()));
-    public Option<Double> maxThreshold = addOption(new DoubleOption("MaxThreshold", 0.05, 0.3, 0.15, v -> doShift.getValue() && randomThreshold.getValue()));
-    public Option<Double> minThreshold = addOption(new DoubleOption("MinThreshold", 0.05, 0.3, 0.08, v -> doShift.getValue() && randomThreshold.getValue()));
+    public Option<Double> threshold = addOption(new DoubleOption("Threshold", 0.02, 0.45, 0.15, v -> doShift.getValue() && !randomThreshold.getValue()));
+    public Option<Double> maxThreshold = addOption(new DoubleOption("MaxThreshold", 0.02, 0.45, 0.15, v -> doShift.getValue() && randomThreshold.getValue()));
+    public Option<Double> minThreshold = addOption(new DoubleOption("MinThreshold", 0.02, 0.45, 0.08, v -> doShift.getValue() && randomThreshold.getValue()));
 
     @Override
     public String getDetails() {

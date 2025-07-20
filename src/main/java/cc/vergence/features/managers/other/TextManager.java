@@ -569,6 +569,8 @@ public class TextManager {
         englishLanguageBase.put("Module.Modules.NoRender.Options.BooleanOption.NoBlindness.description", "Removes blindness effect");
         englishLanguageBase.put("Module.Modules.NoRender.Options.BooleanOption.NoCorpses.name", "No Corpses");
         englishLanguageBase.put("Module.Modules.NoRender.Options.BooleanOption.NoCorpses.description", "Hides corpse entities");
+        englishLanguageBase.put("Module.Modules.NoRender.Options.BooleanOption.NoLiquidOverlay.name", "No Liquid Overlay");
+        englishLanguageBase.put("Module.Modules.NoRender.Options.BooleanOption.NoLiquidOverlay.description", "Disable the liquid overlay effect");
 
         englishLanguageBase.put("Module.Modules.FreeCamera.name", "Free Camera");
         englishLanguageBase.put("Module.Modules.FreeCamera.description", "Allows detached camera movement");
@@ -576,6 +578,11 @@ public class TextManager {
         englishLanguageBase.put("Module.Modules.FreeCamera.Options.DoubleOption.HorizontalSpeed.description", "Speed of horizontal camera movement");
         englishLanguageBase.put("Module.Modules.FreeCamera.Options.DoubleOption.VerticalSpeed.name", "Vertical Speed");
         englishLanguageBase.put("Module.Modules.FreeCamera.Options.DoubleOption.VerticalSpeed.description", "Speed of vertical camera movement");
+
+        englishLanguageBase.put("Module.Modules.CameraClip.name", "Camera Clip");
+        englishLanguageBase.put("Module.Modules.CameraClip.description", "Allows your camera clip from wall");
+        englishLanguageBase.put("Module.Modules.CameraClip.Options.DoubleOption.Distance.name", "Distance");
+        englishLanguageBase.put("Module.Modules.CameraClip.Options.DoubleOption.Distance.description", "The distance of the third person camera from your character");
 
         englishLanguageBase.put("Module.Modules.Chams.name", "Chams");
         englishLanguageBase.put("Module.Modules.Chams.description", "Renders entities through walls with customizable colors");
@@ -605,6 +612,11 @@ public class TextManager {
         englishLanguageBase.put("Module.Modules.Chams.Options.ColorOption.DefaultFill.description", "Fill color for other entities");
         englishLanguageBase.put("Module.Modules.Chams.Options.ColorOption.DefaultOutline.name", "Default Outline");
         englishLanguageBase.put("Module.Modules.Chams.Options.ColorOption.DefaultOutline.description", "Outline color for other entities");
+
+        englishLanguageBase.put("Module.Modules.FullBright.name", "Full Bright");
+        englishLanguageBase.put("Module.Modules.FullBright.description", "Removes darkness and provides maximum visibility");
+        englishLanguageBase.put("Module.Modules.FullBright.Options.EnumOption.Mode.name", "Mode");
+        englishLanguageBase.put("Module.Modules.FullBright.Options.EnumOption.Mode.description", "Brightness implementation method");
     }
 
     private void loadChinese() {

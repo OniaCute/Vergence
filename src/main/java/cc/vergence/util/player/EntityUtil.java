@@ -5,10 +5,15 @@ import cc.vergence.features.enums.SwingModes;
 import cc.vergence.util.interfaces.Wrapper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.network.packet.c2s.play.HandSwingC2SPacket;
 import net.minecraft.util.Hand;
+import net.minecraft.util.hit.EntityHitResult;
+import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.RaycastContext;
 
 public class EntityUtil implements Wrapper {
     public static float[] getLegitRotations(Vec3d vec) {
@@ -64,6 +69,32 @@ public class EntityUtil implements Wrapper {
         return new Vec3d(entityMotionPosX, entityMotionPosY, entityMotionPosZ);
     }
 
+    public static HitResult getRaytraceTarget(float yaw, float pitch, double x, double y, double z) {
+        return getRaytraceTarget(yaw, pitch, x, y, z, 32);
+    }
+
+    public static HitResult getRaytraceTarget(float yaw, float pitch, double x, double y, double z, double distance) {
+        Vec3d rotationVector = new Vec3d(MathHelper.sin(-yaw * 0.017453292F) * MathHelper.cos(pitch * 0.017453292F), -MathHelper.sin(pitch * 0.017453292F), MathHelper.cos(-yaw * 0.017453292F) * MathHelper.cos(pitch * 0.017453292F));
+        HitResult result = mc.world.raycast(new RaycastContext(new Vec3d(x, y, z), new Vec3d(x + rotationVector.x * 5, y + rotationVector.y * 5, z + rotationVector.z * 5), RaycastContext.ShapeType.OUTLINE, RaycastContext.FluidHandling.NONE, mc.player));
+
+        Vec3d vec3d = new Vec3d(x, y + mc.player.getEyeHeight(mc.player.getPose()), z);
+        if (result != null) distance = result.getPos().squaredDistanceTo(vec3d);
+
+        Vec3d multipliedVector = vec3d.add(rotationVector.x * 5, rotationVector.y * 5, rotationVector.z * 5);
+        Box box = new Box(x - .3, y, z - .3, x + .3, y + 1.8, z + .3).stretch(rotationVector.multiply(5)).expand(1.0, 1.0, 1.0);
+
+        EntityHitResult entityHitResult = ProjectileUtil.raycast(mc.player, vec3d, multipliedVector, box, (entity) -> !entity.isSpectator() && entity.canHit(), distance);
+        if (entityHitResult != null) {
+            if (vec3d.squaredDistanceTo(entityHitResult.getPos()) < distance || result == null) {
+                if (entityHitResult.getEntity() instanceof LivingEntity) {
+                    return entityHitResult;
+                }
+            }
+        }
+
+        return result;
+    }
+
     public static void swingHand(Hands hand, SwingModes mode) {
         switch (hand) {
             case MainHand -> swingHand(Hand.MAIN_HAND, mode);
@@ -76,7 +107,7 @@ public class EntityUtil implements Wrapper {
             case Both -> mc.player.swingHand(hand);
             case Client -> mc.player.swingHand(hand, false);
             case Server -> mc.player.networkHandler.sendPacket(new HandSwingC2SPacket(hand));
-            default -> {return;} // none swing
+            default -> {return;} // no swing
         }
     }
 }

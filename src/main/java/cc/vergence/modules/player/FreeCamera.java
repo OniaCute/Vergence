@@ -3,6 +3,7 @@ package cc.vergence.modules.player;
 import cc.vergence.features.options.Option;
 import cc.vergence.features.options.impl.DoubleOption;
 import cc.vergence.modules.Module;
+import cc.vergence.util.maths.MathUtil;
 import cc.vergence.util.player.MovementUtil;
 import net.minecraft.util.PlayerInput;
 import org.joml.Vector2d;
@@ -71,5 +72,25 @@ public class FreeCamera extends Module {
             return;
         }
         mc.chunkCullingEnabled = true;
+    }
+
+    public float getFreeYaw() {
+        return (float) MathUtil.interpolate(prevFreeYaw, freeYaw, mc.getRenderTickCounter().getTickDelta(true));
+    }
+
+    public float getFreePitch() {
+        return (float) MathUtil.interpolate(prevFreePitch, freePitch, mc.getRenderTickCounter().getTickDelta(true));
+    }
+
+    public double getFreeX() {
+        return MathUtil.interpolate(prevFreeX, freeX, mc.getRenderTickCounter().getTickDelta(true));
+    }
+
+    public double getFreeY() {
+        return MathUtil.interpolate(prevFreeY, freeY, mc.getRenderTickCounter().getTickDelta(true));
+    }
+
+    public double getFreeZ() {
+        return MathUtil.interpolate(prevFreeZ, freeZ, mc.getRenderTickCounter().getTickDelta(true));
     }
 }

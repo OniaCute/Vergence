@@ -14,6 +14,7 @@ public class NoRender extends Module {
 
     public Option<Boolean> noBlindness = addOption(new BooleanOption("NoBlindness", true));
     public Option<Boolean> noCorpses = addOption(new BooleanOption("NoCorpses", true));
+    public Option<Boolean> noLiquidOverlay = addOption(new BooleanOption("NoLiquidOverlay", true));
 
     @Override
     public String getDetails() {

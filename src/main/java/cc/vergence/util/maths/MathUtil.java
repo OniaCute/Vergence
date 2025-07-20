@@ -104,4 +104,8 @@ public class MathUtil {
     public static double degToRad(double deg) {
         return deg * 0.01745329238474369;
     }
+
+    public static double interpolate(double value, double newValue, double interpolation) {
+        return (value + (newValue - value) * interpolation);
+    }
 }

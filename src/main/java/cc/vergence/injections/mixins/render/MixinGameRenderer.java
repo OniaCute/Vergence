@@ -1,8 +1,10 @@
 package cc.vergence.injections.mixins.render;
 
 import cc.vergence.Vergence;
+import cc.vergence.modules.player.FreeCamera;
 import cc.vergence.modules.visual.FOVModifier;
 import cc.vergence.util.interfaces.Wrapper;
+import cc.vergence.util.player.EntityUtil;
 import cc.vergence.util.render.utils.Render3DUtil;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -10,6 +12,7 @@ import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.util.profiler.Profilers;
 import org.joml.Matrix4f;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -42,5 +45,14 @@ public abstract class MixinGameRenderer implements Wrapper {
         Render3DUtil.draw(Render3DUtil.SHINE_QUADS, Render3DUtil.SHINE_DEBUG_LINES, true);
         Vergence.EVENTS.onDraw3D(matrixStack, tickDelta);
         RenderSystem.getModelViewStack().popMatrix();
+    }
+
+    @Inject(method = "updateCrosshairTarget", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/GameRenderer;findCrosshairTarget(Lnet/minecraft/entity/Entity;DDF)Lnet/minecraft/util/hit/HitResult;"), cancellable = true)
+    private void updateCrosshairTarget(float tickDelta, CallbackInfo info) {
+        if (FreeCamera.INSTANCE != null && FreeCamera.INSTANCE.getStatus()) {
+            Profilers.get().pop();
+            mc.crosshairTarget = EntityUtil.getRaytraceTarget(FreeCamera.INSTANCE.getFreeYaw(), FreeCamera.INSTANCE.getFreePitch(), FreeCamera.INSTANCE.getFreeX(), FreeCamera.INSTANCE.getFreeY(), FreeCamera.INSTANCE.getFreeZ());
+            info.cancel();
+        }
     }
 }

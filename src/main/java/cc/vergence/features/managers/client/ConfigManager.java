@@ -384,7 +384,7 @@ public class ConfigManager implements Wrapper {
 
     private @NotNull JsonArray getEnemyArray() {
         JsonArray enemyArray = new JsonArray();
-        for (String str : Vergence.FRIEND.friendList) {
+        for (String str : Vergence.ENEMY.enemyList) {
             enemyArray.add(new JsonPrimitive(str));
         }
         return enemyArray;

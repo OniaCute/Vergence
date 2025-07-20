@@ -27,7 +27,6 @@ public class ClickGUI extends Module {
     public Option<Boolean> searchIgnoreCase = addOption(new BooleanOption("SearchIgnoreCase", true));
     public Option<Boolean> searchForDescription = addOption(new BooleanOption("SearchForDescription", false));
     public Option<Boolean> rainbowSync = addOption(new BooleanOption("RainbowSync", false));
-    public Option<Double> rainbowOffset = addOption(new DoubleOption("RainbowOffset", 10, 600, 340));
     public Option<Double> rainbowSpeed = addOption(new DoubleOption("RainbowSpeed", 10, 400, 200));
     public Option<Double> mainPageAnimationTime = addOption(new DoubleOption("MainPageAnimationTime", 500, 1100, 870));
     public Option<Double> moduleSpreadAnimationTime = addOption(new DoubleOption("ModuleSpreadAnimationTime", 200, 1200, 700));

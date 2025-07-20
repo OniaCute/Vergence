@@ -1,5 +1,7 @@
 package cc.vergence.util.maths;
 
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
@@ -56,6 +58,14 @@ public class MathUtil {
 
     public static Vec3d fromTo(double x, double y, double z, double x2, double y2, double z2) {
         return new Vec3d(x2 - x, y2 - y, z2 - z);
+    }
+
+    public static Vec3d getVec(BlockPos pos) {
+        return new Vec3d(pos.getX(), pos.getY(), pos.getZ());
+    }
+
+    public static Box getBox(Vec3d vec3d) {
+        return new Box(vec3d.x, vec3d.y, vec3d.z, vec3d.x + 1, vec3d.y + 1, vec3d.z + 1);
     }
 
     public static float lerp(float f, float st, float en) {

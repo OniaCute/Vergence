@@ -11,7 +11,7 @@ public class CameraClip extends Module {
         super("CameraClip", Category.VISUAL);
     }
 
-    public Option<Double> distance = addOption(new DoubleOption("Distance", 0, 5, 1).addSpecialValue(0, "DEFAULT"));
+    public Option<Double> distance = addOption(new DoubleOption("Distance", -50, 50, 4).addSpecialValue(0, "DEFAULT"));
 
     @Override
     public String getDetails() {

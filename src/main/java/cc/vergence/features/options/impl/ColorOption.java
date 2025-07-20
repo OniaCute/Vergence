@@ -13,6 +13,7 @@ import java.util.function.Predicate;
 
 public class ColorOption extends Option<Color> {
     private boolean isRainbow;
+    private long time;
 
     public ColorOption(String name) {
         super(name, new Color(0), v -> true);
@@ -35,12 +36,7 @@ public class ColorOption extends Option<Color> {
         if (isRainbow()) {
             float[] hsb = Color.RGBtoHSB(value.getRed(), value.getGreen(), value.getBlue(), null);
 
-            long base = System.currentTimeMillis();
-            if (ClickGUI.INSTANCE != null && !ClickGUI.INSTANCE.rainbowSync.getValue()) {
-                base += (long) (ClickGUI.INSTANCE.rainbowSpeed.getValue() % ClickGUI.INSTANCE.rainbowOffset.getValue().longValue());
-            }
-
-            double rainbowState = (base / (ClickGUI.INSTANCE != null ? ClickGUI.INSTANCE.rainbowSpeed.getValue() : 300)) % 360;
+            double rainbowState = ((ClickGUI.INSTANCE != null && ClickGUI.INSTANCE.rainbowSync.getValue() ? System.currentTimeMillis() : time) / (ClickGUI.INSTANCE != null ? ClickGUI.INSTANCE.rainbowSpeed.getValue() : 200)) % 360;
 
             int rgb = Color.getHSBColor((float) (rainbowState / 360.0f), hsb[1], hsb[2]).getRGB();
             int red = (rgb >> 16) & 0xFF;
@@ -67,6 +63,10 @@ public class ColorOption extends Option<Color> {
 
     public boolean isRainbow() {
         return isRainbow;
+    }
+
+    public void setTime(long time) {
+        this.time = time;
     }
 
     public JsonElement getJsonValue() {

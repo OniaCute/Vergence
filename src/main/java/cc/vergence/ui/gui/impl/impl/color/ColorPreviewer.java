@@ -27,6 +27,7 @@ public class ColorPreviewer extends GuiComponent {
         if (isHovered(mouseX, mouseY)) {
             if (clickLeft) {
                 this.colorPalette.getOption().setRainbow(!this.colorPalette.getOption().isRainbow());
+                this.colorPalette.getOption().setTime(System.currentTimeMillis());
                 GuiManager.CLICKED_LEFT = false;
             }
             if (clickRight) {

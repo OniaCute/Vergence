@@ -199,8 +199,8 @@ public class TextManager {
         englishLanguageBase.put("Module.Modules.FastUse.Options.BooleanOption.XP.name", "XP");
         englishLanguageBase.put("Module.Modules.FastUse.Options.BooleanOption.XP.description", "Reduce the intervals of discarding the XP bottles");
 
-        englishLanguageBase.put("Module.Modules.ESP.name", "Player ESP");
-        englishLanguageBase.put("Module.Modules.ESP.description", "Show info of players all the time");
+        englishLanguageBase.put("Module.Modules.StorageESP.name", "Storage ESP");
+        englishLanguageBase.put("Module.Modules.StorageESP.description", "Highlight the storage all the time");
 
         englishLanguageBase.put("Module.Modules.AntiHungry.name", "Anti Hungry");
         englishLanguageBase.put("Module.Modules.AntiHungry.description", "By using a reasonable method, you can reduce the feeling of hunger");
@@ -665,6 +665,24 @@ public class TextManager {
         englishLanguageBase.put("Module.Modules.HandModifier.Options.DoubleOption.ScaleY.description", "Height scale multiplier of the hand");
         englishLanguageBase.put("Module.Modules.HandModifier.Options.DoubleOption.ScaleZ.name", "Scale Z");
         englishLanguageBase.put("Module.Modules.HandModifier.Options.DoubleOption.ScaleZ.description", "Depth scale multiplier of the hand");
+
+        englishLanguageBase.put("Module.Modules.BlockHighlight.name", "Block Highlight");
+        englishLanguageBase.put("Module.Modules.BlockHighlight.description", "Draws an outline or fill around the block you are looking at");
+        englishLanguageBase.put("Module.Modules.BlockHighlight.Options.MultipleOption.Mode.name", "Mode");
+        englishLanguageBase.put("Module.Modules.BlockHighlight.Options.MultipleOption.Mode.description", "Visual style of the highlight");
+        englishLanguageBase.put("Module.Modules.BlockHighlight.Options.ColorOption.FillColor.name", "Fill Color");
+        englishLanguageBase.put("Module.Modules.BlockHighlight.Options.ColorOption.FillColor.description", "Color used when fill mode is enabled");
+        englishLanguageBase.put("Module.Modules.BlockHighlight.Options.ColorOption.Outline.name", "Outline Color");
+        englishLanguageBase.put("Module.Modules.BlockHighlight.Options.ColorOption.Outline.description", "Color used for the outline");
+        englishLanguageBase.put("Module.Modules.BlockHighlight.Options.EnumOption.AnimationMode.name", "Animation Mode");
+        englishLanguageBase.put("Module.Modules.BlockHighlight.Options.EnumOption.AnimationMode.description", "Animation style when the target block changes");
+        englishLanguageBase.put("Module.Modules.BlockHighlight.Options.DoubleOption.AnimationSmooth.name", "Animation Smooth");
+        englishLanguageBase.put("Module.Modules.BlockHighlight.Options.DoubleOption.AnimationSmooth.description", "Duration of the slide animation in seconds");
+
+        englishLanguageBase.put("Module.Modules.MiddleClickExpansion.name", "Middle Click Expansion");
+        englishLanguageBase.put("Module.Modules.MiddleClickExpansion.description", "Adds extra actions to the middle mouse button");
+        englishLanguageBase.put("Module.Modules.MiddleClickExpansion.Options.EnumOption.Action.name", "Action");
+        englishLanguageBase.put("Module.Modules.MiddleClickExpansion.Options.EnumOption.Action.description", "Action performed on middle click");
     }
 
     private void loadChinese() {

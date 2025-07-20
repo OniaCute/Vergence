@@ -3,6 +3,7 @@ package cc.vergence.injections.mixins.render;
 import cc.vergence.Vergence;
 import cc.vergence.features.event.events.RenderEntityEvent;
 import cc.vergence.modules.player.FreeCamera;
+import cc.vergence.modules.visual.BlockHighlight;
 import cc.vergence.modules.visual.NoBacktrack;
 import cc.vergence.modules.visual.NoRender;
 import cc.vergence.util.interfaces.Wrapper;
@@ -64,10 +65,10 @@ public abstract class MixinWorldRenderer implements Wrapper {
         }
     }
 
-//    @Inject(method = "render", at = @At(value = "HEAD"))
-//    private void render(ObjectAllocator allocator, RenderTickCounter tickCounter, boolean renderBlockOutline, Camera camera, GameRenderer gameRenderer, Matrix4f positionMatrix, Matrix4f projectionMatrix, CallbackInfo info, @Local(argsOnly = true) LocalBooleanRef blockOutline) {
-//        if () {
-//            blockOutline.set(true); // waiting for Highlight Block Outline module
-//        }
-//    }
+    @Inject(method = "render", at = @At(value = "HEAD"))
+    private void render(ObjectAllocator allocator, RenderTickCounter tickCounter, boolean renderBlockOutline, Camera camera, GameRenderer gameRenderer, Matrix4f positionMatrix, Matrix4f projectionMatrix, CallbackInfo info, @Local(argsOnly = true) LocalBooleanRef blockOutline) {
+        if (BlockHighlight.INSTANCE != null && BlockHighlight.INSTANCE.getStatus()) {
+            blockOutline.set(false);
+        }
+    }
 }

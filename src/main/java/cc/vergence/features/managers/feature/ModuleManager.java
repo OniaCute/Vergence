@@ -70,6 +70,8 @@ public class ModuleManager {
         registerModule(new FullBright());
         registerModule(new SwingModifier());
         registerModule(new HandModifier());
+        registerModule(new BlockHighlight());
+        registerModule(new MiddleClickExpansion());
 
         // special module
         registerModule(new SafeMode());

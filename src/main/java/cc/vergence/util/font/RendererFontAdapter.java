@@ -93,7 +93,7 @@ public class RendererFontAdapter implements FontAdapter {
 
     @Override
     public float getFontHeight() {
-        return getFontHeight("emotion000");
+        return getFontHeight("vergence000");
     }
 
     @Override

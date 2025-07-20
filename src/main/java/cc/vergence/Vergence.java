@@ -1,7 +1,16 @@
 package cc.vergence;
 
 import cc.vergence.features.event.eventbus.EventBus;
-import cc.vergence.features.managers.*;
+import cc.vergence.features.managers.client.*;
+import cc.vergence.features.managers.feature.ModuleManager;
+import cc.vergence.features.managers.feature.NetworkManager;
+import cc.vergence.features.managers.other.MessageManager;
+import cc.vergence.features.managers.other.TextManager;
+import cc.vergence.features.managers.player.*;
+import cc.vergence.features.managers.render.ShaderManager;
+import cc.vergence.features.managers.ui.GuiManager;
+import cc.vergence.features.managers.ui.HudManager;
+import cc.vergence.features.managers.ui.NotifyManager;
 import cc.vergence.util.other.Console;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
@@ -22,6 +31,7 @@ public class Vergence implements ModInitializer {
     public static final ArrayList<String> AUTHORS = new ArrayList<String>();
     public static String PREFIX = "$";
     public static boolean LOADED = false;
+    public static boolean OUT_OF_DATE = false;
     public static long LOAD_TIME;
 
     // Manager & Preload
@@ -37,8 +47,10 @@ public class Vergence implements ModInitializer {
     public static TotemManager TOTEM;
     public static EventManager EVENTS;
     public static NetworkManager NETWORK;
+    public static ShaderManager SHADER;
     public static GuiManager GUI;
     public static HudManager HUD;
+    public static PositionManager POSITION;
     public static RotateManager ROTATE;
     public static ModuleManager MODULE;
     public static ConfigManager CONFIG;
@@ -63,11 +75,6 @@ public class Vergence implements ModInitializer {
             CONSOLE.logWarn("This version may have been acquired from informal sources or created without permission!");
             mc.stop();
         } else {
-//            if (!AuthSystem.doAuth()) {
-//                CONSOLE.logAuth("Auth failed, please check your Network status and computer status.");
-//                CONSOLE.logAuth("Vergence will not provide services until you have successfully auth.");
-//                mc.stop();
-//            }
             load();
         }
     }
@@ -117,11 +124,17 @@ public class Vergence implements ModInitializer {
         NETWORK = new NetworkManager();
         CONSOLE.logInfo("Network Manager was loaded");
 
+        SHADER = new ShaderManager();
+        CONSOLE.logInfo("Shader Manager was loaded");
+
         GUI = new GuiManager();
         CONSOLE.logInfo("GUI Manager was loaded");
 
         HUD = new HudManager();
         CONSOLE.logInfo("HUD Manager was loaded");
+
+        POSITION = new PositionManager();
+        CONSOLE.logInfo("Position Manager was loaded");
 
         ROTATE = new RotateManager();
         CONSOLE.logInfo("Rotate Manager was loaded");
@@ -146,10 +159,16 @@ public class Vergence implements ModInitializer {
 
         CONFIG.load(CONFIG.getCurrentConfig());
 
+        OUT_OF_DATE = needUpdate();
+
         CONSOLE.logInfo("Vergence Client Loaded!");
         CONSOLE.logInfo("Vergence Loaded In " + (System.currentTimeMillis() - LOAD_TIME) + " ms.");
 
         LOADED = true;
+    }
+
+    public static boolean needUpdate() {
+        return URL.getResponse("https://update.vergence.cc/", MOD_ID+"_"+VERSION);
     }
 
     public static void unload() {

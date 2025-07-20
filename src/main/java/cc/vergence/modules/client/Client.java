@@ -1,31 +1,22 @@
 package cc.vergence.modules.client;
 
 import cc.vergence.Vergence;
-import cc.vergence.features.enums.AntiCheats;
 import cc.vergence.features.enums.Fonts;
 import cc.vergence.features.enums.Languages;
 import cc.vergence.features.event.events.PacketEvent;
-import cc.vergence.features.managers.AnimationManager;
-import cc.vergence.features.managers.GuiManager;
+import cc.vergence.features.managers.ui.GuiManager;
 import cc.vergence.features.options.Option;
 import cc.vergence.features.options.impl.BooleanOption;
-import cc.vergence.features.options.impl.DoubleOption;
 import cc.vergence.features.options.impl.EnumOption;
 import cc.vergence.features.options.impl.TextOption;
-import cc.vergence.features.screens.ClickGuiScreen;
 import cc.vergence.injections.accessors.CustomPayloadC2SPacketAccessor;
 import cc.vergence.modules.Module;
 import cc.vergence.ui.gui.GuiComponent;
 import cc.vergence.ui.gui.impl.*;
 import cc.vergence.ui.gui.impl.TextComponent;
-import cc.vergence.util.animations.ColorAnimation;
-import cc.vergence.util.render.Render2DUtil;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.network.packet.BrandCustomPayload;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.c2s.common.CustomPayloadC2SPacket;
-
-import java.awt.*;
 
 public class Client extends Module {
     public static Client INSTANCE;

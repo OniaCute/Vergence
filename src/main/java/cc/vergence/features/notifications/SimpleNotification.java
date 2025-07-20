@@ -3,11 +3,10 @@ package cc.vergence.features.notifications;
 import cc.vergence.Vergence;
 import cc.vergence.features.enums.Aligns;
 import cc.vergence.features.enums.FontSize;
-import cc.vergence.features.managers.NotifyManager;
-import cc.vergence.features.managers.ThemeManager;
+import cc.vergence.features.managers.ui.NotifyManager;
 import cc.vergence.modules.client.Notify;
 import cc.vergence.util.font.FontUtil;
-import cc.vergence.util.render.Render2DUtil;
+import cc.vergence.util.render.utils.Render2DUtil;
 import net.minecraft.client.gui.DrawContext;
 
 public class SimpleNotification extends Notification{

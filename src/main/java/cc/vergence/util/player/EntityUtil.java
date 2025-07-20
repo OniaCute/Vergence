@@ -22,6 +22,14 @@ public class EntityUtil implements Wrapper {
         return new float[]{mc.player.getYaw() + MathHelper.wrapDegrees(yaw - mc.player.getYaw()), mc.player.getPitch() + MathHelper.wrapDegrees(pitch - mc.player.getPitch())};
     }
 
+    public static boolean isFalling() {
+        return mc.player.fallDistance > mc.player.getSafeFallDistance() && !mc.player.isOnGround() && !mc.player.isGliding();
+    }
+
+    public static boolean isFalling(double distance) {
+        return mc.player.fallDistance > distance && !mc.player.isOnGround() && !mc.player.isGliding();
+    }
+
     public static float getHealth(Entity entity) {
         if (entity.isLiving()) {
             LivingEntity livingBase = (LivingEntity) entity;

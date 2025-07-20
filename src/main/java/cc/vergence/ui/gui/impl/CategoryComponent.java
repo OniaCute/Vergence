@@ -3,14 +3,12 @@ package cc.vergence.ui.gui.impl;
 import cc.vergence.Vergence;
 import cc.vergence.features.enums.Aligns;
 import cc.vergence.features.enums.FontSize;
-import cc.vergence.features.enums.MouseButtons;
-import cc.vergence.features.managers.GuiManager;
-import cc.vergence.features.managers.MessageManager;
+import cc.vergence.features.managers.ui.GuiManager;
 import cc.vergence.modules.Module;
 import cc.vergence.ui.gui.GuiComponent;
 import cc.vergence.util.animations.ColorAnimation;
 import cc.vergence.util.font.FontUtil;
-import cc.vergence.util.render.Render2DUtil;
+import cc.vergence.util.render.utils.Render2DUtil;
 import net.minecraft.client.gui.DrawContext;
 import oshi.util.tuples.Pair;
 

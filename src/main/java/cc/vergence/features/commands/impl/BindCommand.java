@@ -3,9 +3,9 @@ package cc.vergence.features.commands.impl;
 
 import cc.vergence.Vergence;
 import cc.vergence.features.commands.Command;
-import cc.vergence.features.managers.ModuleManager;
+import cc.vergence.features.managers.feature.ModuleManager;
 import cc.vergence.modules.Module;
-import cc.vergence.features.managers.MessageManager;
+import cc.vergence.features.managers.other.MessageManager;
 
 import java.util.ArrayList;
 import java.util.List;

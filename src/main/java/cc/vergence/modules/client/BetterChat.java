@@ -1,11 +1,10 @@
 package cc.vergence.modules.client;
 
 import cc.vergence.Vergence;
-import cc.vergence.features.enums.AntiCheats;
 import cc.vergence.features.options.Option;
 import cc.vergence.features.options.impl.*;
 import cc.vergence.modules.Module;
-import cc.vergence.util.render.FadeUtil;
+import cc.vergence.util.render.utils.FadeUtil;
 
 import java.awt.*;
 

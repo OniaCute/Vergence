@@ -1,7 +1,7 @@
 package cc.vergence.features.notifications;
 
 import cc.vergence.Vergence;
-import cc.vergence.util.render.Render2DUtil;
+import cc.vergence.util.render.utils.Render2DUtil;
 import net.minecraft.client.gui.DrawContext;
 
 public class WindowNotification extends Notification {

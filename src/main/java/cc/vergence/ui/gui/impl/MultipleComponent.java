@@ -3,13 +3,10 @@ package cc.vergence.ui.gui.impl;
 import cc.vergence.Vergence;
 import cc.vergence.features.enums.Aligns;
 import cc.vergence.features.enums.FontSize;
-import cc.vergence.features.options.impl.EnumOption;
 import cc.vergence.features.options.impl.MultipleOption;
 import cc.vergence.ui.gui.GuiComponent;
-import cc.vergence.ui.gui.impl.impl.choice.EnumChoicesComponent;
 import cc.vergence.ui.gui.impl.impl.choice.MultipleChoicesComponent;
 import cc.vergence.util.font.FontUtil;
-import cc.vergence.util.render.Render2DUtil;
 import net.minecraft.client.gui.DrawContext;
 
 public class MultipleComponent extends GuiComponent {

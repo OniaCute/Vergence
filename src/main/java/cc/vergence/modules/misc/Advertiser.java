@@ -1,7 +1,7 @@
 package cc.vergence.modules.misc;
 
-import cc.vergence.features.managers.ConfigManager;
-import cc.vergence.features.managers.MessageManager;
+import cc.vergence.features.managers.client.ConfigManager;
+import cc.vergence.features.managers.other.MessageManager;
 import cc.vergence.features.options.Option;
 import cc.vergence.features.options.impl.DoubleOption;
 import cc.vergence.features.options.impl.EnumOption;

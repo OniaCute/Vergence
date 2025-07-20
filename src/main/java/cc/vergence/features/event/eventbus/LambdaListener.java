@@ -1,5 +1,7 @@
 package cc.vergence.features.event.eventbus;
 
+import cc.vergence.features.event.eventbus.interfaces.IListener;
+
 import java.lang.invoke.LambdaMetafactory;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;

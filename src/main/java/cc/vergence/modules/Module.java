@@ -3,7 +3,7 @@ package cc.vergence.modules;
 import cc.vergence.Vergence;
 import cc.vergence.features.enums.MouseButtons;
 import cc.vergence.features.event.events.*;
-import cc.vergence.features.managers.MessageManager;
+import cc.vergence.features.managers.other.MessageManager;
 import cc.vergence.features.options.Option;
 import cc.vergence.features.options.impl.BindOption;
 import cc.vergence.features.options.impl.BooleanOption;
@@ -13,8 +13,10 @@ import net.minecraft.block.Block;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.particle.Particle;
+import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.packet.Packet;
@@ -206,9 +208,6 @@ public abstract class Module implements Wrapper {
     public void onHeldItemRendererEvent(HeldItemRendererEvent event, Hand hand, ItemStack item, float equipProgress, MatrixStack stack) {
     }
 
-    public void onKeyboardInputEvent(KeyboardInputEvent event) {
-    }
-
     public void onMoveEvent(MoveEvent event, double x, double y, double z) {
     }
 
@@ -272,6 +271,9 @@ public abstract class Module implements Wrapper {
     public void onSyncEvent(SyncEvent event, float pitch, float yaw) {
     }
 
+    public void onRenderEntityEvent(RenderEntityEvent event, Entity entity, VertexConsumerProvider vertexConsumerProvider) {
+    }
+
     public void onClickSlot(SlotActionType slotActionType, int slot, int button, int id) {
     }
 
@@ -282,9 +284,6 @@ public abstract class Module implements Wrapper {
     }
 
     public void onHeldItemRendererEventAlways(HeldItemRendererEvent event, Hand hand, ItemStack item, float equipProgress, MatrixStack stack) {
-    }
-
-    public void onKeyboardInputEventAlways(KeyboardInputEvent event) {
     }
 
     public void onMoveEventAlways(MoveEvent event, double x, double y, double z) {
@@ -348,6 +347,9 @@ public abstract class Module implements Wrapper {
     }
 
     public void onSyncEventAlways(SyncEvent event, float pitch, float yaw) {
+    }
+
+    public void onRenderEntityEventAlways(RenderEntityEvent event, Entity entity, VertexConsumerProvider vertexConsumerProvider) {
     }
 
     public void onMouseRelease(double mouseX, double mouseY, Screen screen, MouseButtons button) {

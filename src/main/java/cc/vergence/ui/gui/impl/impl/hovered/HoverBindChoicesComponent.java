@@ -3,8 +3,7 @@ package cc.vergence.ui.gui.impl.impl.hovered;
 import cc.vergence.Vergence;
 import cc.vergence.ui.gui.GuiComponent;
 import cc.vergence.ui.gui.impl.impl.choice.BindChoicesComponent;
-import cc.vergence.ui.gui.impl.impl.choice.MultipleChoicesComponent;
-import cc.vergence.util.render.Render2DUtil;
+import cc.vergence.util.render.utils.Render2DUtil;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.util.math.MatrixStack;
 

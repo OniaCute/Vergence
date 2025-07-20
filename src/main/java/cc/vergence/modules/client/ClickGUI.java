@@ -1,10 +1,8 @@
 package cc.vergence.modules.client;
 
 import cc.vergence.Vergence;
-import cc.vergence.features.enums.AntiCheats;
-import cc.vergence.features.enums.MouseButtons;
-import cc.vergence.features.managers.AnimationManager;
-import cc.vergence.features.managers.GuiManager;
+import cc.vergence.features.managers.client.AnimationManager;
+import cc.vergence.features.managers.ui.GuiManager;
 import cc.vergence.features.options.Option;
 import cc.vergence.features.options.impl.BooleanOption;
 import cc.vergence.features.options.impl.DoubleOption;
@@ -14,7 +12,6 @@ import cc.vergence.modules.Module;
 import cc.vergence.util.animations.ColorAnimation;
 import cc.vergence.util.animations.GuiAnimation;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.Screen;
 
 public class ClickGUI extends Module {
     public static ClickGUI INSTANCE;

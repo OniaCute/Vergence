@@ -1,6 +1,6 @@
 package cc.vergence.util.animations;
 
-import cc.vergence.features.managers.AnimationManager;
+import cc.vergence.features.managers.client.AnimationManager;
 
 import java.awt.Color;
 

@@ -2,7 +2,7 @@ package cc.vergence.features.commands.impl;
 
 import cc.vergence.Vergence;
 import cc.vergence.features.commands.Command;
-import cc.vergence.features.managers.MessageManager;
+import cc.vergence.features.managers.other.MessageManager;
 
 import java.util.List;
 

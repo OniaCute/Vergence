@@ -1,13 +1,10 @@
 package cc.vergence.modules.client;
 
 import cc.vergence.Vergence;
-import cc.vergence.features.enums.AntiCheats;
-import cc.vergence.features.managers.GuiManager;
-import cc.vergence.features.managers.HudManager;
+import cc.vergence.features.managers.ui.HudManager;
 import cc.vergence.features.options.Option;
 import cc.vergence.features.options.impl.BooleanOption;
 import cc.vergence.features.options.impl.ColorOption;
-import cc.vergence.features.screens.ClickGuiScreen;
 import cc.vergence.features.screens.HudEditorScreen;
 import cc.vergence.modules.Module;
 import net.minecraft.client.gui.DrawContext;

@@ -1,9 +1,9 @@
 package cc.vergence.ui.gui.impl.impl.color;
 
 import cc.vergence.features.enums.Aligns;
-import cc.vergence.features.managers.GuiManager;
+import cc.vergence.features.managers.ui.GuiManager;
 import cc.vergence.ui.gui.GuiComponent;
-import cc.vergence.util.render.Render2DUtil;
+import cc.vergence.util.render.utils.Render2DUtil;
 import net.minecraft.client.gui.DrawContext;
 
 public class ColorPreviewer extends GuiComponent {

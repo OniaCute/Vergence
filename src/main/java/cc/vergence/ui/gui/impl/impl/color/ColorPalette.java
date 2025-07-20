@@ -1,11 +1,10 @@
 package cc.vergence.ui.gui.impl.impl.color;
 
 import cc.vergence.Vergence;
-import cc.vergence.features.managers.GuiManager;
+import cc.vergence.features.managers.ui.GuiManager;
 import cc.vergence.features.options.impl.ColorOption;
 import cc.vergence.ui.gui.GuiComponent;
-import cc.vergence.ui.gui.impl.impl.input.ColorFrameComponent;
-import cc.vergence.util.render.Render2DUtil;
+import cc.vergence.util.render.utils.Render2DUtil;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.*;
 import org.joml.Matrix4f;

@@ -3,19 +3,16 @@ package cc.vergence.ui.gui.impl.impl.hovered;
 import cc.vergence.Vergence;
 import cc.vergence.features.enums.Aligns;
 import cc.vergence.features.enums.FontSize;
-import cc.vergence.features.managers.AnimationManager;
-import cc.vergence.features.managers.GuiManager;
-import cc.vergence.features.managers.MessageManager;
+import cc.vergence.features.managers.client.AnimationManager;
+import cc.vergence.features.managers.ui.GuiManager;
 import cc.vergence.modules.client.ClickGUI;
 import cc.vergence.ui.gui.GuiComponent;
 import cc.vergence.ui.gui.impl.*;
 import cc.vergence.ui.gui.impl.TextComponent;
 import cc.vergence.util.animations.GuiAnimation;
 import cc.vergence.util.font.FontUtil;
-import cc.vergence.util.render.Render2DUtil;
+import cc.vergence.util.render.utils.Render2DUtil;
 import net.minecraft.client.gui.DrawContext;
-
-import java.awt.*;
 
 public class HoverTextComponent extends GuiComponent {
     private final GuiAnimation animation = new GuiAnimation(200);

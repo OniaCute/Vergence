@@ -1,5 +1,7 @@
 package cc.vergence.features.event.eventbus;
 
+import cc.vergence.features.event.eventbus.interfaces.IListener;
+
 import java.util.function.Consumer;
 
 /**

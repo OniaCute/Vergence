@@ -1,6 +1,6 @@
 package cc.vergence.modules.player;
 
-import cc.vergence.features.managers.MessageManager;
+import cc.vergence.features.managers.other.MessageManager;
 import cc.vergence.features.options.Option;
 import cc.vergence.features.options.impl.BooleanOption;
 import cc.vergence.features.options.impl.DoubleOption;

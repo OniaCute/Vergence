@@ -93,7 +93,9 @@ public class FakePlayer extends Module {
 
 	@Override
 	public void onDisable() {
-		if (fakePlayer == null) return;
+		if (fakePlayer == null) {
+			return;
+		}
         fakePlayer.setRemoved(Entity.RemovalReason.DISCARDED);
 		fakePlayer.onRemoved();
 		fakePlayer = null;

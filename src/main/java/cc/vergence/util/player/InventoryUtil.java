@@ -43,6 +43,15 @@ public class InventoryUtil implements Wrapper {
         return result;
     }
 
+    public static boolean isSword(Item item) {
+        return item == Items.WOODEN_SWORD ||
+                item == Items.STONE_SWORD   ||
+                item == Items.IRON_SWORD    ||
+                item == Items.GOLDEN_SWORD  ||
+                item == Items.DIAMOND_SWORD ||
+                item == Items.NETHERITE_SWORD;
+    }
+
     public static boolean isInstanceOf(ItemStack stack, Class clazz) {
         if (stack == null) {
             return false;
@@ -160,6 +169,21 @@ public class InventoryUtil implements Wrapper {
     public static void switchToSlot(int slot) {
         mc.player.getInventory().selectedSlot = slot;
         mc.getNetworkHandler().sendPacket(new UpdateSelectedSlotC2SPacket(slot));
+    }
+
+    public static int findHotbarSlot(java.util.function.Predicate<ItemStack> filter) {
+        for (int i = 0; i < 9; i++) {
+            ItemStack stack = mc.player.getInventory().getStack(i);
+            if (!stack.isEmpty() && filter.test(stack)) return i;
+        }
+        return -1;
+    }
+
+    public static void switchToSlot(java.util.function.Predicate<ItemStack> filter) {
+        int slot = findHotbarSlot(filter);
+        if (slot != -1) {
+            switchToSlot(slot);
+        }
     }
 }
 

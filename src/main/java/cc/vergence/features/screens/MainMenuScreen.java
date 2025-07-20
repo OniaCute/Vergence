@@ -3,14 +3,11 @@ package cc.vergence.features.screens;
 import cc.vergence.Vergence;
 import cc.vergence.features.enums.Aligns;
 import cc.vergence.features.enums.FontSize;
-import cc.vergence.features.enums.MouseButtons;
 import cc.vergence.modules.client.MainMenu;
 import cc.vergence.util.color.ColorUtil;
 import cc.vergence.util.font.FontUtil;
 import cc.vergence.util.interfaces.Wrapper;
-import cc.vergence.util.render.Render2DUtil;
-import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.gl.ShaderProgramKeys;
+import cc.vergence.util.render.utils.Render2DUtil;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
@@ -104,6 +101,19 @@ public class MainMenuScreen extends Screen implements Wrapper {
                 Aligns.RIGHT_BOTTOM,
                 MainMenu.INSTANCE.textColor.getValue(),
                 FontSize.SMALLEST
+        );
+
+        // Out of date alert
+        FontUtil.drawTextWithAlign(
+                context,
+                Vergence.OUT_OF_DATE ? "This version of client is out of the date\nGet the latest version in https://www.vergence.cc" : "",
+                0,
+                0,
+                width,
+                height,
+                Aligns.BOTTOM,
+                new Color(236, 8, 8),
+                FontSize.SMALL
         );
         buttonOffset = 0;
     }

@@ -7,7 +7,6 @@ import cc.vergence.features.options.impl.EnumOption;
 import cc.vergence.ui.gui.GuiComponent;
 import cc.vergence.ui.gui.impl.impl.choice.EnumChoicesComponent;
 import cc.vergence.util.font.FontUtil;
-import cc.vergence.util.render.Render2DUtil;
 import net.minecraft.client.gui.DrawContext;
 
 public class EnumComponent extends GuiComponent {

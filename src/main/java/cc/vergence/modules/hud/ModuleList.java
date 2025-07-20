@@ -3,15 +3,15 @@ package cc.vergence.modules.hud;
 import cc.vergence.features.enums.Aligns;
 import cc.vergence.features.enums.FontSize;
 import cc.vergence.features.enums.MouseButtons;
-import cc.vergence.features.managers.HudManager;
-import cc.vergence.features.managers.ModuleManager;
+import cc.vergence.features.managers.ui.HudManager;
+import cc.vergence.features.managers.feature.ModuleManager;
 import cc.vergence.features.options.Option;
 import cc.vergence.features.options.impl.*;
 import cc.vergence.features.screens.HudEditorScreen;
 import cc.vergence.modules.Module;
 import cc.vergence.util.animations.SimpleAnimation;
 import cc.vergence.util.font.FontUtil;
-import cc.vergence.util.render.Render2DUtil;
+import cc.vergence.util.render.utils.Render2DUtil;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 

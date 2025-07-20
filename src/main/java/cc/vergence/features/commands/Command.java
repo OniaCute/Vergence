@@ -1,6 +1,6 @@
 package cc.vergence.features.commands;
 
-import cc.vergence.features.managers.MessageManager;
+import cc.vergence.features.managers.other.MessageManager;
 import cc.vergence.util.interfaces.Wrapper;
 
 import java.util.List;

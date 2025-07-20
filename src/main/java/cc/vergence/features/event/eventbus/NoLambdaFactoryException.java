@@ -1,5 +1,7 @@
 package cc.vergence.features.event.eventbus;
 
+import cc.vergence.features.event.eventbus.interfaces.IEventBus;
+
 /**
  * Thrown when an {@link IEventBus} can't find a registered lambda factory to use.
  */

@@ -1,7 +1,6 @@
 package cc.vergence.modules.movement;
 
 import cc.vergence.Vergence;
-import cc.vergence.features.managers.MessageManager;
 import cc.vergence.features.options.Option;
 import cc.vergence.features.options.impl.BooleanOption;
 import cc.vergence.features.options.impl.DoubleOption;

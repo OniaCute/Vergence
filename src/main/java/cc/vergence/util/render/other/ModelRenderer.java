@@ -102,21 +102,21 @@ public class ModelRenderer implements Wrapper {
                 List<Render3DUtil.VertexCollection> debugLines = render.shine() ? Render3DUtil.SHINE_DEBUG_LINES : Render3DUtil.DEBUG_LINES;
 
                 if (render.fill) {
-                    quads.add(new Render3DUtil.VertexCollection(new Render3DUtil.Vertex(matrix4f, (float) (offset.getX() + xs[0] - camera.getX()), (float) (offset.getY() + ys[0] - camera.getY()), (float) (offset.getZ() + zs[0] - camera.getZ()), render.fillColor().getRGB()),
-                            new Render3DUtil.Vertex(matrix4f, (float) (offset.getX() + xs[1] - camera.getX()), (float) (offset.getY() + ys[1] - camera.getY()), (float) (offset.getZ() + zs[1] - camera.getZ()), render.fillColor().getRGB()),
-                            new Render3DUtil.Vertex(matrix4f, (float) (offset.getX() + xs[2] - camera.getX()), (float) (offset.getY() + ys[2] - camera.getY()), (float) (offset.getZ() + zs[2] - camera.getZ()), render.fillColor().getRGB()),
-                            new Render3DUtil.Vertex(matrix4f, (float) (offset.getX() + xs[3] - camera.getX()), (float) (offset.getY() + ys[3] - camera.getY()), (float) (offset.getZ() + zs[3] - camera.getZ()), render.fillColor().getRGB())));
+                    quads.add(new Render3DUtil.VertexCollection(new Render3DUtil.Vertex(matrix4f, (float) (offset.getX() + xs[0] - camera.getX()), (float) (offset.getY() + ys[0] - camera.getY()), (float) (offset.getZ() + zs[0] - camera.getZ()), render.fillColor()),
+                            new Render3DUtil.Vertex(matrix4f, (float) (offset.getX() + xs[1] - camera.getX()), (float) (offset.getY() + ys[1] - camera.getY()), (float) (offset.getZ() + zs[1] - camera.getZ()), render.fillColor()),
+                            new Render3DUtil.Vertex(matrix4f, (float) (offset.getX() + xs[2] - camera.getX()), (float) (offset.getY() + ys[2] - camera.getY()), (float) (offset.getZ() + zs[2] - camera.getZ()), render.fillColor()),
+                            new Render3DUtil.Vertex(matrix4f, (float) (offset.getX() + xs[3] - camera.getX()), (float) (offset.getY() + ys[3] - camera.getY()), (float) (offset.getZ() + zs[3] - camera.getZ()), render.fillColor())));
                 }
 
                 if (render.outline) {
-                    debugLines.add(new Render3DUtil.VertexCollection(new Render3DUtil.Vertex(matrix4f, (float) (offset.x + xs[0] - camera.getX()), (float) (offset.y + ys[0] - camera.getY()), (float) (offset.z + zs[0] - camera.getZ()), render.outlineColor().getRGB()),
-                            new Render3DUtil.Vertex(matrix4f, (float) (offset.x + xs[1] - camera.getX()), (float) (offset.y + ys[1] - camera.getY()), (float) (offset.z + zs[1] - camera.getZ()), render.outlineColor().getRGB()),
-                            new Render3DUtil.Vertex(matrix4f, (float) (offset.x + xs[1] - camera.getX()), (float) (offset.y + ys[1] - camera.getY()), (float) (offset.z + zs[1] - camera.getZ()), render.outlineColor().getRGB()),
-                            new Render3DUtil.Vertex(matrix4f, (float) (offset.x + xs[2] - camera.getX()), (float) (offset.y + ys[2] - camera.getY()), (float) (offset.z + zs[2] - camera.getZ()), render.outlineColor().getRGB()),
-                            new Render3DUtil.Vertex(matrix4f, (float) (offset.x + xs[2] - camera.getX()), (float) (offset.y + ys[2] - camera.getY()), (float) (offset.z + zs[2] - camera.getZ()), render.outlineColor().getRGB()),
-                            new Render3DUtil.Vertex(matrix4f, (float) (offset.x + xs[3] - camera.getX()), (float) (offset.y + ys[3] - camera.getY()), (float) (offset.z + zs[3] - camera.getZ()), render.outlineColor().getRGB()),
-                            new Render3DUtil.Vertex(matrix4f, (float) (offset.x + xs[0] - camera.getX()), (float) (offset.y + ys[0] - camera.getY()), (float) (offset.z + zs[0] - camera.getZ()), render.outlineColor().getRGB()),
-                            new Render3DUtil.Vertex(matrix4f, (float) (offset.x + xs[0] - camera.getX()), (float) (offset.y + ys[0] - camera.getY()), (float) (offset.z + zs[0] - camera.getZ()), render.outlineColor().getRGB())));
+                    debugLines.add(new Render3DUtil.VertexCollection(new Render3DUtil.Vertex(matrix4f, (float) (offset.x + xs[0] - camera.getX()), (float) (offset.y + ys[0] - camera.getY()), (float) (offset.z + zs[0] - camera.getZ()), render.outlineColor()),
+                            new Render3DUtil.Vertex(matrix4f, (float) (offset.x + xs[1] - camera.getX()), (float) (offset.y + ys[1] - camera.getY()), (float) (offset.z + zs[1] - camera.getZ()), render.outlineColor()),
+                            new Render3DUtil.Vertex(matrix4f, (float) (offset.x + xs[1] - camera.getX()), (float) (offset.y + ys[1] - camera.getY()), (float) (offset.z + zs[1] - camera.getZ()), render.outlineColor()),
+                            new Render3DUtil.Vertex(matrix4f, (float) (offset.x + xs[2] - camera.getX()), (float) (offset.y + ys[2] - camera.getY()), (float) (offset.z + zs[2] - camera.getZ()), render.outlineColor()),
+                            new Render3DUtil.Vertex(matrix4f, (float) (offset.x + xs[2] - camera.getX()), (float) (offset.y + ys[2] - camera.getY()), (float) (offset.z + zs[2] - camera.getZ()), render.outlineColor()),
+                            new Render3DUtil.Vertex(matrix4f, (float) (offset.x + xs[3] - camera.getX()), (float) (offset.y + ys[3] - camera.getY()), (float) (offset.z + zs[3] - camera.getZ()), render.outlineColor()),
+                            new Render3DUtil.Vertex(matrix4f, (float) (offset.x + xs[0] - camera.getX()), (float) (offset.y + ys[0] - camera.getY()), (float) (offset.z + zs[0] - camera.getZ()), render.outlineColor()),
+                            new Render3DUtil.Vertex(matrix4f, (float) (offset.x + xs[0] - camera.getX()), (float) (offset.y + ys[0] - camera.getY()), (float) (offset.z + zs[0] - camera.getZ()), render.outlineColor())));
                 }
 
                 i = 0;

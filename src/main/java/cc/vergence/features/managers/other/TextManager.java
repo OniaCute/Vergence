@@ -560,16 +560,51 @@ public class TextManager {
         englishLanguageBase.put("Module.Modules.AutoTool.Options.BooleanOption.SlotBack.name", "Slot Back");
         englishLanguageBase.put("Module.Modules.AutoTool.Options.BooleanOption.SlotBack.description", "return to previous slot when action finished");
 
+        englishLanguageBase.put("Module.Modules.NoBacktrack.name", "No Backtrack");
+        englishLanguageBase.put("Module.Modules.NoBacktrack.description", "Not displaying the continuity between player actions (may improve performance)");
+
+        englishLanguageBase.put("Module.Modules.NoRender.name", "No Render");
+        englishLanguageBase.put("Module.Modules.NoRender.description", "Disables annoying visual effects and entities");
+        englishLanguageBase.put("Module.Modules.NoRender.Options.BooleanOption.NoBlindness.name", "No Blindness");
+        englishLanguageBase.put("Module.Modules.NoRender.Options.BooleanOption.NoBlindness.description", "Removes blindness effect");
+        englishLanguageBase.put("Module.Modules.NoRender.Options.BooleanOption.NoCorpses.name", "No Corpses");
+        englishLanguageBase.put("Module.Modules.NoRender.Options.BooleanOption.NoCorpses.description", "Hides corpse entities");
+
+        englishLanguageBase.put("Module.Modules.FreeCamera.name", "Free Camera");
+        englishLanguageBase.put("Module.Modules.FreeCamera.description", "Allows detached camera movement");
+        englishLanguageBase.put("Module.Modules.FreeCamera.Options.DoubleOption.HorizontalSpeed.name", "Horizontal Speed");
+        englishLanguageBase.put("Module.Modules.FreeCamera.Options.DoubleOption.HorizontalSpeed.description", "Speed of horizontal camera movement");
+        englishLanguageBase.put("Module.Modules.FreeCamera.Options.DoubleOption.VerticalSpeed.name", "Vertical Speed");
+        englishLanguageBase.put("Module.Modules.FreeCamera.Options.DoubleOption.VerticalSpeed.description", "Speed of vertical camera movement");
+
         englishLanguageBase.put("Module.Modules.Chams.name", "Chams");
         englishLanguageBase.put("Module.Modules.Chams.description", "Renders entities through walls with customizable colors");
         englishLanguageBase.put("Module.Modules.Chams.Options.MultipleOption.Targets.name", "Targets");
         englishLanguageBase.put("Module.Modules.Chams.Options.MultipleOption.Targets.description", "Which entity types to highlight");
+        englishLanguageBase.put("Module.Modules.Chams.Options.BooleanOption.RenderEnemy.name", "Render Enemy");
+        englishLanguageBase.put("Module.Modules.Chams.Options.BooleanOption.RenderEnemy.description", "Highlight enemy players");
+        englishLanguageBase.put("Module.Modules.Chams.Options.BooleanOption.RenderFriend.name", "Render Friend");
+        englishLanguageBase.put("Module.Modules.Chams.Options.BooleanOption.RenderFriend.description", "Highlight friendly players");
+        englishLanguageBase.put("Module.Modules.Chams.Options.BooleanOption.RenderSelf.name", "Render Self");
+        englishLanguageBase.put("Module.Modules.Chams.Options.BooleanOption.RenderSelf.description", "Highlight your own player");
         englishLanguageBase.put("Module.Modules.Chams.Options.BooleanOption.Shine.name", "Shine");
-        englishLanguageBase.put("Module.Modules.Chams.Options.BooleanOption.Shine.description", "Add shine effect to entity models");
-        englishLanguageBase.put("Module.Modules.Chams.Options.ColorOption.FillColor.name", "Fill Color");
-        englishLanguageBase.put("Module.Modules.Chams.Options.ColorOption.FillColor.description", "Solid fill color of highlighted entities");
-        englishLanguageBase.put("Module.Modules.Chams.Options.ColorOption.OutlineColor.name", "Outline Color");
-        englishLanguageBase.put("Module.Modules.Chams.Options.ColorOption.OutlineColor.description", "Outline color of highlighted entities");
+        englishLanguageBase.put("Module.Modules.Chams.Options.BooleanOption.Shine.description", "Apply shine effect to highlighted models");
+        englishLanguageBase.put("Module.Modules.Chams.Options.ColorOption.EnemyFill.name", "Enemy Fill");
+        englishLanguageBase.put("Module.Modules.Chams.Options.ColorOption.EnemyFill.description", "Fill color for enemy entities");
+        englishLanguageBase.put("Module.Modules.Chams.Options.ColorOption.EnemyOutline.name", "Enemy Outline");
+        englishLanguageBase.put("Module.Modules.Chams.Options.ColorOption.EnemyOutline.description", "Outline color for enemy entities");
+        englishLanguageBase.put("Module.Modules.Chams.Options.ColorOption.FriendFill.name", "Friend Fill");
+        englishLanguageBase.put("Module.Modules.Chams.Options.ColorOption.FriendFill.description", "Fill color for friendly entities");
+        englishLanguageBase.put("Module.Modules.Chams.Options.ColorOption.FriendOutline.name", "Friend Outline");
+        englishLanguageBase.put("Module.Modules.Chams.Options.ColorOption.FriendOutline.description", "Outline color for friendly entities");
+        englishLanguageBase.put("Module.Modules.Chams.Options.ColorOption.SelfFill.name", "Self Fill");
+        englishLanguageBase.put("Module.Modules.Chams.Options.ColorOption.SelfFill.description", "Fill color for your own model");
+        englishLanguageBase.put("Module.Modules.Chams.Options.ColorOption.SelfOutline.name", "Self Outline");
+        englishLanguageBase.put("Module.Modules.Chams.Options.ColorOption.SelfOutline.description", "Outline color for your own model");
+        englishLanguageBase.put("Module.Modules.Chams.Options.ColorOption.DefaultFill.name", "Default Fill");
+        englishLanguageBase.put("Module.Modules.Chams.Options.ColorOption.DefaultFill.description", "Fill color for other entities");
+        englishLanguageBase.put("Module.Modules.Chams.Options.ColorOption.DefaultOutline.name", "Default Outline");
+        englishLanguageBase.put("Module.Modules.Chams.Options.ColorOption.DefaultOutline.description", "Outline color for other entities");
     }
 
     private void loadChinese() {

@@ -225,9 +225,11 @@ public class Render3DUtil implements Wrapper {
 
     public record VertexCollection(Vertex... vertices) {
         public void vertex(BufferBuilder buffer) {
-            for (Vertex vertex : vertices) buffer.vertex(vertex.matrix, vertex.x, vertex.y, vertex.z).color(vertex.color);
+            for (Vertex vertex : vertices) {
+                buffer.vertex(vertex.matrix, vertex.x, vertex.y, vertex.z).color(vertex.color.getRed(), vertex.color.getGreen(), vertex.color.getBlue(), vertex.color.getAlpha());
+            }
         }
     }
 
-    public record Vertex(Matrix4f matrix, float x, float y, float z, int color) {}
+    public record Vertex(Matrix4f matrix, float x, float y, float z, Color color) {}
 }

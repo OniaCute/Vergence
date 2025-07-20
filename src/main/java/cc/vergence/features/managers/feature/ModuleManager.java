@@ -66,6 +66,8 @@ public class ModuleManager {
         registerModule(new NoBacktrack());
         registerModule(new NoRender());
         registerModule(new FreeCamera());
+        registerModule(new CameraClip());
+        registerModule(new FullBright());
 
         // special module
         registerModule(new SafeMode());

@@ -4,6 +4,7 @@ package cc.vergence.features.commands.impl;
 import cc.vergence.Vergence;
 import cc.vergence.features.commands.Command;
 import cc.vergence.features.managers.feature.ModuleManager;
+import cc.vergence.features.managers.ui.NotifyManager;
 import cc.vergence.modules.Module;
 import cc.vergence.features.managers.other.MessageManager;
 
@@ -25,20 +26,20 @@ public class BindCommand extends Command {
 		String moduleName = parameters[0];
 		Module module = Vergence.MODULE.getModuleByName(moduleName);
 		if (module == null) {
-			MessageManager.newMessage("Vergence", Vergence.TEXT.get("COMMANDS.MESSAGE.BIND.UNKNOWN_MODULE"));
+			NotifyManager.newNotification("Vergence", Vergence.TEXT.get("COMMANDS.MESSAGE.BIND.UNKNOWN_MODULE"));
 			return;
 		}
 		if (parameters.length == 1) {
-			MessageManager.newMessage("Vergence", Vergence.TEXT.get("COMMANDS.MESSAGE.BIND.NO_KEY"));
+			NotifyManager.newNotification("Vergence", Vergence.TEXT.get("COMMANDS.MESSAGE.BIND.NO_KEY"));
 			return;
 		}
 		String rkey = parameters[1];
 		if (rkey == null) {
-			MessageManager.newMessage("Vergence", Vergence.TEXT.get("COMMANDS.MESSAGE.BIND.UNKNOWN_ERROR"));
+			NotifyManager.newNotification("Vergence", Vergence.TEXT.get("COMMANDS.MESSAGE.BIND.UNKNOWN_ERROR"));
 			return;
 		}
 		if (module.setBindValue(rkey.toUpperCase())) {
-			MessageManager.newMessage("Vergence", Vergence.TEXT.get("COMMANDS.MESSAGE.BIND.BIND_OK"));
+			NotifyManager.newNotification("Vergence", Vergence.TEXT.get("COMMANDS.MESSAGE.BIND.BIND_OK"));
 		}
 	}
 

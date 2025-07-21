@@ -4,6 +4,7 @@ import cc.vergence.Vergence;
 import cc.vergence.features.enums.MouseButtons;
 import cc.vergence.features.event.events.*;
 import cc.vergence.features.managers.other.MessageManager;
+import cc.vergence.features.managers.ui.NotifyManager;
 import cc.vergence.features.options.Option;
 import cc.vergence.features.options.impl.BindOption;
 import cc.vergence.features.options.impl.BooleanOption;
@@ -103,7 +104,7 @@ public abstract class Module implements Wrapper {
             MessageManager.blockedMessage(this, SafeMode.INSTANCE);
         }
 
-        MessageManager.newMessage(this, "§rwas §aenabled.");
+        NotifyManager.newNotification(this, "§rmodule was §aenabled.");
 
         this.setStatus(true);
         this.onEnable();
@@ -114,7 +115,7 @@ public abstract class Module implements Wrapper {
             return;
         }
 
-        MessageManager.newMessage(this, "§rwas §cdisabled.");
+        NotifyManager.newNotification(this, "§rmodule was §cdisabled.");
 
         this.setStatus(false);
         this.onDisable();
@@ -133,7 +134,7 @@ public abstract class Module implements Wrapper {
             return;
         }
 
-        MessageManager.newMessage(this, "§rwas §6blocked.");
+        NotifyManager.newNotification(this, "§rwas §6blocked.");
 
         this.setStatus(false);
         this.onBlock(module);
@@ -144,7 +145,7 @@ public abstract class Module implements Wrapper {
             return;
         }
 
-        MessageManager.newMessage(this, "§rwas §aunblocked.");
+        NotifyManager.newNotification(this, "§rwas §aunblocked.");
 
         this.setStatus(status);
         this.onUnblock();

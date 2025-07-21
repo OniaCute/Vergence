@@ -4,6 +4,7 @@ import cc.vergence.Vergence;
 import cc.vergence.features.commands.Command;
 import cc.vergence.features.commands.impl.*;
 import cc.vergence.features.managers.other.MessageManager;
+import cc.vergence.features.managers.ui.NotifyManager;
 
 import java.util.HashMap;
 
@@ -42,7 +43,7 @@ public class CommandManager {
     public void command(String[] commandIn) {
         Command command = commands.get(commandIn[0].substring(Vergence.PREFIX.length()));
         if (command == null)
-            MessageManager.newMessage("Vergence", Vergence.TEXT.get("COMMANDS.MESSAGE.INVALID_COMMAND"));
+            NotifyManager.newNotification("Vergence", Vergence.TEXT.get("COMMANDS.MESSAGE.INVALID_COMMAND"));
         else {
             String[] parameterList = new String[commandIn.length - 1];
             for (int i = 1; i < commandIn.length; i++) {

@@ -64,20 +64,20 @@ public class NormalNotification extends Notification {
                 context,
                 text,
                 x + 2,
-                y - 2,
+                y - 3,
                 x + width,
                 y + height,
                 Aligns.LEFT,
                 Notify.INSTANCE.titleColor.getValue(),
-                FontSize.LARGE
+                FontSize.MEDIUM
         );
 
-        double titleHeight = FontUtil.getHeight(FontSize.LARGE);
+        double titleHeight = FontUtil.getHeight(FontSize.MEDIUM);
         FontUtil.drawTextWithAlign(
                 context,
                 description,
                 x + 2,
-                y + titleHeight - 2,
+                y + titleHeight + 1,
                 x + width,
                 y + height,
                 Aligns.LEFT,

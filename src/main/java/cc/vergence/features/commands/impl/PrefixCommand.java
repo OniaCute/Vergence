@@ -3,6 +3,7 @@ package cc.vergence.features.commands.impl;
 import cc.vergence.Vergence;
 import cc.vergence.features.commands.Command;
 import cc.vergence.features.managers.other.MessageManager;
+import cc.vergence.features.managers.ui.NotifyManager;
 
 import java.util.List;
 
@@ -19,11 +20,11 @@ public class PrefixCommand extends Command {
 			return;
 		}
 		if (parameters[0].startsWith("/")) {
-			MessageManager.newMessage("Vergence", Vergence.TEXT.get("COMMANDS.MESSAGE.PREFIX.NO_PREFIX"));
+			NotifyManager.newNotification("Vergence", Vergence.TEXT.get("COMMANDS.MESSAGE.PREFIX.NO_PREFIX"));
 			return;
 		}
 		Vergence.PREFIX = parameters[0];
-		MessageManager.newMessage("Vergence", Vergence.TEXT.get("COMMANDS.MESSAGE.PREFIX.OK") + " \"" + parameters[0] + "\"");
+		NotifyManager.newNotification("Vergence", Vergence.TEXT.get("COMMANDS.MESSAGE.PREFIX.OK") + " \"" + parameters[0] + "\"");
 	}
 
 	@Override

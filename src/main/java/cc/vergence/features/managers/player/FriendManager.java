@@ -1,5 +1,7 @@
 package cc.vergence.features.managers.player;
 
+import cc.vergence.Vergence;
+import cc.vergence.features.managers.ui.NotifyManager;
 import cc.vergence.util.interfaces.Wrapper;
 import net.minecraft.entity.player.PlayerEntity;
 
@@ -17,6 +19,10 @@ public class FriendManager implements Wrapper {
     }
 
     public void addFriend(String name) {
+        if (Vergence.ENEMY != null && Vergence.ENEMY.isEnemy(name)) {
+            NotifyManager.newNotification("Vergence", Vergence.TEXT.get("COMMANDS.MESSAGE.FRIEND.IS_ENEMY"));
+            return;
+        }
         if (!friendList.contains(name)) {
             friendList.add(name);
         }

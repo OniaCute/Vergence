@@ -6,6 +6,7 @@ import cc.vergence.modules.Module;
 import cc.vergence.modules.client.Title;
 import cc.vergence.modules.combat.NoCooldown;
 import cc.vergence.util.font.FontRenderers;
+import cc.vergence.util.font.FontUtil;
 import cc.vergence.util.interfaces.Wrapper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.RunArgs;
@@ -70,6 +71,8 @@ public abstract class MixinMinecraftClient extends ReentrantThreadExecutor<Runna
             FontRenderers.SANS_24F = FontRenderers.SansFont(24f);
             FontRenderers.SANS_28F = FontRenderers.SansFont(28f);
             FontRenderers.SANS_32F = FontRenderers.SansFont(32f);
+
+            FontUtil.LOADED = true;
         } catch (Exception e) {
             e.printStackTrace();
         }

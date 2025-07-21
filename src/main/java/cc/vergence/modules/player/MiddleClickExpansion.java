@@ -2,6 +2,7 @@ package cc.vergence.modules.player;
 
 import cc.vergence.Vergence;
 import cc.vergence.features.managers.other.MessageManager;
+import cc.vergence.features.managers.ui.NotifyManager;
 import cc.vergence.features.options.Option;
 import cc.vergence.features.options.impl.EnumOption;
 import cc.vergence.modules.Module;
@@ -44,10 +45,10 @@ public class MiddleClickExpansion extends Module {
                 if (((EntityHitResult) target).getEntity() instanceof PlayerEntity) {
                     if (!Vergence.FRIEND.isFriend(((EntityHitResult) newTarget).getEntity().getName().getString())) {
                         Vergence.FRIEND.addFriend(((EntityHitResult) newTarget).getEntity().getName().getString());
-                        MessageManager.newMessage(this, Vergence.TEXT.get("COMMANDS.MESSAGE.FRIEND.ADD"));
+                        NotifyManager.newNotification(this, Vergence.TEXT.get("COMMANDS.MESSAGE.FRIEND.ADD"));
                     } else {
                         Vergence.FRIEND.removeFriend(((EntityHitResult) newTarget).getEntity().getName().getString());
-                        MessageManager.newMessage(this, Vergence.TEXT.get("COMMANDS.MESSAGE.FRIEND.REMOVE"));
+                        NotifyManager.newNotification(this, Vergence.TEXT.get("COMMANDS.MESSAGE.FRIEND.REMOVE"));
                     }
                 }
             }
@@ -62,10 +63,10 @@ public class MiddleClickExpansion extends Module {
                 if (((EntityHitResult) target).getEntity() instanceof PlayerEntity) {
                     if (!Vergence.ENEMY.isEnemy(((EntityHitResult) newTarget).getEntity().getName().getString())) {
                         Vergence.ENEMY.addEnemy(((EntityHitResult) newTarget).getEntity().getName().getString());
-                        MessageManager.newMessage(this, Vergence.TEXT.get("COMMANDS.MESSAGE.ENEMY.ADD"));
+                        NotifyManager.newNotification(this, Vergence.TEXT.get("COMMANDS.MESSAGE.ENEMY.ADD"));
                     } else {
                         Vergence.ENEMY.removeEnemy(((EntityHitResult) newTarget).getEntity().getName().getString());
-                        MessageManager.newMessage(this, Vergence.TEXT.get("COMMANDS.MESSAGE.ENEMY.REMOVE"));
+                        NotifyManager.newNotification(this, Vergence.TEXT.get("COMMANDS.MESSAGE.ENEMY.REMOVE"));
                     }
                 }
             }

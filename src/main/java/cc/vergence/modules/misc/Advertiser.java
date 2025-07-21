@@ -2,6 +2,7 @@ package cc.vergence.modules.misc;
 
 import cc.vergence.features.managers.client.ConfigManager;
 import cc.vergence.features.managers.other.MessageManager;
+import cc.vergence.features.managers.ui.NotifyManager;
 import cc.vergence.features.options.Option;
 import cc.vergence.features.options.impl.DoubleOption;
 import cc.vergence.features.options.impl.EnumOption;
@@ -43,7 +44,7 @@ public class Advertiser extends Module {
     @Override
     public void onTick() {
         if (messages.isEmpty()) {
-            MessageManager.newMessage(this, "File is empty!");
+            NotifyManager.newNotification(this, "File is empty!");
             return ;
         }
 

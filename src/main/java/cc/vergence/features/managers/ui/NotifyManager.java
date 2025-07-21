@@ -3,6 +3,7 @@ package cc.vergence.features.managers.ui;
 import cc.vergence.features.notifications.*;
 import cc.vergence.modules.Module;
 import cc.vergence.modules.client.Notify;
+import cc.vergence.util.font.FontUtil;
 import cc.vergence.util.interfaces.Wrapper;
 import net.minecraft.client.gui.DrawContext;
 
@@ -13,6 +14,10 @@ public class NotifyManager implements Wrapper {
     public static final ArrayList<Notification> notifications = new ArrayList<>();
 
     public static void newNotification(String text) {
+        if (!FontUtil.LOADED) {
+            return;
+        }
+
         double alive = Notify.INSTANCE.notificationAliveTime.getValue();
         SimpleNotification simple = new SimpleNotification(text, alive);
         simple.initAnimation();
@@ -33,6 +38,10 @@ public class NotifyManager implements Wrapper {
     }
 
     public static void newNotification(String title, String description) {
+        if (!FontUtil.LOADED) {
+            return;
+        }
+
         double alive = Notify.INSTANCE.notificationAliveTime.getValue();
         NormalNotification normal = new NormalNotification(title, description, alive);
         normal.initAnimation();

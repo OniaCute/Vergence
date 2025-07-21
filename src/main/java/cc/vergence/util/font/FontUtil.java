@@ -12,6 +12,8 @@ import net.minecraft.client.gui.DrawContext;
 import java.awt.*;
 
 public class FontUtil implements Wrapper {
+    public static boolean LOADED;
+
     public static FontScales asFontScales(Client.UIScales uiScales, FontSize size) {
         Fonts fonts = Fonts.Sans;
         if (Client.INSTANCE != null) {

@@ -3,6 +3,7 @@ package cc.vergence.features.commands.impl;
 import cc.vergence.Vergence;
 import cc.vergence.features.commands.Command;
 import cc.vergence.features.managers.feature.ModuleManager;
+import cc.vergence.features.managers.ui.NotifyManager;
 import cc.vergence.modules.Module;
 import cc.vergence.features.managers.other.MessageManager;
 
@@ -24,7 +25,7 @@ public class ToggleCommand extends Command {
 		String moduleName = parameters[0];
 		Module module = Vergence.MODULE.getModuleByName(moduleName);
 		if (module == null) {
-			MessageManager.newMessage("Vergence", Vergence.TEXT.get("COMMANDS.MESSAGE.TOGGLE.UNKNOWN_MODULE"));
+			NotifyManager.newNotification("Vergence", Vergence.TEXT.get("COMMANDS.MESSAGE.TOGGLE.UNKNOWN_MODULE"));
 			return;
 		}
 		module.toggle();

@@ -34,13 +34,13 @@ public class TextManager {
         englishLanguageBase.put("COMMANDS.MESSAGE.FRIEND.EMPTY", "Friends list is §6empty.");
         englishLanguageBase.put("COMMANDS.MESSAGE.FRIEND.RESET", "Friends list got §breset.");
         englishLanguageBase.put("COMMANDS.MESSAGE.FRIEND.REMOVE", "Friend §cremoved §rsuccessfully.");
-        englishLanguageBase.put("COMMANDS.MESSAGE.FRIEND.ADD", "Friend §badded §rsuccessfully.");
+        englishLanguageBase.put("COMMANDS.MESSAGE.FRIEND.ADD", "Friend §aadded §rsuccessfully.");
         englishLanguageBase.put("COMMANDS.MESSAGE.FRIEND.IS_ENEMY", "§cThis player in your enemy list!");
         englishLanguageBase.put("COMMANDS.MESSAGE.ENEMY.LIST_TITLE", "§bEnemies:");
         englishLanguageBase.put("COMMANDS.MESSAGE.ENEMY.EMPTY", "Enemies list is §bempty.");
         englishLanguageBase.put("COMMANDS.MESSAGE.ENEMY.RESET", "Enemies list got §breset.");
         englishLanguageBase.put("COMMANDS.MESSAGE.ENEMY.REMOVE", "Enemy §cremoved successfully.");
-        englishLanguageBase.put("COMMANDS.MESSAGE.ENEMY.ADD", "Enemy §badded successfully");
+        englishLanguageBase.put("COMMANDS.MESSAGE.ENEMY.ADD", "Enemy §aadded successfully");
         englishLanguageBase.put("COMMANDS.MESSAGE.ENEMY.IS_FRIEND", "§cThis player in your friend list!");
         englishLanguageBase.put("COMMANDS.MESSAGE.BIND.UNKNOWN_MODULE", "Target is a §bunknown §rmodule.");
         englishLanguageBase.put("COMMANDS.MESSAGE.BIND.NO_KEY", "Please §bspecify §ra key.");
@@ -598,6 +598,8 @@ public class TextManager {
 
         englishLanguageBase.put("Module.Modules.FreeCamera.name", "Free Camera");
         englishLanguageBase.put("Module.Modules.FreeCamera.description", "Allows detached camera movement");
+        englishLanguageBase.put("Module.Modules.FreeCamera.Options.BooleanOption.RotateSync.name", "Rotate Sync");
+        englishLanguageBase.put("Module.Modules.FreeCamera.Options.BooleanOption.RotateSync.description", "Sync the actual head turns of the players with the camera.");
         englishLanguageBase.put("Module.Modules.FreeCamera.Options.DoubleOption.HorizontalSpeed.name", "Horizontal Speed");
         englishLanguageBase.put("Module.Modules.FreeCamera.Options.DoubleOption.HorizontalSpeed.description", "Speed of horizontal camera movement");
         englishLanguageBase.put("Module.Modules.FreeCamera.Options.DoubleOption.VerticalSpeed.name", "Vertical Speed");

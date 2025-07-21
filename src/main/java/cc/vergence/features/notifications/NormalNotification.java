@@ -64,7 +64,7 @@ public class NormalNotification extends Notification {
                 context,
                 text,
                 x + 2,
-                y - 3,
+                y - 4,
                 x + width,
                 y + height,
                 Aligns.LEFT,

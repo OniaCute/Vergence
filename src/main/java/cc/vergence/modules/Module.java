@@ -374,6 +374,12 @@ public abstract class Module implements Wrapper {
     public void onRenderHudEditorAlways(DrawContext context, int mouseX, int mouseY, float partialTicks) {
     }
 
+    public void onKeyboardInputTick() {
+    }
+
+    public void onKeyboardInputTickAlways() {
+    }
+
     public void setName(String name) {
         this.name = name;
     }

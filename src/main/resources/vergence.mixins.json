@@ -31,6 +31,7 @@
     "mixins.player.MixinClientPlayerInteractionManager",
     "mixins.player.MixinPlayerEntity",
     "mixins.render.MixinGameRenderer",
+    "mixins.render.MixinHeldItemRenderer",
     "mixins.render.MixinLightmapTextureManager",
     "mixins.render.MixinMinecraftInGameHud",
     "mixins.render.MixinPlayerListHud",
@@ -38,7 +39,7 @@
     "mixins.screen.MixinDownloadingTerrainScreen",
     "mixins.screen.MixinScreen",
     "mixins.screen.MixinTitleScreen",
-    "mixins.render.MixinHeldItemRenderer"
+    "mixins.hardware.KeyboardInputMixin"
   ],
   "injectors": {
     "defaultRequire": 1

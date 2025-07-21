@@ -181,6 +181,14 @@ public class SafeWalk extends Module implements Wrapper {
         }
     }
 
+    @Override
+    public void onDisable() {
+        if (mc.player == null) {
+            return ;
+        }
+        stopSneaking(sneakMode.getValue());
+    }
+
     private void sendSneakPacket(boolean sneak, EnumSet<SneakModes> mode) {
         if (mc.getNetworkHandler() != null && mode.contains(SneakModes.Server)) {
             Vergence.NETWORK.sendPacket(new net.minecraft.network.packet.c2s.play.ClientCommandC2SPacket(mc.player, sneak ? ClientCommandC2SPacket.Mode.PRESS_SHIFT_KEY : ClientCommandC2SPacket.Mode.RELEASE_SHIFT_KEY));

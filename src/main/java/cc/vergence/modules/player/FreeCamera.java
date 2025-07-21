@@ -1,6 +1,8 @@
 package cc.vergence.modules.player;
 
+import cc.vergence.features.event.events.RotateEvent;
 import cc.vergence.features.options.Option;
+import cc.vergence.features.options.impl.BooleanOption;
 import cc.vergence.features.options.impl.DoubleOption;
 import cc.vergence.modules.Module;
 import cc.vergence.util.maths.MathUtil;
@@ -20,7 +22,8 @@ public class FreeCamera extends Module {
         INSTANCE = this;
     }
 
-    public Option<Double> horizontalSpeed = addOption(new DoubleOption("HorizontalSpeed", 0.1, 4.0, 1.0));
+    public Option<Boolean> rotateSync = addOption(new BooleanOption("RotateSync", true));
+    public Option<Double> horizontalSpeed = addOption(new DoubleOption("HorizontalSpeed", 0.1, 4.0, 0.8));
     public Option<Double> verticalSpeed = addOption(new DoubleOption("VerticalSpeed", 0.1, 4.0, 0.5));
 
     @Override
@@ -29,8 +32,25 @@ public class FreeCamera extends Module {
     }
 
     @Override
-    public void onKeyboardActive(int key, int action) {
-        if (mc.player == null) return;
+    public void onTick() {
+        if (mc.player == null) {
+            return ;
+        }
+
+        if (rotateSync.getValue()) {
+            prevFreeYaw = freeYaw;
+            prevFreePitch = freePitch;
+
+            freeYaw = mc.player.getYaw();
+            freePitch = mc.player.getPitch();
+        }
+    }
+
+    @Override
+    public void onKeyboardInputTick() {
+        if (mc.player == null) {
+            return;
+        }
 
         Vector2d motion = MovementUtil.forward(horizontalSpeed.getValue());
 
@@ -41,8 +61,12 @@ public class FreeCamera extends Module {
         freeX += motion.x;
         freeZ += motion.y;
 
-        if (mc.options.jumpKey.isPressed()) freeY += verticalSpeed.getValue();
-        if (mc.options.sneakKey.isPressed()) freeY -= verticalSpeed.getValue();
+        if (mc.options.jumpKey.isPressed()) {
+            freeY += verticalSpeed.getValue();
+        }
+        if (mc.options.sneakKey.isPressed()) {
+            freeY -= verticalSpeed.getValue();
+        }
 
         mc.player.input.playerInput = new PlayerInput(mc.player.input.playerInput.forward(), mc.player.input.playerInput.backward(), mc.player.input.playerInput.left(), mc.player.input.playerInput.right(), false, false, false);
         mc.player.input.movementForward = 0;

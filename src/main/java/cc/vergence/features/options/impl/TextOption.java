@@ -39,12 +39,14 @@ public class TextOption extends Option<String> implements Wrapper {
 
     @Override
     public String getValue() {
-        if (Placeholder.INSTANCE == null || !Placeholder.INSTANCE.getStatus()) {
-            return this.value;
-        }
-
         String formatText = this.getRawValue().toLowerCase();
         String sourceText = this.getRawValue();
+        if (Placeholder.INSTANCE == null || !Placeholder.INSTANCE.getStatus()) {
+            while (sourceText.contains("&")) {
+                sourceText = sourceText.replace("&", "§"); // colorful
+            }
+            return sourceText;
+        }
         while (formatText.contains("{id}")) {
             sourceText = sourceText.replace("{id}", Vergence.MOD_ID);
             formatText = formatText.replace("{id}", Vergence.MOD_ID);

@@ -5,12 +5,21 @@ import cc.vergence.util.other.EnumUtil;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.function.Predicate;
 
 public class MultipleOption<E extends Enum<E>> extends Option<EnumSet<E>> {
     public Class<E> enumClass;
 
     public  MultipleOption(String name, EnumSet<E> value) {
         super(name, value, v -> true);
+        if (!value.isEmpty()) {
+            E first = value.iterator().next();
+            this.enumClass = (Class<E>) first.getDeclaringClass();
+        }
+    }
+
+    public  MultipleOption(String name, EnumSet<E> value, Predicate<?> invisibility) {
+        super(name, value, invisibility);
         if (!value.isEmpty()) {
             E first = value.iterator().next();
             this.enumClass = (Class<E>) first.getDeclaringClass();

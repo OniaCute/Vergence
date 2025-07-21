@@ -30,12 +30,12 @@ public class Chams extends Module implements Wrapper {
     public Option<Boolean> forFriend = addOption(new BooleanOption("RenderFriend", true));
     public Option<Boolean> forMyself = addOption(new BooleanOption("RenderSelf", false));
     public Option<Boolean> shine = addOption(new BooleanOption("Shine", true));
-    public Option<Color> enemyFillColor = addOption(new ColorOption("EnemyFill", new Color(255, 19, 19, 108)));
-    public Option<Color> enemyOutlineColor = addOption(new ColorOption("EnemyOutline", new Color(197, 6, 6)));
-    public Option<Color> friendFillColor = addOption(new ColorOption("FriendFill", new Color(38, 184, 255, 128)));
-    public Option<Color> friendOutlineColor = addOption(new ColorOption("FriendOutline", new Color(128, 220, 255)));
-    public Option<Color> selfFillColor = addOption(new ColorOption("SelfFill", new Color(173, 255, 231, 107)));
-    public Option<Color> selfOutlineColor = addOption(new ColorOption("SelfOutline", new Color(204, 255, 236)));
+    public Option<Color> enemyFillColor = addOption(new ColorOption("EnemyFill", new Color(255, 19, 19, 108), v -> forEnemy.getValue()));
+    public Option<Color> enemyOutlineColor = addOption(new ColorOption("EnemyOutline", new Color(197, 6, 6), v -> forEnemy.getValue()));
+    public Option<Color> friendFillColor = addOption(new ColorOption("FriendFill", new Color(38, 184, 255, 128), v -> forFriend.getValue()));
+    public Option<Color> friendOutlineColor = addOption(new ColorOption("FriendOutline", new Color(128, 220, 255), v -> forFriend.getValue()));
+    public Option<Color> selfFillColor = addOption(new ColorOption("SelfFill", new Color(173, 255, 231, 107), v -> forMyself.getValue()));
+    public Option<Color> selfOutlineColor = addOption(new ColorOption("SelfOutline", new Color(204, 255, 236), v -> forMyself.getValue()));
     public Option<Color> defaultFillColor = addOption(new ColorOption("DefaultFill", new Color(255, 255, 255, 56)));
     public Option<Color> defaultOutlineColor = addOption(new ColorOption("DefaultOutline", new Color(220, 220, 220)));
 
@@ -88,8 +88,7 @@ public class Chams extends Module implements Wrapper {
                 outline = defaultOutlineColor.getValue();
             }
 
-            ModelRenderer.renderModel(living, 1.0f, tickDelta,
-                    new ModelRenderer.Render(true, fill, true, outline, shine.getValue()));
+            ModelRenderer.renderModel(living, 1.0f, tickDelta, new ModelRenderer.Render(true, fill, true, outline, shine.getValue()));
         }
     }
 

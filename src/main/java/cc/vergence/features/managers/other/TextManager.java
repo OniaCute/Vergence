@@ -127,8 +127,8 @@ public class TextManager {
         englishLanguageBase.put("Module.Modules.Notify.Options.DoubleOption.Radius.description", "The radius of notification");
         englishLanguageBase.put("Module.Modules.Notify.Options.DoubleOption.NotificationAliveTime.name", "Notification AliveTime");
         englishLanguageBase.put("Module.Modules.Notify.Options.DoubleOption.NotificationAliveTime.description", "How long does the notification stay at the screen");
-        englishLanguageBase.put("Module.Modules.Notify.Options.DoubleOption.AnimationSpeed.name", "Animation Speed");
-        englishLanguageBase.put("Module.Modules.Notify.Options.DoubleOption.AnimationSpeed.description", "The speed of animation");
+        englishLanguageBase.put("Module.Modules.Notify.Options.DoubleOption.AnimationTime.name", "Animation Time");
+        englishLanguageBase.put("Module.Modules.Notify.Options.DoubleOption.AnimationTime.description", "The duration of animation");
 
         englishLanguageBase.put("Module.Modules.HudEditor.name", "HUD Editor");
         englishLanguageBase.put("Module.Modules.HudEditor.description", "Edit something about HUDs");
@@ -328,20 +328,26 @@ public class TextManager {
         englishLanguageBase.put("Module.Modules.FakePlayer.Options.BooleanOption.AutoTotem.name", "Auto Totem");
         englishLanguageBase.put("Module.Modules.FakePlayer.Options.BooleanOption.AutoTotem.description", "Auto use a totem when the fake player dies");
 
-        englishLanguageBase.put("Module.Modules.SafeWalk.name", "SafeWalk");
-        englishLanguageBase.put("Module.Modules.SafeWalk.description", "Enable you to walk safely along the edges of the blocks");
-        englishLanguageBase.put("Module.Modules.SafeWalk.Options.BooleanOption.DoInject.name", "Inject Input");
-        englishLanguageBase.put("Module.Modules.SafeWalk.Options.BooleanOption.DoInject.description", "Use an unsafe method so that you won't fall");
-        englishLanguageBase.put("Module.Modules.SafeWalk.Options.BooleanOption.DoShift.name", "Auto Sneak");
-        englishLanguageBase.put("Module.Modules.SafeWalk.Options.BooleanOption.DoShift.description", "Auto sneak when near edge");
+        englishLanguageBase.put("Module.Modules.SafeWalk.name", "Safe Walk");
+        englishLanguageBase.put("Module.Modules.SafeWalk.description", "Auto-sneak near edges to prevent falling");
+        englishLanguageBase.put("Module.Modules.SafeWalk.Options.BooleanOption.DoInject.name", "Do Inject");
+        englishLanguageBase.put("Module.Modules.SafeWalk.Options.BooleanOption.DoInject.description", "Allow unsafe movement when enabled");
+        englishLanguageBase.put("Module.Modules.SafeWalk.Options.BooleanOption.DoShift.name", "Do Shift");
+        englishLanguageBase.put("Module.Modules.SafeWalk.Options.BooleanOption.DoShift.description", "Auto-sneak when near an edge");
+        englishLanguageBase.put("Module.Modules.SafeWalk.Options.BooleanOption.OnlyBack.name", "Only Back");
+        englishLanguageBase.put("Module.Modules.SafeWalk.Options.BooleanOption.OnlyBack.description", "Check only the direction behind the player");
+        englishLanguageBase.put("Module.Modules.SafeWalk.Options.MultipleOption.SneakMode.name", "Sneak Mode");
+        englishLanguageBase.put("Module.Modules.SafeWalk.Options.MultipleOption.SneakMode.description", "Where to apply sneaking");
+        englishLanguageBase.put("Module.Modules.SafeWalk.Options.DoubleOption.SneakDelay.name", "Sneak Delay");
+        englishLanguageBase.put("Module.Modules.SafeWalk.Options.DoubleOption.SneakDelay.description", "Ticks between resending sneak packets");
         englishLanguageBase.put("Module.Modules.SafeWalk.Options.BooleanOption.RandomThreshold.name", "Random Threshold");
-        englishLanguageBase.put("Module.Modules.SafeWalk.Options.BooleanOption.RandomThreshold.description", "Randomize sneak edge threshold");
-        englishLanguageBase.put("Module.Modules.SafeWalk.Options.DoubleOption.Threshold.name", "Edge Threshold");
-        englishLanguageBase.put("Module.Modules.SafeWalk.Options.DoubleOption.Threshold.description", "The fixed distance to trigger sneaking");
+        englishLanguageBase.put("Module.Modules.SafeWalk.Options.BooleanOption.RandomThreshold.description", "Use a random edge detection distance");
+        englishLanguageBase.put("Module.Modules.SafeWalk.Options.DoubleOption.Threshold.name", "Threshold");
+        englishLanguageBase.put("Module.Modules.SafeWalk.Options.DoubleOption.Threshold.description", "Fixed distance from edge to trigger sneaking");
         englishLanguageBase.put("Module.Modules.SafeWalk.Options.DoubleOption.MaxThreshold.name", "Max Threshold");
-        englishLanguageBase.put("Module.Modules.SafeWalk.Options.DoubleOption.MaxThreshold.description", "Maximum random edge threshold");
+        englishLanguageBase.put("Module.Modules.SafeWalk.Options.DoubleOption.MaxThreshold.description", "Maximum random edge distance");
         englishLanguageBase.put("Module.Modules.SafeWalk.Options.DoubleOption.MinThreshold.name", "Min Threshold");
-        englishLanguageBase.put("Module.Modules.SafeWalk.Options.DoubleOption.MinThreshold.description", "Minimum random edge threshold");
+        englishLanguageBase.put("Module.Modules.SafeWalk.Options.DoubleOption.MinThreshold.description", "Minimum random edge distance");
 
         englishLanguageBase.put("Module.Modules.FOVModifier.name", "FOVModifier");
         englishLanguageBase.put("Module.Modules.FOVModifier.description", "Change the fov of the players");
@@ -642,11 +648,11 @@ public class TextManager {
         englishLanguageBase.put("Module.Modules.HandModifier.Options.BooleanOption.MainHandModify.name", "Modify Main Hand");
         englishLanguageBase.put("Module.Modules.HandModifier.Options.BooleanOption.MainHandModify.description", "Enable custom swing progress for the main hand");
         englishLanguageBase.put("Module.Modules.HandModifier.Options.DoubleOption.MainHandProgress.name", "Main Hand Progress");
-        englishLanguageBase.put("Module.Modules.HandModifier.Options.DoubleOption.MainHandProgress.description", "Swing progress for the main hand (-1 to 1)");
+        englishLanguageBase.put("Module.Modules.HandModifier.Options.DoubleOption.MainHandProgress.description", "Swing progress for the main hand");
         englishLanguageBase.put("Module.Modules.HandModifier.Options.BooleanOption.OffHandModify.name", "Modify Off Hand");
         englishLanguageBase.put("Module.Modules.HandModifier.Options.BooleanOption.OffHandModify.description", "Enable custom swing progress for the off hand");
         englishLanguageBase.put("Module.Modules.HandModifier.Options.DoubleOption.OffHandProgress.name", "Off Hand Progress");
-        englishLanguageBase.put("Module.Modules.HandModifier.Options.DoubleOption.OffHandProgress.description", "Swing progress for the off hand (-1 to 1)");
+        englishLanguageBase.put("Module.Modules.HandModifier.Options.DoubleOption.OffHandProgress.description", "Swing progress for the off hand");
         englishLanguageBase.put("Module.Modules.HandModifier.Options.DoubleOption.TranslateX.name", "Translate X");
         englishLanguageBase.put("Module.Modules.HandModifier.Options.DoubleOption.TranslateX.description", "Horizontal offset of the hand");
         englishLanguageBase.put("Module.Modules.HandModifier.Options.DoubleOption.TranslateY.name", "Translate Y");

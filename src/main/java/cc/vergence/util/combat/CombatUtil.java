@@ -91,11 +91,13 @@ public class CombatUtil implements Wrapper {
             return null;
         }
 
-        return StreamSupport.stream(mc.world.getEntities().spliterator(), false)
+        LivingEntity entity = StreamSupport.stream(mc.world.getEntities().spliterator(), false)
                 .filter(e -> e instanceof LivingEntity le && isValidTarget(le, range, types))
                 .map(e -> (LivingEntity) e)
                 .min(Comparator.comparingDouble(mc.player::distanceTo))
                 .orElse(null);
+
+        return (entity instanceof PlayerEntity ? (Vergence.FRIEND.isFriend(entity.getName().getString()) ? null : entity) : entity);
     }
 
     public static boolean isValidTarget(LivingEntity entity, double range, EnumSet<TargetTypes> types) {

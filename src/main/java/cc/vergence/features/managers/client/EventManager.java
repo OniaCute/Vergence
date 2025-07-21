@@ -6,6 +6,7 @@ import cc.vergence.features.event.eventbus.EventHandler;
 import cc.vergence.features.event.events.*;
 import cc.vergence.features.managers.ui.GuiManager;
 import cc.vergence.features.managers.feature.ModuleManager;
+import cc.vergence.features.managers.ui.NotifyManager;
 import cc.vergence.features.options.Option;
 import cc.vergence.features.options.impl.BindOption;
 import cc.vergence.features.screens.ClickGuiScreen;
@@ -394,6 +395,7 @@ public class EventManager implements Wrapper {
             GuiManager.isClickGuiInited = true;
             Vergence.CONSOLE.logInfo("[UI] UI was loaded!");
         }
+        NotifyManager.onTick();
     }
 
     public void onDraw2D(DrawContext context, float tickDelta) {
@@ -402,6 +404,7 @@ public class EventManager implements Wrapper {
                 module.onDraw2D(context, tickDelta);
             }
         }
+        NotifyManager.onDraw2D(context, tickDelta);
     }
 
     public void onDraw3D(MatrixStack matrixStack,  float tickDelta) {
@@ -437,12 +440,24 @@ public class EventManager implements Wrapper {
     }
 
     public void onRenderClickGui(DrawContext context, int mouseX, int mouseY, float partialTicks) {
+        for (Module module : ModuleManager.modules) {
+            module.onRenderClickGui(context, mouseX, mouseY, partialTicks);
+            if (module.getStatus()) {
+                module.onRenderClickGuiAlways(context, mouseX, mouseY, partialTicks);
+            }
+        }
         if (Vergence.GUI != null) {
             Vergence.GUI.onRenderClickGui(context, mouseX, mouseY, partialTicks);
         }
     }
 
     public void onRenderHudEditor(DrawContext context, int mouseX, int mouseY, float partialTicks) {
+        for (Module module : ModuleManager.modules) {
+            module.onRenderHudEditor(context, mouseX, mouseY, partialTicks);
+            if (module.getStatus()) {
+                module.onRenderHudEditorAlways(context, mouseX, mouseY, partialTicks);
+            }
+        }
         if (Vergence.HUD != null) {
             Vergence.HUD.onRenderHudEditor(context, mouseX, mouseY, partialTicks);
         }

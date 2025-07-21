@@ -27,6 +27,7 @@ public class TotemManager implements Wrapper {
     public Integer getPop(String s) {
         return popContainer.getOrDefault(s, 0);
     }
+
     public void update() {
         if (Module.isNull()) return;
         for (PlayerEntity player : mc.world.getPlayers()) {

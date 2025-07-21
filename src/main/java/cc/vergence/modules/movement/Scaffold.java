@@ -6,6 +6,7 @@ import cc.vergence.features.options.Option;
 import cc.vergence.features.options.impl.BooleanOption;
 import cc.vergence.features.options.impl.DoubleOption;
 import cc.vergence.features.options.impl.EnumOption;
+import cc.vergence.features.options.impl.MultipleOption;
 import cc.vergence.modules.Module;
 import cc.vergence.util.blocks.BlockUtil;
 import cc.vergence.util.other.FastTimerUtil;
@@ -22,6 +23,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+
+import java.util.EnumSet;
 
 public class Scaffold extends Module {
     public static Scaffold INSTANCE;
@@ -48,6 +51,9 @@ public class Scaffold extends Module {
     public Option<Double> rotateYawOffset = addOption(new DoubleOption("RotateYawOffset", -180, 180, 180, v -> doRotate.getValue()));
     public Option<Double> rotatePitchOffset = addOption(new DoubleOption("RotatePitchOffset", -180, 180, 0, v -> doRotate.getValue()));
     public Option<Boolean> doShift = addOption(new BooleanOption("DoShift", true));
+    public Option<Boolean> onlyBack = addOption(new BooleanOption("OnlyBack", false, v -> doShift.getValue()));
+    public Option<EnumSet<SafeWalk.SneakModes>> sneakMode = addOption(new MultipleOption<SafeWalk.SneakModes>("SneakMode", EnumSet.of(SafeWalk.SneakModes.Client), v -> doShift.getValue()));
+    public Option<Double> sneakDelay = addOption(new DoubleOption("SneakDelay", 1, 20, 7, v -> doShift.getValue()));
     public Option<Boolean> randomThreshold = addOption(new BooleanOption("RandomThreshold", true, v -> doShift.getValue()));
     public Option<Double> threshold = addOption(new DoubleOption("Threshold", 0.05, 0.3, 0.15, v -> doShift.getValue() && !randomThreshold.getValue()));
     public Option<Double> maxThreshold = addOption(new DoubleOption("MaxThreshold", 0.05, 0.3, 0.15, v -> doShift.getValue() && randomThreshold.getValue()));
@@ -85,7 +91,10 @@ public class Scaffold extends Module {
                     randomThreshold.getValue(),
                     minThreshold.getValue(),
                     maxThreshold.getValue(),
-                    threshold.getValue()
+                    threshold.getValue(),
+                    sneakMode.getValue(),
+                    sneakDelay.getValue(),
+                    onlyBack.getValue()
             );
             if (!timer.passedMs(placeDelay.getValue())) {
                 return;

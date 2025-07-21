@@ -4,6 +4,7 @@ import cc.vergence.Vergence;
 import cc.vergence.features.options.Option;
 import cc.vergence.features.options.impl.BooleanOption;
 import cc.vergence.features.options.impl.DoubleOption;
+import cc.vergence.features.options.impl.MultipleOption;
 import cc.vergence.modules.Module;
 import cc.vergence.util.interfaces.Wrapper;
 import cc.vergence.util.other.RandomUtil;
@@ -13,6 +14,8 @@ import net.minecraft.network.packet.c2s.play.ClientCommandC2SPacket;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
+
+import java.util.EnumSet;
 
 public class SafeWalk extends Module implements Wrapper {
     public static SafeWalk INSTANCE;
@@ -26,6 +29,9 @@ public class SafeWalk extends Module implements Wrapper {
 
     public Option<Boolean> doInject = addOption(new BooleanOption("DoInject", true));
     public Option<Boolean> doShift = addOption(new BooleanOption("DoShift", true));
+    public Option<Boolean> onlyBack = addOption(new BooleanOption("OnlyBack", false, v -> doShift.getValue()));
+    public Option<EnumSet<SneakModes>> sneakMode = addOption(new MultipleOption<SneakModes>("SneakMode", EnumSet.of(SneakModes.Client), v -> doShift.getValue()));
+    public Option<Double> sneakDelay = addOption(new DoubleOption("SneakDelay", 1, 20, 7, v -> doShift.getValue()));
     public Option<Boolean> randomThreshold = addOption(new BooleanOption("RandomThreshold", true, v -> doShift.getValue()));
     public Option<Double> threshold = addOption(new DoubleOption("Threshold", 0.02, 0.45, 0.15, v -> doShift.getValue() && !randomThreshold.getValue()));
     public Option<Double> maxThreshold = addOption(new DoubleOption("MaxThreshold", 0.02, 0.45, 0.15, v -> doShift.getValue() && randomThreshold.getValue()));
@@ -43,11 +49,14 @@ public class SafeWalk extends Module implements Wrapper {
                 randomThreshold.getValue(),
                 minThreshold.getValue(),
                 maxThreshold.getValue(),
-                threshold.getValue()
+                threshold.getValue(),
+                sneakMode.getValue(),
+                sneakDelay.getValue(),
+                onlyBack.getValue()
         );
     }
 
-    public void safeWalkAction(boolean doShift, boolean randomThreshold, double minThreshold, double maxThreshold, double threshold) {
+    public void safeWalkAction(boolean doShift, boolean randomThreshold, double minThreshold, double maxThreshold, double threshold, EnumSet<SneakModes> mode, double delay, boolean onlyBack) {
         if (mc.player == null || mc.world == null || !doShift) {
             return;
         }
@@ -71,46 +80,67 @@ public class SafeWalk extends Module implements Wrapper {
             edgeThreshold = threshold;
         }
 
-        boolean nearEdge = isNearEdge(mc.player, edgeThreshold);
+        boolean nearEdge = isNearEdge(mc.player, edgeThreshold, onlyBack);
         if (nearEdge) {
             if (!sneaking) {
-                startSneaking();
+                startSneaking(mode);
             } else {
-                if (++sneakResendTicks >= 6) {
-                    resendSneaking();
+                if (++sneakResendTicks >= delay) {
+                    resendSneaking(mode);
                     sneakResendTicks = 0;
                 }
             }
         } else if (sneaking) {
-            stopSneaking();
+            stopSneaking(mode);
         }
     }
 
-    private boolean isNearEdge(ClientPlayerEntity player, double threshold) {
-        if (!player.isOnGround()) {
-            return false;
-        }
+    private boolean isNearEdge(ClientPlayerEntity player, double threshold, boolean onlyBack) {
+        if (!player.isOnGround()) return false;
 
         Vec3d pos = player.getPos();
         Box box = player.getBoundingBox().offset(0, -0.05, 0);
 
-        for (double dx = -threshold; dx <= threshold; dx += threshold) {
-            for (double dz = -threshold; dz <= threshold; dz += threshold) {
-                double checkX = pos.x + dx;
-                double checkY = box.minY - 0.01;
-                double checkZ = pos.z + dz;
+        double[][] offsets;
 
-                BlockPos checkPos = BlockPos.ofFloored(checkX, checkY, checkZ);
+        if (onlyBack) {
+            float yaw = player.getYaw();
+            double rad = Math.toRadians(yaw + 180); // back
+            double dx = -Math.sin(rad) * threshold;
+            double dz = Math.cos(rad) * threshold;
 
-                BlockState state = mc.world.getBlockState(checkPos);
-                if (isSupportedBlock(state)) {
-                    continue;
-                }
+            offsets = new double[][] {
+                    {dx, dz}
+            };
+        } else {
+            offsets = new double[][] {
+                    {-threshold, 0},
+                    {threshold, 0},
+                    {0, -threshold},
+                    {0, threshold},
+                    {-threshold, -threshold},
+                    {-threshold, threshold},
+                    {threshold, -threshold},
+                    {threshold, threshold},
+            };
+        }
+
+        for (double[] offset : offsets) {
+            double checkX = pos.x + offset[0];
+            double checkY = box.minY - 0.01;
+            double checkZ = pos.z + offset[1];
+
+            BlockPos checkPos = BlockPos.ofFloored(checkX, checkY, checkZ);
+            BlockState state = mc.world.getBlockState(checkPos);
+
+            if (!isSupportedBlock(state)) {
                 return true;
             }
         }
+
         return false;
     }
+
 
     private boolean isSupportedBlock(BlockState state) {
         if (state.getCollisionShape(mc.world, BlockPos.ORIGIN).isEmpty()) {
@@ -121,43 +151,44 @@ public class SafeWalk extends Module implements Wrapper {
                 || state.getBlock().getTranslationKey().contains("stairs");
     }
 
-    private void startSneaking() {
+    private void startSneaking(EnumSet<SneakModes> mode) {
         if (!sneaking) {
             sneaking = true;
             sneakResendTicks = 0;
-            mc.player.setSneaking(true);
-            mc.options.sneakKey.setPressed(true);
-            sendSneakPacket(true);
+            if (mode.contains(SneakModes.Client)) {
+                mc.player.setSneaking(true);
+                mc.options.sneakKey.setPressed(true);
+            }
+            sendSneakPacket(true, mode);
         }
     }
 
-    private void stopSneaking() {
+    private void stopSneaking(EnumSet<SneakModes> mode) {
         if (sneaking) {
             sneaking = false;
             sneakResendTicks = 0;
-
-            mc.player.setSneaking(false);
-            mc.options.sneakKey.setPressed(false);
-            sendSneakPacket(false);
+            if (mode.contains(SneakModes.Client)) {
+                mc.player.setSneaking(false);
+                mc.options.sneakKey.setPressed(false);
+            }
+            sendSneakPacket(false, mode);
         }
     }
 
-    private void resendSneaking() {
+    private void resendSneaking(EnumSet<SneakModes> mode) {
         if (mc.player != null && sneaking) {
-            sendSneakPacket(true);
+            sendSneakPacket(true, mode);
         }
     }
 
-    private void sendSneakPacket(boolean sneak) {
-        if (mc.getNetworkHandler() != null) {
-            Vergence.NETWORK.sendPacket(
-                    new net.minecraft.network.packet.c2s.play.ClientCommandC2SPacket(
-                            mc.player,
-                            sneak ?
-                                    ClientCommandC2SPacket.Mode.PRESS_SHIFT_KEY :
-                                    ClientCommandC2SPacket.Mode.RELEASE_SHIFT_KEY
-                    )
-            );
+    private void sendSneakPacket(boolean sneak, EnumSet<SneakModes> mode) {
+        if (mc.getNetworkHandler() != null && mode.contains(SneakModes.Server)) {
+            Vergence.NETWORK.sendPacket(new net.minecraft.network.packet.c2s.play.ClientCommandC2SPacket(mc.player, sneak ? ClientCommandC2SPacket.Mode.PRESS_SHIFT_KEY : ClientCommandC2SPacket.Mode.RELEASE_SHIFT_KEY));
         }
+    }
+
+    public enum SneakModes {
+        Server,
+        Client
     }
 }

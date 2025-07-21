@@ -3,50 +3,76 @@ package cc.vergence.features.notifications;
 import cc.vergence.Vergence;
 import cc.vergence.features.enums.Aligns;
 import cc.vergence.features.enums.FontSize;
-import cc.vergence.features.managers.ui.NotifyManager;
 import cc.vergence.modules.client.Notify;
+import cc.vergence.util.color.ColorUtil;
 import cc.vergence.util.font.FontUtil;
 import cc.vergence.util.render.utils.Render2DUtil;
 import net.minecraft.client.gui.DrawContext;
 
-public class SimpleNotification extends Notification{
+import java.awt.*;
+
+public class SimpleNotification extends Notification {
     public SimpleNotification(String text, double aliveTime) {
         this.text = text;
         this.aliveTime = aliveTime;
+        this.fullAliveTime = aliveTime;
+        setHeight(FontUtil.getHeight(FontSize.MEDIUM) + 2);
+        setWidth(FontUtil.getWidth(FontSize.MEDIUM, text) + 4);
     }
 
     @Override
     public void onDraw2D(DrawContext context, float tickDelta) {
+        double x = getX();
+        double y = getY();
+        double width = getWidth();
+        double height = getHeight();
+        double barHeight = Notify.INSTANCE.aliveTimeWidth.getValue();
         if (Notify.INSTANCE.rounded.getValue()) {
             Render2DUtil.drawRoundedRect(
                     context.getMatrices(),
-                    NotifyManager.nextNotificationPos.getA(),
-                    NotifyManager.nextNotificationPos.getB(),
-                    FontUtil.getWidth(FontSize.MEDIUM, this.text),
-                    FontUtil.getHeight(FontSize.MEDIUM),
+                    x,
+                    y,
+                    width,
+                    height,
                     Notify.INSTANCE.radius.getValue(),
-                    Vergence.THEME.getTheme().getNotificationBackgroundColor()
+                    Notify.INSTANCE.backgroundColor.getValue()
             );
         } else {
             Render2DUtil.drawRect(
                     context,
-                    NotifyManager.nextNotificationPos.getA() - 2,
-                    NotifyManager.nextNotificationPos.getB() - 2,
-                    FontUtil.getWidth(FontSize.MEDIUM, this.text) + 4,
-                    FontUtil.getHeight(FontSize.MEDIUM) + 4,
-                    Vergence.THEME.getTheme().getNotificationBackgroundColor()
+                    x,
+                    y,
+                    width,
+                    height,
+                    Notify.INSTANCE.backgroundColor.getValue()
             );
         }
-
+        double progress = aliveTime / fullAliveTime;
+        double barWidth = width * progress;
+        barWidth = Math.max(0, Math.min(barWidth, width));
+        boolean alignRight = Notify.INSTANCE.align.getValue().equals(Notify.Aligns.Right);
+        double barX = alignRight
+                ? x + width - barWidth
+                : x;
+        Render2DUtil.drawRoundedRect(
+                context.getMatrices(),
+                barX,
+                y + height - barHeight,
+                barWidth,
+                barHeight,
+                Notify.INSTANCE.aliveTimeRadius.getValue(),
+                Notify.INSTANCE.aliveTimeColor.getValue()
+        );
         FontUtil.drawTextWithAlign(
                 context,
                 text,
-                NotifyManager.nextNotificationPos.getA(),
-                NotifyManager.nextNotificationPos.getB(),
-                FontUtil.getWidth(FontSize.MEDIUM, this.text),
-                FontUtil.getHeight(FontSize.MEDIUM),
+                x + 1,
+                y + 2,
+                x + width,
+                y + height,
                 Aligns.LEFT,
-                Vergence.THEME.getTheme().getNotificationTextColor(),
-                FontSize.MEDIUM);
+                Notify.INSTANCE.textColor.getValue(),
+                FontSize.MEDIUM
+        );
     }
 }

@@ -361,6 +361,18 @@ public abstract class Module implements Wrapper {
     public void onClickSlotAlways(SlotActionType slotActionType, int slot, int button, int id) {
     }
 
+    public void onRenderClickGui(DrawContext context, int mouseX, int mouseY, float partialTicks) {
+    }
+
+    public void onRenderClickGuiAlways(DrawContext context, int mouseX, int mouseY, float partialTicks) {
+    }
+
+    public void onRenderHudEditor(DrawContext context, int mouseX, int mouseY, float partialTicks) {
+    }
+
+    public void onRenderHudEditorAlways(DrawContext context, int mouseX, int mouseY, float partialTicks) {
+    }
+
     public void setName(String name) {
         this.name = name;
     }

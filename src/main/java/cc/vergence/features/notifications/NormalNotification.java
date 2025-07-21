@@ -1,13 +1,27 @@
 package cc.vergence.features.notifications;
 
+import cc.vergence.Vergence;
+import cc.vergence.features.enums.Aligns;
+import cc.vergence.features.enums.FontSize;
+import cc.vergence.modules.client.Notify;
+import cc.vergence.util.font.FontUtil;
+import cc.vergence.util.render.utils.Render2DUtil;
 import net.minecraft.client.gui.DrawContext;
 
 public class NormalNotification extends Notification {
     private String description;
-    public NormalNotification(String text, String description, double aliveTime) {
-        this.text = text;
+
+    public NormalNotification(String title, String description, double aliveTime) {
+        this.text = title;
         this.description = description;
+        this.fullAliveTime = aliveTime;
         this.aliveTime = aliveTime;
+        double titleHeight = FontUtil.getHeight(FontSize.MEDIUM);
+        double descHeight = FontUtil.getHeight(FontSize.SMALL);
+        double totalHeight = titleHeight + descHeight;
+        double maxWidth = Math.max(FontUtil.getWidth(FontSize.MEDIUM, title), FontUtil.getWidth(FontSize.SMALL, description)) + 4;
+        setHeight(totalHeight);
+        setWidth(maxWidth);
     }
 
     public void setDescription(String description) {
@@ -20,5 +34,70 @@ public class NormalNotification extends Notification {
 
     @Override
     public void onDraw2D(DrawContext context, float tickDelta) {
+        double x = getX();
+        double y = getY();
+        double width = getWidth();
+        double height = getHeight();
+        double barHeight = Notify.INSTANCE.aliveTimeWidth.getValue();
+        if (Notify.INSTANCE.rounded.getValue()) {
+            Render2DUtil.drawRoundedRect(
+                    context.getMatrices(),
+                    x,
+                    y,
+                    width,
+                    height,
+                    Notify.INSTANCE.radius.getValue(),
+                    Notify.INSTANCE.backgroundColor.getValue()
+            );
+        } else {
+            Render2DUtil.drawRect(
+                    context,
+                    x,
+                    y,
+                    width,
+                    height,
+                    Notify.INSTANCE.backgroundColor.getValue()
+            );
+        }
+
+        FontUtil.drawTextWithAlign(
+                context,
+                text,
+                x + 2,
+                y - 2,
+                x + width,
+                y + height,
+                Aligns.LEFT,
+                Notify.INSTANCE.titleColor.getValue(),
+                FontSize.LARGE
+        );
+
+        double titleHeight = FontUtil.getHeight(FontSize.LARGE);
+        FontUtil.drawTextWithAlign(
+                context,
+                description,
+                x + 2,
+                y + titleHeight - 2,
+                x + width,
+                y + height,
+                Aligns.LEFT,
+                Notify.INSTANCE.textColor.getValue(),
+                FontSize.SMALL
+        );
+
+        double progress = aliveTime / fullAliveTime;
+        double barWidth = width * progress;
+        barWidth = Math.max(0, Math.min(barWidth, width));
+        boolean alignRight = Notify.INSTANCE.align.getValue().equals(Notify.Aligns.Right);
+        double barX = alignRight ? x + width - barWidth : x;
+        Render2DUtil.drawRoundedRect(
+                context.getMatrices(),
+                barX,
+                y + height - barHeight,
+                barWidth,
+                barHeight,
+                Notify.INSTANCE.aliveTimeRadius.getValue(),
+                Notify.INSTANCE.aliveTimeColor.getValue()
+        );
     }
 }

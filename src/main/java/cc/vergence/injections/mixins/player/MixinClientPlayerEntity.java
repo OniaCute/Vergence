@@ -4,15 +4,18 @@ import cc.vergence.Vergence;
 import cc.vergence.features.event.Event;
 import cc.vergence.features.event.events.MoveEvent;
 import cc.vergence.features.event.events.PlayerUpdateEvent;
+import cc.vergence.features.event.events.SyncEvent;
 import cc.vergence.features.event.events.UpdateWalkingEvent;
 import cc.vergence.modules.player.PortalGod;
 import cc.vergence.modules.visual.SwingModifier;
+import cc.vergence.util.interfaces.Wrapper;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.MovementType;
+import net.minecraft.network.packet.c2s.play.ClientCommandC2SPacket;
 import net.minecraft.network.packet.c2s.play.HandSwingC2SPacket;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.Vec3d;
@@ -24,7 +27,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ClientPlayerEntity.class)
-public abstract class MixinClientPlayerEntity extends AbstractClientPlayerEntity {
+public abstract class MixinClientPlayerEntity extends AbstractClientPlayerEntity implements Wrapper {
 	@Shadow
 	private void sendSprintingPacket() {
 	}
@@ -59,8 +62,11 @@ public abstract class MixinClientPlayerEntity extends AbstractClientPlayerEntity
 
 	@Inject(method = {"sendMovementPackets"}, at = {@At(value = "HEAD")})
 	private void preMotion(CallbackInfo info) {
-		UpdateWalkingEvent event = new UpdateWalkingEvent(Event.Stage.Pre);
-		Vergence.EVENTBUS.post(event);
+		if (mc.player == null) {
+			return ;
+		}
+		Vergence.EVENTBUS.post(new SyncEvent(getYaw(), getPitch()));
+		Vergence.EVENTBUS.post(new UpdateWalkingEvent(Event.Stage.Pre));
 	}
 
 	@Inject(method = {"sendMovementPackets"}, at = {@At(value = "RETURN")})
@@ -71,7 +77,8 @@ public abstract class MixinClientPlayerEntity extends AbstractClientPlayerEntity
 
 	@Inject(method = "tickNausea", at = @At("HEAD"), cancellable = true)
 	private void updateNauseaHook(CallbackInfo ci) {
-		if (PortalGod.INSTANCE != null && PortalGod.INSTANCE.getStatus())
+		if (PortalGod.INSTANCE != null && PortalGod.INSTANCE.getStatus()) {
 			ci.cancel();
+		}
 	}
 }

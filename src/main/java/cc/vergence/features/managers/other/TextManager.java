@@ -31,24 +31,24 @@ public class TextManager {
         englishLanguageBase.put("COMMANDS.MESSAGE.COMMAND_NOT_FOUND", "No commands found about:");
         englishLanguageBase.put("COMMANDS.MESSAGE.INVALID_COMMAND", "§cInvalid Command! §fType§e h  elp§f for a list of commands.");
         englishLanguageBase.put("COMMANDS.MESSAGE.FRIEND.LIST_TITLE", "§bFriends:");
-        englishLanguageBase.put("COMMANDS.MESSAGE.FRIEND.EMPTY", "Friends list is §6empty");
-        englishLanguageBase.put("COMMANDS.MESSAGE.FRIEND.RESET", "Friends list got §breset");
-        englishLanguageBase.put("COMMANDS.MESSAGE.FRIEND.REMOVE", "Friend §cremoved §rsuccessfully");
-        englishLanguageBase.put("COMMANDS.MESSAGE.FRIEND.ADD", "Friend §badded §rsuccessfully");
+        englishLanguageBase.put("COMMANDS.MESSAGE.FRIEND.EMPTY", "Friends list is §6empty.");
+        englishLanguageBase.put("COMMANDS.MESSAGE.FRIEND.RESET", "Friends list got §breset.");
+        englishLanguageBase.put("COMMANDS.MESSAGE.FRIEND.REMOVE", "Friend §cremoved §rsuccessfully.");
+        englishLanguageBase.put("COMMANDS.MESSAGE.FRIEND.ADD", "Friend §badded §rsuccessfully.");
         englishLanguageBase.put("COMMANDS.MESSAGE.FRIEND.IS_ENEMY", "§cThis player in your enemy list!");
         englishLanguageBase.put("COMMANDS.MESSAGE.ENEMY.LIST_TITLE", "§bEnemies:");
-        englishLanguageBase.put("COMMANDS.MESSAGE.ENEMY.EMPTY", "Enemies list is §bempty");
-        englishLanguageBase.put("COMMANDS.MESSAGE.ENEMY.RESET", "Enemies list got §breset");
-        englishLanguageBase.put("COMMANDS.MESSAGE.ENEMY.REMOVE", "Enemy §cremoved successfully");
+        englishLanguageBase.put("COMMANDS.MESSAGE.ENEMY.EMPTY", "Enemies list is §bempty.");
+        englishLanguageBase.put("COMMANDS.MESSAGE.ENEMY.RESET", "Enemies list got §breset.");
+        englishLanguageBase.put("COMMANDS.MESSAGE.ENEMY.REMOVE", "Enemy §cremoved successfully.");
         englishLanguageBase.put("COMMANDS.MESSAGE.ENEMY.ADD", "Enemy §badded successfully");
         englishLanguageBase.put("COMMANDS.MESSAGE.ENEMY.IS_FRIEND", "§cThis player in your friend list!");
-        englishLanguageBase.put("COMMANDS.MESSAGE.BIND.UNKNOWN_MODULE", "Target is a §bunknown §rmodule");
-        englishLanguageBase.put("COMMANDS.MESSAGE.BIND.NO_KEY", "Please §bspecify §ra key");
+        englishLanguageBase.put("COMMANDS.MESSAGE.BIND.UNKNOWN_MODULE", "Target is a §bunknown §rmodule.");
+        englishLanguageBase.put("COMMANDS.MESSAGE.BIND.NO_KEY", "Please §bspecify §ra key.");
         englishLanguageBase.put("COMMANDS.MESSAGE.BIND.UNKNOWN_ERROR", "Unknown internal error.");
         englishLanguageBase.put("COMMANDS.MESSAGE.BIND.BIND_OK", "Key bind §asuccessfully");
-        englishLanguageBase.put("COMMANDS.MESSAGE.PREFIX.NO_PREFIX", "Please specify a prefix (one char)");
+        englishLanguageBase.put("COMMANDS.MESSAGE.PREFIX.NO_PREFIX", "Please specify a prefix. (one char)");
         englishLanguageBase.put("COMMANDS.MESSAGE.PREFIX.OK", "Now prefix is");
-        englishLanguageBase.put("COMMANDS.MESSAGE.TOGGLE.UNKNOWN_MODULE", "Target is a §cunknown §rmodule");
+        englishLanguageBase.put("COMMANDS.MESSAGE.TOGGLE.UNKNOWN_MODULE", "Target is a §cunknown §rmodule.");
 
         englishLanguageBase.put("SCREEN.MainMenu.Buttons.SinglePlayer", "Single Player");
         englishLanguageBase.put("SCREEN.MainMenu.Buttons.MultiPlayer", "Multiplayer");
@@ -64,7 +64,7 @@ public class TextManager {
         englishLanguageBase.put("Module.Category.MISC.name", "Misc");
         englishLanguageBase.put("Module.Category.HUD.name", "HUD");
 
-        englishLanguageBase.put("Module.Special.Messages.Blocked", "Module {a} is blocked by {b}.");
+        englishLanguageBase.put("Module.Special.Messages.Blocked", "Module §b{a} §ris §cblocked by §b{b}§r.");
         englishLanguageBase.put("Module.Special.ModuleBind.name", "Hotkey");
         englishLanguageBase.put("Module.Special.ModuleBind.description", "The hotkey of the module");
         englishLanguageBase.put("Module.Special.ModuleDraw.name", "Display");

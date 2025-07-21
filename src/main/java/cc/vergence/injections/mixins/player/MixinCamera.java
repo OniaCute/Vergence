@@ -17,19 +17,23 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
 @Mixin(Camera.class)
-public class MixinCamera {
+public abstract class MixinCamera {
     @Shadow private boolean thirdPerson;
+
+    @Shadow
+    protected abstract float clipToSpace(float desiredCameraDistance);
+
     @ModifyArgs(method = "update", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/Camera;clipToSpace(F)F"))
     private void update(Args args) {
-        if (CameraClip.INSTANCE != null && CameraClip.INSTANCE.getStatus()) {
-            args.set(0, CameraClip.INSTANCE.distance.getValue().floatValue());
+        if (CameraClip.INSTANCE.getStatus()) {
+            args.set(0, -clipToSpace((float) CameraClip.INSTANCE.getDistance()));
         }
     }
 
     @Inject(method = "clipToSpace", at = @At("HEAD"), cancellable = true)
     private void clipToSpace(float f, CallbackInfoReturnable<Float> info) {
-        if (CameraClip.INSTANCE != null && CameraClip.INSTANCE.getStatus()) {
-            info.setReturnValue(f);
+        if (CameraClip.INSTANCE.getStatus()) {
+            info.setReturnValue((float) CameraClip.INSTANCE.getDistance());
         }
     }
 

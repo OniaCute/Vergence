@@ -28,6 +28,7 @@ public class BlockHighlight extends Module {
 
     public BlockHighlight() {
         super("BlockHighlight", Category.VISUAL);
+        INSTANCE = this;
     }
 
     public Option<EnumSet<Modes>> mode = addOption(new MultipleOption<Modes>("Mode", EnumSet.of(Modes.Outline)));

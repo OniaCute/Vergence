@@ -10,6 +10,7 @@ public class HandModifier extends Module {
 
     public HandModifier() {
         super("HandModifier", Category.VISUAL);
+        INSTANCE = this;
     }
 
     public Option<Boolean> noEatingAnimation = addOption(new BooleanOption("NoEatingAnimation", false));

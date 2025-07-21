@@ -11,6 +11,7 @@ public class StorageESP extends Module {
 
     public StorageESP() {
         super("StorageESP", Category.VISUAL);
+        INSTANCE = this;
     }
 
     @Override

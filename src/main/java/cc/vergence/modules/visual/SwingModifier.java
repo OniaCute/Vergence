@@ -14,6 +14,7 @@ public class SwingModifier extends Module {
 
     public SwingModifier() {
         super("SwingModifier", Category.VISUAL);
+        INSTANCE = this;
     }
 
     public Option<Double> speed = addOption(new DoubleOption("Speed", 1, 20, 15));

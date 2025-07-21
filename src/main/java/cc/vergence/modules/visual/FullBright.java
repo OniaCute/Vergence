@@ -12,6 +12,7 @@ public class FullBright extends Module {
 
     public FullBright() {
         super("FullBright", Category.VISUAL);
+        INSTANCE = this;
     }
 
     public Option<Enum<?>> mode = addOption(new EnumOption("Mode", Modes.Gamma));

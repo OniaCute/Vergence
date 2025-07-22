@@ -398,6 +398,12 @@ public abstract class Module implements Wrapper {
     public void onEntityRemoveAlways(EntityRemoveEvent event, Entity entity) {
     }
 
+    public void onDisconnect(DisconnectEvent event, String reason) {
+    }
+
+    public void onDisconnectAlways(DisconnectEvent event, String reason) {
+    }
+
     public void setName(String name) {
         this.name = name;
     }

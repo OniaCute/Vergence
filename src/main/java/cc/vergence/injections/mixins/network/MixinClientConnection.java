@@ -3,6 +3,8 @@ package cc.vergence.injections.mixins.network;
 import cc.vergence.Vergence;
 import cc.vergence.features.event.events.DisconnectEvent;
 import cc.vergence.features.event.events.PacketEvent;
+import cc.vergence.features.managers.ui.NotifyManager;
+import cc.vergence.modules.exploit.SilentDisconnect;
 import io.netty.channel.ChannelHandlerContext;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.network.packet.Packet;
@@ -40,9 +42,12 @@ public class MixinClientConnection {
         }
     }
 
-    @Inject(method = "disconnect*", at = @At(value = "HEAD"))
+    @Inject(method = "disconnect*", at = @At(value = "HEAD"), cancellable = true)
     private void hookDisconnect(Text disconnectReason, CallbackInfo ci) {
-        DisconnectEvent disconnectEvent = new DisconnectEvent();
+        DisconnectEvent disconnectEvent = new DisconnectEvent(disconnectReason.getString());
         Vergence.EVENTBUS.post(disconnectEvent);
+        if (disconnectEvent.isCancel()) {
+            ci.cancel();
+        }
     }
 }

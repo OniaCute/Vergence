@@ -723,10 +723,10 @@ public class TextManager {
         englishLanguageBase.put("Module.Modules.Timer.Options.DoubleOption.TimerScale.name", "Timer Scale");
         englishLanguageBase.put("Module.Modules.Timer.Options.DoubleOption.TimerScale.description", "Multiplier for client tick speed");
 
-        englishLanguageBase.put("Module.Modules.LagSpoof.name", "Lag Spoof");
-        englishLanguageBase.put("Module.Modules.LagSpoof.description", "Delays movement packets to simulate lag");
-        englishLanguageBase.put("Module.Modules.LagSpoof.Options.DoubleOption.Choke.name", "Choke");
-        englishLanguageBase.put("Module.Modules.LagSpoof.Options.DoubleOption.Choke.description", "Milliseconds to hold movement packets before releasing");
+        englishLanguageBase.put("Module.Modules.MovementLagSpoof.name", "Movement Lag Spoof");
+        englishLanguageBase.put("Module.Modules.MovementLagSpoof.description", "Delays movement packets to simulate lag");
+        englishLanguageBase.put("Module.Modules.MovementLagSpoof.Options.DoubleOption.Choke.name", "Choke");
+        englishLanguageBase.put("Module.Modules.MovementLagSpoof.Options.DoubleOption.Choke.description", "Milliseconds to hold movement packets before releasing");
 
         englishLanguageBase.put("Module.Modules.AntiLevitation.name", "Anti Levitation");
         englishLanguageBase.put("Module.Modules.AntiLevitation.description", "Reduce the effect of levitation");
@@ -771,6 +771,28 @@ public class TextManager {
         englishLanguageBase.put("Module.Modules.VisualRange.Options.BooleanOption.Sound.description", "Play a sound along with the notification");
         englishLanguageBase.put("Module.Modules.VisualRange.Messages.Join", "Player §b{player} §rhas §ajoined §rthe visual range!");
         englishLanguageBase.put("Module.Modules.VisualRange.Messages.Leave", "Player §b{player} §rhas §cleaved §rthe visual range!");
+
+        englishLanguageBase.put("Module.Modules.SilentDisconnect.name", "Silent Disconnect");
+        englishLanguageBase.put("Module.Modules.SilentDisconnect.description", "When you are kicked out of the server, your will be retained in the server");
+        englishLanguageBase.put("Module.Modules.SilentDisconnect.Messages.Disconnect", "You got §ckicked§r: {reason}");
+
+        englishLanguageBase.put("Module.Modules.CarryPro.name", "Carry+");
+        englishLanguageBase.put("Module.Modules.CarryPro.description", "Keep the items in the composite bar");
+
+        englishLanguageBase.put("Module.Modules.AutoRespawn.name", "Auto Respawn");
+        englishLanguageBase.put("Module.Modules.AutoRespawn.description", "Auto respawn when you die");
+
+        englishLanguageBase.put("Module.Modules.PacketsLimit.name", "Packets Limit");
+        englishLanguageBase.put("Module.Modules.PacketsLimit.description", "Restricts the rate of movement packets sent to the server to reduce anti cheat flags.");
+        englishLanguageBase.put("Module.Modules.PacketsLimit.Options.BooleanOption.Stop.name", "Stop");
+        englishLanguageBase.put("Module.Modules.PacketsLimit.Options.BooleanOption.Stop.description", "Cancel the sending of the packets when the limit is exceeded");
+        englishLanguageBase.put("Module.Modules.PacketsLimit.Options.DoubleOption.resetTime.name", "Reset Time");
+        englishLanguageBase.put("Module.Modules.PacketsLimit.Options.DoubleOption.resetTime.description", "The interval for resetting a record");
+        englishLanguageBase.put("Module.Modules.PacketsLimit.Options.DoubleOption.Limit.name", "Full Packet Limit");
+        englishLanguageBase.put("Module.Modules.PacketsLimit.Options.DoubleOption.Limit.description", "Maximum Full PlayerMove packets sent in period of time");
+        englishLanguageBase.put("Module.Modules.PacketsLimit.Options.BooleanOption.Notify.name", "Notify");
+        englishLanguageBase.put("Module.Modules.PacketsLimit.Options.BooleanOption.Notify.description", "Notify when the number of packets reaches the limit.");
+        englishLanguageBase.put("Module.Modules.PacketsLimit.Messages.Full", "The number of packets has reached the limit!");
     }
 
     private void loadChinese() {

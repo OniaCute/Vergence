@@ -315,6 +315,17 @@ public class EventManager implements Wrapper {
         }
     }
 
+    @EventHandler
+    public void onDisconnect(DisconnectEvent event) {
+        String reason = event.getReason();
+        for (Module module : ModuleManager.modules) {
+            module.onDisconnectAlways(event, reason);
+            if (module.getStatus()) {
+                module.onDisconnect(event, reason);
+            }
+        }
+    }
+
     public void onMouseActive(int button, int action) {
         int bindCode = -100 - button;
         boolean shiftPressed = InputUtil.isKeyPressed(mc.getWindow().getHandle(), GLFW.GLFW_KEY_LEFT_SHIFT) || InputUtil.isKeyPressed(mc.getWindow().getHandle(), GLFW.GLFW_KEY_RIGHT_SHIFT);

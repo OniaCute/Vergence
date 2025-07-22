@@ -74,13 +74,17 @@ public class ModuleManager {
         registerModule(new MiddleClickExpansion());
         registerModule(new SaveBreak());
         registerModule(new Timer());
-        registerModule(new LagSpoof());
+        registerModule(new MovementLagSpoof());
         registerModule(new AntiLevitation());
         registerModule(new Parkour());
         registerModule(new TickShift());
         registerModule(new NameProtect());
         registerModule(new AutoLogin());
         registerModule(new VisualRange());
+        registerModule(new CarryPro());
+        registerModule(new SilentDisconnect());
+        registerModule(new AutoRespawn());
+        registerModule(new PacketsLimit());
 
         // special module
         registerModule(new SafeMode());

@@ -5,11 +5,15 @@ import cc.vergence.features.managers.feature.ModuleManager;
 import cc.vergence.modules.Module;
 import cc.vergence.modules.client.Title;
 import cc.vergence.modules.combat.NoCooldown;
+import cc.vergence.modules.player.AutoRespawn;
 import cc.vergence.util.font.FontRenderers;
 import cc.vergence.util.font.FontUtil;
 import cc.vergence.util.interfaces.Wrapper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.RunArgs;
+import net.minecraft.client.gui.screen.DeathScreen;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.util.thread.ReentrantThreadExecutor;
 import org.jetbrains.annotations.Nullable;
@@ -122,14 +126,11 @@ public abstract class MixinMinecraftClient extends ReentrantThreadExecutor<Runna
     }
 
 
-    // "loading minecraft" problem
-//    @Inject(method = "setScreen", at = @At("RETURN"), cancellable = true)
-//    private void setScreen(Screen screen, CallbackInfo info) {
-//        if (screen instanceof TitleScreen) {
-//            if (MainMenu.INSTANCE != null && MainMenu.INSTANCE.getStatus() && isGameInitialized) {
-//                this.setScreen(new MainMenuScreen(), info);
-//                info.cancel();
-//            }
-//        }
-//    }
+    @Inject(method = "setScreen", at = @At("HEAD"), cancellable = true)
+    private void setScreen(Screen screen, CallbackInfo info) {
+        if (screen instanceof DeathScreen && mc.player != null && AutoRespawn.INSTANCE.getStatus()) {
+            mc.player.requestRespawn();
+            info.cancel();
+        }
+    }
 }

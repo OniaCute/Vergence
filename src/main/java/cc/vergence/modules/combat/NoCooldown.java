@@ -12,12 +12,13 @@ public class NoCooldown extends Module {
         INSTANCE = this;
     }
 
+    public Option<Boolean> forBreak = addOption(new BooleanOption("Break", false));
     public Option<Boolean> forAttack = addOption(new BooleanOption("Attack", false));
     public Option<Boolean> forJump = addOption(new BooleanOption("Jump", false));
     public Option<Double> jumpTicks = addOption(new DoubleOption("JumpTicks", 0, 20, 1));
 
     @Override
     public String getDetails() {
-        return forAttack.getValue() ? "Unsafe" : forJump.getValue() ? "Unsafe" : "None";
+        return forAttack.getValue() || forBreak.getValue()? "Unsafe" : forJump.getValue() ? "Unsafe" : "None";
     }
 }

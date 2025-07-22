@@ -1,5 +1,7 @@
 package cc.vergence.features.options.impl;
 
+import cc.vergence.Vergence;
+import cc.vergence.features.event.events.OptionValueUpdateEvent;
 import cc.vergence.features.options.Option;
 import cc.vergence.util.other.EnumUtil;
 
@@ -38,6 +40,7 @@ public class MultipleOption<E extends Enum<E>> extends Option<EnumSet<E>> {
             E first = value.iterator().next();
             this.enumClass = (Class<E>) first.getDeclaringClass();
         }
+        Vergence.EVENTBUS.post(new OptionValueUpdateEvent());
     }
 
     public Class<E> getEnumClass() {

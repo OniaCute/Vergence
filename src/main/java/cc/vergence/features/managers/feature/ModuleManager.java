@@ -72,6 +72,8 @@ public class ModuleManager {
         registerModule(new HandModifier());
         registerModule(new BlockHighlight());
         registerModule(new MiddleClickExpansion());
+        registerModule(new SaveBreak());
+        registerModule(new Timer());
 
         // special module
         registerModule(new SafeMode());

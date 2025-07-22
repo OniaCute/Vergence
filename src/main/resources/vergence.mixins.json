@@ -22,6 +22,7 @@
     "mixins.client.MixinWindow",
     "mixins.entity.MixinLivingEntity",
     "mixins.entity.MixinLivingEntityRenderer",
+    "mixins.hardware.KeyboardInputMixin",
     "mixins.hardware.MixinKeyboard",
     "mixins.hardware.MixinMouseActive",
     "mixins.network.MixinClientConnection",
@@ -39,7 +40,7 @@
     "mixins.screen.MixinDownloadingTerrainScreen",
     "mixins.screen.MixinScreen",
     "mixins.screen.MixinTitleScreen",
-    "mixins.hardware.KeyboardInputMixin"
+    "mixins.world.MixinRenderTickCounter"
   ],
   "injectors": {
     "defaultRequire": 1

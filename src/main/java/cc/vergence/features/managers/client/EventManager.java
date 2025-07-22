@@ -283,6 +283,16 @@ public class EventManager implements Wrapper {
         }
     }
 
+    @EventHandler
+    public void onOptionValueUpdate(OptionValueUpdateEvent event) {
+        for (Module module : ModuleManager.modules) {
+            module.onOptionValueUpdateAlways();
+            if (module.getStatus()) {
+                module.onOptionValueUpdate();
+            }
+        }
+    }
+
     public void onMouseActive(int button, int action) {
         int bindCode = -100 - button;
         boolean shiftPressed = InputUtil.isKeyPressed(mc.getWindow().getHandle(), GLFW.GLFW_KEY_LEFT_SHIFT) || InputUtil.isKeyPressed(mc.getWindow().getHandle(), GLFW.GLFW_KEY_RIGHT_SHIFT);

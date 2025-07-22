@@ -1,5 +1,7 @@
 package cc.vergence.features.options.impl;
 
+import cc.vergence.Vergence;
+import cc.vergence.features.event.events.OptionValueUpdateEvent;
 import cc.vergence.features.options.Option;
 import cc.vergence.util.interfaces.Wrapper;
 import cc.vergence.util.other.FastTimerUtil;
@@ -30,11 +32,13 @@ public class BindOption extends Option<Integer> implements Wrapper {
     public void setValue(Integer value) {
         this.value = value;
         this.needShift = false;
+        Vergence.EVENTBUS.post(new OptionValueUpdateEvent());
     }
 
     public void setValue(char value) {
         this.value = (int) value;
         this.needShift = false;
+        Vergence.EVENTBUS.post(new OptionValueUpdateEvent());
     }
 
     @Override
@@ -48,6 +52,7 @@ public class BindOption extends Option<Integer> implements Wrapper {
 
     public void setBindType(BindType bindType) {
         this.bindType = bindType;
+        Vergence.EVENTBUS.post(new OptionValueUpdateEvent());
     }
 
     public BindType getBindType() {

@@ -1,5 +1,7 @@
 package cc.vergence.features.options.impl;
 
+import cc.vergence.Vergence;
+import cc.vergence.features.event.events.OptionValueUpdateEvent;
 import cc.vergence.features.options.Option;
 import cc.vergence.util.other.EnumUtil;
 
@@ -24,6 +26,7 @@ public class EnumOption extends Option<Enum<?>> {
     @Override
     public void setValue(Enum<?> value) {
         this.value = value;
+        Vergence.EVENTBUS.post(new OptionValueUpdateEvent());
     }
 
     public <T extends Enum<T>> T getNext(T value) {

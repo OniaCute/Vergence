@@ -394,6 +394,8 @@ public class TextManager {
 
         englishLanguageBase.put("Module.Modules.NoCooldown.name", "No Cooldown");
         englishLanguageBase.put("Module.Modules.NoCooldown.description", "Reduce the cooling time between operations");
+        englishLanguageBase.put("Module.Modules.NoCooldown.Options.BooleanOption.Break.name", "Break");
+        englishLanguageBase.put("Module.Modules.NoCooldown.Options.BooleanOption.Break.description", "No break cooldown");
         englishLanguageBase.put("Module.Modules.NoCooldown.Options.BooleanOption.Attack.name", "Attack");
         englishLanguageBase.put("Module.Modules.NoCooldown.Options.BooleanOption.Attack.description", "No attack cooldown");
         englishLanguageBase.put("Module.Modules.NoCooldown.Options.BooleanOption.Jump.name", "Jump");
@@ -709,6 +711,14 @@ public class TextManager {
         englishLanguageBase.put("Module.Modules.MiddleClickExpansion.description", "Adds extra actions to the middle mouse button");
         englishLanguageBase.put("Module.Modules.MiddleClickExpansion.Options.EnumOption.Action.name", "Action");
         englishLanguageBase.put("Module.Modules.MiddleClickExpansion.Options.EnumOption.Action.description", "Action performed on middle click");
+
+        englishLanguageBase.put("Module.Modules.SaveBreak.name", "Save Break");
+        englishLanguageBase.put("Module.Modules.SaveBreak.description", "Save the break progress to ensure it does not abort");
+
+        englishLanguageBase.put("Module.Modules.Timer.name", "Timer");
+        englishLanguageBase.put("Module.Modules.Timer.description", "Globally adjusts game speed");
+        englishLanguageBase.put("Module.Modules.Timer.Options.DoubleOption.TimerScale.name", "Timer Scale");
+        englishLanguageBase.put("Module.Modules.Timer.Options.DoubleOption.TimerScale.description", "Multiplier for client tick speed");
     }
 
     private void loadChinese() {

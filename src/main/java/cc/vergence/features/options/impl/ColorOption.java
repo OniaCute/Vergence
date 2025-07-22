@@ -1,5 +1,7 @@
 package cc.vergence.features.options.impl;
 
+import cc.vergence.Vergence;
+import cc.vergence.features.event.events.OptionValueUpdateEvent;
 import cc.vergence.features.options.Option;
 import cc.vergence.modules.client.ClickGUI;
 import cc.vergence.modules.client.Client;
@@ -13,7 +15,7 @@ import java.util.function.Predicate;
 
 public class ColorOption extends Option<Color> {
     private boolean isRainbow;
-    private long time;
+    private long time = System.currentTimeMillis();
 
     public ColorOption(String name) {
         super(name, new Color(0), v -> true);
@@ -36,7 +38,7 @@ public class ColorOption extends Option<Color> {
         if (isRainbow()) {
             float[] hsb = Color.RGBtoHSB(value.getRed(), value.getGreen(), value.getBlue(), null);
 
-            double rainbowState = ((ClickGUI.INSTANCE != null && ClickGUI.INSTANCE.rainbowSync.getValue() ? System.currentTimeMillis() : time) / (ClickGUI.INSTANCE != null ? ClickGUI.INSTANCE.rainbowSpeed.getValue() : 200)) % 360;
+            double rainbowState = ((ClickGUI.INSTANCE != null && ClickGUI.INSTANCE.rainbowSync.getValue() ? System.currentTimeMillis() : System.currentTimeMillis() - time) / (ClickGUI.INSTANCE != null ? ClickGUI.INSTANCE.rainbowSpeed.getValue() : 100)) % 360;
 
             int rgb = Color.getHSBColor((float) (rainbowState / 360.0f), hsb[1], hsb[2]).getRGB();
             int red = (rgb >> 16) & 0xFF;
@@ -51,14 +53,17 @@ public class ColorOption extends Option<Color> {
     @Override
     public void setValue(Color value) {
         this.value = value;
+        Vergence.EVENTBUS.post(new OptionValueUpdateEvent());
     }
 
     public void setValue(int value) {
         this.value = new Color(value);
+        Vergence.EVENTBUS.post(new OptionValueUpdateEvent());
     }
 
     public void setRainbow(boolean rainbow) {
         isRainbow = rainbow;
+        Vergence.EVENTBUS.post(new OptionValueUpdateEvent());
     }
 
     public boolean isRainbow() {

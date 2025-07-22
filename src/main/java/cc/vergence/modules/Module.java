@@ -380,6 +380,12 @@ public abstract class Module implements Wrapper {
     public void onKeyboardInputTickAlways() {
     }
 
+    public void onOptionValueUpdate() {
+    }
+
+    public void onOptionValueUpdateAlways() {
+    }
+
     public void setName(String name) {
         this.name = name;
     }

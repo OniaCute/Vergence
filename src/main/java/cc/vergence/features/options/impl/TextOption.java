@@ -2,6 +2,7 @@ package cc.vergence.features.options.impl;
 
 import cc.vergence.Vergence;
 import cc.vergence.features.enums.Dimensions;
+import cc.vergence.features.event.events.OptionValueUpdateEvent;
 import cc.vergence.features.options.Option;
 import cc.vergence.modules.client.Placeholder;
 import cc.vergence.util.interfaces.Wrapper;
@@ -35,6 +36,7 @@ public class TextOption extends Option<String> implements Wrapper {
     @Override
     public void setValue(String value) {
         this.value = value;
+        Vergence.EVENTBUS.post(new OptionValueUpdateEvent());
     }
 
     @Override

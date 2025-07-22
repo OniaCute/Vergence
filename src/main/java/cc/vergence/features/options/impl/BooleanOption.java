@@ -1,5 +1,7 @@
 package cc.vergence.features.options.impl;
 
+import cc.vergence.Vergence;
+import cc.vergence.features.event.events.OptionValueUpdateEvent;
 import cc.vergence.features.options.Option;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
@@ -20,6 +22,7 @@ public class BooleanOption extends Option<Boolean> {
     @Override
     public void setValue(Boolean value) {
         this.value = value;
+        Vergence.EVENTBUS.post(new OptionValueUpdateEvent());
     }
 
     @Override

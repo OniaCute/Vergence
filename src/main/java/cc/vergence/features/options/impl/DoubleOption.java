@@ -1,5 +1,7 @@
 package cc.vergence.features.options.impl;
 
+import cc.vergence.Vergence;
+import cc.vergence.features.event.events.OptionValueUpdateEvent;
 import cc.vergence.features.options.Option;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
@@ -11,7 +13,6 @@ import java.util.function.Predicate;
 public class DoubleOption extends Option<Double> {
     private double maxValue;
     private double minValue;
-    private double increase;
     private String unit = "";
     private HashMap<Integer, String> specialValueMap = new HashMap<>();
 
@@ -63,6 +64,7 @@ public class DoubleOption extends Option<Double> {
     @Override
     public void setValue(Double value) {
         this.value = value;
+        Vergence.EVENTBUS.post(new OptionValueUpdateEvent());
     }
 
     public void setMinValue(double minValue) {
@@ -73,11 +75,8 @@ public class DoubleOption extends Option<Double> {
         this.maxValue = maxValue;
     }
 
-    public void setIncrease(double increase) {
-        this.increase = increase;
-    }
-
     public DoubleOption setUnit(String unit) {
+        Vergence.EVENTBUS.post(new OptionValueUpdateEvent());
         this.unit = unit;
         return this;
     }
@@ -92,10 +91,6 @@ public class DoubleOption extends Option<Double> {
 
     public double getMaxValue() {
         return maxValue;
-    }
-
-    public double getIncrease() {
-        return increase;
     }
 
     public String getValueAsText() {

@@ -41,12 +41,13 @@
     "mixins.screen.MixinDownloadingTerrainScreen",
     "mixins.screen.MixinScreen",
     "mixins.screen.MixinTitleScreen",
-    "mixins.world.MixinRenderTickCounter"
+    "mixins.world.MixinRenderTickCounter",
+    "mixins.entity.MixinEntityRenderer",
+    "mixins.world.MixinClientWorld"
   ],
   "injectors": {
     "defaultRequire": 1
   },
   "client": [
-    "mixins.world.MixinClientWorld"
   ]
 }

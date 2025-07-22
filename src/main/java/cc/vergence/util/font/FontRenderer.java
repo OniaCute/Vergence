@@ -129,6 +129,7 @@ public class FontRenderer implements Closeable, Wrapper {
         stack.push();
         stack.translate(x, y, 0);
         stack.scale(1f / this.scaleMul, 1f / this.scaleMul, 1f);
+        RenderSystem.disableDepthTest();
 
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
@@ -215,6 +216,7 @@ public class FontRenderer implements Closeable, Wrapper {
         }
 
         stack.pop();
+        RenderSystem.enableDepthTest();
         GLYPH_PAGE_CACHE.clear();
     }
 

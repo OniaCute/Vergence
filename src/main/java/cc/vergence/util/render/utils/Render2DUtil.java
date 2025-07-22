@@ -5,6 +5,7 @@ import cc.vergence.modules.client.Client;
 import cc.vergence.util.interfaces.Wrapper;
 import cc.vergence.util.maths.MathUtil;
 import cc.vergence.util.render.other.AlphaOverride;
+import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gl.ShaderProgramKeys;
 import net.minecraft.client.gui.DrawContext;
@@ -26,9 +27,13 @@ public class Render2DUtil implements Wrapper {
 
     public static void enableRender() {
         RenderSystem.enableBlend();
+        RenderSystem.disableDepthTest();
+        RenderSystem.depthMask(false);
         RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
     }
     public static void disableRender() {
+        RenderSystem.enableDepthTest();
+        RenderSystem.depthMask(true);
         RenderSystem.disableBlend();
     }
 
@@ -50,7 +55,6 @@ public class Render2DUtil implements Wrapper {
         float red = (float) (color >> 16 & 255) / 255.0F;
         float green = (float) (color >> 8 & 255) / 255.0F;
         float blue = (float) (color & 255) / 255.0F;
-
         enableRender();
         RenderSystem.setShader(ShaderProgramKeys.POSITION_COLOR);
         BufferBuilder bufferBuilder = Tessellator.getInstance().begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
@@ -427,13 +431,10 @@ public class Render2DUtil implements Wrapper {
         double width = java.lang.Math.max(0, dx1 - dx);
         double height = java.lang.Math.max(0, dy1 - dy);
         int ay = (int) ((mc.getWindow().getScaledHeight() - (dy + height)) * d);
-
-        // 开始临时 scissor
         RenderSystem.enableScissor((int) (dx * d), ay, (int) (width * d), (int) (height * d));
         try {
-            renderAction.run(); // 执行绘制内容
+            renderAction.run();
         } finally {
-            // 恢复原始剪裁区域（clipStack 顶部）
             if (!clipStack.isEmpty()) {
                 Rectangle r = clipStack.peek();
                 beginScissor(r.x, r.y, r.x1, r.y1);
@@ -442,7 +443,6 @@ public class Render2DUtil implements Wrapper {
             }
         }
     }
-
 
     public static void beginScissor(double x, double y, double endX, double endY) {
         double width = endX - x;

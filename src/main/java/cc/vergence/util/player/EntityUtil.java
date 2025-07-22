@@ -5,8 +5,10 @@ import cc.vergence.features.enums.Hands;
 import cc.vergence.features.enums.SpeedUnit;
 import cc.vergence.features.enums.SwingModes;
 import cc.vergence.util.interfaces.Wrapper;
+import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.network.packet.c2s.play.HandSwingC2SPacket;
 import net.minecraft.util.Hand;
@@ -15,6 +17,7 @@ import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.GameMode;
 import net.minecraft.world.RaycastContext;
 
 public class EntityUtil implements Wrapper {
@@ -121,5 +124,28 @@ public class EntityUtil implements Wrapper {
         } else {
             return speed / 0.05 * Vergence.TIMER.get();
         }
+    }
+
+    public static int getLatency(PlayerEntity player) {
+        PlayerListEntry playerListEntry = mc.getNetworkHandler().getPlayerListEntry(player.getUuid());
+        return playerListEntry == null ? 0 : playerListEntry.getLatency();
+    }
+
+    public static GameMode getGameMode(PlayerEntity player) {
+        PlayerListEntry playerListEntry = mc.getNetworkHandler().getPlayerListEntry(player.getUuid());
+        return playerListEntry == null ? GameMode.CREATIVE : playerListEntry.getGameMode();
+    }
+
+    public static float getDistance(Entity entity) {
+        return mc.player.distanceTo(entity);
+    }
+
+    public static String getGameModeText(GameMode gameMode) {
+        return switch (gameMode) {
+            case CREATIVE -> "C";
+            case ADVENTURE -> "A";
+            case SPECTATOR -> "SP";
+            default -> "S";
+        };
     }
 }

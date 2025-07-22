@@ -793,6 +793,37 @@ public class TextManager {
         englishLanguageBase.put("Module.Modules.PacketsLimit.Options.BooleanOption.Notify.name", "Notify");
         englishLanguageBase.put("Module.Modules.PacketsLimit.Options.BooleanOption.Notify.description", "Notify when the number of packets reaches the limit.");
         englishLanguageBase.put("Module.Modules.PacketsLimit.Messages.Full", "The number of packets has reached the limit!");
+
+        englishLanguageBase.put("Module.Modules.NameTags.name", "Name Tags");
+        englishLanguageBase.put("Module.Modules.NameTags.description", "Displays customizable name tags above players.");
+        englishLanguageBase.put("Module.Modules.NameTags.Options.EnumOption.FonsSize.name", "Font Size");
+        englishLanguageBase.put("Module.Modules.NameTags.Options.EnumOption.FonsSize.description", "Size of the text rendered on the name tag");
+        englishLanguageBase.put("Module.Modules.NameTags.Options.ColorOption.TextColor.name", "Text Color");
+        englishLanguageBase.put("Module.Modules.NameTags.Options.ColorOption.TextColor.description", "Color of the player name and additional text");
+        englishLanguageBase.put("Module.Modules.NameTags.Options.MultipleOption.Modes.name", "Modes");
+        englishLanguageBase.put("Module.Modules.NameTags.Options.MultipleOption.Modes.description", "The background mode of name tags");
+        englishLanguageBase.put("Module.Modules.NameTags.Options.ColorOption.FillColor.name", "Fill Color");
+        englishLanguageBase.put("Module.Modules.NameTags.Options.ColorOption.FillColor.description", "Background fill color when the Fill mode is enabled");
+        englishLanguageBase.put("Module.Modules.NameTags.Options.ColorOption.OutlineColor.name", "Outline Color");
+        englishLanguageBase.put("Module.Modules.NameTags.Options.ColorOption.OutlineColor.description", "Border color when the Outline mode is enabled");
+        englishLanguageBase.put("Module.Modules.NameTags.Options.DoubleOption.OutlineWidth.name", "Outline Width");
+        englishLanguageBase.put("Module.Modules.NameTags.Options.DoubleOption.OutlineWidth.description", "Thickness of the outline border in pixels");
+        englishLanguageBase.put("Module.Modules.NameTags.Options.BooleanOption.Rounded.name", "Rounded Corners");
+        englishLanguageBase.put("Module.Modules.NameTags.Options.BooleanOption.Rounded.description", "Apply rounded corners to the background rectangle");
+        englishLanguageBase.put("Module.Modules.NameTags.Options.DoubleOption.Radius.name", "Corner Radius");
+        englishLanguageBase.put("Module.Modules.NameTags.Options.DoubleOption.Radius.description", "Radius of the rounded corners.");
+        englishLanguageBase.put("Module.Modules.NameTags.Options.BooleanOption.Ping.name", "Include Ping");
+        englishLanguageBase.put("Module.Modules.NameTags.Options.BooleanOption.Ping.description", "Display the player's network latency");
+        englishLanguageBase.put("Module.Modules.NameTags.Options.BooleanOption.Health.name", "Include Health");
+        englishLanguageBase.put("Module.Modules.NameTags.Options.BooleanOption.Health.description", "Display the player's current health");
+        englishLanguageBase.put("Module.Modules.NameTags.Options.BooleanOption.Distance.name", "Include Distance");
+        englishLanguageBase.put("Module.Modules.NameTags.Options.BooleanOption.Distance.description", "Display the horizontal distance from the local player");
+        englishLanguageBase.put("Module.Modules.NameTags.Options.BooleanOption.GameMode.name", "Include GameMode");
+        englishLanguageBase.put("Module.Modules.NameTags.Options.BooleanOption.GameMode.description", "Display the player's current game mode");
+        englishLanguageBase.put("Module.Modules.NameTags.Options.BooleanOption.Popped.name", "Include Totem Pops");
+        englishLanguageBase.put("Module.Modules.NameTags.Options.BooleanOption.Popped.description", "Display the player's recent totem pops count");
+        englishLanguageBase.put("Module.Modules.NameTags.Options.DoubleOption.Scale.name", "Scale");
+        englishLanguageBase.put("Module.Modules.NameTags.Options.DoubleOption.Scale.description", "Global scaling multiplier for the entire name tags");
     }
 
     private void loadChinese() {

@@ -3,6 +3,7 @@ package cc.vergence.util.color;
 import cc.vergence.modules.client.ClickGUI;
 import cc.vergence.modules.client.Client;
 import cc.vergence.util.maths.MathUtil;
+import net.minecraft.util.Formatting;
 
 import java.awt.*;
 
@@ -105,5 +106,15 @@ public class ColorUtil {
 
     public Color asColor(HexColor color) {
         return color.getValueAsColor();
+    }
+
+    public static Formatting getHealthColor(double health) {
+        if (health > 18.0) return Formatting.GREEN;
+        else if (health > 16.0) return Formatting.DARK_GREEN;
+        else if (health > 12.0) return Formatting.YELLOW;
+        else if (health > 8.0) return Formatting.GOLD;
+        else if (health > 5.0) return Formatting.RED;
+
+        return Formatting.DARK_RED;
     }
 }

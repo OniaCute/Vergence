@@ -8,6 +8,7 @@ import cc.vergence.features.enums.Fonts;
 import cc.vergence.modules.client.Client;
 import cc.vergence.util.interfaces.Wrapper;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.util.math.MatrixStack;
 
 import java.awt.*;
 
@@ -448,11 +449,19 @@ public class FontUtil implements Wrapper {
         drawText(context, text, x, y, color.getRGB(), size, false);
     }
 
+    public static void drawText(MatrixStack matrixStack, String text, double x, double y, Color color, FontSize size) {
+        drawText(matrixStack, text, x, y, color.getRGB(), size, false);
+    }
+
     public static void drawText(DrawContext context, String text, double x, double y, int color, FontSize size) {
         drawText(context, text, x, y, color, size, false);
     }
 
     public static void drawText(DrawContext context, String text, double x, double y, int color, FontSize size, boolean shadow) {
+        drawText(context.getMatrices(), text, x, y, color, size, shadow);
+    }
+
+    public static void drawText(MatrixStack matrixStack, String text, double x, double y, int color, FontSize size, boolean shadow) {
         if (Client.INSTANCE == null) {return ;}
 
         FontScales fontScales = asFontScales((Client.UIScales) Client.INSTANCE.UIScale.getValue(), size);
@@ -463,67 +472,67 @@ public class FontUtil implements Wrapper {
 
         if (fontType.equals(Fonts.Sans)) {
             switch (fontScales) {
-                case SANS_3F -> FontRenderers.SANS_3F.drawString(context.getMatrices(), text, x, y, color, shadow);
-                case SANS_4F -> FontRenderers.SANS_4F.drawString(context.getMatrices(), text, x, y, color, shadow);
-                case SANS_5F -> FontRenderers.SANS_5F.drawString(context.getMatrices(), text, x, y, color, shadow);
-                case SANS_6F -> FontRenderers.SANS_6F.drawString(context.getMatrices(), text, x, y, color, shadow);
-                case SANS_7F -> FontRenderers.SANS_7F.drawString(context.getMatrices(), text, x, y, color, shadow);
-                case SANS_8F -> FontRenderers.SANS_8F.drawString(context.getMatrices(), text, x, y, color, shadow);
-                case SANS_9F -> FontRenderers.SANS_9F.drawString(context.getMatrices(), text, x, y, color, shadow);
+                case SANS_3F -> FontRenderers.SANS_3F.drawString(matrixStack, text, x, y, color, shadow);
+                case SANS_4F -> FontRenderers.SANS_4F.drawString(matrixStack, text, x, y, color, shadow);
+                case SANS_5F -> FontRenderers.SANS_5F.drawString(matrixStack, text, x, y, color, shadow);
+                case SANS_6F -> FontRenderers.SANS_6F.drawString(matrixStack, text, x, y, color, shadow);
+                case SANS_7F -> FontRenderers.SANS_7F.drawString(matrixStack, text, x, y, color, shadow);
+                case SANS_8F -> FontRenderers.SANS_8F.drawString(matrixStack, text, x, y, color, shadow);
+                case SANS_9F -> FontRenderers.SANS_9F.drawString(matrixStack, text, x, y, color, shadow);
                 case SANS_10F ->
-                        FontRenderers.SANS_10F.drawString(context.getMatrices(), text, x, y, color, shadow);
+                        FontRenderers.SANS_10F.drawString(matrixStack, text, x, y, color, shadow);
                 case SANS_12F ->
-                        FontRenderers.SANS_12F.drawString(context.getMatrices(), text, x, y, color, shadow);
+                        FontRenderers.SANS_12F.drawString(matrixStack, text, x, y, color, shadow);
                 case SANS_14F ->
-                        FontRenderers.SANS_14F.drawString(context.getMatrices(), text, x, y, color, shadow);
+                        FontRenderers.SANS_14F.drawString(matrixStack, text, x, y, color, shadow);
                 case SANS_15F ->
-                        FontRenderers.SANS_15F.drawString(context.getMatrices(), text, x, y, color, shadow);
+                        FontRenderers.SANS_15F.drawString(matrixStack, text, x, y, color, shadow);
                 case SANS_16F ->
-                        FontRenderers.SANS_16F.drawString(context.getMatrices(), text, x, y, color, shadow);
+                        FontRenderers.SANS_16F.drawString(matrixStack, text, x, y, color, shadow);
                 case SANS_18F ->
-                        FontRenderers.SANS_18F.drawString(context.getMatrices(), text, x, y, color, shadow);
+                        FontRenderers.SANS_18F.drawString(matrixStack, text, x, y, color, shadow);
                 case SANS_20F ->
-                        FontRenderers.SANS_20F.drawString(context.getMatrices(), text, x, y, color, shadow);
+                        FontRenderers.SANS_20F.drawString(matrixStack, text, x, y, color, shadow);
                 case SANS_21F ->
-                        FontRenderers.SANS_21F.drawString(context.getMatrices(), text, x, y, color, shadow);
+                        FontRenderers.SANS_21F.drawString(matrixStack, text, x, y, color, shadow);
                 case SANS_24F ->
-                        FontRenderers.SANS_24F.drawString(context.getMatrices(), text, x, y, color, shadow);
+                        FontRenderers.SANS_24F.drawString(matrixStack, text, x, y, color, shadow);
                 case SANS_28F ->
-                        FontRenderers.SANS_28F.drawString(context.getMatrices(), text, x, y, color, shadow);
+                        FontRenderers.SANS_28F.drawString(matrixStack, text, x, y, color, shadow);
                 case SANS_32F ->
-                        FontRenderers.SANS_32F.drawString(context.getMatrices(), text, x, y, color, shadow);
+                        FontRenderers.SANS_32F.drawString(matrixStack, text, x, y, color, shadow);
             }
         } else {
             switch (fontScales) {
-                case SMOOTH_3F -> FontRenderers.SMOOTH_3F.drawString(context.getMatrices(), text, x, y, color, shadow);
-                case SMOOTH_4F -> FontRenderers.SMOOTH_4F.drawString(context.getMatrices(), text, x, y, color, shadow);
-                case SMOOTH_5F -> FontRenderers.SMOOTH_5F.drawString(context.getMatrices(), text, x, y, color, shadow);
-                case SMOOTH_6F -> FontRenderers.SMOOTH_6F.drawString(context.getMatrices(), text, x, y, color, shadow);
-                case SMOOTH_7F -> FontRenderers.SMOOTH_7F.drawString(context.getMatrices(), text, x, y, color, shadow);
-                case SMOOTH_8F -> FontRenderers.SMOOTH_8F.drawString(context.getMatrices(), text, x, y, color, shadow);
-                case SMOOTH_9F -> FontRenderers.SMOOTH_9F.drawString(context.getMatrices(), text, x, y, color, shadow);
+                case SMOOTH_3F -> FontRenderers.SMOOTH_3F.drawString(matrixStack, text, x, y, color, shadow);
+                case SMOOTH_4F -> FontRenderers.SMOOTH_4F.drawString(matrixStack, text, x, y, color, shadow);
+                case SMOOTH_5F -> FontRenderers.SMOOTH_5F.drawString(matrixStack, text, x, y, color, shadow);
+                case SMOOTH_6F -> FontRenderers.SMOOTH_6F.drawString(matrixStack, text, x, y, color, shadow);
+                case SMOOTH_7F -> FontRenderers.SMOOTH_7F.drawString(matrixStack, text, x, y, color, shadow);
+                case SMOOTH_8F -> FontRenderers.SMOOTH_8F.drawString(matrixStack, text, x, y, color, shadow);
+                case SMOOTH_9F -> FontRenderers.SMOOTH_9F.drawString(matrixStack, text, x, y, color, shadow);
                 case SMOOTH_10F ->
-                        FontRenderers.SMOOTH_10F.drawString(context.getMatrices(), text, x, y, color, shadow);
+                        FontRenderers.SMOOTH_10F.drawString(matrixStack, text, x, y, color, shadow);
                 case SMOOTH_12F ->
-                        FontRenderers.SMOOTH_12F.drawString(context.getMatrices(), text, x, y, color, shadow);
+                        FontRenderers.SMOOTH_12F.drawString(matrixStack, text, x, y, color, shadow);
                 case SMOOTH_14F ->
-                        FontRenderers.SMOOTH_14F.drawString(context.getMatrices(), text, x, y, color, shadow);
+                        FontRenderers.SMOOTH_14F.drawString(matrixStack, text, x, y, color, shadow);
                 case SMOOTH_15F ->
-                        FontRenderers.SMOOTH_15F.drawString(context.getMatrices(), text, x, y, color, shadow);
+                        FontRenderers.SMOOTH_15F.drawString(matrixStack, text, x, y, color, shadow);
                 case SMOOTH_16F ->
-                        FontRenderers.SMOOTH_16F.drawString(context.getMatrices(), text, x, y, color, shadow);
+                        FontRenderers.SMOOTH_16F.drawString(matrixStack, text, x, y, color, shadow);
                 case SMOOTH_18F ->
-                        FontRenderers.SMOOTH_18F.drawString(context.getMatrices(), text, x, y, color, shadow);
+                        FontRenderers.SMOOTH_18F.drawString(matrixStack, text, x, y, color, shadow);
                 case SMOOTH_20F ->
-                        FontRenderers.SMOOTH_20F.drawString(context.getMatrices(), text, x, y, color, shadow);
+                        FontRenderers.SMOOTH_20F.drawString(matrixStack, text, x, y, color, shadow);
                 case SMOOTH_21F ->
-                        FontRenderers.SMOOTH_21F.drawString(context.getMatrices(), text, x, y, color, shadow);
+                        FontRenderers.SMOOTH_21F.drawString(matrixStack, text, x, y, color, shadow);
                 case SMOOTH_24F ->
-                        FontRenderers.SMOOTH_24F.drawString(context.getMatrices(), text, x, y, color, shadow);
+                        FontRenderers.SMOOTH_24F.drawString(matrixStack, text, x, y, color, shadow);
                 case SMOOTH_28F ->
-                        FontRenderers.SMOOTH_28F.drawString(context.getMatrices(), text, x, y, color, shadow);
+                        FontRenderers.SMOOTH_28F.drawString(matrixStack, text, x, y, color, shadow);
                 case SMOOTH_32F ->
-                        FontRenderers.SMOOTH_32F.drawString(context.getMatrices(), text, x, y, color, shadow);
+                        FontRenderers.SMOOTH_32F.drawString(matrixStack, text, x, y, color, shadow);
             }
         }
     }

@@ -42,7 +42,7 @@ public class MixinClientConnection {
         }
     }
 
-    @Inject(method = "disconnect*", at = @At(value = "HEAD"), cancellable = true)
+    @Inject(method = "disconnect", at = @At(value = "HEAD"), cancellable = true)
     private void hookDisconnect(Text disconnectReason, CallbackInfo ci) {
         DisconnectEvent disconnectEvent = new DisconnectEvent(disconnectReason.getString());
         Vergence.EVENTBUS.post(disconnectEvent);

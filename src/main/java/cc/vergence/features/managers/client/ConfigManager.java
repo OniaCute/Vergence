@@ -31,6 +31,7 @@ public class ConfigManager implements Wrapper {
     public static final File MISC_ADVERTISER_FOLDER = new File(MISC_FOLDER, "advertiser");
     public static final File FONTS_FOLDER = new File(MAIN_FOLDER, "fonts");
     public File currentConfig = null;
+    public String currentConfigName = "default";
     public static boolean firstUse = false;
 
     public ConfigManager() {
@@ -184,6 +185,7 @@ public class ConfigManager implements Wrapper {
                 if (!client.getAsJsonArray().get(2).getAsString().equals(Vergence.CONFIG_TEMPLATE_VERSION)) {
                     Vergence.CONSOLE.logWarn("[CONFIG] Unmatched Mod Version, the config file is no longer applicable to this version of the vergence client.");
                 }
+                currentConfigName = client.getAsJsonArray().get(3).getAsString().length() <= 1 ? "Unknown" : client.getAsJsonArray().get(3).getAsString();
             } catch (Exception ignored) {
                 Vergence.CONSOLE.logWarn("[CONFIG] Client Info not found in config file, the config file may not be secure.");
             }
@@ -193,6 +195,7 @@ public class ConfigManager implements Wrapper {
             e.printStackTrace();
         }
         currentConfig = config;
+        currentConfigName = config.getName().replace(".vgc", "");
         saveCurrentConfig();
     }
 
@@ -343,6 +346,7 @@ public class ConfigManager implements Wrapper {
     }
 
     public void save(@NotNull File config) {
+        currentConfigName = config.getName().replace(".vgc", "");
         try {
             if (!config.exists()) {
                 config.createNewFile();
@@ -371,6 +375,7 @@ public class ConfigManager implements Wrapper {
         array.add(new JsonPrimitive(Vergence.MOD_ID));
         array.add(new JsonPrimitive(Vergence.VERSION));
         array.add(new JsonPrimitive(Vergence.CONFIG_TEMPLATE_VERSION));
+        array.add(new JsonPrimitive(currentConfigName));
         return array;
     }
 

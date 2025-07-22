@@ -36,6 +36,7 @@
     "mixins.render.MixinLightmapTextureManager",
     "mixins.render.MixinMinecraftInGameHud",
     "mixins.render.MixinPlayerListHud",
+    "mixins.render.MixinTextVisitFactory",
     "mixins.render.MixinWorldRenderer",
     "mixins.screen.MixinDownloadingTerrainScreen",
     "mixins.screen.MixinScreen",

@@ -1,5 +1,6 @@
 package cc.vergence.modules.hud;
 
+import cc.vergence.Vergence;
 import cc.vergence.features.enums.Aligns;
 import cc.vergence.features.enums.FontSize;
 import cc.vergence.features.enums.MouseButtons;
@@ -11,6 +12,7 @@ import cc.vergence.features.options.impl.DoubleOption;
 import cc.vergence.features.options.impl.TextOption;
 import cc.vergence.features.screens.HudEditorScreen;
 import cc.vergence.modules.Module;
+import cc.vergence.modules.misc.NameProtect;
 import cc.vergence.util.font.FontUtil;
 import cc.vergence.util.render.utils.Render2DUtil;
 import net.minecraft.client.gui.DrawContext;
@@ -74,11 +76,11 @@ public class Watermark extends Module {
             parts.add(mc.getCurrentFps() + " FPS");
         }
         if (includedUser.getValue()) {
-            parts.add(mc.player != null ? mc.player.getName().getString() : "Unknown");
+            parts.add(mc.player != null && NameProtect.INSTANCE != null ? (NameProtect.INSTANCE.getStatus() ? NameProtect.INSTANCE.nickname.getValue() : mc.player.getName().getString()) : "Unknown");
         }
         if (includedConfig.getValue()) {
-            String configName = "Default";
-            parts.add("Config: " + configName);
+            String configName = Vergence.CONFIG.currentConfigName;
+            parts.add(configName);
         }
 
         String displayString = String.join(separator, parts);
@@ -135,7 +137,7 @@ public class Watermark extends Module {
                     context,
                     displayString,
                     this.getX(),
-                    this.getY(),
+                    this.getY() + 1,
                     this.getX() + this.getWidth(),
                     this.getY() + this.getHeight(),
                     Aligns.CENTER,

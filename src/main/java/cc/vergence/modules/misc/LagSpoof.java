@@ -1,0 +1,86 @@
+package cc.vergence.modules.misc;
+
+import cc.vergence.Vergence;
+import cc.vergence.features.enums.SpeedUnit;
+import cc.vergence.features.event.events.PacketEvent;
+import cc.vergence.features.options.Option;
+import cc.vergence.features.options.impl.DoubleOption;
+import cc.vergence.modules.Module;
+import cc.vergence.util.other.FastTimerUtil;
+import cc.vergence.util.player.EntityUtil;
+import net.minecraft.network.packet.Packet;
+import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
+
+import java.util.ArrayList;
+
+public class LagSpoof extends Module {
+    public static LagSpoof INSTANCE;
+    private final ArrayList<PlayerMoveC2SPacket> packets = new ArrayList<>();
+    private final FastTimerUtil timer = new FastTimerUtil();
+    private final FastTimerUtil safety = new FastTimerUtil();
+    private boolean sending = false;
+
+    public LagSpoof() {
+        super("LagSpoof", Category.MISC);
+        INSTANCE = this;
+    }
+
+    public Option<Double> choke = addOption(new DoubleOption("Choke", 1, 5, 2));
+
+    @Override
+    public String getDetails() {
+        return shouldChoke() ? "Choking" : "Counting";
+    }
+
+    @Override
+    public void onSendPacket(PacketEvent.Send event, Packet<?> packet) {
+        if (isNull() || sending || !shouldChoke() || !(packet instanceof PlayerMoveC2SPacket)) {
+            return ;
+        }
+
+        synchronized (packets) {
+            event.cancel();
+            packets.add((PlayerMoveC2SPacket) packet);
+        }
+    }
+
+    @Override
+    public void onTick() {
+        if (isNull()) {
+            return ;
+        }
+
+        if(timer.passedMs((int) (choke.getValue().floatValue()*100))) {
+            sendPackets();
+            timer.reset();
+        }
+    }
+
+    @Override
+    public void onEnable() {
+        timer.reset();
+    }
+
+    @Override
+    public void onDisable() {
+        if (isNull()) {
+            return ;
+        }
+        sendPackets();
+    }
+
+    private void sendPackets() {
+        synchronized (packets) {
+            sending = true;
+            for(PlayerMoveC2SPacket packet : packets) {
+                Vergence.NETWORK.sendPacket(packet);
+            }
+            packets.clear();
+            sending = false;
+        }
+    }
+
+    private boolean shouldChoke() {
+        return (EntityUtil.getSpeed(mc.player, SpeedUnit.KILOMETERS) >= 5 || mc.player.fallDistance > 0) && safety.passedMs(1000);
+    }
+}

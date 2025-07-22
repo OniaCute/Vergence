@@ -719,6 +719,33 @@ public class TextManager {
         englishLanguageBase.put("Module.Modules.Timer.description", "Globally adjusts game speed");
         englishLanguageBase.put("Module.Modules.Timer.Options.DoubleOption.TimerScale.name", "Timer Scale");
         englishLanguageBase.put("Module.Modules.Timer.Options.DoubleOption.TimerScale.description", "Multiplier for client tick speed");
+
+        englishLanguageBase.put("Module.Modules.LagSpoof.name", "Lag Spoof");
+        englishLanguageBase.put("Module.Modules.LagSpoof.description", "Delays movement packets to simulate lag");
+        englishLanguageBase.put("Module.Modules.LagSpoof.Options.DoubleOption.Choke.name", "Choke");
+        englishLanguageBase.put("Module.Modules.LagSpoof.Options.DoubleOption.Choke.description", "Milliseconds to hold movement packets before releasing");
+
+        englishLanguageBase.put("Module.Modules.AntiLevitation.name", "Anti Levitation");
+        englishLanguageBase.put("Module.Modules.AntiLevitation.description", "Reduce the effect of levitation");
+
+        englishLanguageBase.put("Module.Modules.Parkour.name", "Parkour");
+        englishLanguageBase.put("Module.Modules.Parkour.description", "Try to jump as far as possible along the edges of the block");
+
+        englishLanguageBase.put("Module.Modules.TickShift.name", "Tick Shift");
+        englishLanguageBase.put("Module.Modules.TickShift.description", "Stores idle ticks and releases them for a speed boost");
+        englishLanguageBase.put("Module.Modules.TickShift.Options.DoubleOption.SafeDistance.name", "Safe Distance");
+        englishLanguageBase.put("Module.Modules.TickShift.Options.DoubleOption.SafeDistance.description", "Fall distance at which TickShift pauses");
+        englishLanguageBase.put("Module.Modules.TickShift.Options.DoubleOption.MaxTicks.name", "Max Ticks");
+        englishLanguageBase.put("Module.Modules.TickShift.Options.DoubleOption.MaxTicks.description", "Maximum stored ticks available for speed burst");
+        englishLanguageBase.put("Module.Modules.TickShift.Options.DoubleOption.Delay.name", "Delay");
+        englishLanguageBase.put("Module.Modules.TickShift.Options.DoubleOption.Delay.description", "Ticks to wait before storing another tick");
+        englishLanguageBase.put("Module.Modules.TickShift.Options.DoubleOption.TimerSpeed.name", "Timer Speed");
+        englishLanguageBase.put("Module.Modules.TickShift.Options.DoubleOption.TimerSpeed.description", "Speed multiplier applied when spending stored ticks");
+
+        englishLanguageBase.put("Module.Modules.NameProtect.name", "Name Protect");
+        englishLanguageBase.put("Module.Modules.NameProtect.description", "Add an nick name to protect the real names of local player");
+        englishLanguageBase.put("Module.Modules.NameProtect.Options.TextOption.NickName.name", "Nick Name");
+        englishLanguageBase.put("Module.Modules.NameProtect.Options.TextOption.NickName.description", "The nick name of local player");
     }
 
     private void loadChinese() {

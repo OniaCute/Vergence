@@ -98,6 +98,11 @@ public class FreeCamera extends Module {
         mc.chunkCullingEnabled = true;
     }
 
+    @Override
+    public void onLogout() {
+        this.disable();
+    }
+
     public float getFreeYaw() {
         return (float) MathUtil.interpolate(prevFreeYaw, freeYaw, mc.getRenderTickCounter().getTickDelta(true));
     }

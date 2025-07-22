@@ -1,6 +1,8 @@
 package cc.vergence.util.player;
 
+import cc.vergence.Vergence;
 import cc.vergence.features.enums.Hands;
+import cc.vergence.features.enums.SpeedUnit;
 import cc.vergence.features.enums.SwingModes;
 import cc.vergence.util.interfaces.Wrapper;
 import net.minecraft.entity.Entity;
@@ -108,6 +110,16 @@ public class EntityUtil implements Wrapper {
             case Client -> mc.player.swingHand(hand, false);
             case Server -> mc.player.networkHandler.sendPacket(new HandSwingC2SPacket(hand));
             default -> {return;} // no swing
+        }
+    }
+
+    public static double getSpeed(Entity entity, SpeedUnit unit) {
+        double speed = Math.sqrt(MathHelper.square(Math.abs(entity.getX() - entity.lastRenderX)) + MathHelper.square(Math.abs(entity.getZ() - entity.lastRenderZ)));
+
+        if (unit == SpeedUnit.KILOMETERS) {
+            return (speed * 3.6 * Vergence.TIMER.get()) * 20;
+        } else {
+            return speed / 0.05 * Vergence.TIMER.get();
         }
     }
 }

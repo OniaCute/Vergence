@@ -41,73 +41,41 @@ public class TextOption extends Option<String> implements Wrapper {
 
     @Override
     public String getValue() {
-        String formatText = this.getRawValue().toLowerCase();
-        String sourceText = this.getRawValue();
+        String raw = this.getRawValue();
+        if (raw == null) {
+            return "";
+        }
         if (Placeholder.INSTANCE == null || !Placeholder.INSTANCE.getStatus()) {
-            while (sourceText.contains("&")) {
-                sourceText = sourceText.replace("&", "§"); // colorful
-            }
-            return sourceText;
+            return raw.replaceAll("&", "§");
         }
-        while (formatText.contains("{id}")) {
-            sourceText = sourceText.replace("{id}", Vergence.MOD_ID);
-            formatText = formatText.replace("{id}", Vergence.MOD_ID);
-        }
-        while (formatText.contains("{name}")) {
-            sourceText = sourceText.replace("{name}", Vergence.NAME);
-            formatText = formatText.replace("{name}", Vergence.NAME);
-        }
-        while (formatText.contains("{full_name}")) {
-            sourceText = sourceText.replace("{full_name}", Vergence.NAME + " Client");
-            formatText = formatText.replace("{full_name}", Vergence.NAME + " Client");
-        }
-        while (formatText.contains("{version}")) {
-            sourceText = sourceText.replace("{version}", Vergence.VERSION);
-            formatText = formatText.replace("{version}", Vergence.VERSION);
-        }
+        raw = raw
+                .replaceAll("\\{id}", Vergence.MOD_ID)
+                .replaceAll("\\{name}", Vergence.NAME)
+                .replaceAll("\\{full_name}", Vergence.NAME + " Client")
+                .replaceAll("\\{version}", Vergence.VERSION);
         if (mc.player != null) {
-            while (formatText.contains("{player}")) {
-                sourceText = sourceText.replace("{player}", mc.player.getName().getString());
-                formatText = formatText.replace("{player}", mc.player.getName().getString());
-            }
-            while (formatText.contains("{hp}")) {
-                sourceText = sourceText.replace("{hp}", String.valueOf((int) mc.player.getHealth()));
-                formatText = formatText.replace("{hp}", String.valueOf((int) mc.player.getHealth()));
-            }
-            while (formatText.contains("{max_hp}")) {
-                sourceText = sourceText.replace("{max_hp}", String.valueOf((int) mc.player.getMaxHealth()));
-                formatText = formatText.replace("{max_hp}", String.valueOf((int) mc.player.getMaxHealth()));
-            }
-            while (formatText.contains("{armor}")) {
-                sourceText = sourceText.replace("{armor}", String.valueOf((int) mc.player.getArmor()));
-                formatText = formatText.replace("{armor}", String.valueOf((int) mc.player.getArmor()));
-            }
+            raw = raw
+                    .replaceAll("\\{player}", mc.player.getName().getString())
+                    .replaceAll("\\{hp}", String.valueOf((int) mc.player.getHealth()))
+                    .replaceAll("\\{max_hp}", String.valueOf((int) mc.player.getMaxHealth()))
+                    .replaceAll("\\{armor}", String.valueOf((int) mc.player.getArmor()));
         }
         if (mc.world != null) {
-            while (formatText.contains("{world}")) {
-                if (Placeholder.INSTANCE != null) {
-                    Dimensions dimension = WorldUtil.getDimension();
-                    switch (dimension) {
-                        case Overworld -> {
-                            sourceText = sourceText.replace("{world}", ((TextOption) Placeholder.INSTANCE.placeholder_world_overworld).getRawValue());
-                            formatText = formatText.replace("{world}", ((TextOption) Placeholder.INSTANCE.placeholder_world_overworld).getRawValue());
-                        }
-                        case Nether -> {
-                            sourceText = sourceText.replace("{world}", ((TextOption) Placeholder.INSTANCE.placeholder_world_nether).getRawValue());
-                            formatText = formatText.replace("{world}", ((TextOption) Placeholder.INSTANCE.placeholder_world_nether).getRawValue());
-                        }
-                        case TheEnd -> {
-                            sourceText = sourceText.replace("{world}", ((TextOption) Placeholder.INSTANCE.placeholder_world_the_end).getRawValue());
-                            formatText = formatText.replace("{world}", ((TextOption) Placeholder.INSTANCE.placeholder_world_the_end).getRawValue());
-                        }
-                    }
-                } else {
-                    sourceText = sourceText.replace("{world}", WorldUtil.getDimension().name());
-                    formatText = formatText.replace("{world}", WorldUtil.getDimension().name());
+            Dimensions dim = WorldUtil.getDimension();
+            String world;
+            if (Placeholder.INSTANCE != null) {
+                switch (dim) {
+                    case Overworld -> world = ((TextOption) Placeholder.INSTANCE.placeholder_world_overworld).getRawValue();
+                    case Nether -> world = ((TextOption) Placeholder.INSTANCE.placeholder_world_nether).getRawValue();
+                    case TheEnd -> world = ((TextOption) Placeholder.INSTANCE.placeholder_world_the_end).getRawValue();
+                    default -> world = dim.name();
                 }
+            } else {
+                world = dim.name();
             }
+            raw = raw.replaceAll("\\{world}", world);
         }
-        return sourceText;
+        return raw.replaceAll("&", "§");
     }
 
     public String getRawValue() {

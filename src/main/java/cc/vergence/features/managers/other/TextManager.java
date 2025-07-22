@@ -29,26 +29,26 @@ public class TextManager {
         englishLanguageBase.put("COMMANDS.Prefix.desc", "Set command prefix");
         englishLanguageBase.put("COMMANDS.Toggle.desc", "Toggle module status");
         englishLanguageBase.put("COMMANDS.MESSAGE.COMMAND_NOT_FOUND", "No commands found about:");
-        englishLanguageBase.put("COMMANDS.MESSAGE.INVALID_COMMAND", "§cInvalid Command! §fType§e h  elp§f for a list of commands.");
+        englishLanguageBase.put("COMMANDS.MESSAGE.INVALID_COMMAND", "§cInvalid Command! §fType§b help§f for a list of commands.");
         englishLanguageBase.put("COMMANDS.MESSAGE.FRIEND.LIST_TITLE", "§bFriends:");
-        englishLanguageBase.put("COMMANDS.MESSAGE.FRIEND.EMPTY", "Friends list is §6empty.");
-        englishLanguageBase.put("COMMANDS.MESSAGE.FRIEND.RESET", "Friends list got §breset.");
-        englishLanguageBase.put("COMMANDS.MESSAGE.FRIEND.REMOVE", "Friend §cremoved §rsuccessfully.");
-        englishLanguageBase.put("COMMANDS.MESSAGE.FRIEND.ADD", "Friend §aadded §rsuccessfully.");
+        englishLanguageBase.put("COMMANDS.MESSAGE.FRIEND.EMPTY", "Friends list is empty.");
+        englishLanguageBase.put("COMMANDS.MESSAGE.FRIEND.RESET", "Friends list got reset.");
+        englishLanguageBase.put("COMMANDS.MESSAGE.FRIEND.REMOVE", "Friend removed successfully.");
+        englishLanguageBase.put("COMMANDS.MESSAGE.FRIEND.ADD", "Friend added successfully.");
         englishLanguageBase.put("COMMANDS.MESSAGE.FRIEND.IS_ENEMY", "§cThis player in your enemy list!");
         englishLanguageBase.put("COMMANDS.MESSAGE.ENEMY.LIST_TITLE", "§bEnemies:");
-        englishLanguageBase.put("COMMANDS.MESSAGE.ENEMY.EMPTY", "Enemies list is §bempty.");
-        englishLanguageBase.put("COMMANDS.MESSAGE.ENEMY.RESET", "Enemies list got §breset.");
-        englishLanguageBase.put("COMMANDS.MESSAGE.ENEMY.REMOVE", "Enemy §cremoved successfully.");
-        englishLanguageBase.put("COMMANDS.MESSAGE.ENEMY.ADD", "Enemy §aadded successfully");
+        englishLanguageBase.put("COMMANDS.MESSAGE.ENEMY.EMPTY", "Enemies list is empty.");
+        englishLanguageBase.put("COMMANDS.MESSAGE.ENEMY.RESET", "Enemies list got reset.");
+        englishLanguageBase.put("COMMANDS.MESSAGE.ENEMY.REMOVE", "Enemy removed successfully.");
+        englishLanguageBase.put("COMMANDS.MESSAGE.ENEMY.ADD", "Enemy added successfully");
         englishLanguageBase.put("COMMANDS.MESSAGE.ENEMY.IS_FRIEND", "§cThis player in your friend list!");
-        englishLanguageBase.put("COMMANDS.MESSAGE.BIND.UNKNOWN_MODULE", "Target is a §bunknown §rmodule.");
-        englishLanguageBase.put("COMMANDS.MESSAGE.BIND.NO_KEY", "Please §bspecify §ra key.");
+        englishLanguageBase.put("COMMANDS.MESSAGE.BIND.UNKNOWN_MODULE", "Target is a unknown module.");
+        englishLanguageBase.put("COMMANDS.MESSAGE.BIND.NO_KEY", "Please specify a key.");
         englishLanguageBase.put("COMMANDS.MESSAGE.BIND.UNKNOWN_ERROR", "Unknown internal error.");
-        englishLanguageBase.put("COMMANDS.MESSAGE.BIND.BIND_OK", "Key bind §asuccessfully");
+        englishLanguageBase.put("COMMANDS.MESSAGE.BIND.BIND_OK", "Key bind successfully");
         englishLanguageBase.put("COMMANDS.MESSAGE.PREFIX.NO_PREFIX", "Please specify a prefix. (one char)");
         englishLanguageBase.put("COMMANDS.MESSAGE.PREFIX.OK", "Now prefix is");
-        englishLanguageBase.put("COMMANDS.MESSAGE.TOGGLE.UNKNOWN_MODULE", "Target is a §cunknown §rmodule.");
+        englishLanguageBase.put("COMMANDS.MESSAGE.TOGGLE.UNKNOWN_MODULE", "Target is a unknown module.");
 
         englishLanguageBase.put("SCREEN.MainMenu.Buttons.SinglePlayer", "Single Player");
         englishLanguageBase.put("SCREEN.MainMenu.Buttons.MultiPlayer", "Multiplayer");
@@ -65,6 +65,9 @@ public class TextManager {
         englishLanguageBase.put("Module.Category.HUD.name", "HUD");
 
         englishLanguageBase.put("Module.Special.Messages.Blocked", "Module §b{a} §ris §cblocked by §b{b}§r.");
+        englishLanguageBase.put("Module.Special.Messages.Unblock", "Module §b{a} §ris §aunblocked by §b{b}§r.");
+        englishLanguageBase.put("Module.Special.Messages.Enable", "Module {module} is §aEnabled.");
+        englishLanguageBase.put("Module.Special.Messages.Disable", "Module {module} is §cDisabled.");
         englishLanguageBase.put("Module.Special.ModuleBind.name", "Hotkey");
         englishLanguageBase.put("Module.Special.ModuleBind.description", "The hotkey of the module");
         englishLanguageBase.put("Module.Special.ModuleDraw.name", "Display");
@@ -746,6 +749,28 @@ public class TextManager {
         englishLanguageBase.put("Module.Modules.NameProtect.description", "Add an nick name to protect the real names of local player");
         englishLanguageBase.put("Module.Modules.NameProtect.Options.TextOption.NickName.name", "Nick Name");
         englishLanguageBase.put("Module.Modules.NameProtect.Options.TextOption.NickName.description", "The nick name of local player");
+
+        englishLanguageBase.put("Module.Modules.AutoLogin.name", "Auto Login");
+        englishLanguageBase.put("Module.Modules.AutoLogin.description", "Automatically sends login command when the local player joins the server");
+        englishLanguageBase.put("Module.Modules.AutoLogin.Options.TextOption.Username.name", "User Name");
+        englishLanguageBase.put("Module.Modules.AutoLogin.Options.TextOption.Username.description", "Player name that should trigger the login");
+        englishLanguageBase.put("Module.Modules.AutoLogin.Options.TextOption.Command.name", "Command");
+        englishLanguageBase.put("Module.Modules.AutoLogin.Options.TextOption.Command.description", "The login command to send");
+        englishLanguageBase.put("Module.Modules.AutoLogin.Options.TextOption.Password.name", "Password");
+        englishLanguageBase.put("Module.Modules.AutoLogin.Options.TextOption.Password.description", "The password appended to the command");
+
+        englishLanguageBase.put("Module.Modules.VisualRange.name", "Visual Range");
+        englishLanguageBase.put("Module.Modules.VisualRange.description", "Notifies you when players enter or leave your render distance");
+        englishLanguageBase.put("Module.Modules.VisualRange.Options.BooleanOption.PlayerJoin.name", "Player Join");
+        englishLanguageBase.put("Module.Modules.VisualRange.Options.BooleanOption.PlayerJoin.description", "Display a notification when a player enters your visual range");
+        englishLanguageBase.put("Module.Modules.VisualRange.Options.BooleanOption.PlayerLeave.name", "Player Leave");
+        englishLanguageBase.put("Module.Modules.VisualRange.Options.BooleanOption.PlayerLeave.description", "Display a notification when a player leaves your visual range");
+        englishLanguageBase.put("Module.Modules.VisualRange.Options.BooleanOption.Friend.name", "Include Friends");
+        englishLanguageBase.put("Module.Modules.VisualRange.Options.BooleanOption.Friend.description", "Show notifications even when the player is on your friend list");
+        englishLanguageBase.put("Module.Modules.VisualRange.Options.BooleanOption.Sound.name", "Play Sound");
+        englishLanguageBase.put("Module.Modules.VisualRange.Options.BooleanOption.Sound.description", "Play a sound along with the notification");
+        englishLanguageBase.put("Module.Modules.VisualRange.Messages.Join", "Player §b{player} §rhas §ajoined §rthe visual range!");
+        englishLanguageBase.put("Module.Modules.VisualRange.Messages.Leave", "Player §b{player} §rhas §cleaved §rthe visual range!");
     }
 
     private void loadChinese() {

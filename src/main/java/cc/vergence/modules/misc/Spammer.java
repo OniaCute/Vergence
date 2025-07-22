@@ -1,5 +1,6 @@
 package cc.vergence.modules.misc;
 
+import cc.vergence.Vergence;
 import cc.vergence.features.managers.client.ConfigManager;
 import cc.vergence.features.managers.other.MessageManager;
 import cc.vergence.features.managers.ui.NotifyManager;
@@ -56,7 +57,7 @@ public class Spammer extends Module {
                 index = (index + 1) % messages.size();
             }
             if (!msg.trim().isEmpty()) {
-                Objects.requireNonNull(mc.getNetworkHandler()).sendChatMessage(msg);
+                Vergence.NETWORK.sendChatMessage(msg);
             }
             timer.reset();
         }

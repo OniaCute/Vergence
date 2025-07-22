@@ -139,55 +139,66 @@ public class ConfigManager implements Wrapper {
             JsonArray friends = null;
             JsonArray enemies = null;
             JsonArray client = null;
-            try {
-                JsonObject modulesObject = (JsonObject) array.get(0);
-                modules = modulesObject.getAsJsonArray("Modules");
-            } catch (Exception ignored) {
-            }
-            if (modules != null) {
-                modules.forEach(m -> {
+            JsonObject mainObject = array.get(0).getAsJsonObject();
+
+            int moduleCounter = 0;
+
+            if (mainObject.has("Modules")) {
+                modules = mainObject.getAsJsonArray("Modules");
+                for (JsonElement element : modules) {
+                    moduleCounter ++;
                     try {
-                        parseModule(m.getAsJsonObject());
+                        parseModule(element.getAsJsonObject());
                     } catch (NullPointerException e) {
                         System.err.println(" Parse Module Object Error: " + e.getMessage());
                     }
-                });
+                }
+                Vergence.CONSOLE.logInfo("[CONFIG] loaded all module options, total " + moduleCounter + " modules.");
             }
-            try {
-                JsonObject modulesObject = (JsonObject) array.get(1);
-                friends = modulesObject.getAsJsonArray("Friends");
-                for (JsonElement element : friends.getAsJsonArray()) {
+            if (mainObject.has("Friends")) {
+                friends = mainObject.getAsJsonArray("Friends");
+                Vergence.FRIEND.resetFriend();
+                for (JsonElement element : friends) {
                     String s = element.getAsString();
-                    Vergence.FRIEND.resetFriend();
                     Vergence.FRIEND.addFriend(s);
                 }
-            } catch (Exception ignored) {
+                Vergence.CONSOLE.logInfo("[CONFIG] Friend list is loaded, your friends: " + String.join(", ", Vergence.FRIEND.friendList));
             }
-            try {
-                JsonObject modulesObject = (JsonObject) array.get(2);
-                enemies = modulesObject.getAsJsonArray("Enemies");
-                for (JsonElement element : enemies.getAsJsonArray()) {
+            if (mainObject.has("Enemies")) {
+                enemies = mainObject.getAsJsonArray("Enemies");
+                Vergence.ENEMY.resetEnemy();
+                for (JsonElement element : enemies) {
                     String s = element.getAsString();
-                    Vergence.FRIEND.resetFriend();
-                    Vergence.FRIEND.addFriend(s);
+                    Vergence.ENEMY.addEnemy(s);
                 }
-            } catch (Exception ignored) {
+                Vergence.CONSOLE.logInfo("[CONFIG] Enemy list is loaded, your enemies: " + String.join(", ", Vergence.ENEMY.enemyList));
             }
-            try {
-                JsonObject modulesObject = (JsonObject) array.get(3);
-                client = modulesObject.getAsJsonArray("Client");
-                if (!client.getAsJsonArray().get(0).getAsString().equals(Vergence.MOD_ID)) {
-                    Vergence.CONSOLE.logWarn("[CONFIG] Unmatched Mod Id, the config file may be not is a Vergence Client config file,");
+            if (mainObject.has("Client")) {
+                client = mainObject.getAsJsonArray("Client");
+                try {
+                    if (!client.get(0).getAsString().equals(Vergence.MOD_ID)) {
+                        Vergence.CONSOLE.logWarn("[CONFIG] Unmatched Mod Id, the config file may be not a Vergence Client config file.");
+                    } else {
+                        Vergence.CONSOLE.logInfo("[CONFIG] Config file info \"Mod Id\" : " + client.get(0).getAsString());
+                    }
+
+                    if (!client.get(1).getAsString().equals(Vergence.VERSION)) {
+                        Vergence.CONSOLE.logWarn("[CONFIG] Unmatched Mod Version, the config file may be out of the date.");
+                    } else {
+                        Vergence.CONSOLE.logInfo("[CONFIG] Config file info \"Client Version\" : " + client.get(1).getAsString());
+                    }
+
+                    if (!client.get(2).getAsString().equals(Vergence.CONFIG_TEMPLATE_VERSION)) {
+                        Vergence.CONSOLE.logWarn("[CONFIG] Unmatched Config Template Version, config may not apply to current version.");
+                    } else {
+                        Vergence.CONSOLE.logInfo("[CONFIG] Config file info \"Config Template Version\" : " + client.get(2).getAsString());
+                    }
+
+                    currentConfigName = client.get(3).getAsString().length() <= 1 ? "Unknown" : client.get(3).getAsString();
+                } catch (Exception e) {
+                    Vergence.CONSOLE.logWarn("[CONFIG] Client Info incomplete or invalid.");
+                    e.printStackTrace();
                 }
-                if (!client.getAsJsonArray().get(1).getAsString().equals(Vergence.VERSION)) {
-                    Vergence.CONSOLE.logWarn("[CONFIG] Unmatched Mod Version, the config file may be out of the date.");
-                }
-                if (!client.getAsJsonArray().get(2).getAsString().equals(Vergence.CONFIG_TEMPLATE_VERSION)) {
-                    Vergence.CONSOLE.logWarn("[CONFIG] Unmatched Mod Version, the config file is no longer applicable to this version of the vergence client.");
-                }
-                currentConfigName = client.getAsJsonArray().get(3).getAsString().length() <= 1 ? "Unknown" : client.getAsJsonArray().get(3).getAsString();
-            } catch (Exception ignored) {
-                Vergence.CONSOLE.logWarn("[CONFIG] Client Info not found in config file, the config file may not be secure.");
             }
 
             Vergence.CONSOLE.logInfo("Loaded Config: " + config.getName(), true);

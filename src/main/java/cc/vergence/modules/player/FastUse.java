@@ -29,11 +29,6 @@ public class FastUse extends Module implements Wrapper {
     }
 
     @Override
-    public void onBlock(Module module) {
-        MessageManager.blockedMessage(this, module);
-    }
-
-    @Override
     public void onTick() {
         if (isNull()) {
             return ;

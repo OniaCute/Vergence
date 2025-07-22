@@ -104,7 +104,7 @@ public abstract class Module implements Wrapper {
             MessageManager.blockedMessage(this, SafeMode.INSTANCE);
         }
 
-        NotifyManager.newNotification(this, "§rmodule was §aenabled.");
+        NotifyManager.newNotification(this, Vergence.TEXT.get("Module.Special.Messages.Enable").replace("{module}", this.getDisplayName()));
 
         this.setStatus(true);
         this.onEnable();
@@ -115,7 +115,7 @@ public abstract class Module implements Wrapper {
             return;
         }
 
-        NotifyManager.newNotification(this, "§rmodule was §cdisabled.");
+        NotifyManager.newNotification(this, Vergence.TEXT.get("Module.Special.Messages.Disable").replace("{module}", this.getDisplayName()));
 
         this.setStatus(false);
         this.onDisable();
@@ -134,7 +134,7 @@ public abstract class Module implements Wrapper {
             return;
         }
 
-        NotifyManager.newNotification(this, "§rwas §6blocked.");
+        MessageManager.blockedMessage(this, SafeMode.INSTANCE);
 
         this.setStatus(false);
         this.onBlock(module);
@@ -145,7 +145,7 @@ public abstract class Module implements Wrapper {
             return;
         }
 
-        NotifyManager.newNotification(this, "§rwas §aunblocked.");
+        MessageManager.unblockedMessage(this, SafeMode.INSTANCE);
 
         this.setStatus(status);
         this.onUnblock();
@@ -384,6 +384,18 @@ public abstract class Module implements Wrapper {
     }
 
     public void onOptionValueUpdateAlways() {
+    }
+
+    public void onEntitySpawn(EntitySpawnEvent event, Entity entity) {
+    }
+
+    public void onEntitySpawnAlways(EntitySpawnEvent event, Entity entity) {
+    }
+
+    public void onEntityRemove(EntityRemoveEvent event, Entity entity) {
+    }
+
+    public void onEntityRemoveAlways(EntityRemoveEvent event, Entity entity) {
     }
 
     public void setName(String name) {

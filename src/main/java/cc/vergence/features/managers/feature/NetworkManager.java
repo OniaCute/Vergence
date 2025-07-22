@@ -28,6 +28,14 @@ public class NetworkManager implements Wrapper {
         PACKETS.clear();
     }
 
+    public void sendCommand(String cmd) {
+        Objects.requireNonNull(mc.getNetworkHandler()).sendCommand(cmd);
+    }
+
+    public void sendChatMessage(String message) {
+        Objects.requireNonNull(mc.getNetworkHandler()).sendChatMessage(message);
+    }
+
     public void sendPacket(final Packet<?> p) {
         if (mc.getNetworkHandler() != null) {
             mc.getNetworkHandler().sendPacket(p);

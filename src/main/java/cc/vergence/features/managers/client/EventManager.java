@@ -293,6 +293,28 @@ public class EventManager implements Wrapper {
         }
     }
 
+    @EventHandler
+    public void onEntitySpawn(EntitySpawnEvent event) {
+        Entity entity = event.getEntity();
+        for (Module module : ModuleManager.modules) {
+            module.onEntitySpawnAlways(event, entity);
+            if (module.getStatus()) {
+                module.onEntitySpawn(event, entity);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onEntityRemove(EntityRemoveEvent event) {
+        Entity entity = event.getEntity();
+        for (Module module : ModuleManager.modules) {
+            module.onEntityRemoveAlways(event, entity);
+            if (module.getStatus()) {
+                module.onEntityRemove(event, entity);
+            }
+        }
+    }
+
     public void onMouseActive(int button, int action) {
         int bindCode = -100 - button;
         boolean shiftPressed = InputUtil.isKeyPressed(mc.getWindow().getHandle(), GLFW.GLFW_KEY_LEFT_SHIFT) || InputUtil.isKeyPressed(mc.getWindow().getHandle(), GLFW.GLFW_KEY_RIGHT_SHIFT);

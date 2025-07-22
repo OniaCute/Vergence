@@ -79,6 +79,8 @@ public class ModuleManager {
         registerModule(new Parkour());
         registerModule(new TickShift());
         registerModule(new NameProtect());
+        registerModule(new AutoLogin());
+        registerModule(new VisualRange());
 
         // special module
         registerModule(new SafeMode());

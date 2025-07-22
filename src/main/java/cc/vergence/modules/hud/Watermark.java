@@ -137,7 +137,7 @@ public class Watermark extends Module {
                     context,
                     displayString,
                     this.getX(),
-                    this.getY() + 1,
+                    this.getY() + 2,
                     this.getX() + this.getWidth(),
                     this.getY() + this.getHeight(),
                     Aligns.CENTER,

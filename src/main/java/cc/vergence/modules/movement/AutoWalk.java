@@ -1,5 +1,6 @@
 package cc.vergence.modules.movement;
 
+import cc.vergence.Vergence;
 import cc.vergence.features.options.Option;
 import cc.vergence.features.options.impl.EnumOption;
 import cc.vergence.modules.Module;
@@ -23,7 +24,7 @@ public class AutoWalk extends Module {
         }
 
         if (mode.getValue().equals(modes.Baritone)) {
-            mc.player.networkHandler.sendChatMessage("#goto " + 1000000 * Math.cos(Math.toRadians(mc.player.getYaw() + 90f)) + " " + 1000000 * Math.sin(Math.toRadians(mc.player.getYaw() + 90f)));
+            Vergence.NETWORK.sendChatMessage("#goto " + 1000000 * Math.cos(Math.toRadians(mc.player.getYaw() + 90f)) + " " + 1000000 * Math.sin(Math.toRadians(mc.player.getYaw() + 90f)));
         }
     }
 
@@ -34,7 +35,7 @@ public class AutoWalk extends Module {
         }
 
         if (mode.getValue().equals(modes.Baritone)) {
-            mc.player.networkHandler.sendChatMessage("#stop");
+            Vergence.NETWORK.sendChatMessage("#stop");
         }
     }
 

@@ -1,6 +1,7 @@
 package cc.vergence.features.managers.other;
 
 import cc.vergence.Vergence;
+import cc.vergence.features.managers.ui.NotifyManager;
 import cc.vergence.modules.Module;
 import cc.vergence.util.interfaces.IChatHud;
 import cc.vergence.util.interfaces.Wrapper;
@@ -15,10 +16,17 @@ public class MessageManager implements Wrapper {
     public static HashMap<OrderedText, StringVisitable> messages = new HashMap<>();
 
     public static void blockedMessage(Module moduleA, Module moduleB) {
-        newMessage(moduleA,
+        NotifyManager.newNotification(moduleA,
                 Vergence.TEXT.get("Module.Special.Messages.Blocked")
                 .replace("{a}", moduleA.getDisplayName())
-                .replace("{b}", moduleB.getDisplayName()), -1);
+                .replace("{b}", moduleB.getDisplayName()));
+    }
+
+    public static void unblockedMessage(Module moduleA, Module moduleB) {
+        NotifyManager.newNotification(moduleA,
+                Vergence.TEXT.get("Module.Special.Messages.Unblock")
+                        .replace("{a}", moduleA.getDisplayName())
+                        .replace("{b}", moduleB.getDisplayName()));
     }
 
     public static void newMessage(Module module, String text, int id) {

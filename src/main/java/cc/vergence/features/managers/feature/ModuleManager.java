@@ -86,6 +86,7 @@ public class ModuleManager {
         registerModule(new AutoRespawn());
         registerModule(new PacketsLimit());
         registerModule(new NameTags());
+        registerModule(new ResourceESP());
 
         // special module
         registerModule(new SafeMode());

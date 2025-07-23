@@ -29,7 +29,7 @@ public class FakePlayer extends Module {
 		INSTANCE = this;
 	}
 
-	public Option<String> playerName = addOption(new TextOption("PlayerName", "Em0+1Qn"));
+	public Option<String> playerName = addOption(new TextOption("PlayerName", "\\/ar6auca"));
 	public Option<Boolean> goldenApple = addOption(new BooleanOption("GoldenApple"));
 	public Option<Boolean> autoTotem = addOption(new BooleanOption("AutoTotem"));
 

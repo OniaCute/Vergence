@@ -8,8 +8,6 @@ public class Rotation {
     private int priority;
     private double ticks;
     private double rotateSpeed;
-    private boolean smooth;
-    private double smoothOffset = 0;
     private RotateModes rotateModes;
 
     public Rotation(float pitch, double yaw, double rotateSpeed, double smoothOffset, RotateModes rotateModes, int priority) {
@@ -19,8 +17,6 @@ public class Rotation {
         this.rotateModes = rotateModes;
         this.priority = priority;
         this.ticks = 0;
-        this.smooth = true;
-        this.smoothOffset = smoothOffset;
     }
 
     public Rotation(float pitch, double yaw, double rotateSpeed, RotateModes rotateModes, int priority) {
@@ -30,8 +26,6 @@ public class Rotation {
         this.rotateModes = rotateModes;
         this.priority = priority;
         this.ticks = 0;
-        this.smooth = false;
-        this.smoothOffset = 0;
     }
 
     public Rotation(float pitch, double yaw, double rotateSpeed, RotateModes rotateModes) {
@@ -41,8 +35,6 @@ public class Rotation {
         this.rotateModes = rotateModes;
         this.priority = 0;
         this.ticks = 0;
-        this.smooth = false;
-        this.smoothOffset = 0;
     }
 
     public void setPitch(float pitch) {
@@ -89,23 +81,7 @@ public class Rotation {
         this.rotateSpeed = rotateSpeed;
     }
 
-    public void setSmooth(boolean smooth) {
-        this.smooth = smooth;
-    }
-
-    public void setSmoothOffset(double smoothOffset) {
-        this.smoothOffset = smoothOffset;
-    }
-
     public double getRotateSpeed() {
         return rotateSpeed;
-    }
-
-    public double getSmoothOffset() {
-        return smoothOffset;
-    }
-
-    public boolean isSmooth() {
-        return smooth;
     }
 }

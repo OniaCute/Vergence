@@ -15,6 +15,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.GameMode;
@@ -138,6 +139,14 @@ public class EntityUtil implements Wrapper {
 
     public static float getDistance(Entity entity) {
         return mc.player.distanceTo(entity);
+    }
+
+    public static String getMovementDirection(Direction direction) {
+        if (direction.getName().equalsIgnoreCase("North")) return "-Z";
+        if (direction.getName().equalsIgnoreCase("East")) return "+X";
+        if (direction.getName().equalsIgnoreCase("South")) return "+Z";
+        if (direction.getName().equalsIgnoreCase("West")) return "-X";
+        return "N/A";
     }
 
     public static String getGameModeText(GameMode gameMode) {

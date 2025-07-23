@@ -63,7 +63,14 @@ public class DoubleOption extends Option<Double> {
 
     @Override
     public void setValue(Double value) {
-        this.value = value;
+        if (value > maxValue) {
+            this.value = maxValue;
+        }
+        else if (value < minValue) {
+            this.value = minValue;
+        } else {
+            this.value = value;
+        }
         Vergence.EVENTBUS.post(new OptionValueUpdateEvent());
     }
 

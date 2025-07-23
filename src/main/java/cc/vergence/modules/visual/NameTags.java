@@ -43,7 +43,9 @@ public class NameTags extends Module {
     public Option<Boolean> withDistance = addOption(new BooleanOption("Distance", true));
     public Option<Boolean> withGameMode = addOption(new BooleanOption("GameMode", true));
     public Option<Boolean> withPop = addOption(new BooleanOption("Popped", true));
-    public Option<Double> scale = addOption(new DoubleOption("Scale", 10, 100, 30));
+    public Option<Double> heightOffset = addOption(new DoubleOption("Height", -2.0, 2.0, 0.0));
+    public Option<Double> maxScale = addOption(new DoubleOption("MaxScale", 10, 100, 30));
+    public Option<Double> minScale = addOption(new DoubleOption("MineScale", 0.01, 2, 0.0245));
 
     @Override
     public String getDetails() {
@@ -65,14 +67,14 @@ public class NameTags extends Module {
             }
 
             double x = MathHelper.lerp(tickDelta, player.lastRenderX, player.getX());
-            double y = MathHelper.lerp(tickDelta, player.lastRenderY, player.getY()) + (player.isSneaking() ? 1.9f : 2.1f);
+            double y = MathHelper.lerp(tickDelta, player.lastRenderY, player.getY()) + (player.isSneaking() ? 1.9f : 2.1f) + heightOffset.getValue();
             double z = MathHelper.lerp(tickDelta, player.lastRenderZ, player.getZ());
 
             Vec3d vec3d = new Vec3d(x - mc.getEntityRenderDispatcher().camera.getPos().x, y - mc.getEntityRenderDispatcher().camera.getPos().y, z - mc.getEntityRenderDispatcher().camera.getPos().z);
             float distance = (float) Math.sqrt(mc.getEntityRenderDispatcher().camera.getPos().squaredDistanceTo(x, y, z));
-            float scaling = 0.0018f + (scale.getValue().intValue() / 10000.0f) * distance;
-            if (distance <= 8.0) {
-                scaling = 0.0245f;
+            float scaling = 0.0018f + (maxScale.getValue().intValue() / 10000.0f) * distance;
+            if (distance <= 6.0) {
+                scaling = minScale.getValue().floatValue();
             }
 
             matrixStack.push();
@@ -88,7 +90,7 @@ public class NameTags extends Module {
                 displayString = "[" + EntityUtil.getGameModeText(EntityUtil.getGameMode(player)) + "] " + displayString;
             }
             if (withPing.getValue()) {
-                displayString += " " + EntityUtil.getLatency(player) + "ms";
+                displayString += " " + ColorUtil.getPingColor(EntityUtil.getLatency(player)) + EntityUtil.getLatency(player) + "ms" + Formatting.RESET;
             }
             if (withDistance.getValue()) {
                 displayString += " " + new DecimalFormat("0.0").format(EntityUtil.getDistance(player)) + "m";

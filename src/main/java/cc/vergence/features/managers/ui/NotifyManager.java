@@ -78,7 +78,9 @@ public class NotifyManager implements Wrapper {
     }
 
     public static void onDraw2D(DrawContext context, float tickDelta) {
-        if (Notify.INSTANCE == null || !Notify.INSTANCE.getStatus()) return;
+        if (Notify.INSTANCE == null || !Notify.INSTANCE.getStatus()) {
+            return;
+        }
         double padding = Notify.INSTANCE.padding.getValue();
         boolean alignRight = Notify.INSTANCE.align.getValue() == Notify.Aligns.Right;
         boolean popUp = Notify.INSTANCE.popType.getValue() == Notify.PopTypes.UpToDown;

@@ -3,6 +3,7 @@ package cc.vergence.modules.combat;
 import cc.vergence.Vergence;
 import cc.vergence.features.enums.AntiCheats;
 import cc.vergence.features.enums.RotateModes;
+import cc.vergence.features.enums.SwingModes;
 import cc.vergence.features.enums.TargetTypes;
 import cc.vergence.features.options.Option;
 import cc.vergence.features.options.impl.BooleanOption;
@@ -14,7 +15,7 @@ import cc.vergence.util.combat.CombatUtil;
 import cc.vergence.util.interfaces.Wrapper;
 import cc.vergence.util.rotation.Rotation;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.math.MathHelper;
 
 import java.util.EnumSet;
 import java.util.Random;
@@ -28,23 +29,24 @@ public class KillAura extends Module implements Wrapper {
     }
 
     public Option<Enum<?>> antiCheat = addOption(new EnumOption("AntiCheat", AntiCheats.Legit));
-    public Option<EnumSet<TargetTypes>> targets = addOption(new MultipleOption<TargetTypes>("Targets", EnumSet.of(TargetTypes.EnemyPlayers, TargetTypes.Mobs)));
+    public Option<EnumSet<TargetTypes>> targets = addOption(new MultipleOption<>("Targets", EnumSet.of(TargetTypes.EnemyPlayers, TargetTypes.Mobs)));
     public Option<Enum<?>> clickType = addOption(new EnumOption("ClickType", ClickTypes.New));
     public Option<Double> range = addOption(new DoubleOption("Range", 1, 7, 3));
     public Option<Double> fov = addOption(new DoubleOption("FOV", 1, 180, 180));
     public Option<Double> minCPS = addOption(new DoubleOption("MinCPS", 1, 18, 3, v -> clickType.getValue().equals(ClickTypes.Old)));
     public Option<Double> maxCPS = addOption(new DoubleOption("MaxCPS", 1, 18, 7, v -> clickType.getValue().equals(ClickTypes.Old)));
     public Option<Double> delay = addOption(new DoubleOption("Delay", 1, 18, 7, v -> clickType.getValue().equals(ClickTypes.New)).addSpecialValue(1, "INSTANT"));
-    public Option<Boolean> crosshairLock = addOption(new BooleanOption("CrosshairLock", true));
+    public Option<Boolean> crosshairLock = addOption(new BooleanOption("CrosshairLock", true, v -> antiCheat.getValue().equals(AntiCheats.Legit) || antiCheat.getValue().equals(AntiCheats.Matrix)));
     public Option<Enum<?>> rotateType = addOption(new EnumOption("RotateType", RotateModes.Server));
-    public Option<Double> rotateSpeed = addOption(new DoubleOption("RotateSpeed", 1, 1200, 200).addSpecialValue(1, "INSTANT"));
-    public Option<Boolean> smoothRotate = addOption(new BooleanOption("SmoothRotate", true));
-    public Option<Double> smoothOffset = addOption(new DoubleOption("SmoothOffset", 1, 100, 36, v -> smoothRotate.getValue()));
+    public Option<Double> rotateSpeed = addOption(new DoubleOption("RotateSpeed", 1, 180, 180).addSpecialValue(1, "INSTANT"));
     public Option<Boolean> rotateLock = addOption(new BooleanOption("RotateLock", true));
-    public Option<Double> rotateLockTime = addOption(new DoubleOption("RotateLockTime", 10, 300, 40, v -> rotateLock.getValue()).setUnit("ms"));
+    public Option<Double> rotateLockTime = addOption(new DoubleOption("RotateLockTime", 1, 300, 40, v -> rotateLock.getValue()).setUnit("ms"));
+    public Option<Enum<?>> swingMode = addOption(new EnumOption("SwingMode", SwingModes.Client));
 
     private long lastAttackTime = 0;
     private long lastRotateTime = 0;
+    private long cooldownReadyTime = 0;
+
     private final Random random = new Random();
 
     @Override
@@ -54,19 +56,39 @@ public class KillAura extends Module implements Wrapper {
 
     @Override
     public void onTick() {
-        if (mc.player == null || !antiCheat.getValue().equals(AntiCheats.Legit)) {
-            return;
+        if (mc.player == null || mc.world == null) return;
+
+        if (clickType.getValue().equals(ClickTypes.Old)) {
+            if (minCPS.getValue() > maxCPS.getValue()) {
+                maxCPS.setValue(minCPS.getValue());
+            }
         }
 
-        if (rotateLock.getValue() && System.currentTimeMillis() - lastRotateTime < rotateLockTime.getValue()) {
-            return;
+        if (clickType.getValue().equals(ClickTypes.New)) {
+            if (mc.player.getAttackCooldownProgress(0) >= 1.0F && cooldownReadyTime == 0) {
+                cooldownReadyTime = System.currentTimeMillis();
+            } else if (mc.player.getAttackCooldownProgress(0) < 1.0F) {
+                cooldownReadyTime = 0;
+            }
         }
+
+        if (antiCheat.getValue().equals(AntiCheats.Legit)) {
+            legitAction();
+        }
+    }
+
+    private void legitAction() {
+        if (rotateLock.getValue() && System.currentTimeMillis() - lastRotateTime < rotateLockTime.getValue()) return;
 
         LivingEntity target = CombatUtil.getClosestAnyTarget(range.getValue(), targets.getValue());
         if (target == null) return;
 
-        float angle = CombatUtil.getYawTo(target) - mc.player.getYaw();
-        angle = Math.abs(((angle + 180) % 360) - 180);
+        float playerYaw = mc.player.getYaw();
+        if (Vergence.ROTATE.inRenderTime()) {
+            playerYaw = Vergence.ROTATE.getRenderRotations()[0];
+        }
+
+        float angle = Math.abs(MathHelper.wrapDegrees(CombatUtil.getYawTo(target) - playerYaw));
         if (angle > fov.getValue()) return;
 
         Runnable attack = () -> {
@@ -74,16 +96,17 @@ public class KillAura extends Module implements Wrapper {
                 int cps = random.nextInt((int)(maxCPS.getValue() - minCPS.getValue() + 1)) + minCPS.getValue().intValue();
                 long interval = 1000L / cps;
                 if (System.currentTimeMillis() - lastAttackTime >= interval) {
-                    CombatUtil.attack(target);
+                    CombatUtil.attack(target, ((SwingModes) swingMode.getValue()), true);
                     lastAttackTime = System.currentTimeMillis();
                     lastRotateTime = System.currentTimeMillis();
                 }
             } else {
                 long delayMs = delay.getValue() == 1 ? 0 : (long)(1000 / delay.getValue());
-                if (System.currentTimeMillis() - lastAttackTime >= delayMs) {
-                    CombatUtil.attack(target);
+                if (cooldownReadyTime > 0 && System.currentTimeMillis() - cooldownReadyTime >= delayMs) {
+                    CombatUtil.attack(target, ((SwingModes) swingMode.getValue()), true);
                     lastAttackTime = System.currentTimeMillis();
                     lastRotateTime = System.currentTimeMillis();
+                    cooldownReadyTime = 0;
                 }
             }
         };
@@ -97,20 +120,11 @@ public class KillAura extends Module implements Wrapper {
         float pitch = CombatUtil.getPitchTo(target);
         RotateModes mode = (RotateModes) rotateType.getValue();
 
-        Rotation rotation;
-        if (smoothRotate.getValue()) {
-            double offset = smoothOffset.getValue();
-            double jitter = random.nextDouble() * offset;
-            rotation = new Rotation(pitch, yaw, rotateSpeed.getValue(), jitter, mode, 1);
-        } else {
-            rotation = new Rotation(pitch, yaw, rotateSpeed.getValue(), mode, 1);
-        }
-
+        Rotation rotation = new Rotation(pitch, yaw, rotateSpeed.getValue(), mode, this.getPriority());
         Vergence.ROTATE.rotate(rotation, attack);
     }
 
     public enum ClickTypes {
-        Old,
-        New
+        Old, New
     }
 }

@@ -40,7 +40,9 @@ public class ModelRenderer implements Wrapper {
         ModelRenderer.camera = mc.gameRenderer.getCamera().getPos();
 
         if (NoBacktrack.INSTANCE == null || !NoBacktrack.INSTANCE.getStatus()) {
-            ModelRenderer.offset = new Vec3d(MathHelper.lerp(tickDelta, entity.lastRenderX, entity.getX()), MathHelper.lerp(tickDelta, entity.lastRenderY, entity.getY()), MathHelper.lerp(tickDelta, entity.lastRenderZ, entity.getZ()));
+            ModelRenderer.offset = new Vec3d(MathHelper.lerp(tickDelta, entity.lastRenderX, entity.getX()),
+                    MathHelper.lerp(tickDelta, entity.lastRenderY, entity.getY()),
+                    MathHelper.lerp(tickDelta, entity.lastRenderZ, entity.getZ()));
         } else {
             ModelRenderer.offset = new Vec3d(entity.getX(), entity.getY(), entity.getZ());
         }

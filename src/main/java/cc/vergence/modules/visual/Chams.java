@@ -36,6 +36,10 @@ public class Chams extends Module implements Wrapper {
     public Option<Color> friendOutlineColor = addOption(new ColorOption("FriendOutline", new Color(128, 220, 255), v -> forFriend.getValue()));
     public Option<Color> selfFillColor = addOption(new ColorOption("SelfFill", new Color(173, 255, 231, 107), v -> forMyself.getValue()));
     public Option<Color> selfOutlineColor = addOption(new ColorOption("SelfOutline", new Color(204, 255, 236), v -> forMyself.getValue()));
+    public Option<Color> mobFillColor = addOption(new ColorOption("MobFill", new Color(255, 140, 59, 130), v -> targets.getValue().contains(TargetTypes.Mobs)));
+    public Option<Color> mobOutlineColor = addOption(new ColorOption("MobOutline", new Color(255, 116, 27), v -> targets.getValue().contains(TargetTypes.Mobs)));
+    public Option<Color> animalFillColor = addOption(new ColorOption("AnimalFill", new Color(85, 255, 145, 130), v -> targets.getValue().contains(TargetTypes.Animals)));
+    public Option<Color> animalOutlineColor = addOption(new ColorOption("AnimalOutline", new Color(51, 197, 51), v -> targets.getValue().contains(TargetTypes.Animals)));
     public Option<Color> defaultFillColor = addOption(new ColorOption("DefaultFill", new Color(255, 255, 255, 56)));
     public Option<Color> defaultOutlineColor = addOption(new ColorOption("DefaultOutline", new Color(220, 220, 220)));
 
@@ -83,6 +87,22 @@ public class Chams extends Module implements Wrapper {
             } else if (isEnemy && forEnemy.getValue()) {
                 fill = enemyFillColor.getValue();
                 outline = enemyOutlineColor.getValue();
+            } else if (!isPlayer) {
+                if (entity.getType().getSpawnGroup() == SpawnGroup.MONSTER && targets.getValue().contains(TargetTypes.Mobs)) {
+                    fill = mobFillColor.getValue();
+                    outline = mobOutlineColor.getValue();
+                } else if ((entity.getType().getSpawnGroup() == SpawnGroup.CREATURE
+                        || entity.getType().getSpawnGroup() == SpawnGroup.WATER_CREATURE
+                        || entity.getType().getSpawnGroup() == SpawnGroup.WATER_AMBIENT
+                        || entity.getType().getSpawnGroup() == SpawnGroup.UNDERGROUND_WATER_CREATURE
+                        || entity.getType().getSpawnGroup() == SpawnGroup.AXOLOTLS)
+                        && targets.getValue().contains(TargetTypes.Animals)) {
+                    fill = animalFillColor.getValue();
+                    outline = animalOutlineColor.getValue();
+                } else {
+                    fill = defaultFillColor.getValue();
+                    outline = defaultOutlineColor.getValue();
+                }
             } else {
                 fill = defaultFillColor.getValue();
                 outline = defaultOutlineColor.getValue();

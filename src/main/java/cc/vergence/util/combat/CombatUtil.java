@@ -1,9 +1,12 @@
 package cc.vergence.util.combat;
 
 import cc.vergence.Vergence;
+import cc.vergence.features.enums.Hands;
 import cc.vergence.features.enums.RotateModes;
+import cc.vergence.features.enums.SwingModes;
 import cc.vergence.features.enums.TargetTypes;
 import cc.vergence.util.interfaces.Wrapper;
+import cc.vergence.util.player.EntityUtil;
 import cc.vergence.util.rotation.Rotation;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -92,38 +95,57 @@ public class CombatUtil implements Wrapper {
         }
 
         LivingEntity entity = StreamSupport.stream(mc.world.getEntities().spliterator(), false)
-                .filter(e -> e instanceof LivingEntity le && isValidTarget(le, range, types))
+                .filter(e -> e instanceof LivingEntity le && isValidTarget(le, types, range))
                 .map(e -> (LivingEntity) e)
                 .min(Comparator.comparingDouble(mc.player::distanceTo))
                 .orElse(null);
 
-        return (entity instanceof PlayerEntity ? (Vergence.FRIEND.isFriend(entity.getName().getString()) ? null : entity) : entity);
+        if (entity instanceof PlayerEntity player && Vergence.FRIEND.isFriend(player.getGameProfile().getName())) {
+            return null;
+        }
+        return entity;
     }
 
-    public static boolean isValidTarget(LivingEntity entity, double range, EnumSet<TargetTypes> types) {
-        if (entity == mc.player || entity.isDead() || mc.player.distanceTo(entity) > range) {
+    public static boolean isValidTarget(Entity entity, EnumSet<TargetTypes> types, double range) {
+        if (entity == null || entity == mc.player || !entity.isAlive()) {
             return false;
         }
-
-        if (entity instanceof PlayerEntity player) {
-            return types.contains(TargetTypes.EnemyPlayers) && !Vergence.FRIEND.isFriend(player.getGameProfile().getName());
-        } else if (entity instanceof MobEntity) {
-            return types.contains(TargetTypes.Mobs);
-        } else if (entity instanceof AnimalEntity) {
-            return types.contains(TargetTypes.Animals);
-        } else if (entity.isInvisible()) {
-            return types.contains(TargetTypes.invisible);
+        if (mc.player.distanceTo(entity) > range) {
+            return false;
         }
-
+        if (entity.isInvisible() && !types.contains(TargetTypes.invisible)) {
+            return false;
+        }
+        if (entity instanceof PlayerEntity player) {
+            if (player == mc.player) {
+                return false;
+            }
+            if (Vergence.FRIEND.isFriend(player.getGameProfile().getName())) {
+                return types.contains(TargetTypes.FriendPlayers);
+            }
+            return types.contains(TargetTypes.EnemyPlayers);
+        }
+        if (entity instanceof AnimalEntity) {
+            return types.contains(TargetTypes.Animals);
+        }
+        if (entity instanceof MobEntity) {
+            return types.contains(TargetTypes.Mobs);
+        }
         return false;
     }
 
     public static void attack(Entity entity) {
+        attack(entity, SwingModes.Client, true);
+    }
+
+    public static void attack(Entity entity, SwingModes swingModes, boolean swing) {
         if (mc.player == null || mc.interactionManager == null || entity == null) {
             return;
         }
         mc.interactionManager.attackEntity(mc.player, entity);
-        mc.player.swingHand(mc.player.getActiveHand());
+        if (swing) {
+            EntityUtil.swingHand(Hands.MainHand, swingModes);
+        }
     }
 
     public static void aimAndAttack(Entity entity) {
@@ -158,17 +180,20 @@ public class CombatUtil implements Wrapper {
 
 
     public static float getYawTo(Entity entity) {
-        double dx = entity.getX() - mc.player.getX();
-        double dz = entity.getZ() - mc.player.getZ();
-        return (float) (MathHelper.atan2(dz, dx) * (180 / Math.PI)) - 90.0f;
+        Vec3d target = entity.getPos().add(0, entity.getHeight() / 2.0, 0);
+        Vec3d eyes = mc.player.getEyePos();
+        double dx = target.x - eyes.x;
+        double dz = target.z - eyes.z;
+        return (float) MathHelper.wrapDegrees(Math.toDegrees(Math.atan2(dz, dx)) - 90);
     }
 
     public static float getPitchTo(Entity entity) {
-        double dy = (entity.getY() + entity.getHeight() / 2.0) - (mc.player.getY() + mc.player.getEyeHeight(mc.player.getPose()));
-        double dx = entity.getX() - mc.player.getX();
-        double dz = entity.getZ() - mc.player.getZ();
-        double dist = Math.sqrt(dx * dx + dz * dz);
-        return (float) -(MathHelper.atan2(dy, dist) * (180 / Math.PI));
+        Vec3d target = entity.getPos().add(0, entity.getHeight() / 2.0, 0);
+        Vec3d eyes = mc.player.getEyePos();
+        double dx = target.x - eyes.x;
+        double dy = target.y - eyes.y;
+        double dz = target.z - eyes.z;
+        return (float) -Math.toDegrees(Math.atan2(dy, Math.sqrt(dx * dx + dz * dz)));
     }
 
     public static boolean canSee(Entity entity) {

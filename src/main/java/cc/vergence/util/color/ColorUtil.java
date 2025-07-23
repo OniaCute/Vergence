@@ -117,4 +117,13 @@ public class ColorUtil {
 
         return Formatting.DARK_RED;
     }
+
+    public static Formatting getPingColor(double lag) {
+        if (lag < 25.0) return Formatting.GREEN;
+        else if (lag < 40.0) return Formatting.DARK_GREEN;
+        else if (lag < 60.0) return Formatting.YELLOW;
+        else if (lag < 70.0) return Formatting.GOLD;
+        else if (lag < 100.0) return Formatting.RED;
+        return Formatting.DARK_RED;
+    }
 }

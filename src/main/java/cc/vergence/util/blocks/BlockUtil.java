@@ -28,19 +28,22 @@ public class BlockUtil implements Wrapper {
     }
 
     public static BlockHitResult findPlaceableFace(BlockPos center, int range) {
-        BlockPos.Mutable searchPos = new BlockPos.Mutable();
+        BlockPos.Mutable pos = new BlockPos.Mutable();
         Direction[] directions = Direction.values();
 
         for (int x = -range; x <= range; x++) {
             for (int y = -range; y <= range; y++) {
                 for (int z = -range; z <= range; z++) {
-                    searchPos.set(center.getX() + x, center.getY() + y, center.getZ() + z);
-                    for (Direction direction : directions) {
-                        BlockPos neighbor = searchPos.offset(direction);
+                    pos.set(center.getX() + x, center.getY() + y, center.getZ() + z);
+                    for (Direction dir : directions) {
+                        if (dir == Direction.DOWN) {
+                            continue;
+                        }
+                        BlockPos neighbor = pos.offset(dir);
                         BlockState neighborState = mc.world.getBlockState(neighbor);
                         if (!neighborState.isAir() && !neighborState.getCollisionShape(mc.world, neighbor).isEmpty()) {
-                            Vec3d hitPos = Vec3d.ofCenter(neighbor).add(Vec3d.of(direction.getVector()).multiply(0.5));
-                            return new BlockHitResult(hitPos, direction.getOpposite(), neighbor, false);
+                            Vec3d hitVec = Vec3d.ofCenter(neighbor).add(Vec3d.of(dir.getVector()).multiply(0.5));
+                            return new BlockHitResult(hitVec, dir.getOpposite(), neighbor, false);
                         }
                     }
                 }

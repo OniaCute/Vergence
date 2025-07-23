@@ -42,17 +42,23 @@ public class Scaffold extends Module {
     public Option<Boolean> doRotate = addOption(new BooleanOption("Rotate", true));
     public Option<Enum<?>> rotateMode = addOption(new EnumOption("RotateMode", RotateModes.Both, v -> doRotate.getValue()));
     public Option<Double> rotateSpeed = addOption(new DoubleOption("RotateSpeed", 1, 180, 30).addSpecialValue(180, "INSTANT").setUnit("°"));
+    public Option<Boolean> enableRotateRandom = addOption(new BooleanOption("EnableRotateRandom", true, v -> doRotate.getValue()));
+    public Option<Double> rotateRandomYaw = addOption(new DoubleOption("RotateRandomYaw", 0, 3, 0.7, v -> enableRotateRandom.getValue()));
+    public Option<Double> rotateRandomPitch = addOption(new DoubleOption("RotateRandomPitch", 0, 3, 0.7, v -> enableRotateRandom.getValue()));
     public Option<Boolean> doSwing = addOption(new BooleanOption("Swing", true));
-    public Option<Enum<?>> swingMode = addOption(new EnumOption("SwingMode", SwingModes.Both, v -> doSwing.getValue()));
-    public Option<Enum<?>> swingHand = addOption(new EnumOption("SwingHand", Hands.MainHand, v -> doSwing.getValue()));
+    public Option<Boolean> enableSwing = addOption(new BooleanOption("EnableSwing", true, v -> doSwing.getValue()));
+    public Option<Enum<?>> swingMode = addOption(new EnumOption("SwingMode", SwingModes.Both, v -> enableSwing.getValue()));
+    public Option<Enum<?>> swingHand = addOption(new EnumOption("SwingHand", Hands.MainHand, v -> enableSwing.getValue()));
     public Option<Enum<?>> placeMode = addOption(new EnumOption("PlaceMode", PlaceModes.Legit));
-    public Option<Double> placeDelay = addOption(new DoubleOption("PlaceDelay", 0, 600, 300).setUnit("ms"));
+    public Option<Boolean> randomPlaceDelay = addOption(new BooleanOption("RandomPlaceDelay", true));
+    public Option<Double> placeDelayMin = addOption(new DoubleOption("PlaceDelayMin", 50, 600, 200).setUnit("ms"));
+    public Option<Double> placeDelayMax = addOption(new DoubleOption("PlaceDelayMax", 100, 800, 350).setUnit("ms"));
     public Option<Double> placeableRange = addOption(new DoubleOption("PlaceableRange", 1, 4, 2, v -> !placeMode.getValue().equals(PlaceModes.AirPlace)));
     public Option<Double> rotateYawOffset = addOption(new DoubleOption("RotateYawOffset", -180, 180, 180, v -> doRotate.getValue()));
     public Option<Double> rotatePitchOffset = addOption(new DoubleOption("RotatePitchOffset", -180, 180, 0, v -> doRotate.getValue()));
     public Option<Boolean> doShift = addOption(new BooleanOption("DoShift", true));
     public Option<Boolean> onlyBack = addOption(new BooleanOption("OnlyBack", false, v -> doShift.getValue()));
-    public Option<EnumSet<SafeWalk.SneakModes>> sneakMode = addOption(new MultipleOption<SafeWalk.SneakModes>("SneakMode", EnumSet.of(SafeWalk.SneakModes.Client), v -> doShift.getValue()));
+    public Option<EnumSet<SafeWalk.SneakModes>> sneakMode = addOption(new MultipleOption<>("SneakMode", EnumSet.of(SafeWalk.SneakModes.Client), v -> doShift.getValue()));
     public Option<Double> sneakDelay = addOption(new DoubleOption("SneakDelay", 1, 20, 7, v -> doShift.getValue()));
     public Option<Boolean> randomThreshold = addOption(new BooleanOption("RandomThreshold", true, v -> doShift.getValue()));
     public Option<Double> threshold = addOption(new DoubleOption("Threshold", 0.05, 0.3, 0.15, v -> doShift.getValue() && !randomThreshold.getValue()));
@@ -96,18 +102,38 @@ public class Scaffold extends Module {
                     sneakDelay.getValue(),
                     onlyBack.getValue()
             );
-            if (!timer.passedMs(placeDelay.getValue())) {
-                return;
-            }
-            placeBlockUnderPlayer();
+        }
+
+        if (!canPlace()) {
+            return;
+        }
+
+        if (placeMode.getValue().equals(PlaceModes.AirPlace)) {
+            placeBlockAirPlace();
+        } else {
+            placeBlockLegit();
         }
     }
 
-    private void placeBlockUnderPlayer() {
-        ClientPlayerEntity player = mc.player;
+    private boolean canPlace() {
+        long minDelay = placeDelayMin.getValue().longValue();
+        long maxDelay = placeDelayMax.getValue().longValue();
+        long delay = randomPlaceDelay.getValue() ?
+                minDelay + (long) (Math.random() * (maxDelay - minDelay)) : minDelay;
 
+        return timer.passedMs(delay);
+    }
+
+    private float addRandomOffset(float base, double offsetRange) {
+        if (!enableRotateRandom.getValue()) return base;
+        return (float) (base + (Math.random() - 0.5) * offsetRange * 2);
+    }
+
+    private void placeBlockAirPlace() {
+        ClientPlayerEntity player = mc.player;
         BlockPos playerPos = player.getBlockPos();
         BlockPos placePos = playerPos.down();
+
         BlockState blockBelow = mc.world.getBlockState(placePos);
         if (!blockBelow.isAir()) {
             return;
@@ -117,7 +143,8 @@ public class Scaffold extends Module {
         if (slot == -1) {
             return;
         }
-        mc.player.getInventory().selectedSlot = slot;
+        InventoryUtil.switchToSlot(slot);
+
         Vec3d eyePos = player.getEyePos();
         Vec3d blockCenter = Vec3d.ofCenter(placePos);
         Vec3d targetPos = blockCenter.add(0, 0.5, 0);
@@ -127,59 +154,90 @@ public class Scaffold extends Module {
 
         double distXZ = Math.sqrt(diffX * diffX + diffZ * diffZ);
 
-        if (placeMode.getValue().equals(PlaceModes.AirPlace)) {
-            float yaw = (float) ((float) Math.toDegrees(Math.atan2(diffZ, diffX)) - 90F + rotateYawOffset.getValue());
-            float pitch = (float) ((float) -Math.toDegrees(Math.atan2(diffY, distXZ)) + rotatePitchOffset.getValue());
+        float yaw = (float) (Math.toDegrees(Math.atan2(diffZ, diffX)) - 90F + rotateYawOffset.getValue());
+        float pitch = (float) (-Math.toDegrees(Math.atan2(diffY, distXZ)) + rotatePitchOffset.getValue());
 
-            if (doRotate.getValue()) {
-                Vergence.ROTATE.rotate(new Rotation(pitch, yaw, 180, ((RotateModes) rotateMode.getValue())));
-                lastRotation = new Rotation(pitch, yaw, 180, ((RotateModes) rotateMode.getValue()));
-            }
-            if (doSwing.getValue()) {
-                EntityUtil.swingHand((Hands) swingHand.getValue(), (SwingModes) swingMode.getValue());
-            }
-            BlockHitResult blockHitResult = new BlockHitResult(targetPos, Direction.UP, placePos, false);
-            Vergence.NETWORK.sendPacket(new PlayerInteractBlockC2SPacket(Hand.MAIN_HAND, blockHitResult, InteractionUtil.getNextSequence(mc.interactionManager)));
-            mc.interactionManager.interactBlock(player, Hand.MAIN_HAND, new BlockHitResult(targetPos, Direction.UP, placePos, false));
+        if (doRotate.getValue()) {
+            Rotation rotation = new Rotation(
+                    addRandomOffset(pitch, rotateRandomPitch.getValue()),
+                    addRandomOffset(yaw, rotateRandomYaw.getValue()),
+                    rotateSpeed.getValue(),
+                    (RotateModes) rotateMode.getValue()
+            );
+            Vergence.ROTATE.rotate(rotation);
+            lastRotation = rotation;
         }
-        else if (placeMode.getValue().equals(PlaceModes.Legit) || placeMode.getValue().equals(PlaceModes.Strict)) {
-            if (allowSprint.getValue()) {
-                if (AutoSprint.INSTANCE != null) {
-                    AutoSprint.INSTANCE.disable();
-                }
-                mc.player.setSprinting(false); // always no sprint
-            }
 
-            BlockHitResult result = BlockUtil.findPlaceableFace(placePos, placeableRange.getValue().intValue());
-            if (result != null) {
-                if (placeMode.getValue().equals(PlaceModes.Strict) && result.getSide().equals(Direction.DOWN)) {
-                    return;
-                }
-                if (doRotate.getValue()) {
-                    Rotation rotation = calculateSmartRotation(result.getPos(), mc.player.getEyePos(), (lastRotation == null ? new Rotation(mc.player.getPitch(), mc.player.getYaw(), 0, RotateModes.None) : lastRotation));
-                    Vergence.ROTATE.rotate(rotation);
-                    lastRotation = rotation;
-                }
-                if (doSwing.getValue()) {
-                    EntityUtil.swingHand((Hands) swingHand.getValue(), (SwingModes) swingMode.getValue());
-                }
-                Vergence.NETWORK.sendPacket(new PlayerInteractBlockC2SPacket(Hand.MAIN_HAND, result, InteractionUtil.getNextSequence(mc.interactionManager)));
-                mc.interactionManager.interactBlock(player, Hand.MAIN_HAND, result);
-            }
+        if (enableSwing.getValue()) {
+            EntityUtil.swingHand((Hands) swingHand.getValue(), (SwingModes) swingMode.getValue());
         }
+
+        BlockHitResult blockHitResult = new BlockHitResult(targetPos, Direction.UP, placePos, false);
+        Vergence.NETWORK.sendPacket(new PlayerInteractBlockC2SPacket(Hand.MAIN_HAND, blockHitResult, InteractionUtil.getNextSequence(mc.interactionManager)));
+        mc.interactionManager.interactBlock(player, Hand.MAIN_HAND, blockHitResult);
+
+        timer.reset();
+    }
+
+    private void placeBlockLegit() {
+        ClientPlayerEntity player = mc.player;
+        BlockPos playerPos = player.getBlockPos();
+        BlockPos placePos = playerPos.down();
+
+        BlockState blockBelow = mc.world.getBlockState(placePos);
+        if (!blockBelow.isAir()) {
+            return;
+        }
+
+        int slot = InventoryUtil.findBlock();
+        if (slot == -1) {
+            return;
+        }
+        InventoryUtil.switchToSlot(slot);
+
+        if (allowSprint.getValue()) {
+            if (AutoSprint.INSTANCE != null) {
+                AutoSprint.INSTANCE.disable();
+            }
+            mc.player.setSprinting(false);
+        }
+
+        BlockHitResult result = BlockUtil.findPlaceableFace(placePos, placeableRange.getValue().intValue());
+        if (result == null) {
+            return;
+        }
+        if (placeMode.getValue().equals(PlaceModes.Strict) && result.getSide().equals(Direction.DOWN)) {
+            return;
+        }
+
+        if (doRotate.getValue()) {
+            Rotation rotation = calculateSmartRotation(result.getPos(), mc.player.getEyePos(), (lastRotation == null ? new Rotation(mc.player.getPitch(), mc.player.getYaw(), 0, RotateModes.None) : lastRotation));
+            Vergence.ROTATE.rotate(rotation);
+            lastRotation = rotation;
+        }
+
+        if (enableSwing.getValue()) {
+            EntityUtil.swingHand((Hands) swingHand.getValue(), (SwingModes) swingMode.getValue());
+        }
+
+        Vergence.NETWORK.sendPacket(new PlayerInteractBlockC2SPacket(Hand.MAIN_HAND, result, InteractionUtil.getNextSequence(mc.interactionManager)));
+        mc.interactionManager.interactBlock(player, Hand.MAIN_HAND, result);
+
         timer.reset();
     }
 
     private Rotation calculateSmartRotation(Vec3d target, Vec3d eyePos, Rotation lastRotation) {
-        double targetYaw = (float) (Math.toDegrees(Math.atan2(target.subtract(eyePos).z, target.subtract(eyePos).x)) - 90f);
-        double targetPitch = (float) -Math.toDegrees(Math.atan2(target.subtract(eyePos).y, Math.sqrt(target.subtract(eyePos).x * target.subtract(eyePos).x + target.subtract(eyePos).z * target.subtract(eyePos).z)));
+        double targetYaw = (Math.toDegrees(Math.atan2(target.z - eyePos.z, target.x - eyePos.x))) - 90f;
+        double targetPitch = -Math.toDegrees(Math.atan2(target.y - eyePos.y, Math.sqrt(Math.pow(target.x - eyePos.x, 2) + Math.pow(target.z - eyePos.z, 2))));
         targetYaw += rotateYawOffset.getValue();
         targetPitch += rotatePitchOffset.getValue();
+
         double yawGap = MathHelper.wrapDegrees(targetYaw - lastRotation.getYaw());
         double pitchGap = targetPitch - lastRotation.getPitch();
+
         yawGap = MathHelper.clamp(yawGap, -rotateSpeed.getValue(), rotateSpeed.getValue());
         pitchGap = MathHelper.clamp(pitchGap, -rotateSpeed.getValue(), rotateSpeed.getValue());
-        return new Rotation((float) (lastRotation.getPitch() + pitchGap), lastRotation.getYaw() + yawGap, rotateSpeed.getValue(), (RotateModes) rotateMode.getValue());
-    }
 
+        return new Rotation((float) (lastRotation.getPitch() + pitchGap), (float) (lastRotation.getYaw() + yawGap), rotateSpeed.getValue(), (RotateModes) rotateMode.getValue());
+    }
 }

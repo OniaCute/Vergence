@@ -43,15 +43,22 @@ public class MixinPlayerListHud {
 
         String name = entry.getProfile().getName();
 
+        if (BetterTab.INSTANCE.clean.getValue()) {
+            name = name.replace("§k", "");
+        }
+
         if (BetterTab.INSTANCE.forMyself.getValue() && name.equals(client.player.getGameProfile().getName())) {
+            name = BetterTab.INSTANCE.myPrefix.getValue() + name + BetterTab.INSTANCE.mySuffix.getValue();
             cir.setReturnValue(Text.literal(name).styled(style -> style.withColor(BetterTab.INSTANCE.myColor.getValue().getRGB())));
             return;
         }
         if (BetterTab.INSTANCE.forFriends.getValue() && Vergence.FRIEND.isFriend(name)) {
+            name = BetterTab.INSTANCE.friendPrefix.getValue() + name + BetterTab.INSTANCE.friendSuffix.getValue();
             cir.setReturnValue(Text.literal(name).styled(style -> style.withColor(BetterTab.INSTANCE.friendColor.getValue().getRGB())));
             return;
         }
         if (BetterTab.INSTANCE.forEnemy.getValue() && Vergence.ENEMY.isEnemy(name)) {
+            name = BetterTab.INSTANCE.enemyPrefix.getValue() + name + BetterTab.INSTANCE.enemySuffix.getValue();
             cir.setReturnValue(Text.literal(name).styled(style -> style.withColor(BetterTab.INSTANCE.enemyColor.getValue().getRGB())));
         }
     }

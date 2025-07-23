@@ -34,6 +34,6 @@ public abstract class Command implements Wrapper {
 	public abstract String[] getAutocorrect(int count, List<String> seperated);
 
 	public void sendUsage() {
-		NotifyManager.newNotification("Vergence", "§6Usage: §e" + getName() + " " + getSyntax());
+		NotifyManager.newNotification("§6Usage: §e" + getName() + " " + getSyntax());
 	}
 }

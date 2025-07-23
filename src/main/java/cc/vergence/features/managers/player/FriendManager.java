@@ -20,7 +20,7 @@ public class FriendManager implements Wrapper {
 
     public void addFriend(String name) {
         if (Vergence.ENEMY != null && Vergence.ENEMY.isEnemy(name)) {
-            NotifyManager.newNotification("Vergence", Vergence.TEXT.get("COMMANDS.MESSAGE.FRIEND.IS_ENEMY"));
+            NotifyManager.newNotification(Vergence.TEXT.get("COMMANDS.MESSAGE.FRIEND.IS_ENEMY"));
             return;
         }
         if (!friendList.contains(name)) {

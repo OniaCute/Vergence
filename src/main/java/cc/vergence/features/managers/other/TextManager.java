@@ -468,20 +468,34 @@ public class TextManager {
 
         englishLanguageBase.put("Module.Modules.BetterTab.name", "Better Tab");
         englishLanguageBase.put("Module.Modules.BetterTab.description", "Improve the player tab list with custom colors and limits");
+        englishLanguageBase.put("Module.Modules.BetterTab.Options.BooleanOption.Clean.name", "Clean");
+        englishLanguageBase.put("Module.Modules.BetterTab.Options.BooleanOption.Clean.description", "Remove random character effect");
         englishLanguageBase.put("Module.Modules.BetterTab.Options.DoubleOption.PlayerLimit.name", "Player Limit");
         englishLanguageBase.put("Module.Modules.BetterTab.Options.DoubleOption.PlayerLimit.description", "Maximum players shown in tab list");
         englishLanguageBase.put("Module.Modules.BetterTab.Options.BooleanOption.Myself.name", "Myself");
-        englishLanguageBase.put("Module.Modules.BetterTab.Options.BooleanOption.Myself.description", "Highlight yourself in tab");
+        englishLanguageBase.put("Module.Modules.BetterTab.Options.BooleanOption.Myself.description", "Apply custom prefix, suffix and color to yourself");
+        englishLanguageBase.put("Module.Modules.BetterTab.Options.TextOption.MyPrefix.name", "My Prefix");
+        englishLanguageBase.put("Module.Modules.BetterTab.Options.TextOption.MyPrefix.description", "Text placed before your name");
+        englishLanguageBase.put("Module.Modules.BetterTab.Options.TextOption.MySuffix.name", "My Suffix");
+        englishLanguageBase.put("Module.Modules.BetterTab.Options.TextOption.MySuffix.description", "Text placed after your name");
         englishLanguageBase.put("Module.Modules.BetterTab.Options.ColorOption.MyColor.name", "My Color");
-        englishLanguageBase.put("Module.Modules.BetterTab.Options.ColorOption.MyColor.description", "Color for yourself");
+        englishLanguageBase.put("Module.Modules.BetterTab.Options.ColorOption.MyColor.description", "Color applied to your name");
         englishLanguageBase.put("Module.Modules.BetterTab.Options.BooleanOption.Friends.name", "Friends");
-        englishLanguageBase.put("Module.Modules.BetterTab.Options.BooleanOption.Friends.description", "Highlight friends in tab");
+        englishLanguageBase.put("Module.Modules.BetterTab.Options.BooleanOption.Friends.description", "Apply custom prefix, suffix and color to friends");
+        englishLanguageBase.put("Module.Modules.BetterTab.Options.TextOption.FriendPrefix.name", "Friend Prefix");
+        englishLanguageBase.put("Module.Modules.BetterTab.Options.TextOption.FriendPrefix.description", "Text placed before friend names");
+        englishLanguageBase.put("Module.Modules.BetterTab.Options.TextOption.FriendSuffix.name", "Friend Suffix");
+        englishLanguageBase.put("Module.Modules.BetterTab.Options.TextOption.FriendSuffix.description", "Text placed after friend names");
         englishLanguageBase.put("Module.Modules.BetterTab.Options.ColorOption.FriendColor.name", "Friend Color");
-        englishLanguageBase.put("Module.Modules.BetterTab.Options.ColorOption.FriendColor.description", "Color for friends");
+        englishLanguageBase.put("Module.Modules.BetterTab.Options.ColorOption.FriendColor.description", "Color applied to friend names");
         englishLanguageBase.put("Module.Modules.BetterTab.Options.BooleanOption.Enemies.name", "Enemies");
-        englishLanguageBase.put("Module.Modules.BetterTab.Options.BooleanOption.Enemies.description", "Highlight enemies in tab");
+        englishLanguageBase.put("Module.Modules.BetterTab.Options.BooleanOption.Enemies.description", "Apply custom prefix, suffix and color to enemies");
+        englishLanguageBase.put("Module.Modules.BetterTab.Options.TextOption.EnemyPrefix.name", "Enemy Prefix");
+        englishLanguageBase.put("Module.Modules.BetterTab.Options.TextOption.EnemyPrefix.description", "Text placed before enemy names");
+        englishLanguageBase.put("Module.Modules.BetterTab.Options.TextOption.EnemySuffix.name", "Enemy Suffix");
+        englishLanguageBase.put("Module.Modules.BetterTab.Options.TextOption.EnemySuffix.description", "Text placed after enemy names");
         englishLanguageBase.put("Module.Modules.BetterTab.Options.ColorOption.EnemyColor.name", "Enemy Color");
-        englishLanguageBase.put("Module.Modules.BetterTab.Options.ColorOption.EnemyColor.description", "Color for enemies");
+        englishLanguageBase.put("Module.Modules.BetterTab.Options.ColorOption.EnemyColor.description", "Color applied to enemy names");
 
         englishLanguageBase.put("Module.Modules.ModuleList.name", "Module List");
         englishLanguageBase.put("Module.Modules.ModuleList.description", "Display a list of enabled modules on the HUD");
@@ -912,12 +926,15 @@ public class TextManager {
         englishLanguageBase.put("Module.Modules.HitBoxDesync.Options.BooleanOption.JumpDisable.name", "Jump Disable");
         englishLanguageBase.put("Module.Modules.HitBoxDesync.Options.BooleanOption.JumpDisable.description", "Disable the module when you jump");
 
-        englishLanguageBase.put("Module.Modules.MurderCatcher.name", "Murder Catcher");
-        englishLanguageBase.put("Module.Modules.MurderCatcher.description", "Detects and marks the killer when a player dies nearby");
-        englishLanguageBase.put("Module.Modules.MurderCatcher.Options.BooleanOption.MarkEnemy.name", "Mark Killer");
-        englishLanguageBase.put("Module.Modules.MurderCatcher.Options.BooleanOption.MarkEnemy.description", "Automatically add the killer to your enemy list");
-        englishLanguageBase.put("Module.Modules.MurderCatcher.Messages.PlayerDiedSuppose", "Player §b{player} §rwas killed by §c{murder} §r(distance: §b{distance}m§r)");
-        englishLanguageBase.put("Module.Modules.MurderCatcher.Messages.ItemCheckSuppose", "Player §c{murder} §rhad a sword! §r(distance: §b{distance}m§r)");
+        englishLanguageBase.put("Module.Modules.MurdererCatcher.name", "Murderer Catcher");
+        englishLanguageBase.put("Module.Modules.MurdererCatcher.description", "Detects and marks the killer when a player dies nearby");
+        englishLanguageBase.put("Module.Modules.MurdererCatcher.Options.BooleanOption.MarkEnemy.name", "Mark Killer");
+        englishLanguageBase.put("Module.Modules.MurdererCatcher.Options.BooleanOption.MarkEnemy.description", "Automatically add the killer to your enemy list");
+        englishLanguageBase.put("Module.Modules.MurdererCatcher.Options.BooleanOption.Sound.name", "Play Sound");
+        englishLanguageBase.put("Module.Modules.MurdererCatcher.Options.BooleanOption.Sound.description", "Play a sound along with the notification");
+        englishLanguageBase.put("Module.Modules.MurdererCatcher.Messages.PlayerDiedSuppose", "Player §b{player} §rwas killed by §c{Murderer} §r(distance: §b{distance}m§r)");
+        englishLanguageBase.put("Module.Modules.MurdererCatcher.Messages.ItemCheckSuppose", "Player §c{murderer} §rhad a sword! §r(distance: §b{distance}m§r)");
+        englishLanguageBase.put("Module.Modules.MurdererCatcher.Messages.BowCheck", "Player §b{bowmen} §rhad a Bow! §r(distance: §b{distance}m§r)");
 
         englishLanguageBase.put("Module.Modules.ColorMatcher.name", "Color Matcher");
         englishLanguageBase.put("Module.Modules.ColorMatcher.description", "Highlights color block blocks based on their dye color within a configurable range");
@@ -959,6 +976,15 @@ public class TextManager {
         englishLanguageBase.put("Module.Modules.ColorMatcher.Options.ColorOption.RedColor.description", "Highlight color for red color block");
         englishLanguageBase.put("Module.Modules.ColorMatcher.Options.ColorOption.BlackColor.name", "Black Color");
         englishLanguageBase.put("Module.Modules.ColorMatcher.Options.ColorOption.BlackColor.description", "Highlight color for black color block");
+
+        englishLanguageBase.put("Module.Modules.FakeAnimalCatcher.name", "Fake Animal Catcher");
+        englishLanguageBase.put("Module.Modules.FakeAnimalCatcher.description", "Detects and highlights animals that are likely fake players or disguised bots.");
+        englishLanguageBase.put("Module.Modules.FakeAnimalCatcher.Options.BooleanOption.Shine.name", "Shine");
+        englishLanguageBase.put("Module.Modules.FakeAnimalCatcher.Options.BooleanOption.Shine.description", "Apply a glowing effect to the highlighted fake animals.");
+        englishLanguageBase.put("Module.Modules.FakeAnimalCatcher.Options.ColorOption.FillColor.name", "Fill Color");
+        englishLanguageBase.put("Module.Modules.FakeAnimalCatcher.Options.ColorOption.FillColor.description", "Color used to fill the animal model.");
+        englishLanguageBase.put("Module.Modules.FakeAnimalCatcher.Options.ColorOption.OutlineColor.name", "Outline Color");
+        englishLanguageBase.put("Module.Modules.FakeAnimalCatcher.Options.ColorOption.OutlineColor.description", "Color used for the animal model outline.");
     }
 
     private void loadChinese() {

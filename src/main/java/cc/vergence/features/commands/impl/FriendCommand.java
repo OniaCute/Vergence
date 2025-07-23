@@ -23,12 +23,12 @@ public class FriendCommand extends Command {
 		}
 		if (parameters[0].equals("reset")) {
 			Vergence.FRIEND.resetFriend();
-			NotifyManager.newNotification("Vergence", Vergence.TEXT.get("COMMANDS.MESSAGE.FRIEND.RESET"));
+			NotifyManager.newNotification(Vergence.TEXT.get("COMMANDS.MESSAGE.FRIEND.RESET"));
 			return;
 		}
 		if (parameters[0].equals("list")) {
 			if (Vergence.FRIEND.friendList.isEmpty()) {
-				NotifyManager.newNotification("Vergence", Vergence.TEXT.get("COMMANDS.MESSAGE.FRIEND.EMPTY"));
+				NotifyManager.newNotification(Vergence.TEXT.get("COMMANDS.MESSAGE.FRIEND.EMPTY"));
 				return ;
 			}
 			MessageManager.newMessage("Vergence", Vergence.TEXT.get("COMMANDS.MESSAGE.FRIEND.LIST_TITLE"));
@@ -41,11 +41,11 @@ public class FriendCommand extends Command {
 		if (parameters[0].equals("add")) {
 			if (parameters.length == 2) {
 				if (Vergence.ENEMY.isEnemy(parameters[1])) {
-					NotifyManager.newNotification("Vergence", Vergence.TEXT.get("COMMANDS.MESSAGE.FRIEND.IS_ENEMY"));
+					NotifyManager.newNotification(Vergence.TEXT.get("COMMANDS.MESSAGE.FRIEND.IS_ENEMY"));
 					return;
 				}
 				Vergence.FRIEND.addFriend(parameters[1]);
-				NotifyManager.newNotification("Vergence", Vergence.TEXT.get("COMMANDS.MESSAGE.FRIEND.ADD"));
+				NotifyManager.newNotification(Vergence.TEXT.get("COMMANDS.MESSAGE.FRIEND.ADD"));
 				return;
 			}
 			sendUsage();
@@ -53,7 +53,7 @@ public class FriendCommand extends Command {
 		} else if (parameters[0].equals("remove")) {
 			if (parameters.length == 2) {
 				Vergence.FRIEND.removeFriend(parameters[1]);
-				NotifyManager.newNotification("Vergence", Vergence.TEXT.get("COMMANDS.MESSAGE.FRIEND.REMOVE"));
+				NotifyManager.newNotification(Vergence.TEXT.get("COMMANDS.MESSAGE.FRIEND.REMOVE"));
 				return;
 			}
 			sendUsage();

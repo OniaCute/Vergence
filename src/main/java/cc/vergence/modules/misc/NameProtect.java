@@ -12,7 +12,7 @@ public class NameProtect extends Module {
         INSTANCE = this;
     }
 
-    public Option<String> nickname = addOption(new TextOption("NickName", "Vergence User"));
+    public Option<String> nickname = addOption(new TextOption("NickName", "&kPROTECTED"));
 
     @Override
     public String getDetails() {

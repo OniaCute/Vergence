@@ -25,7 +25,7 @@ public class ToggleCommand extends Command {
 		String moduleName = parameters[0];
 		Module module = Vergence.MODULE.getModuleByName(moduleName);
 		if (module == null) {
-			NotifyManager.newNotification("Vergence", Vergence.TEXT.get("COMMANDS.MESSAGE.TOGGLE.UNKNOWN_MODULE"));
+			NotifyManager.newNotification(Vergence.TEXT.get("COMMANDS.MESSAGE.TOGGLE.UNKNOWN_MODULE"));
 			return;
 		}
 		module.toggle();

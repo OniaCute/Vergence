@@ -88,8 +88,9 @@ public class ModuleManager {
         registerModule(new NameTags());
         registerModule(new ResourceESP());
         registerModule(new HitboxDesync());
-        registerModule(new MurderCatcher());
+        registerModule(new MurdererCatcher());
         registerModule(new ColorMatcher());
+        registerModule(new FakeAnimalCatcher());
 
         // special module
         registerModule(new SafeMode());

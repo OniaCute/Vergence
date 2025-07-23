@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
+// For mini-games ~
 public class ColorMatcher extends Module {
     public static ColorMatcher INSTANCE;
     private final Map<DyeColor, Option<Color>> colorOptionMap = new HashMap<>();
@@ -126,24 +127,73 @@ public class ColorMatcher extends Module {
 
 
     private DyeColor getBlockDyeColor(Block block) {
-        if (block == Blocks.WHITE_WOOL) return DyeColor.WHITE;
-        if (block == Blocks.ORANGE_WOOL) return DyeColor.ORANGE;
-        if (block == Blocks.MAGENTA_WOOL) return DyeColor.MAGENTA;
-        if (block == Blocks.LIGHT_BLUE_WOOL) return DyeColor.LIGHT_BLUE;
-        if (block == Blocks.YELLOW_WOOL) return DyeColor.YELLOW;
-        if (block == Blocks.LIME_WOOL) return DyeColor.LIME;
-        if (block == Blocks.PINK_WOOL) return DyeColor.PINK;
-        if (block == Blocks.GRAY_WOOL) return DyeColor.GRAY;
-        if (block == Blocks.LIGHT_GRAY_WOOL) return DyeColor.LIGHT_GRAY;
-        if (block == Blocks.CYAN_WOOL) return DyeColor.CYAN;
-        if (block == Blocks.PURPLE_WOOL) return DyeColor.PURPLE;
-        if (block == Blocks.BLUE_WOOL) return DyeColor.BLUE;
-        if (block == Blocks.BROWN_WOOL) return DyeColor.BROWN;
-        if (block == Blocks.GREEN_WOOL) return DyeColor.GREEN;
-        if (block == Blocks.RED_WOOL) return DyeColor.RED;
-        if (block == Blocks.BLACK_WOOL) return DyeColor.BLACK;
+        if (block == Blocks.WHITE_WOOL || block == Blocks.WHITE_TERRACOTTA || block == Blocks.WHITE_CONCRETE ||
+                block == Blocks.WHITE_CONCRETE_POWDER || block == Blocks.WHITE_STAINED_GLASS || block == Blocks.WHITE_STAINED_GLASS_PANE ||
+                block == Blocks.WHITE_GLAZED_TERRACOTTA) return DyeColor.WHITE;
+
+        if (block == Blocks.ORANGE_WOOL || block == Blocks.ORANGE_TERRACOTTA || block == Blocks.ORANGE_CONCRETE ||
+                block == Blocks.ORANGE_CONCRETE_POWDER || block == Blocks.ORANGE_STAINED_GLASS || block == Blocks.ORANGE_STAINED_GLASS_PANE ||
+                block == Blocks.ORANGE_GLAZED_TERRACOTTA) return DyeColor.ORANGE;
+
+        if (block == Blocks.MAGENTA_WOOL || block == Blocks.MAGENTA_TERRACOTTA || block == Blocks.MAGENTA_CONCRETE ||
+                block == Blocks.MAGENTA_CONCRETE_POWDER || block == Blocks.MAGENTA_STAINED_GLASS || block == Blocks.MAGENTA_STAINED_GLASS_PANE ||
+                block == Blocks.MAGENTA_GLAZED_TERRACOTTA) return DyeColor.MAGENTA;
+
+        if (block == Blocks.LIGHT_BLUE_WOOL || block == Blocks.LIGHT_BLUE_TERRACOTTA || block == Blocks.LIGHT_BLUE_CONCRETE ||
+                block == Blocks.LIGHT_BLUE_CONCRETE_POWDER || block == Blocks.LIGHT_BLUE_STAINED_GLASS || block == Blocks.LIGHT_BLUE_STAINED_GLASS_PANE ||
+                block == Blocks.LIGHT_BLUE_GLAZED_TERRACOTTA) return DyeColor.LIGHT_BLUE;
+
+        if (block == Blocks.YELLOW_WOOL || block == Blocks.YELLOW_TERRACOTTA || block == Blocks.YELLOW_CONCRETE ||
+                block == Blocks.YELLOW_CONCRETE_POWDER || block == Blocks.YELLOW_STAINED_GLASS || block == Blocks.YELLOW_STAINED_GLASS_PANE ||
+                block == Blocks.YELLOW_GLAZED_TERRACOTTA) return DyeColor.YELLOW;
+
+        if (block == Blocks.LIME_WOOL || block == Blocks.LIME_TERRACOTTA || block == Blocks.LIME_CONCRETE ||
+                block == Blocks.LIME_CONCRETE_POWDER || block == Blocks.LIME_STAINED_GLASS || block == Blocks.LIME_STAINED_GLASS_PANE ||
+                block == Blocks.LIME_GLAZED_TERRACOTTA) return DyeColor.LIME;
+
+        if (block == Blocks.PINK_WOOL || block == Blocks.PINK_TERRACOTTA || block == Blocks.PINK_CONCRETE ||
+                block == Blocks.PINK_CONCRETE_POWDER || block == Blocks.PINK_STAINED_GLASS || block == Blocks.PINK_STAINED_GLASS_PANE ||
+                block == Blocks.PINK_GLAZED_TERRACOTTA) return DyeColor.PINK;
+
+        if (block == Blocks.GRAY_WOOL || block == Blocks.GRAY_TERRACOTTA || block == Blocks.GRAY_CONCRETE ||
+                block == Blocks.GRAY_CONCRETE_POWDER || block == Blocks.GRAY_STAINED_GLASS || block == Blocks.GRAY_STAINED_GLASS_PANE ||
+                block == Blocks.GRAY_GLAZED_TERRACOTTA) return DyeColor.GRAY;
+
+        if (block == Blocks.LIGHT_GRAY_WOOL || block == Blocks.LIGHT_GRAY_TERRACOTTA || block == Blocks.LIGHT_GRAY_CONCRETE ||
+                block == Blocks.LIGHT_GRAY_CONCRETE_POWDER || block == Blocks.LIGHT_GRAY_STAINED_GLASS || block == Blocks.LIGHT_GRAY_STAINED_GLASS_PANE ||
+                block == Blocks.LIGHT_GRAY_GLAZED_TERRACOTTA) return DyeColor.LIGHT_GRAY;
+
+        if (block == Blocks.CYAN_WOOL || block == Blocks.CYAN_TERRACOTTA || block == Blocks.CYAN_CONCRETE ||
+                block == Blocks.CYAN_CONCRETE_POWDER || block == Blocks.CYAN_STAINED_GLASS || block == Blocks.CYAN_STAINED_GLASS_PANE ||
+                block == Blocks.CYAN_GLAZED_TERRACOTTA) return DyeColor.CYAN;
+
+        if (block == Blocks.PURPLE_WOOL || block == Blocks.PURPLE_TERRACOTTA || block == Blocks.PURPLE_CONCRETE ||
+                block == Blocks.PURPLE_CONCRETE_POWDER || block == Blocks.PURPLE_STAINED_GLASS || block == Blocks.PURPLE_STAINED_GLASS_PANE ||
+                block == Blocks.PURPLE_GLAZED_TERRACOTTA) return DyeColor.PURPLE;
+
+        if (block == Blocks.BLUE_WOOL || block == Blocks.BLUE_TERRACOTTA || block == Blocks.BLUE_CONCRETE ||
+                block == Blocks.BLUE_CONCRETE_POWDER || block == Blocks.BLUE_STAINED_GLASS || block == Blocks.BLUE_STAINED_GLASS_PANE ||
+                block == Blocks.BLUE_GLAZED_TERRACOTTA) return DyeColor.BLUE;
+
+        if (block == Blocks.BROWN_WOOL || block == Blocks.BROWN_TERRACOTTA || block == Blocks.BROWN_CONCRETE ||
+                block == Blocks.BROWN_CONCRETE_POWDER || block == Blocks.BROWN_STAINED_GLASS || block == Blocks.BROWN_STAINED_GLASS_PANE ||
+                block == Blocks.BROWN_GLAZED_TERRACOTTA) return DyeColor.BROWN;
+
+        if (block == Blocks.GREEN_WOOL || block == Blocks.GREEN_TERRACOTTA || block == Blocks.GREEN_CONCRETE ||
+                block == Blocks.GREEN_CONCRETE_POWDER || block == Blocks.GREEN_STAINED_GLASS || block == Blocks.GREEN_STAINED_GLASS_PANE ||
+                block == Blocks.GREEN_GLAZED_TERRACOTTA) return DyeColor.GREEN;
+
+        if (block == Blocks.RED_WOOL || block == Blocks.RED_TERRACOTTA || block == Blocks.RED_CONCRETE ||
+                block == Blocks.RED_CONCRETE_POWDER || block == Blocks.RED_STAINED_GLASS || block == Blocks.RED_STAINED_GLASS_PANE ||
+                block == Blocks.RED_GLAZED_TERRACOTTA) return DyeColor.RED;
+
+        if (block == Blocks.BLACK_WOOL || block == Blocks.BLACK_TERRACOTTA || block == Blocks.BLACK_CONCRETE ||
+                block == Blocks.BLACK_CONCRETE_POWDER || block == Blocks.BLACK_STAINED_GLASS || block == Blocks.BLACK_STAINED_GLASS_PANE ||
+                block == Blocks.BLACK_GLAZED_TERRACOTTA) return DyeColor.BLACK;
+
         return null;
     }
+
 
     public enum Modes {
         Fill,

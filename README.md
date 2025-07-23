@@ -2,7 +2,7 @@
 + Get unique sense of the minecraft.
 
 ## About
-Vergence will focus on detecting cheating activities that bypass the security servers and will offer the most stable and secure features.
+Get Vergence To Get Unique Sense Of Minecraft
 
 ## Prices
 | Subscription | Price |

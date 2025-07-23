@@ -441,6 +441,7 @@ public class EventManager implements Wrapper {
                 module.onTick();
             }
         }
+        Vergence.POP.onTick();
         Vergence.ROTATE.onTick();
         if (!GuiManager.isClickGuiInited && mc.getWindow() != null) {
             Vergence.CONSOLE.logInfo("[UI] precalc ui position ...");

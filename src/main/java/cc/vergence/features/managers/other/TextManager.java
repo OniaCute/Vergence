@@ -220,9 +220,6 @@ public class TextManager {
         englishLanguageBase.put("Module.Modules.FastUse.Options.BooleanOption.XP.name", "XP");
         englishLanguageBase.put("Module.Modules.FastUse.Options.BooleanOption.XP.description", "Reduce the intervals of discarding the XP bottles");
 
-        englishLanguageBase.put("Module.Modules.StorageESP.name", "Storage ESP");
-        englishLanguageBase.put("Module.Modules.StorageESP.description", "Highlight the storage all the time");
-
         englishLanguageBase.put("Module.Modules.AntiHungry.name", "Anti Hungry");
         englishLanguageBase.put("Module.Modules.AntiHungry.description", "By using a reasonable method, you can reduce the feeling of hunger");
         englishLanguageBase.put("Module.Modules.AntiHungry.Options.EnumOption.AntiCheat.name", "Anti Cheat");
@@ -811,12 +808,16 @@ public class TextManager {
 
         englishLanguageBase.put("Module.Modules.NameTags.name", "Name Tags");
         englishLanguageBase.put("Module.Modules.NameTags.description", "Renders customizable 3D name tags above players");
+        englishLanguageBase.put("Module.Modules.NameTags.Options.BooleanOption.AntiBot.name", "Anti Bot");
+        englishLanguageBase.put("Module.Modules.NameTags.Options.BooleanOption.AntiBot.description", "Do not apply name tags to bot players");
+        englishLanguageBase.put("Module.Modules.NameTags.Options.BooleanOption.Myself.name", "For Self");
+        englishLanguageBase.put("Module.Modules.NameTags.Options.BooleanOption.Myself.description", "apply name tags to local player");
         englishLanguageBase.put("Module.Modules.NameTags.Options.EnumOption.FonsSize.name", "Font Size");
         englishLanguageBase.put("Module.Modules.NameTags.Options.EnumOption.FonsSize.description", "Size of the font used for the name tag");
         englishLanguageBase.put("Module.Modules.NameTags.Options.ColorOption.TextColor.name", "Text Color");
         englishLanguageBase.put("Module.Modules.NameTags.Options.ColorOption.TextColor.description", "Color of the player name and additional text");
-        englishLanguageBase.put("Module.Modules.NameTags.Options.MultipleOption.Mode.name", "Mode");
-        englishLanguageBase.put("Module.Modules.NameTags.Options.MultipleOption.Mode.description", "Visual layers to apply behind the text");
+        englishLanguageBase.put("Module.Modules.NameTags.Options.MultipleOption.Modes.name", "Mode");
+        englishLanguageBase.put("Module.Modules.NameTags.Options.MultipleOption.Modes.description", "Visual layers to apply behind the text");
         englishLanguageBase.put("Module.Modules.NameTags.Options.ColorOption.FillColor.name", "Fill Color");
         englishLanguageBase.put("Module.Modules.NameTags.Options.ColorOption.FillColor.description", "Background fill color when Fill mode is enabled");
         englishLanguageBase.put("Module.Modules.NameTags.Options.ColorOption.OutlineColor.name", "Outline Color");
@@ -899,6 +900,65 @@ public class TextManager {
         englishLanguageBase.put("Module.Modules.StorageESP.Options.ColorOption.CraftingTableColor.description", "Color for crafting tables");
         englishLanguageBase.put("Module.Modules.StorageESP.Options.MultipleOption.Mode.name", "Mode");
         englishLanguageBase.put("Module.Modules.StorageESP.Options.MultipleOption.Mode.description", "Whether to draw filled boxes");
+
+        englishLanguageBase.put("Module.Modules.HitBoxDesync.name", "Hitbox Desync");
+        englishLanguageBase.put("Module.Modules.HitBoxDesync.description", "Moves your hitbox slightly to desync with your actual position");
+        englishLanguageBase.put("Module.Modules.HitBoxDesync.Options.BooleanOption.Alternating.name", "Alternating");
+        englishLanguageBase.put("Module.Modules.HitBoxDesync.Options.BooleanOption.Alternating.description", "Toggle between two directions each interval");
+        englishLanguageBase.put("Module.Modules.HitBoxDesync.Options.BooleanOption.Specific.name", "Specific");
+        englishLanguageBase.put("Module.Modules.HitBoxDesync.Options.BooleanOption.Specific.description", "Use a precise offset when alternating");
+        englishLanguageBase.put("Module.Modules.HitBoxDesync.Options.BooleanOption.AutoDisable.name", "Auto Disable");
+        englishLanguageBase.put("Module.Modules.HitBoxDesync.Options.BooleanOption.AutoDisable.description", "Disable the module after one cycle");
+        englishLanguageBase.put("Module.Modules.HitBoxDesync.Options.BooleanOption.JumpDisable.name", "Jump Disable");
+        englishLanguageBase.put("Module.Modules.HitBoxDesync.Options.BooleanOption.JumpDisable.description", "Disable the module when you jump");
+
+        englishLanguageBase.put("Module.Modules.MurderCatcher.name", "Murder Catcher");
+        englishLanguageBase.put("Module.Modules.MurderCatcher.description", "Detects and marks the killer when a player dies nearby");
+        englishLanguageBase.put("Module.Modules.MurderCatcher.Options.BooleanOption.MarkEnemy.name", "Mark Killer");
+        englishLanguageBase.put("Module.Modules.MurderCatcher.Options.BooleanOption.MarkEnemy.description", "Automatically add the killer to your enemy list");
+        englishLanguageBase.put("Module.Modules.MurderCatcher.Messages.PlayerDiedSuppose", "Player §b{player} §rwas killed by §c{murder} §r(distance: §b{distance}m§r)");
+        englishLanguageBase.put("Module.Modules.MurderCatcher.Messages.ItemCheckSuppose", "Player §c{murder} §rhad a sword! §r(distance: §b{distance}m§r)");
+
+        englishLanguageBase.put("Module.Modules.ColorMatcher.name", "Color Matcher");
+        englishLanguageBase.put("Module.Modules.ColorMatcher.description", "Highlights color block blocks based on their dye color within a configurable range");
+        englishLanguageBase.put("Module.Modules.ColorMatcher.Options.MultipleOption.Mode.name", "Mode");
+        englishLanguageBase.put("Module.Modules.ColorMatcher.Options.MultipleOption.Mode.description", "Visual style of the highlight (fill, outline, or both)");
+        englishLanguageBase.put("Module.Modules.ColorMatcher.Options.DoubleOption.Range.name", "Range");
+        englishLanguageBase.put("Module.Modules.ColorMatcher.Options.DoubleOption.Range.description", "Maximum search radius in blocks");
+        englishLanguageBase.put("Module.Modules.ColorMatcher.Options.ColorOption.NearestColor.name", "Nearest Color");
+        englishLanguageBase.put("Module.Modules.ColorMatcher.Options.ColorOption.NearestColor.description", "Special color used to highlight the closest color block block");
+        englishLanguageBase.put("Module.Modules.ColorMatcher.Options.ColorOption.WhiteColor.name", "White Color");
+        englishLanguageBase.put("Module.Modules.ColorMatcher.Options.ColorOption.WhiteColor.description", "Highlight color for white color block");
+        englishLanguageBase.put("Module.Modules.ColorMatcher.Options.ColorOption.OrangeColor.name", "Orange Color");
+        englishLanguageBase.put("Module.Modules.ColorMatcher.Options.ColorOption.OrangeColor.description", "Highlight color for orange color block");
+        englishLanguageBase.put("Module.Modules.ColorMatcher.Options.ColorOption.MagentaColor.name", "Magenta Color");
+        englishLanguageBase.put("Module.Modules.ColorMatcher.Options.ColorOption.MagentaColor.description", "Highlight color for magenta color block");
+        englishLanguageBase.put("Module.Modules.ColorMatcher.Options.ColorOption.LightBlueColor.name", "Light Blue Color");
+        englishLanguageBase.put("Module.Modules.ColorMatcher.Options.ColorOption.LightBlueColor.description", "Highlight color for light blue color block");
+        englishLanguageBase.put("Module.Modules.ColorMatcher.Options.ColorOption.YellowColor.name", "Yellow Color");
+        englishLanguageBase.put("Module.Modules.ColorMatcher.Options.ColorOption.YellowColor.description", "Highlight color for yellow color block");
+        englishLanguageBase.put("Module.Modules.ColorMatcher.Options.ColorOption.LimeColor.name", "Lime Color");
+        englishLanguageBase.put("Module.Modules.ColorMatcher.Options.ColorOption.LimeColor.description", "Highlight color for lime color block");
+        englishLanguageBase.put("Module.Modules.ColorMatcher.Options.ColorOption.PinkColor.name", "Pink Color");
+        englishLanguageBase.put("Module.Modules.ColorMatcher.Options.ColorOption.PinkColor.description", "Highlight color for pink color block");
+        englishLanguageBase.put("Module.Modules.ColorMatcher.Options.ColorOption.GrayColor.name", "Gray Color");
+        englishLanguageBase.put("Module.Modules.ColorMatcher.Options.ColorOption.GrayColor.description", "Highlight color for gray color block");
+        englishLanguageBase.put("Module.Modules.ColorMatcher.Options.ColorOption.LightGrayColor.name", "Light Gray Color");
+        englishLanguageBase.put("Module.Modules.ColorMatcher.Options.ColorOption.LightGrayColor.description", "Highlight color for light gray color block");
+        englishLanguageBase.put("Module.Modules.ColorMatcher.Options.ColorOption.CyanColor.name", "Cyan Color");
+        englishLanguageBase.put("Module.Modules.ColorMatcher.Options.ColorOption.CyanColor.description", "Highlight color for cyan color block");
+        englishLanguageBase.put("Module.Modules.ColorMatcher.Options.ColorOption.PurpleColor.name", "Purple Color");
+        englishLanguageBase.put("Module.Modules.ColorMatcher.Options.ColorOption.PurpleColor.description", "Highlight color for purple color block");
+        englishLanguageBase.put("Module.Modules.ColorMatcher.Options.ColorOption.BlueColor.name", "Blue Color");
+        englishLanguageBase.put("Module.Modules.ColorMatcher.Options.ColorOption.BlueColor.description", "Highlight color for blue color block");
+        englishLanguageBase.put("Module.Modules.ColorMatcher.Options.ColorOption.BrownColor.name", "Brown Color");
+        englishLanguageBase.put("Module.Modules.ColorMatcher.Options.ColorOption.BrownColor.description", "Highlight color for brown color block");
+        englishLanguageBase.put("Module.Modules.ColorMatcher.Options.ColorOption.GreenColor.name", "Green Color");
+        englishLanguageBase.put("Module.Modules.ColorMatcher.Options.ColorOption.GreenColor.description", "Highlight color for green color block");
+        englishLanguageBase.put("Module.Modules.ColorMatcher.Options.ColorOption.RedColor.name", "Red Color");
+        englishLanguageBase.put("Module.Modules.ColorMatcher.Options.ColorOption.RedColor.description", "Highlight color for red color block");
+        englishLanguageBase.put("Module.Modules.ColorMatcher.Options.ColorOption.BlackColor.name", "Black Color");
+        englishLanguageBase.put("Module.Modules.ColorMatcher.Options.ColorOption.BlackColor.description", "Highlight color for black color block");
     }
 
     private void loadChinese() {

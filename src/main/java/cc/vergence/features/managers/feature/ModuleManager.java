@@ -87,6 +87,9 @@ public class ModuleManager {
         registerModule(new PacketsLimit());
         registerModule(new NameTags());
         registerModule(new ResourceESP());
+        registerModule(new HitboxDesync());
+        registerModule(new MurderCatcher());
+        registerModule(new ColorMatcher());
 
         // special module
         registerModule(new SafeMode());

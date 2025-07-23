@@ -4,6 +4,7 @@ import cc.vergence.Vergence;
 import cc.vergence.features.enums.Hands;
 import cc.vergence.features.enums.SpeedUnit;
 import cc.vergence.features.enums.SwingModes;
+import cc.vergence.modules.misc.FakePlayer;
 import cc.vergence.util.interfaces.Wrapper;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.entity.Entity;
@@ -156,5 +157,10 @@ public class EntityUtil implements Wrapper {
             case SPECTATOR -> "SP";
             default -> "S";
         };
+    }
+
+    public static boolean isBot(PlayerEntity player) {
+        PlayerListEntry entry = mc.getNetworkHandler().getPlayerListEntry(player.getUuid());
+        return entry == null || entry.getProfile() == null || player.getUuid().toString().startsWith(player.getName().getString()) || !player.getGameProfile().getName().equals(player.getName().getString());
     }
 }

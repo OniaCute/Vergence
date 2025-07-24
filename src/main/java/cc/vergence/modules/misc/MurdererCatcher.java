@@ -21,8 +21,6 @@ import java.util.Objects;
 // For mini-games ~
 public class MurdererCatcher extends Module implements Wrapper {
     public static MurdererCatcher INSTANCE;
-    private boolean notified;
-    private boolean murdererIsMe = false; // i'm murderer o_O
     private final HashSet<String> notifiedMurderers = new HashSet<>();
     private final HashSet<String> notifiedBowmen = new HashSet<>();
     private final ArrayList<String> murderers = new ArrayList<>();
@@ -93,7 +91,6 @@ public class MurdererCatcher extends Module implements Wrapper {
 
             String playerName = player.getName().getString();
 
-            // 检查是否为杀手
             boolean hasIronSword = !player.getMainHandStack().isEmpty() && InventoryUtil.isSword(player.getMainHandStack().getItem());
             if (!hasIronSword) {
                 for (int i = 0; i < player.getInventory().size(); i++) {
@@ -158,17 +155,17 @@ public class MurdererCatcher extends Module implements Wrapper {
 
 
     private void reset() {
-        notified = false;
-
         for (String name : murderers) {
             Vergence.ENEMY.removeEnemy(name);
         }
         murderers.clear();
+        notifiedMurderers.clear();
 
         for (String name : bowmen) {
             Vergence.FRIEND.removeFriend(name);
         }
         bowmen.clear();
+        notifiedBowmen.clear();
     }
 
 
@@ -184,6 +181,11 @@ public class MurdererCatcher extends Module implements Wrapper {
 
     @Override
     public void onLogout() {
+        reset();
+    }
+
+    @Override
+    public void onShutDown() {
         reset();
     }
 }

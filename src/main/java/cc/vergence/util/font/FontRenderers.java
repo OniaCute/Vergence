@@ -1,13 +1,8 @@
 package cc.vergence.util.font;
 
-import cc.vergence.util.font.FontAdapter;
-import cc.vergence.util.font.RendererFontAdapter;
-import org.jetbrains.annotations.NotNull;
-
 import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Objects;
 
 public class FontRenderers {
     public static FontAdapter SMOOTH_3F;
@@ -48,6 +43,25 @@ public class FontRenderers {
     public static FontAdapter SANS_28F;
     public static FontAdapter SANS_32F;
 
+    public static FontAdapter RHR_3F;
+    public static FontAdapter RHR_4F;
+    public static FontAdapter RHR_5F;
+    public static FontAdapter RHR_6F;
+    public static FontAdapter RHR_7F;
+    public static FontAdapter RHR_8F;
+    public static FontAdapter RHR_9F;
+    public static FontAdapter RHR_10F;
+    public static FontAdapter RHR_12F;
+    public static FontAdapter RHR_14F;
+    public static FontAdapter RHR_15F;
+    public static FontAdapter RHR_16F;
+    public static FontAdapter RHR_18F;
+    public static FontAdapter RHR_20F;
+    public static FontAdapter RHR_21F;
+    public static FontAdapter RHR_24F;
+    public static FontAdapter RHR_28F;
+    public static FontAdapter RHR_32F;
+
     public static RendererFontAdapter create(String name, int style, float size) {
         return new RendererFontAdapter(new Font(name, style, (int) size), size);
     }
@@ -59,7 +73,13 @@ public class FontRenderers {
     }
 
     public static RendererFontAdapter SansFont(float size) throws IOException, FontFormatException {
-        InputStream fontStream = FontRenderers.class.getClassLoader().getResourceAsStream("assets/vergence/font/sans.otf");
+        InputStream fontStream = FontRenderers.class.getClassLoader().getResourceAsStream("assets/vergence/font/sans.ttf");
+        Font font = Font.createFont(Font.TRUETYPE_FONT, fontStream).deriveFont(Font.PLAIN, size);
+        return new RendererFontAdapter(font, size);
+    }
+
+    public static RendererFontAdapter RhrFont(float size) throws IOException, FontFormatException {
+        InputStream fontStream = FontRenderers.class.getClassLoader().getResourceAsStream("assets/vergence/font/rhr.ttf");
         Font font = Font.createFont(Font.TRUETYPE_FONT, fontStream).deriveFont(Font.PLAIN, size);
         return new RendererFontAdapter(font, size);
     }

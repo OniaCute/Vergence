@@ -495,9 +495,9 @@ public class EventManager implements Wrapper {
 
     public void onRenderClickGui(DrawContext context, int mouseX, int mouseY, float partialTicks) {
         for (Module module : ModuleManager.modules) {
-            module.onRenderClickGui(context, mouseX, mouseY, partialTicks);
+            module.onRenderClickGuiAlways(context, mouseX, mouseY, partialTicks);
             if (module.getStatus()) {
-                module.onRenderClickGuiAlways(context, mouseX, mouseY, partialTicks);
+                module.onRenderClickGui(context, mouseX, mouseY, partialTicks);
             }
         }
         if (Vergence.GUI != null) {
@@ -507,13 +507,22 @@ public class EventManager implements Wrapper {
 
     public void onRenderHudEditor(DrawContext context, int mouseX, int mouseY, float partialTicks) {
         for (Module module : ModuleManager.modules) {
-            module.onRenderHudEditor(context, mouseX, mouseY, partialTicks);
+            module.onRenderHudEditorAlways(context, mouseX, mouseY, partialTicks);
             if (module.getStatus()) {
-                module.onRenderHudEditorAlways(context, mouseX, mouseY, partialTicks);
+                module.onRenderHudEditor(context, mouseX, mouseY, partialTicks);
             }
         }
         if (Vergence.HUD != null) {
             Vergence.HUD.onRenderHudEditor(context, mouseX, mouseY, partialTicks);
+        }
+    }
+
+    public void onShutDown() {
+        for (Module module : ModuleManager.modules) {
+            module.onShutDownAlways();
+            if (module.getStatus()) {
+                module.onShutDown();
+            }
         }
     }
 }

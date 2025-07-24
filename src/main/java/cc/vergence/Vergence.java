@@ -177,14 +177,17 @@ public class Vergence implements ModInitializer {
     }
 
     public static void unload() {
-        CONSOLE.logInfo("Vergence Client was unloaded.");
+        CONSOLE.logInfo("Vergence Client is unloading ...");
         EVENTBUS.listenerMap.clear();
+        save();
+        CONSOLE.logInfo("Vergence Client is was unloaded");
     }
 
     public static void save() {
-        CONSOLE.logInfo("Vergence Client config is saving...");
+        CONSOLE.logInfo("Vergence Client config is shutting down ...");
+        EVENTS.onShutDown();
+        CONSOLE.logInfo("Vergence Client config is saving ...");
         CONFIG.save(CONFIG.getCurrentConfig());
-        CONSOLE.logInfo("Vergence Client config is saved...");
+        CONSOLE.logInfo("Vergence Client config was saved");
     }
-
 }

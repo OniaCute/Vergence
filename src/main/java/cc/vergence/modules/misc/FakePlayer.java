@@ -109,5 +109,4 @@ public class FakePlayer extends Module {
 		fake.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 800, 0));
 		fake.setStackInHand(Hand.OFF_HAND, ItemStack.EMPTY);
 	}
-
 }

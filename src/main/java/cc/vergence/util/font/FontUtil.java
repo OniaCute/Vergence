@@ -101,6 +101,88 @@ public class FontUtil implements Wrapper {
             }
 
             return FontScales.SANS_10F;
+        }
+        if (fonts.equals(Fonts.RHR)) {
+            switch (uiScales) {
+                case X50 -> {
+                    switch (size) {
+                        case LARGEST -> {
+                            return FontScales.RHR_7F;
+                        }
+                        case LARGE -> {
+                            return FontScales.RHR_6F;
+                        }
+                        case MEDIUM -> {
+                            return FontScales.RHR_5F;
+                        }
+                        case SMALL -> {
+                            return FontScales.RHR_4F;
+                        }
+                        case SMALLEST -> {
+                            return FontScales.RHR_3F;
+                        }
+                    }
+                }
+                case X100 -> {
+                    switch (size) {
+                        case LARGEST -> {
+                            return FontScales.RHR_16F;
+                        }
+                        case LARGE -> {
+                            return FontScales.RHR_12F;
+                        }
+                        case MEDIUM -> {
+                            return FontScales.RHR_10F;
+                        }
+                        case SMALL -> {
+                            return FontScales.RHR_8F;
+                        }
+                        case SMALLEST -> {
+                            return FontScales.RHR_6F;
+                        }
+                    }
+                }
+                case X150 -> {
+                    switch (size) {
+                        case LARGEST -> {
+                            return FontScales.RHR_24F;
+                        }
+                        case LARGE -> {
+                            return FontScales.RHR_18F;
+                        }
+                        case MEDIUM -> {
+                            return FontScales.RHR_15F;
+                        }
+                        case SMALL -> {
+                            return FontScales.RHR_12F;
+                        }
+                        case SMALLEST -> {
+                            return FontScales.RHR_9F;
+                        }
+                    }
+                }
+                case X200 -> {
+                    switch (size) {
+                        case LARGEST -> {
+                            return FontScales.RHR_32F;
+                        }
+                        case LARGE -> {
+                            return FontScales.RHR_24F;
+                        }
+                        case MEDIUM -> {
+                            return FontScales.RHR_20F;
+                        }
+                        case SMALL -> {
+                            return FontScales.RHR_16F;
+                        }
+                        case SMALLEST -> {
+                            return FontScales.RHR_12F;
+                        }
+                    }
+                }
+            }
+
+            return FontScales.RHR_10F;
         } else {
             switch (uiScales) {
                 case X50 -> {
@@ -248,6 +330,65 @@ public class FontUtil implements Wrapper {
                 }
             }
             return FontRenderers.SANS_10F.getWidth(text);
+        }
+        else if (fontType.equals(Fonts.RHR)) {
+            switch (fontScales) {
+                case RHR_3F -> {
+                    return FontRenderers.RHR_3F.getWidth(text);
+                }
+                case RHR_4F -> {
+                    return FontRenderers.RHR_4F.getWidth(text);
+                }
+                case RHR_5F -> {
+                    return FontRenderers.RHR_5F.getWidth(text);
+                }
+                case RHR_6F -> {
+                    return FontRenderers.RHR_6F.getWidth(text);
+                }
+                case RHR_7F -> {
+                    return FontRenderers.RHR_7F.getWidth(text);
+                }
+                case RHR_8F -> {
+                    return FontRenderers.RHR_8F.getWidth(text);
+                }
+                case RHR_9F -> {
+                    return FontRenderers.RHR_9F.getWidth(text);
+                }
+                case RHR_10F -> {
+                    return FontRenderers.RHR_10F.getWidth(text);
+                }
+                case RHR_12F -> {
+                    return FontRenderers.RHR_12F.getWidth(text);
+                }
+                case RHR_14F -> {
+                    return FontRenderers.RHR_14F.getWidth(text);
+                }
+                case RHR_15F -> {
+                    return FontRenderers.RHR_15F.getWidth(text);
+                }
+                case RHR_16F -> {
+                    return FontRenderers.RHR_16F.getWidth(text);
+                }
+                case RHR_18F -> {
+                    return FontRenderers.RHR_18F.getWidth(text);
+                }
+                case RHR_20F -> {
+                    return FontRenderers.RHR_20F.getWidth(text);
+                }
+                case RHR_21F -> {
+                    return FontRenderers.RHR_21F.getWidth(text);
+                }
+                case RHR_24F -> {
+                    return FontRenderers.RHR_24F.getWidth(text);
+                }
+                case RHR_28F -> {
+                    return FontRenderers.RHR_28F.getWidth(text);
+                }
+                case RHR_32F -> {
+                    return FontRenderers.RHR_32F.getWidth(text);
+                }
+            }
+            return FontRenderers.RHR_10F.getWidth(text);
         } else {
             switch (fontScales) {
                 case SMOOTH_3F -> {
@@ -376,6 +517,65 @@ public class FontUtil implements Wrapper {
                 }
             }
             return FontRenderers.SANS_10F.getFontHeight(text);
+        }
+        else if (fontType.equals(Fonts.RHR)) {
+            switch (fontScales) {
+                case RHR_3F -> {
+                    return FontRenderers.RHR_3F.getFontHeight(text);
+                }
+                case RHR_4F -> {
+                    return FontRenderers.RHR_4F.getFontHeight(text);
+                }
+                case RHR_5F -> {
+                    return FontRenderers.RHR_5F.getFontHeight(text);
+                }
+                case RHR_6F -> {
+                    return FontRenderers.RHR_6F.getFontHeight(text);
+                }
+                case RHR_7F -> {
+                    return FontRenderers.RHR_7F.getFontHeight(text);
+                }
+                case RHR_8F -> {
+                    return FontRenderers.RHR_8F.getFontHeight(text);
+                }
+                case RHR_9F -> {
+                    return FontRenderers.RHR_9F.getFontHeight(text);
+                }
+                case RHR_10F -> {
+                    return FontRenderers.RHR_10F.getFontHeight(text);
+                }
+                case RHR_12F -> {
+                    return FontRenderers.RHR_12F.getFontHeight(text);
+                }
+                case RHR_14F -> {
+                    return FontRenderers.RHR_14F.getFontHeight(text);
+                }
+                case RHR_15F -> {
+                    return FontRenderers.RHR_15F.getFontHeight(text);
+                }
+                case RHR_16F -> {
+                    return FontRenderers.RHR_16F.getFontHeight(text);
+                }
+                case RHR_18F -> {
+                    return FontRenderers.RHR_18F.getFontHeight(text);
+                }
+                case RHR_20F -> {
+                    return FontRenderers.RHR_20F.getFontHeight(text);
+                }
+                case RHR_21F -> {
+                    return FontRenderers.RHR_21F.getFontHeight(text);
+                }
+                case RHR_24F -> {
+                    return FontRenderers.RHR_24F.getFontHeight(text);
+                }
+                case RHR_28F -> {
+                    return FontRenderers.RHR_28F.getFontHeight(text);
+                }
+                case RHR_32F -> {
+                    return FontRenderers.RHR_32F.getFontHeight(text);
+                }
+            }
+            return FontRenderers.RHR_10F.getFontHeight(text);
         } else {
             switch (fontScales) {
                 case SMOOTH_3F -> {
@@ -501,6 +701,39 @@ public class FontUtil implements Wrapper {
                         FontRenderers.SANS_28F.drawString(matrixStack, text, x, y, color, shadow);
                 case SANS_32F ->
                         FontRenderers.SANS_32F.drawString(matrixStack, text, x, y, color, shadow);
+            }
+        }
+        else if (fontType.equals(Fonts.RHR)) {
+            switch (fontScales) {
+                case RHR_3F -> FontRenderers.RHR_3F.drawString(matrixStack, text, x, y, color, shadow);
+                case RHR_4F -> FontRenderers.RHR_4F.drawString(matrixStack, text, x, y, color, shadow);
+                case RHR_5F -> FontRenderers.RHR_5F.drawString(matrixStack, text, x, y, color, shadow);
+                case RHR_6F -> FontRenderers.RHR_6F.drawString(matrixStack, text, x, y, color, shadow);
+                case RHR_7F -> FontRenderers.RHR_7F.drawString(matrixStack, text, x, y, color, shadow);
+                case RHR_8F -> FontRenderers.RHR_8F.drawString(matrixStack, text, x, y, color, shadow);
+                case RHR_9F -> FontRenderers.RHR_9F.drawString(matrixStack, text, x, y, color, shadow);
+                case RHR_10F ->
+                        FontRenderers.RHR_10F.drawString(matrixStack, text, x, y, color, shadow);
+                case RHR_12F ->
+                        FontRenderers.RHR_12F.drawString(matrixStack, text, x, y, color, shadow);
+                case RHR_14F ->
+                        FontRenderers.RHR_14F.drawString(matrixStack, text, x, y, color, shadow);
+                case RHR_15F ->
+                        FontRenderers.RHR_15F.drawString(matrixStack, text, x, y, color, shadow);
+                case RHR_16F ->
+                        FontRenderers.RHR_16F.drawString(matrixStack, text, x, y, color, shadow);
+                case RHR_18F ->
+                        FontRenderers.RHR_18F.drawString(matrixStack, text, x, y, color, shadow);
+                case RHR_20F ->
+                        FontRenderers.RHR_20F.drawString(matrixStack, text, x, y, color, shadow);
+                case RHR_21F ->
+                        FontRenderers.RHR_21F.drawString(matrixStack, text, x, y, color, shadow);
+                case RHR_24F ->
+                        FontRenderers.RHR_24F.drawString(matrixStack, text, x, y, color, shadow);
+                case RHR_28F ->
+                        FontRenderers.RHR_28F.drawString(matrixStack, text, x, y, color, shadow);
+                case RHR_32F ->
+                        FontRenderers.RHR_32F.drawString(matrixStack, text, x, y, color, shadow);
             }
         } else {
             switch (fontScales) {

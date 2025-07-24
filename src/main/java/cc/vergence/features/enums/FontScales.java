@@ -37,5 +37,24 @@ public enum FontScales {
     SANS_21F,
     SANS_24F,
     SANS_28F,
-    SANS_32F
+    SANS_32F,
+
+    RHR_3F,
+    RHR_4F,
+    RHR_5F,
+    RHR_6F,
+    RHR_7F,
+    RHR_8F,
+    RHR_9F,
+    RHR_10F,
+    RHR_12F,
+    RHR_14F,
+    RHR_15F,
+    RHR_16F,
+    RHR_18F,
+    RHR_20F,
+    RHR_21F,
+    RHR_24F,
+    RHR_28F,
+    RHR_32F
 }

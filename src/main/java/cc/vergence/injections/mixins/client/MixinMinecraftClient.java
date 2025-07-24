@@ -76,6 +76,25 @@ public abstract class MixinMinecraftClient extends ReentrantThreadExecutor<Runna
             FontRenderers.SANS_28F = FontRenderers.SansFont(28f);
             FontRenderers.SANS_32F = FontRenderers.SansFont(32f);
 
+            FontRenderers.RHR_3F = FontRenderers.RhrFont(3f);
+            FontRenderers.RHR_4F = FontRenderers.RhrFont(4f);
+            FontRenderers.RHR_5F = FontRenderers.RhrFont(5f);
+            FontRenderers.RHR_6F = FontRenderers.RhrFont(6f);
+            FontRenderers.RHR_7F = FontRenderers.RhrFont(7f);
+            FontRenderers.RHR_8F = FontRenderers.RhrFont(8f);
+            FontRenderers.RHR_9F = FontRenderers.RhrFont(9f);
+            FontRenderers.RHR_10F = FontRenderers.RhrFont(10f);
+            FontRenderers.RHR_12F = FontRenderers.RhrFont(12f);
+            FontRenderers.RHR_14F = FontRenderers.RhrFont(14f);
+            FontRenderers.RHR_15F = FontRenderers.RhrFont(15f);
+            FontRenderers.RHR_16F = FontRenderers.RhrFont(16f);
+            FontRenderers.RHR_18F = FontRenderers.RhrFont(18f);
+            FontRenderers.RHR_20F = FontRenderers.RhrFont(20f);
+            FontRenderers.RHR_21F = FontRenderers.RhrFont(21f);
+            FontRenderers.RHR_24F = FontRenderers.RhrFont(24f);
+            FontRenderers.RHR_28F = FontRenderers.RhrFont(28f);
+            FontRenderers.RHR_32F = FontRenderers.RhrFont(32f);
+
             FontUtil.LOADED = true;
         } catch (Exception e) {
             e.printStackTrace();

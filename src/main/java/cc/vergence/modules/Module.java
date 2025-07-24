@@ -404,6 +404,12 @@ public abstract class Module implements Wrapper {
     public void onDisconnectAlways(DisconnectEvent event, String reason) {
     }
 
+    public void onShutDown() {
+    }
+
+    public void onShutDownAlways() {
+    }
+
     public void setName(String name) {
         this.name = name;
     }

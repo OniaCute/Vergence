@@ -32,7 +32,8 @@ public class Scoreboard extends Module {
         setHeight(0);
     }
 
-    public Option<Boolean> hide = addOption(new BooleanOption("Hide", false));
+    public Option<Boolean> hide = addOption(new BooleanOption("Hide", true));
+    public Option<Double> padding = addOption(new DoubleOption("Padding", 0, 6, 2));
     public Option<Color> titleColor = addOption(new ColorOption("TitleColor", new Color(255, 152, 219, 245)));
     public Option<Color> textColor = addOption(new ColorOption("TextColor", new Color(21, 21, 21, 245)));
     public Option<Boolean> rounded = addOption(new BooleanOption("Rounded", true));
@@ -61,36 +62,62 @@ public class Scoreboard extends Module {
             return;
         }
         net.minecraft.scoreboard.Scoreboard scoreboard = mc.getNetworkHandler().getScoreboard();
-        double height = 0;
-        double width = 0;
 
+        double x = padding.getValue();
+        double y = padding.getValue();
+        double width = FontUtil.getWidth(FontSize.SMALL, this.getDisplayName()) + padding.getValue() * 2;
+        double height = FontUtil.getHeight(FontSize.SMALL) + padding.getValue() * 2;
+
+        // background
         if (rounded.getValue()) {
             Render2DUtil.drawRoundedRect(
                     context.getMatrices(),
                     getX(),
                     getY(),
-                    FontUtil.getHeight(FontSize.SMALL),
-                    FontUtil.getWidth(FontSize.SMALL, this.getDisplayName()),
+                    width,
+                    height,
                     radius.getValue(),
-                    titleBackgroundColor.getValue()
+                    backgroundColor.getValue()
             );
         } else {
             Render2DUtil.drawRect(
                     context,
                     getX(),
                     getY(),
-                    FontUtil.getHeight(FontSize.SMALL),
+                    width,
+                    height,
+                    backgroundColor.getValue()
+            );
+        }
+
+        // title
+        if (rounded.getValue()) {
+            Render2DUtil.drawRoundedRect(
+                    context.getMatrices(),
+                    x,
+                    y,
                     FontUtil.getWidth(FontSize.SMALL, this.getDisplayName()),
+                    FontUtil.getHeight(FontSize.SMALL),
+                    radius.getValue(),
+                    titleBackgroundColor.getValue()
+            );
+        } else {
+            Render2DUtil.drawRect(
+                    context,
+                    x,
+                    y,
+                    FontUtil.getWidth(FontSize.SMALL, this.getDisplayName()),
+                    FontUtil.getHeight(FontSize.SMALL),
                     titleBackgroundColor.getValue()
             );
         }
         FontUtil.drawTextWithAlign(
                 context,
                 getDisplayName(),
-                getX(),
-                getY(),
-                getX() + FontUtil.getHeight(FontSize.SMALL),
-                getY() + FontUtil.getWidth(FontSize.SMALL, this.getDisplayName()),
+                x,
+                y,
+                x + FontUtil.getWidth(FontSize.SMALL, this.getDisplayName()),
+                y + FontUtil.getHeight(FontSize.SMALL),
                 Aligns.CENTER,
                 titleColor.getValue(),
                 FontSize.SMALL

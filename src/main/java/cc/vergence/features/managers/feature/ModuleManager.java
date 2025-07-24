@@ -29,10 +29,14 @@ public class ModuleManager {
             categoryModuleHashMap.put(category, categoryModules);
         }
 
+        // Pre
         registerModule(new Client());
         registerModule(new ClickGUI());
-        registerModule(new BetterChat());
         registerModule(new Notify());
+        registerModule(new AntiCheat());
+
+        // Normal
+        registerModule(new BetterChat());
         registerModule(new HudEditor());
         registerModule(new Watermark());
         registerModule(new Spammer());

@@ -125,8 +125,7 @@ public class MurdererCatcher extends Module implements Wrapper {
                 notifiedMurderers.add(playerName);
             }
 
-            // 检查是否为弓箭手
-            boolean hasBowOrArrow = false;
+            boolean hasBowOrArrow = !player.getMainHandStack().isEmpty() && player.getMainHandStack().getItem().getTranslationKey().contains("bow") || player.getMainHandStack().getItem().getTranslationKey().contains("arrow");
             for (int i = 0; i < player.getInventory().size(); i++) {
                 var stack = player.getInventory().getStack(i);
                 if (stack.isEmpty()) continue;

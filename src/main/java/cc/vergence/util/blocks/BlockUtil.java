@@ -31,6 +31,9 @@ public class BlockUtil implements Wrapper {
         BlockPos.Mutable pos = new BlockPos.Mutable();
         Direction[] directions = Direction.values();
 
+        BlockHitResult closestResult = null;
+        double closestDistance = Double.MAX_VALUE;
+
         for (int x = -range; x <= range; x++) {
             for (int y = -range; y <= range; y++) {
                 for (int z = -range; z <= range; z++) {
@@ -43,12 +46,17 @@ public class BlockUtil implements Wrapper {
                         BlockState neighborState = mc.world.getBlockState(neighbor);
                         if (!neighborState.isAir() && !neighborState.getCollisionShape(mc.world, neighbor).isEmpty()) {
                             Vec3d hitVec = Vec3d.ofCenter(neighbor).add(Vec3d.of(dir.getVector()).multiply(0.5));
-                            return new BlockHitResult(hitVec, dir.getOpposite(), neighbor, false);
+                            double distance = hitVec.distanceTo(Vec3d.ofCenter(center));
+                            if (distance < closestDistance) {
+                                closestDistance = distance;
+                                closestResult = new BlockHitResult(hitVec, dir.getOpposite(), neighbor, false);
+                            }
                         }
                     }
                 }
             }
         }
-        return null;
+        return closestResult;
     }
+
 }

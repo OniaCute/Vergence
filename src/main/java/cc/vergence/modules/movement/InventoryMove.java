@@ -9,6 +9,7 @@ import cc.vergence.features.options.impl.BooleanOption;
 import cc.vergence.features.options.impl.EnumOption;
 import cc.vergence.injections.accessors.CreativeInventoryScreenAccessor;
 import cc.vergence.modules.Module;
+import cc.vergence.modules.client.AntiCheat;
 import cc.vergence.util.player.MovementUtil;
 import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.gui.screen.ingame.*;
@@ -34,19 +35,19 @@ public class InventoryMove extends Module {
         INSTANCE = this;
     }
 
-    public Option<Enum<?>> antiCheat = addOption(new EnumOption("AntiCheat", AntiCheats.Legit));
-    public Option<Boolean> horizontalCollision = addOption(new BooleanOption("HorizontalCollision", false, v -> antiCheat.getValue().equals(AntiCheats.NCP)));
+    
+    public Option<Boolean> horizontalCollision = addOption(new BooleanOption("HorizontalCollision", false, v -> AntiCheat.INSTANCE.isNCP()));
 
     private final Queue<ClickSlotC2SPacket> clicks = new LinkedList<>();
     private AtomicBoolean pause = new AtomicBoolean();
 
     @Override
     public String getDetails() {
-        return antiCheat.getValue().name();
+        return AntiCheat.INSTANCE.getAntiCheat();
     }
 
     public void onTick() {
-        if (mc.player == null || !antiCheat.getValue().equals(AntiCheats.Legit)) {
+        if (mc.player == null || !AntiCheat.INSTANCE.isLegit()) {
             return;
         }
 
@@ -58,11 +59,11 @@ public class InventoryMove extends Module {
     }
 
     public void onClickSlot(ClickSlotEvent event) {
-        if (!antiCheat.getValue().equals(AntiCheats.Legit)) {
+        if (!AntiCheat.INSTANCE.isLegit()) {
             return;
         }
 
-        if (antiCheat.getValue().equals(AntiCheats.Legit) && (MovementUtil.isMoving() || mc.options.jumpKey.isPressed())) {
+        if (AntiCheat.INSTANCE.isLegit() && (MovementUtil.isMoving() || mc.options.jumpKey.isPressed())) {
             event.cancel();
         }
     }
@@ -74,31 +75,31 @@ public class InventoryMove extends Module {
         }
 
         if (packet instanceof ClickSlotC2SPacket click){
-            if (antiCheat.getValue().equals(AntiCheats.Grim)) {
+            if (AntiCheat.INSTANCE.isGrim()) {
                 if (click.getActionType() != SlotActionType.PICKUP && click.getActionType() != SlotActionType.PICKUP_ALL) {
                     Vergence.NETWORK.sendPacket(new CloseHandledScreenC2SPacket(0));
                 }
             }
-            else if (antiCheat.getValue().equals(AntiCheats.NCP)) {
+            else if (AntiCheat.INSTANCE.isNCP()) {
                 if (mc.player.isOnGround() && !mc.world.getBlockCollisions(mc.player, mc.player.getBoundingBox().offset(0.0, 0.0656, 0.0)).iterator().hasNext()) {
                     if (mc.player.isSprinting())
                         Vergence.NETWORK.sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.STOP_SPRINTING));
                     Vergence.NETWORK.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), mc.player.getY() + 0.0656, mc.player.getZ(), false, horizontalCollision.getValue()));
                 }
             }
-            else if (antiCheat.getValue().equals(AntiCheats.Matrix)) {
+            else if (AntiCheat.INSTANCE.isMatrix()) {
                 Vergence.NETWORK.sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.STOP_SPRINTING));
                 mc.options.forwardKey.setPressed(false);
                 mc.player.input.movementForward = 0;
             }
-            else if (antiCheat.getValue().equals(AntiCheats.None)) {
+            else if (AntiCheat.INSTANCE.isNone()) {
                 clicks.add(click);
                 event.cancel();
             }
         }
 
         else if (packet instanceof CloseHandledScreenC2SPacket) {
-            if (antiCheat.getValue().equals(AntiCheats.None)) {
+            if (AntiCheat.INSTANCE.isNone()) {
                 pause.set(true);
                 while (!clicks.isEmpty()) {
                     Vergence.NETWORK.sendPacket(clicks.poll());

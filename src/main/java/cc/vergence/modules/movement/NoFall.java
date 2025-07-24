@@ -7,6 +7,7 @@ import cc.vergence.features.options.Option;
 import cc.vergence.features.options.impl.BooleanOption;
 import cc.vergence.features.options.impl.EnumOption;
 import cc.vergence.modules.Module;
+import cc.vergence.modules.client.AntiCheat;
 import cc.vergence.util.player.EntityUtil;
 import net.minecraft.block.Blocks;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
@@ -19,13 +20,13 @@ public class NoFall extends Module {
         INSTANCE = this;
     }
 
-    public Option<Enum<?>> antiCheat = addOption(new EnumOption("AntiCheat", AntiCheats.Legit));
-    public Option<Boolean> horizontalCollision = addOption(new BooleanOption("HorizontalCollision", false, v -> antiCheat.getValue().equals(AntiCheats.Grim)));
+    
+    public Option<Boolean> horizontalCollision = addOption(new BooleanOption("HorizontalCollision", false, v -> AntiCheat.INSTANCE.isGrim()));
     public Option<Boolean> alwaysActive = addOption(new BooleanOption("AlwaysActive", false));
 
     @Override
     public String getDetails() {
-        return antiCheat.getValue().name();
+        return AntiCheat.INSTANCE.getAntiCheat();
     }
 
     @Override
@@ -33,7 +34,7 @@ public class NoFall extends Module {
         if (mc.player == null) {
             return ;
         }
-        if (antiCheat.getValue().equals(AntiCheats.Grim) && (EntityUtil.isFalling() || alwaysActive.getValue())) {
+        if (AntiCheat.INSTANCE.isGrim() && (EntityUtil.isFalling() || alwaysActive.getValue())) {
             Vergence.NETWORK.sendPacket(new PlayerMoveC2SPacket.Full(mc.player.getX(), mc.player.getY() + 1.0e-9, mc.player.getZ(), mc.player.getYaw(), mc.player.getPitch(), true, horizontalCollision.getValue()));
             mc.player.onLanding();
         }

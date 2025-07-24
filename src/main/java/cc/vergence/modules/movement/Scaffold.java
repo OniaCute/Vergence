@@ -8,6 +8,7 @@ import cc.vergence.features.options.impl.DoubleOption;
 import cc.vergence.features.options.impl.EnumOption;
 import cc.vergence.features.options.impl.MultipleOption;
 import cc.vergence.modules.Module;
+import cc.vergence.modules.client.AntiCheat;
 import cc.vergence.util.blocks.BlockUtil;
 import cc.vergence.util.other.FastTimerUtil;
 import cc.vergence.util.player.EntityUtil;
@@ -37,7 +38,6 @@ public class Scaffold extends Module {
         timer.reset();
     }
 
-    public Option<Enum<?>> antiCheat = addOption(new EnumOption("AntiCheat", AntiCheats.Legit));
     public Option<Boolean> allowSprint = addOption(new BooleanOption("Sprint", false));
     public Option<Boolean> doRotate = addOption(new BooleanOption("Rotate", true));
     public Option<Enum<?>> rotateMode = addOption(new EnumOption("RotateMode", RotateModes.Both, v -> doRotate.getValue()));
@@ -67,22 +67,26 @@ public class Scaffold extends Module {
 
     @Override
     public String getDetails() {
-        return antiCheat.getValue().name();
+        return AntiCheat.INSTANCE.getAntiCheat();
     }
 
     @Override
     public void onEnable() {
         timer.reset();
+        if (mc.player != null) {
+            lastRotation = new Rotation(mc.player.getPitch(), mc.player.getYaw(), rotateSpeed.getValue(), (RotateModes) rotateMode.getValue());
+        }
     }
 
     @Override
     public void onDisable() {
         timer.reset();
+        lastRotation = null;
     }
 
     @Override
     public void onTick() {
-        if (!antiCheat.getValue().equals(AntiCheats.Legit)) {
+        if (!AntiCheat.INSTANCE.isLegit()) {
             return;
         }
         if (mc.player == null || mc.world == null) {
@@ -207,14 +211,24 @@ public class Scaffold extends Module {
             return;
         }
         if (placeMode.getValue().equals(PlaceModes.Strict) && result.getSide().equals(Direction.DOWN)) {
-            return;
+            return ;
         }
 
         if (doRotate.getValue()) {
-            Rotation rotation = calculateSmartRotation(result.getPos(), mc.player.getEyePos(), (lastRotation == null ? new Rotation(mc.player.getPitch(), mc.player.getYaw(), 0, RotateModes.None) : lastRotation));
+            Vec3d targetPos = result.getPos();
+
+            Rotation rotation = calculateLegitRotation(
+                    targetPos,
+                    mc.player.getEyePos(),
+                    lastRotation == null
+                            ? new Rotation(mc.player.getPitch(), mc.player.getYaw(), rotateSpeed.getValue(), (RotateModes) rotateMode.getValue())
+                            : lastRotation
+            );
+
             Vergence.ROTATE.rotate(rotation);
             lastRotation = rotation;
         }
+
 
         if (enableSwing.getValue()) {
             EntityUtil.swingHand((Hands) swingHand.getValue(), (SwingModes) swingMode.getValue());
@@ -226,18 +240,22 @@ public class Scaffold extends Module {
         timer.reset();
     }
 
-    private Rotation calculateSmartRotation(Vec3d target, Vec3d eyePos, Rotation lastRotation) {
-        double targetYaw = (Math.toDegrees(Math.atan2(target.z - eyePos.z, target.x - eyePos.x))) - 90f;
-        double targetPitch = -Math.toDegrees(Math.atan2(target.y - eyePos.y, Math.sqrt(Math.pow(target.x - eyePos.x, 2) + Math.pow(target.z - eyePos.z, 2))));
-        targetYaw += rotateYawOffset.getValue();
-        targetPitch += rotatePitchOffset.getValue();
+    private Rotation calculateLegitRotation(Vec3d target, Vec3d eyePos, Rotation lastRotation) {
+        double targetYaw = Math.toDegrees(Math.atan2(target.z - eyePos.z, target.x - eyePos.x)) - 90f + rotateYawOffset.getValue();
+        double targetPitch = -Math.toDegrees(Math.atan2(target.y - eyePos.y, Math.sqrt(Math.pow(target.x - eyePos.x, 2) + Math.pow(target.z - eyePos.z, 2)))) + rotatePitchOffset.getValue();
+        double yawDiff = MathHelper.wrapDegrees(targetYaw - lastRotation.getYaw());
+        double pitchDiff = targetPitch - lastRotation.getPitch();
+        double clampedYaw = MathHelper.clamp(yawDiff, -rotateSpeed.getValue(), rotateSpeed.getValue());
+        double clampedPitch = MathHelper.clamp(pitchDiff, -rotateSpeed.getValue(), rotateSpeed.getValue());
+        float newPitch = (float) (lastRotation.getPitch() + clampedPitch);
+        float newYaw = (float) (lastRotation.getYaw() + clampedYaw);
+        if (enableRotateRandom.getValue()) {
+            newYaw += (Math.random() - 0.5) * rotateRandomYaw.getValue() * 2;
+            newPitch += (Math.random() - 0.5) * rotateRandomPitch.getValue() * 2;
+        }
+        newPitch = MathHelper.clamp(newPitch, -90, 90);
 
-        double yawGap = MathHelper.wrapDegrees(targetYaw - lastRotation.getYaw());
-        double pitchGap = targetPitch - lastRotation.getPitch();
-
-        yawGap = MathHelper.clamp(yawGap, -rotateSpeed.getValue(), rotateSpeed.getValue());
-        pitchGap = MathHelper.clamp(pitchGap, -rotateSpeed.getValue(), rotateSpeed.getValue());
-
-        return new Rotation((float) (lastRotation.getPitch() + pitchGap), (float) (lastRotation.getYaw() + yawGap), rotateSpeed.getValue(), (RotateModes) rotateMode.getValue());
+        return new Rotation(newPitch, newYaw, rotateSpeed.getValue(), (RotateModes) rotateMode.getValue());
     }
+
 }

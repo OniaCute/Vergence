@@ -11,6 +11,7 @@ import cc.vergence.features.options.impl.DoubleOption;
 import cc.vergence.features.options.impl.EnumOption;
 import cc.vergence.features.options.impl.MultipleOption;
 import cc.vergence.modules.Module;
+import cc.vergence.modules.client.AntiCheat;
 import cc.vergence.util.combat.CombatUtil;
 import cc.vergence.util.interfaces.Wrapper;
 import cc.vergence.util.rotation.Rotation;
@@ -28,7 +29,6 @@ public class KillAura extends Module implements Wrapper {
         INSTANCE = this;
     }
 
-    public Option<Enum<?>> antiCheat = addOption(new EnumOption("AntiCheat", AntiCheats.Legit));
     public Option<EnumSet<TargetTypes>> targets = addOption(new MultipleOption<>("Targets", EnumSet.of(TargetTypes.EnemyPlayers, TargetTypes.Mobs)));
     public Option<Enum<?>> clickType = addOption(new EnumOption("ClickType", ClickTypes.New));
     public Option<Double> range = addOption(new DoubleOption("Range", 1, 7, 3));
@@ -36,7 +36,7 @@ public class KillAura extends Module implements Wrapper {
     public Option<Double> minCPS = addOption(new DoubleOption("MinCPS", 1, 18, 3, v -> clickType.getValue().equals(ClickTypes.Old)));
     public Option<Double> maxCPS = addOption(new DoubleOption("MaxCPS", 1, 18, 7, v -> clickType.getValue().equals(ClickTypes.Old)));
     public Option<Double> delay = addOption(new DoubleOption("Delay", 1, 18, 7, v -> clickType.getValue().equals(ClickTypes.New)).addSpecialValue(1, "INSTANT"));
-    public Option<Boolean> crosshairLock = addOption(new BooleanOption("CrosshairLock", true, v -> antiCheat.getValue().equals(AntiCheats.Legit) || antiCheat.getValue().equals(AntiCheats.Matrix)));
+    public Option<Boolean> crosshairLock = addOption(new BooleanOption("CrosshairLock", true, v -> AntiCheat.INSTANCE.isLegit()));
     public Option<Enum<?>> rotateType = addOption(new EnumOption("RotateType", RotateModes.Server));
     public Option<Double> rotateSpeed = addOption(new DoubleOption("RotateSpeed", 1, 180, 180).addSpecialValue(1, "INSTANT"));
     public Option<Boolean> rotateLock = addOption(new BooleanOption("RotateLock", true));
@@ -51,12 +51,14 @@ public class KillAura extends Module implements Wrapper {
 
     @Override
     public String getDetails() {
-        return antiCheat.getValue().name() + " | " + clickType.getValue().name();
+        return AntiCheat.INSTANCE.antiCheat.getValue().name() + " | " + clickType.getValue().name();
     }
 
     @Override
     public void onTick() {
-        if (mc.player == null || mc.world == null) return;
+        if (mc.player == null || mc.world == null) {
+            return;
+        }
 
         if (clickType.getValue().equals(ClickTypes.Old)) {
             if (minCPS.getValue() > maxCPS.getValue()) {
@@ -72,16 +74,23 @@ public class KillAura extends Module implements Wrapper {
             }
         }
 
-        if (antiCheat.getValue().equals(AntiCheats.Legit)) {
+        if (AntiCheat.INSTANCE.isLegit()) {
             legitAction();
         }
     }
 
     private void legitAction() {
-        if (rotateLock.getValue() && System.currentTimeMillis() - lastRotateTime < rotateLockTime.getValue()) return;
+        if (rotateLock.getValue() && System.currentTimeMillis() - lastRotateTime < rotateLockTime.getValue()) {
+            return;
+        }
 
         LivingEntity target = CombatUtil.getClosestAnyTarget(range.getValue(), targets.getValue());
-        if (target == null) return;
+        if (target == null) {
+            return;
+        }
+        if (target.hurtTime > 0) {
+            return;
+        }
 
         float playerYaw = mc.player.getYaw();
         if (Vergence.ROTATE.inRenderTime()) {
@@ -123,6 +132,7 @@ public class KillAura extends Module implements Wrapper {
         Rotation rotation = new Rotation(pitch, yaw, rotateSpeed.getValue(), mode, this.getPriority());
         Vergence.ROTATE.rotate(rotation, attack);
     }
+
 
     public enum ClickTypes {
         Old, New

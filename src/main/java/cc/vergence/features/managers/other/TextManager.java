@@ -985,6 +985,15 @@ public class TextManager {
         englishLanguageBase.put("Module.Modules.FakeAnimalCatcher.Options.ColorOption.FillColor.description", "Color used to fill the animal model.");
         englishLanguageBase.put("Module.Modules.FakeAnimalCatcher.Options.ColorOption.OutlineColor.name", "Outline Color");
         englishLanguageBase.put("Module.Modules.FakeAnimalCatcher.Options.ColorOption.OutlineColor.description", "Color used for the animal model outline.");
+
+        englishLanguageBase.put("Module.Modules.AntiCheat.name", "Anti Cheat");
+        englishLanguageBase.put("Module.Modules.AntiCheat.description", "Global anti cheat preset that adjusts all modules to stay undetected.");
+        englishLanguageBase.put("Module.Modules.AntiCheat.Options.EnumOption.AntiCheat.name", "Anti Cheat");
+        englishLanguageBase.put("Module.Modules.AntiCheat.Options.EnumOption.AntiCheat.description", "Which anti cheat or server type to adapt to.");
+        englishLanguageBase.put("Module.Modules.AntiCheat.Options.EnumOption.RotateMode.name", "Rotate Mode");
+        englishLanguageBase.put("Module.Modules.AntiCheat.Options.EnumOption.RotateMode.description", "Default rotation method used by combat modules.");
+        englishLanguageBase.put("Module.Modules.AntiCheat.Options.EnumOption.SwingMode.name", "Swing Mode");
+        englishLanguageBase.put("Module.Modules.AntiCheat.Options.EnumOption.SwingMode.description", "Default swing animation used by combat modules.");
     }
 
     private void loadChinese() {

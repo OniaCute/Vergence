@@ -63,6 +63,7 @@ public class ModuleList extends Module {
     public void onMouseRelease(double mouseX, double mouseY, Screen screen, MouseButtons button) {
         if (screen instanceof HudEditorScreen && button.equals(MouseButtons.LEFT)) {
             this.lastMouseStatus = false;
+            HudManager.currentHud = null;
         }
     }
 
@@ -103,10 +104,6 @@ public class ModuleList extends Module {
 
         double maxWidth = modulesToDraw.stream()
                 .mapToDouble(m -> FontUtil.getWidth(size, buildModuleText(m)) * simpleAnimations.get(m).get())
-                .max().orElse(0);
-
-        double actualMaxWidth = modulesToDraw.stream()
-                .mapToDouble(m -> FontUtil.getWidth(size, buildModuleText(m)))
                 .max().orElse(0);
 
         double y = baseY;
@@ -166,12 +163,22 @@ public class ModuleList extends Module {
             y += lineHeight * (animEnabled ? alpha : 1);
         }
 
-        setWidth(actualMaxWidth + pad + (rect.getValue() ? rectWidth.getValue() : 0));
-        setHeight(modulesToDraw.stream().mapToDouble(m -> lineHeight * (animEnabled ? simpleAnimations.get(m).get() : 1)).sum());
+        // calc
+        setWidth(maxWidth + (rect.getValue() ? pad + rectWidth.getValue() : 0));
+
+        double totalHeight = 0;
+        for (Module m : modulesToDraw) {
+            double alpha = simpleAnimations.get(m).get();
+            if (alpha < 0.01) {
+                continue;
+            }
+            totalHeight += lineHeight * (animEnabled ? alpha : 1);
+        }
+        setHeight(totalHeight);
 
         if (HudManager.CLICKED_LEFT) {
             if (HudManager.MOUSE_X > getX() && HudManager.MOUSE_X < getX() + getWidth() &&
-                    HudManager.MOUSE_Y > getY() && HudManager.MOUSE_Y < getY() + getHeight()) {
+                    HudManager.MOUSE_Y > getY() && HudManager.MOUSE_Y < getY() + getHeight() && HudManager.currentHud == null || HudManager.currentHud == this) {
                 HudManager.currentHud = this;
                 if (!lastMouseStatus) {
                     lastMouseStatus = true;
@@ -181,8 +188,6 @@ public class ModuleList extends Module {
                 }
                 lastMouseX = HudManager.MOUSE_X;
                 lastMouseY = HudManager.MOUSE_Y;
-            } else {
-                HudManager.currentHud = null;
             }
         }
     }

@@ -388,7 +388,7 @@ public class EventManager implements Wrapper {
     }
 
     public void onKeyboardActive(int key, int action) {
-        if (key == -1 || key == -2) {
+        if (key == -1 || key == -2 || GuiManager.isTyping) {
             return;
         }
 
@@ -449,6 +449,7 @@ public class EventManager implements Wrapper {
             GuiManager.isClickGuiInited = true;
             Vergence.CONSOLE.logInfo("[UI] UI was loaded!");
         }
+        Vergence.GUI.onTick();
         NotifyManager.onTick();
     }
 

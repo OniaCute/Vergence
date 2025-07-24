@@ -53,6 +53,7 @@ public class Hotkeys extends Module {
     public void onMouseRelease(double mouseX, double mouseY, Screen screen, MouseButtons button) {
         if (screen instanceof HudEditorScreen && button.equals(MouseButtons.LEFT)) {
             this.lastMouseStatus = false;
+            HudManager.currentHud = null;
         }
     }
 
@@ -224,7 +225,7 @@ public class Hotkeys extends Module {
 
         if (HudManager.CLICKED_LEFT) {
             if (HudManager.MOUSE_X > getX() && HudManager.MOUSE_X < getX() + getWidth() &&
-                    HudManager.MOUSE_Y > getY() && HudManager.MOUSE_Y < getY() + getHeight()) {
+                    HudManager.MOUSE_Y > getY() && HudManager.MOUSE_Y < getY() + getHeight() && HudManager.currentHud == null || HudManager.currentHud == this) {
                 HudManager.currentHud = this;
                 if (!lastMouseStatus) {
                     lastMouseStatus = true;
@@ -234,8 +235,6 @@ public class Hotkeys extends Module {
                 }
                 lastMouseX = HudManager.MOUSE_X;
                 lastMouseY = HudManager.MOUSE_Y;
-            } else {
-                HudManager.currentHud = null;
             }
         }
     }

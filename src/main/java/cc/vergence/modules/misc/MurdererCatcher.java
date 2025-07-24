@@ -46,6 +46,12 @@ public class MurdererCatcher extends Module implements Wrapper {
         if (mc.player == null || mc.world == null) {
             return;
         }
+
+        if (mc.player == deadPlayer) {
+            reset();
+            return ;
+        }
+
         PlayerEntity nearestPlayer = null;
         double minDistance = Double.MAX_VALUE;
 

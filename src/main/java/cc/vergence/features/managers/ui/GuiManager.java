@@ -66,6 +66,7 @@ public class GuiManager implements Wrapper {
     private static double lastMouseX = -1;
     private static double lastMouseY = -1;
     private static boolean isDragging;
+    public static boolean isTyping = false;
     public static SearchFrameComponent SEARCH = new SearchFrameComponent();
 
 
@@ -99,6 +100,49 @@ public class GuiManager implements Wrapper {
     public void onMouseMoveInClickGuiScreen(DrawContext context, double mouseX, double mouseY) {
         MOUSE_X = mouseX;
         MOUSE_Y = mouseY;
+    }
+
+    public void onTick() {
+        if (!(mc.currentScreen instanceof ClickGuiScreen) || ClickGUI.INSTANCE == null || !ClickGUI.INSTANCE.getStatus()) {
+            isTyping = false;
+            for (GuiComponent component : inputComponents) {
+                if (component instanceof BindFrameComponent component1) {
+                    component1.setListening(false);
+                }
+                else if (component instanceof ColorFrameComponent component1) {
+                    component1.setListening(false);
+                }
+                else if (component instanceof DoubleFrameComponent component1) {
+                    component1.setListening(false);
+                }
+                else if (component instanceof SearchFrameComponent component1) {
+                    component1.setListening(false);
+                }
+                else if (component instanceof TextFrameComponent component1) {
+                    component1.setListening(false);
+                }
+            }
+        }
+        boolean temp = false;
+        for (GuiComponent component : inputComponents) {
+            if (component instanceof BindFrameComponent component1 && component1.isListening()) {
+                temp = true;
+                break;
+            } else if (component instanceof ColorFrameComponent component1 && component1.isListening()) {
+                temp = true;
+                break;
+            } else if (component instanceof DoubleFrameComponent component1 && component1.isListening()) {
+                temp = true;
+                break;
+            } else if (component instanceof SearchFrameComponent component1 && component1.isListening()) {
+                temp = true;
+                break;
+            } else if (component instanceof TextFrameComponent component1 && component1.isListening()) {
+                temp = true;
+                break;
+            }
+        }
+        GuiManager.isTyping = temp;
     }
 
     public void onMouseClick(double mouseX, double mouseY, Screen screen, MouseButtons button) {

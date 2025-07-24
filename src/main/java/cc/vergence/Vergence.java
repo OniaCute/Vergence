@@ -45,7 +45,6 @@ public class Vergence implements ModInitializer {
     public static MessageManager MESSAGE;
     public static FriendManager FRIEND;
     public static EnemyManager ENEMY;
-    public static TotemManager TOTEM;
     public static EventManager EVENTS;
     public static NetworkManager NETWORK;
     public static TimerManager TIMER;
@@ -116,9 +115,6 @@ public class Vergence implements ModInitializer {
 
         ENEMY = new EnemyManager();
         CONSOLE.logInfo("Enemy Manager was loaded");
-
-        TOTEM = new TotemManager();
-        CONSOLE.logInfo("Totem Manager was loaded");
 
         EVENTS = new EventManager();
         CONSOLE.logInfo("Event Manager was loaded");

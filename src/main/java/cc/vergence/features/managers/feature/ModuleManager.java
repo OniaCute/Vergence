@@ -95,6 +95,9 @@ public class ModuleManager {
         registerModule(new MurdererCatcher());
         registerModule(new ColorMatcher());
         registerModule(new FakeAnimalCatcher());
+        registerModule(new AutoLogout());
+        registerModule(new AutoRepairArmor());
+        registerModule(new Scoreboard());
 
         // special module
         registerModule(new SafeMode());

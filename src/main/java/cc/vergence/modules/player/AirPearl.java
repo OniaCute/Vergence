@@ -1,7 +1,5 @@
-package cc.vergence.modules.misc;
+package cc.vergence.modules.player;
 
-import cc.vergence.Vergence;
-import cc.vergence.features.enums.AntiCheats;
 import cc.vergence.features.event.events.PlayerUpdateEvent;
 import cc.vergence.features.options.Option;
 import cc.vergence.features.options.impl.BooleanOption;
@@ -10,7 +8,6 @@ import cc.vergence.modules.Module;
 import cc.vergence.util.player.EntityUtil;
 import cc.vergence.util.player.InventoryUtil;
 import net.minecraft.item.Items;
-import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.util.Hand;
 
 public class AirPearl extends Module {
@@ -18,7 +15,7 @@ public class AirPearl extends Module {
     private boolean switched = false;
 
     public AirPearl() {
-        super("AirPearl", Module.Category.MISC);
+        super("AirPearl", Category.PLAYER);
     }
 
     public Option<Boolean> fastCheck = addOption(new BooleanOption("FastCheck", false));

@@ -3,6 +3,7 @@ package cc.vergence.features.managers.other;
 import cc.vergence.Vergence;
 import cc.vergence.features.managers.ui.NotifyManager;
 import cc.vergence.modules.Module;
+import cc.vergence.modules.client.BetterChat;
 import cc.vergence.util.interfaces.IChatHud;
 import cc.vergence.util.interfaces.Wrapper;
 import net.minecraft.text.OrderedText;
@@ -37,7 +38,11 @@ public class MessageManager implements Wrapper {
         if (mc.player == null || mc.world == null) {
             return ;
         }
-        ((IChatHud) mc.inGameHud.getChatHud()).vergence$add(Text.of(SYNC + "§r[" + source + "§r]§f " + text), id);
+        if (BetterChat.INSTANCE.prefix.getValue().equals(BetterChat.MessagePrefixTypes.Default)) {
+            ((IChatHud) mc.inGameHud.getChatHud()).vergence$add(Text.of(SYNC + "§r[" + source + "§r]§f " + text), id);
+        } else {
+            ((IChatHud) mc.inGameHud.getChatHud()).vergence$add(Text.of(SYNC + "§r" + source + "§r |§r " + text), id);
+        }
     }
 
     public static void newMessage(Module module, String text) {
@@ -48,6 +53,10 @@ public class MessageManager implements Wrapper {
         if (mc.player == null || mc.world == null) {
             return ;
         }
-        mc.inGameHud.getChatHud().addMessage(Text.of(SYNC + "§r[" + source + "§r] §r" + text));
+        if (BetterChat.INSTANCE.prefix.getValue().equals(BetterChat.MessagePrefixTypes.Default)) {
+            mc.inGameHud.getChatHud().addMessage(Text.of(SYNC + "§r[" + source + "§r] §r" + text));
+        } else {
+            mc.inGameHud.getChatHud().addMessage(Text.of(SYNC + "§r" + source + "§r | §r" + text));
+        }
     }
 }

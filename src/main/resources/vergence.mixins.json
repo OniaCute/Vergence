@@ -20,6 +20,7 @@
     "mixins.chat.MixinChatMessages",
     "mixins.client.MixinMinecraftClient",
     "mixins.client.MixinWindow",
+    "mixins.entity.MixinEntityRenderer",
     "mixins.entity.MixinLivingEntity",
     "mixins.entity.MixinLivingEntityRenderer",
     "mixins.hardware.KeyboardInputMixin",
@@ -41,9 +42,8 @@
     "mixins.screen.MixinDownloadingTerrainScreen",
     "mixins.screen.MixinScreen",
     "mixins.screen.MixinTitleScreen",
-    "mixins.world.MixinRenderTickCounter",
-    "mixins.entity.MixinEntityRenderer",
-    "mixins.world.MixinClientWorld"
+    "mixins.world.MixinClientWorld",
+    "mixins.world.MixinRenderTickCounter"
   ],
   "injectors": {
     "defaultRequire": 1

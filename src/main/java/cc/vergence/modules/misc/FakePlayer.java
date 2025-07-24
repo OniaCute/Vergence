@@ -78,7 +78,7 @@ public class FakePlayer extends Module {
 				}
 			}
 			if (autoTotem.getValue() && fakePlayer.getOffHandStack().getItem() != Items.TOTEM_OF_UNDYING) {
-				Vergence.TOTEM.onTotemPop(fakePlayer);
+				Vergence.POP.onTotemPop(fakePlayer);
 				fakePlayer.setStackInHand(Hand.OFF_HAND, new ItemStack(Items.TOTEM_OF_UNDYING));
 			}
 			if (fakePlayer.isDead()) {

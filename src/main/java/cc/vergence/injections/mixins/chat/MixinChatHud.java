@@ -90,9 +90,9 @@ public abstract class MixinChatHud implements IChatHud, Wrapper {
 
         String raw = original.getString();
         String playerName = mc.player.getName().getString();
-        String prefix = BetterChat.INSTANCE.playerNamePrefix.getValue();
-        String suffix = BetterChat.INSTANCE.playerNameSuffix.getValue();
-        String chatPrefix = BetterChat.INSTANCE.playerChatPrefix.getValue();
+        String prefix = "<";
+        String suffix = ">";
+        String chatPrefix = BetterChat.INSTANCE.chatPrefix.getValue();
 
         int alpha = (color >> 24) & 0xFF;
         int defaultColor = color;

@@ -45,6 +45,7 @@ public class MixinPlayerListHud {
 
         if (BetterTab.INSTANCE.clean.getValue()) {
             name = name.replace("§k", "");
+            cir.setReturnValue(Text.literal(name));
         }
 
         if (BetterTab.INSTANCE.forMyself.getValue() && name.equals(client.player.getGameProfile().getName())) {

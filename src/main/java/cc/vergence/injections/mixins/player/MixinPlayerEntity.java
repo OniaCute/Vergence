@@ -1,11 +1,14 @@
 package cc.vergence.injections.mixins.player;
 
+import cc.vergence.Vergence;
+import cc.vergence.features.event.events.DeathEvent;
 import cc.vergence.modules.combat.Reach;
 import cc.vergence.modules.movement.AutoSprint;
 import cc.vergence.modules.movement.SafeWalk;
 import cc.vergence.util.interfaces.Wrapper;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -47,6 +50,14 @@ public abstract class MixinPlayerEntity extends LivingEntity implements Wrapper 
             float multiplier = (float) (0.6f + 0.4f * AutoSprint.INSTANCE.attackCounteract.getValue());
             mc.player.setVelocity(mc.player.getVelocity().x / 0.6 * multiplier, mc.player.getVelocity().y, mc.player.getVelocity().z / 0.6 * multiplier);
             mc.player.setSprinting(true);
+        }
+    }
+
+    @Inject(method = "onDeath", at = @At("HEAD"))
+    private void onDeathHook(DamageSource damageSource, CallbackInfo ci) {
+        if ((Object) this instanceof PlayerEntity player && !player.isSpectator() && !player.isCreative()) {
+            Vergence.EVENTBUS.post(new DeathEvent(player));
+            Vergence.POP.onDeath(player);
         }
     }
 }

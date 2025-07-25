@@ -1,4 +1,4 @@
-package cc.vergence.injections.accessors;
+package cc.vergence.injections.accessors.client;
 
 import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
 import net.minecraft.item.ItemGroup;

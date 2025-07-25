@@ -1,4 +1,4 @@
-package cc.vergence.injections.accessors;
+package cc.vergence.injections.accessors.render;
 
 import net.minecraft.client.gl.PostEffectPass;
 import net.minecraft.client.gl.PostEffectProcessor;

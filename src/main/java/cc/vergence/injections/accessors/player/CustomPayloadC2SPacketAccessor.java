@@ -1,4 +1,4 @@
-package cc.vergence.injections.accessors;
+package cc.vergence.injections.accessors.player;
 
 import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.network.packet.c2s.common.CustomPayloadC2SPacket;

@@ -1,4 +1,4 @@
-package cc.vergence.injections.accessors;
+package cc.vergence.injections.accessors.world;
 
 import net.minecraft.client.network.PendingUpdateManager;
 import net.minecraft.client.world.ClientWorld;

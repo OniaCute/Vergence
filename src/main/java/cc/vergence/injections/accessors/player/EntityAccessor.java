@@ -1,4 +1,4 @@
-package cc.vergence.injections.accessors;
+package cc.vergence.injections.accessors.player;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;

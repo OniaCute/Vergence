@@ -1,4 +1,4 @@
-package cc.vergence.injections.accessors;
+package cc.vergence.injections.accessors.render;
 
 import net.minecraft.client.gl.Framebuffer;
 import net.minecraft.client.render.Frustum;

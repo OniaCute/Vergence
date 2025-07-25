@@ -1,4 +1,4 @@
-package cc.vergence.injections.accessors;
+package cc.vergence.injections.accessors.client;
 
 import com.mojang.authlib.minecraft.UserApiService;
 import net.minecraft.client.MinecraftClient;

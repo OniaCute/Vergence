@@ -1,4 +1,6 @@
 package cc.vergence.features.managers.render;
 
-public class ShaderManager {
+import cc.vergence.util.interfaces.Wrapper;
+
+public class ShaderManager implements Wrapper {
 }

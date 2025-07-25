@@ -1,18 +1,16 @@
 package cc.vergence.util.render.utils;
 
-import cc.vergence.injections.accessors.WorldRendererAccessor;
+import cc.vergence.injections.accessors.render.WorldRendererAccessor;
 import cc.vergence.util.interfaces.Wrapper;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gl.ShaderProgramKeys;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
-import org.joml.Quaterniond;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 import org.lwjgl.opengl.GL11;

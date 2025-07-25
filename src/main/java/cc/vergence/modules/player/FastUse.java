@@ -1,10 +1,9 @@
 package cc.vergence.modules.player;
 
-import cc.vergence.features.managers.other.MessageManager;
 import cc.vergence.features.options.Option;
 import cc.vergence.features.options.impl.BooleanOption;
 import cc.vergence.features.options.impl.DoubleOption;
-import cc.vergence.injections.accessors.MinecraftClientAccessor;
+import cc.vergence.injections.accessors.client.MinecraftClientAccessor;
 import cc.vergence.modules.Module;
 import cc.vergence.util.interfaces.Wrapper;
 import net.minecraft.item.BlockItem;

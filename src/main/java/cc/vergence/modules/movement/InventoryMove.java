@@ -1,13 +1,11 @@
 package cc.vergence.modules.movement;
 
 import cc.vergence.Vergence;
-import cc.vergence.features.enums.AntiCheats;
 import cc.vergence.features.event.events.ClickSlotEvent;
 import cc.vergence.features.event.events.PacketEvent;
 import cc.vergence.features.options.Option;
 import cc.vergence.features.options.impl.BooleanOption;
-import cc.vergence.features.options.impl.EnumOption;
-import cc.vergence.injections.accessors.CreativeInventoryScreenAccessor;
+import cc.vergence.injections.accessors.client.CreativeInventoryScreenAccessor;
 import cc.vergence.modules.Module;
 import cc.vergence.modules.client.AntiCheat;
 import cc.vergence.util.player.MovementUtil;

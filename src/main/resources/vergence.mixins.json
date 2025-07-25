@@ -4,15 +4,15 @@
   "package": "cc.vergence.injections",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "accessors.AccessiblePassesShaderEffect",
-    "accessors.ClientWorldAccessor",
-    "accessors.CreativeInventoryScreenAccessor",
-    "accessors.CustomPayloadC2SPacketAccessor",
-    "accessors.EntityAccessor",
-    "accessors.MinecraftClientAccessor",
-    "accessors.NativeImageAccessor",
-    "accessors.PlayerMoveC2SPacketAccessor",
-    "accessors.WorldRendererAccessor",
+    "accessors.render.AccessiblePassesShaderEffect",
+    "accessors.world.ClientWorldAccessor",
+    "accessors.client.CreativeInventoryScreenAccessor",
+    "accessors.player.CustomPayloadC2SPacketAccessor",
+    "accessors.player.EntityAccessor",
+    "accessors.client.MinecraftClientAccessor",
+    "accessors.render.NativeImageAccessor",
+    "accessors.player.PlayerMoveC2SPacketAccessor",
+    "accessors.render.WorldRendererAccessor",
     "mixins.chat.MixinChatHud",
     "mixins.chat.MixinChatHudLine",
     "mixins.chat.MixinChatHudLineVisible",
@@ -49,5 +49,9 @@
     "defaultRequire": 1
   },
   "client": [
+    "accessors.render.GameRendererAccessor",
+    "accessors.render.RenderLayerMultiPhaseAccessor",
+    "accessors.render.RenderLayerMultiPhaseParametersAccessor",
+    "accessors.render.RenderPhaseTextureBaseAccessor"
   ]
 }

@@ -14,8 +14,13 @@ import cc.vergence.util.font.FontUtil;
 import cc.vergence.util.render.utils.Render2DUtil;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.scoreboard.ScoreboardDisplaySlot;
+import net.minecraft.scoreboard.ScoreboardEntry;
+import net.minecraft.scoreboard.ScoreboardObjective;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Scoreboard extends Module {
     public static Scoreboard INSTANCE;
@@ -39,7 +44,7 @@ public class Scoreboard extends Module {
     public Option<Boolean> rounded = addOption(new BooleanOption("Rounded", true));
     public Option<Double> radius = addOption(new DoubleOption("Radius", 0, 6, 3, v -> rounded.getValue()));
     public Option<Boolean> titleBackground = addOption(new BooleanOption("TitleBackground", true));
-    public Option<Color> titleBackgroundColor = addOption(new ColorOption("TitleBackgroundColor", new Color(243, 243, 243, 245), v -> titleBackground.getValue()));
+    public Option<Color> titleBackgroundColor = addOption(new ColorOption("TitleBackgroundColor", new Color(255, 214, 245, 255), v -> titleBackground.getValue()));
     public Option<Boolean> background = addOption(new BooleanOption("Background", true));
     public Option<Color> backgroundColor = addOption(new ColorOption("BackgroundColor", new Color(255, 255, 255, 245), v -> background.getValue()));
 
@@ -61,12 +66,13 @@ public class Scoreboard extends Module {
         if (mc.world == null || mc.player == null || mc.getNetworkHandler() == null || hide.getValue()) {
             return;
         }
+
         net.minecraft.scoreboard.Scoreboard scoreboard = mc.getNetworkHandler().getScoreboard();
 
-        double x = padding.getValue();
-        double y = padding.getValue();
-        double width = FontUtil.getWidth(FontSize.SMALL, this.getDisplayName()) + padding.getValue() * 2;
-        double height = FontUtil.getHeight(FontSize.SMALL) + padding.getValue() * 2;
+        double x = getX() + padding.getValue();
+        double y = getY() + padding.getValue();
+        double width = FontUtil.getWidth(FontSize.SMALL, this.getDisplayName()) + 4 + padding.getValue() * 2;
+        double height = FontUtil.getHeight(FontSize.SMALL) + 4 + padding.getValue() * 2;
 
         // background
         if (rounded.getValue()) {
@@ -94,9 +100,9 @@ public class Scoreboard extends Module {
         if (rounded.getValue()) {
             Render2DUtil.drawRoundedRect(
                     context.getMatrices(),
-                    x,
-                    y,
-                    FontUtil.getWidth(FontSize.SMALL, this.getDisplayName()),
+                    x - 2 + padding.getValue(),
+                    y + padding.getValue(),
+                    FontUtil.getWidth(FontSize.SMALL, this.getDisplayName()) + 4,
                     FontUtil.getHeight(FontSize.SMALL),
                     radius.getValue(),
                     titleBackgroundColor.getValue()
@@ -104,9 +110,9 @@ public class Scoreboard extends Module {
         } else {
             Render2DUtil.drawRect(
                     context,
-                    x,
-                    y,
-                    FontUtil.getWidth(FontSize.SMALL, this.getDisplayName()),
+                    x - 2 + padding.getValue(),
+                    y + padding.getValue(),
+                    FontUtil.getWidth(FontSize.SMALL, this.getDisplayName()) + 4,
                     FontUtil.getHeight(FontSize.SMALL),
                     titleBackgroundColor.getValue()
             );
@@ -114,9 +120,9 @@ public class Scoreboard extends Module {
         FontUtil.drawTextWithAlign(
                 context,
                 getDisplayName(),
-                x,
-                y,
-                x + FontUtil.getWidth(FontSize.SMALL, this.getDisplayName()),
+                x - 2 + padding.getValue(),
+                y + padding.getValue() + 3,
+                x + FontUtil.getWidth(FontSize.SMALL, this.getDisplayName()) + 4,
                 y + FontUtil.getHeight(FontSize.SMALL),
                 Aligns.CENTER,
                 titleColor.getValue(),
@@ -141,5 +147,4 @@ public class Scoreboard extends Module {
             }
         }
     }
-
 }

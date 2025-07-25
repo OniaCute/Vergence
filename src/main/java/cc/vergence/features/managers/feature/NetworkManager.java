@@ -3,7 +3,7 @@ package cc.vergence.features.managers.feature;
 import cc.vergence.Vergence;
 import cc.vergence.features.event.eventbus.EventHandler;
 import cc.vergence.features.event.events.DisconnectEvent;
-import cc.vergence.injections.accessors.ClientWorldAccessor;
+import cc.vergence.injections.accessors.world.ClientWorldAccessor;
 import cc.vergence.util.interfaces.IClientPlayNetworkHandler;
 import cc.vergence.util.interfaces.Wrapper;
 import net.minecraft.client.network.*;

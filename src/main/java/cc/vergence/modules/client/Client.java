@@ -9,7 +9,7 @@ import cc.vergence.features.options.Option;
 import cc.vergence.features.options.impl.BooleanOption;
 import cc.vergence.features.options.impl.EnumOption;
 import cc.vergence.features.options.impl.TextOption;
-import cc.vergence.injections.accessors.CustomPayloadC2SPacketAccessor;
+import cc.vergence.injections.accessors.player.CustomPayloadC2SPacketAccessor;
 import cc.vergence.modules.Module;
 import cc.vergence.ui.gui.GuiComponent;
 import cc.vergence.ui.gui.impl.*;

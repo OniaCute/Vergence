@@ -5,10 +5,12 @@ import cc.vergence.features.event.events.OptionValueUpdateEvent;
 import cc.vergence.features.options.Option;
 import cc.vergence.util.other.EnumUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
 public class EnumOption extends Option<Enum<?>> {
+    private ArrayList<String> hideItems = new ArrayList<>();
 
     public EnumOption(String name, Enum<?> value) {
         super(name, value, v -> true);
@@ -18,6 +20,15 @@ public class EnumOption extends Option<Enum<?>> {
         super(name, value, invisibility);
     }
 
+    public EnumOption addHideItem(String item) {
+        hideItems.add(item);
+        return this;
+    }
+
+    public boolean isHidden(String item) {
+        return !hideItems.isEmpty() && hideItems.contains(item);
+    }
+
     @Override
     public Enum<?> getValue() {
         return this.value;
@@ -25,8 +36,11 @@ public class EnumOption extends Option<Enum<?>> {
 
     @Override
     public void setValue(Enum<?> value) {
-        this.value = value;
         Vergence.EVENTBUS.post(new OptionValueUpdateEvent());
+        if (isHidden(value.name())) {
+            return ;
+        }
+        this.value = value;
     }
 
     public <T extends Enum<T>> T getNext(T value) {

@@ -1,10 +1,9 @@
 package cc.vergence.util.font;
 
-import cc.vergence.Vergence;
-import cc.vergence.features.enums.Aligns;
-import cc.vergence.features.enums.FontScales;
-import cc.vergence.features.enums.FontSize;
-import cc.vergence.features.enums.Fonts;
+import cc.vergence.features.enums.other.Aligns;
+import cc.vergence.features.enums.font.FontScales;
+import cc.vergence.features.enums.font.FontSize;
+import cc.vergence.features.enums.font.Fonts;
 import cc.vergence.modules.client.Client;
 import cc.vergence.util.interfaces.Wrapper;
 import net.minecraft.client.gui.DrawContext;
@@ -15,11 +14,7 @@ import java.awt.*;
 public class FontUtil implements Wrapper {
     public static boolean LOADED;
 
-    public static FontScales asFontScales(Client.UIScales uiScales, FontSize size) {
-        Fonts fonts = Fonts.Sans;
-        if (Client.INSTANCE != null) {
-            fonts = (Fonts) Client.INSTANCE.font.getValue();
-        }
+    public static FontScales asFontScales(Client.UIScales uiScales, FontSize size, Fonts fonts) {
         if (fonts.equals(Fonts.Sans)) {
             switch (uiScales) {
                 case X50 -> {
@@ -183,6 +178,88 @@ public class FontUtil implements Wrapper {
             }
 
             return FontScales.RHR_10F;
+        }
+        if (fonts.equals(Fonts.Icon)) {
+            switch (uiScales) {
+                case X50 -> {
+                    switch (size) {
+                        case LARGEST -> {
+                            return FontScales.ICON_7F;
+                        }
+                        case LARGE -> {
+                            return FontScales.ICON_6F;
+                        }
+                        case MEDIUM -> {
+                            return FontScales.ICON_5F;
+                        }
+                        case SMALL -> {
+                            return FontScales.ICON_4F;
+                        }
+                        case SMALLEST -> {
+                            return FontScales.ICON_3F;
+                        }
+                    }
+                }
+                case X100 -> {
+                    switch (size) {
+                        case LARGEST -> {
+                            return FontScales.ICON_16F;
+                        }
+                        case LARGE -> {
+                            return FontScales.ICON_12F;
+                        }
+                        case MEDIUM -> {
+                            return FontScales.ICON_10F;
+                        }
+                        case SMALL -> {
+                            return FontScales.ICON_8F;
+                        }
+                        case SMALLEST -> {
+                            return FontScales.ICON_6F;
+                        }
+                    }
+                }
+                case X150 -> {
+                    switch (size) {
+                        case LARGEST -> {
+                            return FontScales.ICON_24F;
+                        }
+                        case LARGE -> {
+                            return FontScales.ICON_18F;
+                        }
+                        case MEDIUM -> {
+                            return FontScales.ICON_15F;
+                        }
+                        case SMALL -> {
+                            return FontScales.ICON_12F;
+                        }
+                        case SMALLEST -> {
+                            return FontScales.ICON_9F;
+                        }
+                    }
+                }
+                case X200 -> {
+                    switch (size) {
+                        case LARGEST -> {
+                            return FontScales.ICON_32F;
+                        }
+                        case LARGE -> {
+                            return FontScales.ICON_24F;
+                        }
+                        case MEDIUM -> {
+                            return FontScales.ICON_20F;
+                        }
+                        case SMALL -> {
+                            return FontScales.ICON_16F;
+                        }
+                        case SMALLEST -> {
+                            return FontScales.ICON_12F;
+                        }
+                    }
+                }
+            }
+
+            return FontScales.ICON_10F;
         } else {
             switch (uiScales) {
                 case X50 -> {
@@ -268,10 +345,14 @@ public class FontUtil implements Wrapper {
     }
 
     public static double getWidth(FontSize size, String text) {
+        Fonts fontType = (Fonts) Client.INSTANCE.font.getValue();
+        return getWidth(size, fontType, text);
+    }
+
+    public static double getWidth(FontSize size, Fonts fontType, String text) {
         if (Client.INSTANCE == null) {return 0;}
 
-        FontScales fontScales = asFontScales((Client.UIScales) Client.INSTANCE.UIScale.getValue(), size);
-        Fonts fontType = (Fonts) Client.INSTANCE.font.getValue();
+        FontScales fontScales = asFontScales((Client.UIScales) Client.INSTANCE.UIScale.getValue(), size, fontType);
         if (fontType.equals(Fonts.Sans)) {
             switch (fontScales) {
                 case SANS_3F -> {
@@ -389,6 +470,65 @@ public class FontUtil implements Wrapper {
                 }
             }
             return FontRenderers.RHR_10F.getWidth(text);
+        }
+        else if (fontType.equals(Fonts.Icon)) {
+            switch (fontScales) {
+                case ICON_3F -> {
+                    return FontRenderers.ICON_3F.getWidth(text);
+                }
+                case ICON_4F -> {
+                    return FontRenderers.ICON_4F.getWidth(text);
+                }
+                case ICON_5F -> {
+                    return FontRenderers.ICON_5F.getWidth(text);
+                }
+                case ICON_6F -> {
+                    return FontRenderers.ICON_6F.getWidth(text);
+                }
+                case ICON_7F -> {
+                    return FontRenderers.ICON_7F.getWidth(text);
+                }
+                case ICON_8F -> {
+                    return FontRenderers.ICON_8F.getWidth(text);
+                }
+                case ICON_9F -> {
+                    return FontRenderers.ICON_9F.getWidth(text);
+                }
+                case ICON_10F -> {
+                    return FontRenderers.ICON_10F.getWidth(text);
+                }
+                case ICON_12F -> {
+                    return FontRenderers.ICON_12F.getWidth(text);
+                }
+                case ICON_14F -> {
+                    return FontRenderers.ICON_14F.getWidth(text);
+                }
+                case ICON_15F -> {
+                    return FontRenderers.ICON_15F.getWidth(text);
+                }
+                case ICON_16F -> {
+                    return FontRenderers.ICON_16F.getWidth(text);
+                }
+                case ICON_18F -> {
+                    return FontRenderers.ICON_18F.getWidth(text);
+                }
+                case ICON_20F -> {
+                    return FontRenderers.ICON_20F.getWidth(text);
+                }
+                case ICON_21F -> {
+                    return FontRenderers.ICON_21F.getWidth(text);
+                }
+                case ICON_24F -> {
+                    return FontRenderers.ICON_24F.getWidth(text);
+                }
+                case ICON_28F -> {
+                    return FontRenderers.ICON_28F.getWidth(text);
+                }
+                case ICON_32F -> {
+                    return FontRenderers.ICON_32F.getWidth(text);
+                }
+            }
+            return FontRenderers.ICON_10F.getWidth(text);
         } else {
             switch (fontScales) {
                 case SMOOTH_3F -> {
@@ -451,14 +591,18 @@ public class FontUtil implements Wrapper {
     }
 
     public static double getHeight(FontSize size) {
-        return getHeight(size, "Get Vergence Get Good");
+        Fonts fontType = (Fonts) Client.INSTANCE.font.getValue();
+        return getHeight(size, fontType, "Get Vergence Get Good");
     }
 
-    public static double getHeight(FontSize size, String text) {
+    public static double getHeight(FontSize size, Fonts fonts) {
+        return getHeight(size, fonts, "Get Vergence Get Good");
+    }
+
+    public static double getHeight(FontSize size, Fonts fontType, String text) {
         if (Client.INSTANCE == null) {return 0;}
 
-        FontScales fontScales = asFontScales((Client.UIScales) Client.INSTANCE.UIScale.getValue(), size);
-        Fonts fontType = (Fonts) Client.INSTANCE.font.getValue();
+        FontScales fontScales = asFontScales((Client.UIScales) Client.INSTANCE.UIScale.getValue(), size, fontType);
         if (fontType.equals(Fonts.Sans)) {
             switch (fontScales) {
                 case SANS_3F -> {
@@ -576,6 +720,65 @@ public class FontUtil implements Wrapper {
                 }
             }
             return FontRenderers.RHR_10F.getFontHeight(text);
+        }
+        else if (fontType.equals(Fonts.Icon)) {
+            switch (fontScales) {
+                case ICON_3F -> {
+                    return FontRenderers.ICON_3F.getFontHeight(text);
+                }
+                case ICON_4F -> {
+                    return FontRenderers.ICON_4F.getFontHeight(text);
+                }
+                case ICON_5F -> {
+                    return FontRenderers.ICON_5F.getFontHeight(text);
+                }
+                case ICON_6F -> {
+                    return FontRenderers.ICON_6F.getFontHeight(text);
+                }
+                case ICON_7F -> {
+                    return FontRenderers.ICON_7F.getFontHeight(text);
+                }
+                case ICON_8F -> {
+                    return FontRenderers.ICON_8F.getFontHeight(text);
+                }
+                case ICON_9F -> {
+                    return FontRenderers.ICON_9F.getFontHeight(text);
+                }
+                case ICON_10F -> {
+                    return FontRenderers.ICON_10F.getFontHeight(text);
+                }
+                case ICON_12F -> {
+                    return FontRenderers.ICON_12F.getFontHeight(text);
+                }
+                case ICON_14F -> {
+                    return FontRenderers.ICON_14F.getFontHeight(text);
+                }
+                case ICON_15F -> {
+                    return FontRenderers.ICON_15F.getFontHeight(text);
+                }
+                case ICON_16F -> {
+                    return FontRenderers.ICON_16F.getFontHeight(text);
+                }
+                case ICON_18F -> {
+                    return FontRenderers.ICON_18F.getFontHeight(text);
+                }
+                case ICON_20F -> {
+                    return FontRenderers.ICON_20F.getFontHeight(text);
+                }
+                case ICON_21F -> {
+                    return FontRenderers.ICON_21F.getFontHeight(text);
+                }
+                case ICON_24F -> {
+                    return FontRenderers.ICON_24F.getFontHeight(text);
+                }
+                case ICON_28F -> {
+                    return FontRenderers.ICON_28F.getFontHeight(text);
+                }
+                case ICON_32F -> {
+                    return FontRenderers.ICON_32F.getFontHeight(text);
+                }
+            }
+            return FontRenderers.ICON_10F.getFontHeight(text);
         } else {
             switch (fontScales) {
                 case SMOOTH_3F -> {
@@ -650,7 +853,11 @@ public class FontUtil implements Wrapper {
     }
 
     public static void drawText(MatrixStack matrixStack, String text, double x, double y, Color color, FontSize size) {
-        drawText(matrixStack, text, x, y, color.getRGB(), size, false);
+        Fonts fontType = Fonts.Sans;
+        if (Client.INSTANCE != null) {
+            fontType = (Fonts) Client.INSTANCE.font.getValue();
+        }
+        drawText(matrixStack, text, x, y, color.getRGB(), size, fontType, false);
     }
 
     public static void drawText(DrawContext context, String text, double x, double y, int color, FontSize size) {
@@ -658,18 +865,33 @@ public class FontUtil implements Wrapper {
     }
 
     public static void drawText(DrawContext context, String text, double x, double y, int color, FontSize size, boolean shadow) {
-        drawText(context.getMatrices(), text, x, y, color, size, shadow);
-    }
-
-    public static void drawText(MatrixStack matrixStack, String text, double x, double y, int color, FontSize size, boolean shadow) {
-        if (Client.INSTANCE == null) {return ;}
-
-        FontScales fontScales = asFontScales((Client.UIScales) Client.INSTANCE.UIScale.getValue(), size);
         Fonts fontType = Fonts.Sans;
         if (Client.INSTANCE != null) {
             fontType = (Fonts) Client.INSTANCE.font.getValue();
         }
+        drawText(context.getMatrices(), text, x, y, color, size, fontType, shadow);
+    }
 
+    public static void drawIcon(DrawContext context, String text, double x, double y, Color color, FontSize size) {
+        drawText(context.getMatrices(), text, x, y, color.getRGB(), size, Fonts.Icon, false);
+    }
+
+    public static void drawIcon(DrawContext context, String text, double x, double y, int color, FontSize size) {
+        drawText(context.getMatrices(), text, x, y, color, size, Fonts.Icon, false);
+    }
+
+    public static void drawIcon(MatrixStack matrixStack, String text, double x, double y, Color color, FontSize size) {
+        drawText(matrixStack, text, x, y, color.getRGB(), size, Fonts.Icon, false);
+    }
+
+    public static void drawIcon(MatrixStack matrixStack, String text, double x, double y, int color, FontSize size) {
+        drawText(matrixStack, text, x, y, color, size, Fonts.Icon, false);
+    }
+
+    public static void drawText(MatrixStack matrixStack, String text, double x, double y, int color, FontSize size, Fonts fontType, boolean shadow) {
+        if (Client.INSTANCE == null) {return ;}
+
+        FontScales fontScales = asFontScales((Client.UIScales) Client.INSTANCE.UIScale.getValue(), size, fontType);
         if (fontType.equals(Fonts.Sans)) {
             switch (fontScales) {
                 case SANS_3F -> FontRenderers.SANS_3F.drawString(matrixStack, text, x, y, color, shadow);
@@ -679,28 +901,17 @@ public class FontUtil implements Wrapper {
                 case SANS_7F -> FontRenderers.SANS_7F.drawString(matrixStack, text, x, y, color, shadow);
                 case SANS_8F -> FontRenderers.SANS_8F.drawString(matrixStack, text, x, y, color, shadow);
                 case SANS_9F -> FontRenderers.SANS_9F.drawString(matrixStack, text, x, y, color, shadow);
-                case SANS_10F ->
-                        FontRenderers.SANS_10F.drawString(matrixStack, text, x, y, color, shadow);
-                case SANS_12F ->
-                        FontRenderers.SANS_12F.drawString(matrixStack, text, x, y, color, shadow);
-                case SANS_14F ->
-                        FontRenderers.SANS_14F.drawString(matrixStack, text, x, y, color, shadow);
-                case SANS_15F ->
-                        FontRenderers.SANS_15F.drawString(matrixStack, text, x, y, color, shadow);
-                case SANS_16F ->
-                        FontRenderers.SANS_16F.drawString(matrixStack, text, x, y, color, shadow);
-                case SANS_18F ->
-                        FontRenderers.SANS_18F.drawString(matrixStack, text, x, y, color, shadow);
-                case SANS_20F ->
-                        FontRenderers.SANS_20F.drawString(matrixStack, text, x, y, color, shadow);
-                case SANS_21F ->
-                        FontRenderers.SANS_21F.drawString(matrixStack, text, x, y, color, shadow);
-                case SANS_24F ->
-                        FontRenderers.SANS_24F.drawString(matrixStack, text, x, y, color, shadow);
-                case SANS_28F ->
-                        FontRenderers.SANS_28F.drawString(matrixStack, text, x, y, color, shadow);
-                case SANS_32F ->
-                        FontRenderers.SANS_32F.drawString(matrixStack, text, x, y, color, shadow);
+                case SANS_10F -> FontRenderers.SANS_10F.drawString(matrixStack, text, x, y, color, shadow);
+                case SANS_12F -> FontRenderers.SANS_12F.drawString(matrixStack, text, x, y, color, shadow);
+                case SANS_14F -> FontRenderers.SANS_14F.drawString(matrixStack, text, x, y, color, shadow);
+                case SANS_15F -> FontRenderers.SANS_15F.drawString(matrixStack, text, x, y, color, shadow);
+                case SANS_16F -> FontRenderers.SANS_16F.drawString(matrixStack, text, x, y, color, shadow);
+                case SANS_18F -> FontRenderers.SANS_18F.drawString(matrixStack, text, x, y, color, shadow);
+                case SANS_20F -> FontRenderers.SANS_20F.drawString(matrixStack, text, x, y, color, shadow);
+                case SANS_21F -> FontRenderers.SANS_21F.drawString(matrixStack, text, x, y, color, shadow);
+                case SANS_24F -> FontRenderers.SANS_24F.drawString(matrixStack, text, x, y, color, shadow);
+                case SANS_28F -> FontRenderers.SANS_28F.drawString(matrixStack, text, x, y, color, shadow);
+                case SANS_32F -> FontRenderers.SANS_32F.drawString(matrixStack, text, x, y, color, shadow);
             }
         }
         else if (fontType.equals(Fonts.RHR)) {
@@ -712,28 +923,39 @@ public class FontUtil implements Wrapper {
                 case RHR_7F -> FontRenderers.RHR_7F.drawString(matrixStack, text, x, y, color, shadow);
                 case RHR_8F -> FontRenderers.RHR_8F.drawString(matrixStack, text, x, y, color, shadow);
                 case RHR_9F -> FontRenderers.RHR_9F.drawString(matrixStack, text, x, y, color, shadow);
-                case RHR_10F ->
-                        FontRenderers.RHR_10F.drawString(matrixStack, text, x, y, color, shadow);
-                case RHR_12F ->
-                        FontRenderers.RHR_12F.drawString(matrixStack, text, x, y, color, shadow);
-                case RHR_14F ->
-                        FontRenderers.RHR_14F.drawString(matrixStack, text, x, y, color, shadow);
-                case RHR_15F ->
-                        FontRenderers.RHR_15F.drawString(matrixStack, text, x, y, color, shadow);
-                case RHR_16F ->
-                        FontRenderers.RHR_16F.drawString(matrixStack, text, x, y, color, shadow);
-                case RHR_18F ->
-                        FontRenderers.RHR_18F.drawString(matrixStack, text, x, y, color, shadow);
-                case RHR_20F ->
-                        FontRenderers.RHR_20F.drawString(matrixStack, text, x, y, color, shadow);
-                case RHR_21F ->
-                        FontRenderers.RHR_21F.drawString(matrixStack, text, x, y, color, shadow);
-                case RHR_24F ->
-                        FontRenderers.RHR_24F.drawString(matrixStack, text, x, y, color, shadow);
-                case RHR_28F ->
-                        FontRenderers.RHR_28F.drawString(matrixStack, text, x, y, color, shadow);
-                case RHR_32F ->
-                        FontRenderers.RHR_32F.drawString(matrixStack, text, x, y, color, shadow);
+                case RHR_10F -> FontRenderers.RHR_10F.drawString(matrixStack, text, x, y, color, shadow);
+                case RHR_12F -> FontRenderers.RHR_12F.drawString(matrixStack, text, x, y, color, shadow);
+                case RHR_14F -> FontRenderers.RHR_14F.drawString(matrixStack, text, x, y, color, shadow);
+                case RHR_15F -> FontRenderers.RHR_15F.drawString(matrixStack, text, x, y, color, shadow);
+                case RHR_16F -> FontRenderers.RHR_16F.drawString(matrixStack, text, x, y, color, shadow);
+                case RHR_18F -> FontRenderers.RHR_18F.drawString(matrixStack, text, x, y, color, shadow);
+                case RHR_20F -> FontRenderers.RHR_20F.drawString(matrixStack, text, x, y, color, shadow);
+                case RHR_21F -> FontRenderers.RHR_21F.drawString(matrixStack, text, x, y, color, shadow);
+                case RHR_24F -> FontRenderers.RHR_24F.drawString(matrixStack, text, x, y, color, shadow);
+                case RHR_28F -> FontRenderers.RHR_28F.drawString(matrixStack, text, x, y, color, shadow);
+                case RHR_32F -> FontRenderers.RHR_32F.drawString(matrixStack, text, x, y, color, shadow);
+            }
+        }
+        else if (fontType.equals(Fonts.Icon)) {
+            switch (fontScales) {
+                case ICON_3F -> FontRenderers.ICON_3F.drawString(matrixStack, text, x, y, color, shadow);
+                case ICON_4F -> FontRenderers.ICON_4F.drawString(matrixStack, text, x, y, color, shadow);
+                case ICON_5F -> FontRenderers.ICON_5F.drawString(matrixStack, text, x, y, color, shadow);
+                case ICON_6F -> FontRenderers.ICON_6F.drawString(matrixStack, text, x, y, color, shadow);
+                case ICON_7F -> FontRenderers.ICON_7F.drawString(matrixStack, text, x, y, color, shadow);
+                case ICON_8F -> FontRenderers.ICON_8F.drawString(matrixStack, text, x, y, color, shadow);
+                case ICON_9F -> FontRenderers.ICON_9F.drawString(matrixStack, text, x, y, color, shadow);
+                case ICON_10F -> FontRenderers.ICON_10F.drawString(matrixStack, text, x, y, color, shadow);
+                case ICON_12F -> FontRenderers.ICON_12F.drawString(matrixStack, text, x, y, color, shadow);
+                case ICON_14F -> FontRenderers.ICON_14F.drawString(matrixStack, text, x, y, color, shadow);
+                case ICON_15F -> FontRenderers.ICON_15F.drawString(matrixStack, text, x, y, color, shadow);
+                case ICON_16F -> FontRenderers.ICON_16F.drawString(matrixStack, text, x, y, color, shadow);
+                case ICON_18F -> FontRenderers.ICON_18F.drawString(matrixStack, text, x, y, color, shadow);
+                case ICON_20F -> FontRenderers.ICON_20F.drawString(matrixStack, text, x, y, color, shadow);
+                case ICON_21F -> FontRenderers.ICON_21F.drawString(matrixStack, text, x, y, color, shadow);
+                case ICON_24F -> FontRenderers.ICON_24F.drawString(matrixStack, text, x, y, color, shadow);
+                case ICON_28F -> FontRenderers.ICON_28F.drawString(matrixStack, text, x, y, color, shadow);
+                case ICON_32F -> FontRenderers.ICON_32F.drawString(matrixStack, text, x, y, color, shadow);
             }
         } else {
             switch (fontScales) {
@@ -744,58 +966,63 @@ public class FontUtil implements Wrapper {
                 case SMOOTH_7F -> FontRenderers.SMOOTH_7F.drawString(matrixStack, text, x, y, color, shadow);
                 case SMOOTH_8F -> FontRenderers.SMOOTH_8F.drawString(matrixStack, text, x, y, color, shadow);
                 case SMOOTH_9F -> FontRenderers.SMOOTH_9F.drawString(matrixStack, text, x, y, color, shadow);
-                case SMOOTH_10F ->
-                        FontRenderers.SMOOTH_10F.drawString(matrixStack, text, x, y, color, shadow);
-                case SMOOTH_12F ->
-                        FontRenderers.SMOOTH_12F.drawString(matrixStack, text, x, y, color, shadow);
-                case SMOOTH_14F ->
-                        FontRenderers.SMOOTH_14F.drawString(matrixStack, text, x, y, color, shadow);
-                case SMOOTH_15F ->
-                        FontRenderers.SMOOTH_15F.drawString(matrixStack, text, x, y, color, shadow);
-                case SMOOTH_16F ->
-                        FontRenderers.SMOOTH_16F.drawString(matrixStack, text, x, y, color, shadow);
-                case SMOOTH_18F ->
-                        FontRenderers.SMOOTH_18F.drawString(matrixStack, text, x, y, color, shadow);
-                case SMOOTH_20F ->
-                        FontRenderers.SMOOTH_20F.drawString(matrixStack, text, x, y, color, shadow);
-                case SMOOTH_21F ->
-                        FontRenderers.SMOOTH_21F.drawString(matrixStack, text, x, y, color, shadow);
-                case SMOOTH_24F ->
-                        FontRenderers.SMOOTH_24F.drawString(matrixStack, text, x, y, color, shadow);
-                case SMOOTH_28F ->
-                        FontRenderers.SMOOTH_28F.drawString(matrixStack, text, x, y, color, shadow);
-                case SMOOTH_32F ->
-                        FontRenderers.SMOOTH_32F.drawString(matrixStack, text, x, y, color, shadow);
+                case SMOOTH_10F -> FontRenderers.SMOOTH_10F.drawString(matrixStack, text, x, y, color, shadow);
+                case SMOOTH_12F -> FontRenderers.SMOOTH_12F.drawString(matrixStack, text, x, y, color, shadow);
+                case SMOOTH_14F -> FontRenderers.SMOOTH_14F.drawString(matrixStack, text, x, y, color, shadow);
+                case SMOOTH_15F -> FontRenderers.SMOOTH_15F.drawString(matrixStack, text, x, y, color, shadow);
+                case SMOOTH_16F -> FontRenderers.SMOOTH_16F.drawString(matrixStack, text, x, y, color, shadow);
+                case SMOOTH_18F -> FontRenderers.SMOOTH_18F.drawString(matrixStack, text, x, y, color, shadow);
+                case SMOOTH_20F -> FontRenderers.SMOOTH_20F.drawString(matrixStack, text, x, y, color, shadow);
+                case SMOOTH_21F -> FontRenderers.SMOOTH_21F.drawString(matrixStack, text, x, y, color, shadow);
+                case SMOOTH_24F -> FontRenderers.SMOOTH_24F.drawString(matrixStack, text, x, y, color, shadow);
+                case SMOOTH_28F -> FontRenderers.SMOOTH_28F.drawString(matrixStack, text, x, y, color, shadow);
+                case SMOOTH_32F -> FontRenderers.SMOOTH_32F.drawString(matrixStack, text, x, y, color, shadow);
             }
         }
     }
 
     public static void drawTextWithAlign(DrawContext context, String text, double x, double y, double ex, double ey, Aligns align, Color color, FontSize size) {
-        drawTextWithAlign(context, text, x, y, ex, ey, align, color.getRGB(), size, false);
+        Fonts fontType = Fonts.Sans;
+        if (Client.INSTANCE != null) {
+            fontType = (Fonts) Client.INSTANCE.font.getValue();
+        }
+        drawTextWithAlign(context, text, x, y, ex, ey, align, color.getRGB(), size, fontType, false);
     }
 
     public static void drawTextWithAlign(DrawContext context, String text, double x, double y, double ex, double ey, Aligns align, int color, FontSize size) {
-        drawTextWithAlign(context, text, x, y, ex, ey, align, color, size, false);
+        Fonts fontType = Fonts.Sans;
+        if (Client.INSTANCE != null) {
+            fontType = (Fonts) Client.INSTANCE.font.getValue();
+        }
+        drawTextWithAlign(context, text, x, y, ex, ey, align, color, size, fontType, false);
     }
 
     public static void drawTextWithAlign(DrawContext context, String text, double x, double y, double ex, double ey, Aligns align, Color color, FontSize size, boolean shadow) {
-        drawTextWithAlign(context, text, x, y, ex, ey, align, color.getRGB(), size, shadow);
+        Fonts fontType = Fonts.Sans;
+        if (Client.INSTANCE != null) {
+            fontType = (Fonts) Client.INSTANCE.font.getValue();
+        }
+        drawTextWithAlign(context, text, x, y, ex, ey, align, color.getRGB(), size, fontType, shadow);
     }
 
-    public static void drawTextWithAlign(DrawContext context, String text, double originalX, double originalY, double originalEx, double originalEy, Aligns align, int color, FontSize size, boolean shadow) {
-        if (Client.INSTANCE == null) return;
+    public static void drawIconWithAlign(DrawContext context, String text, double originalX, double originalY, double originalEx, double originalEy, Aligns align, Color color, FontSize size) {
+        drawTextWithAlign(context, text, originalX, originalY, originalEx, originalEy, align, color.getRGB(), size);
+    }
 
-        FontScales fontScales = asFontScales((Client.UIScales) Client.INSTANCE.UIScale.getValue(), size);
-        double textWidth = getWidth(size, text) * getScaleFactor();
-        double textHeight = getHeight(size, text) * getScaleFactor();
+    public static void drawIconWithAlign(DrawContext context, String text, double originalX, double originalY, double originalEx, double originalEy, Aligns align, int color, FontSize size) {
+        drawTextWithAlign(context, text, originalX, originalY, originalEx, originalEy, align, color, size, Fonts.Icon, false);
+    }
+
+    public static void drawTextWithAlign(DrawContext context, String text, double originalX, double originalY, double originalEx, double originalEy, Aligns align, int color, FontSize size, Fonts fontType, boolean shadow) {
+        if (Client.INSTANCE == null) {
+            return;
+        }
+        double textWidth = getWidth(size, fontType, text) * getScaleFactor();
+        double textHeight = getHeight(size, fontType, text) * getScaleFactor();
 
         double scaleFactor = getScaleFactor();
         double startX = originalX * scaleFactor;
         double startY = originalY * scaleFactor;
-        double endX = originalEx * scaleFactor;
-        double endY = originalEy * scaleFactor;
-
-        // 根据对齐方式调整坐标
         switch (align) {
             case CENTER:
                 startX = ((originalX + originalEx) / 2 - textWidth / 2) * scaleFactor;
@@ -837,9 +1064,11 @@ public class FontUtil implements Wrapper {
                 startY = (originalEy - textHeight) * scaleFactor;
                 break;
         }
-
-        // 绘制文本
-        drawText(context, text, startX, startY, color, size, shadow);
+        if (fontType.equals(Fonts.Icon)) {
+            drawIcon(context, text, startX, startY, color, size);
+        } else {
+            drawText(context, text, startX, startY, color, size, shadow);
+        }
     }
 
     public static double getScaleFactor() {

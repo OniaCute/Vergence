@@ -1,10 +1,10 @@
 package cc.vergence.util.combat;
 
 import cc.vergence.Vergence;
-import cc.vergence.features.enums.Hands;
-import cc.vergence.features.enums.RotateModes;
-import cc.vergence.features.enums.SwingModes;
-import cc.vergence.features.enums.TargetTypes;
+import cc.vergence.features.enums.player.Hands;
+import cc.vergence.features.enums.player.RotateModes;
+import cc.vergence.features.enums.player.SwingModes;
+import cc.vergence.features.enums.player.TargetTypes;
 import cc.vergence.util.interfaces.Wrapper;
 import cc.vergence.util.player.EntityUtil;
 import cc.vergence.util.rotation.Rotation;

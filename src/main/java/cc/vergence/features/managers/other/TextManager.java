@@ -1,7 +1,7 @@
 package cc.vergence.features.managers.other;
 
 import cc.vergence.Vergence;
-import cc.vergence.features.enums.Languages;
+import cc.vergence.features.enums.client.Languages;
 import cc.vergence.modules.client.Client;
 
 import java.util.HashMap;
@@ -64,12 +64,15 @@ public class TextManager {
         englishLanguageBase.put("Module.Category.MISC.name", "Misc");
         englishLanguageBase.put("Module.Category.HUD.name", "HUD");
 
+        englishLanguageBase.put("Module.Special.Options.MultipleOptions.Empty", "Empty");
         englishLanguageBase.put("Module.Special.Messages.Blocked", "Module §b{a} §ris §cblocked by §b{b}§r");
         englishLanguageBase.put("Module.Special.Messages.Unblock", "Module §b{a} §ris §aunblocked by §b{b}§r");
         englishLanguageBase.put("Module.Special.Messages.Enable", "Module {module} is §aEnabled");
         englishLanguageBase.put("Module.Special.Messages.Disable", "Module {module} is §cDisabled");
         englishLanguageBase.put("Module.Special.ModuleBind.name", "Hotkey");
         englishLanguageBase.put("Module.Special.ModuleBind.description", "The hotkey of the module");
+        englishLanguageBase.put("Module.Special.ModulePriority.name", "Priority");
+        englishLanguageBase.put("Module.Special.ModulePriority.description", "The priority of the module");
         englishLanguageBase.put("Module.Special.ModuleDraw.name", "Display");
         englishLanguageBase.put("Module.Special.ModuleDraw.description", "Display module in ArrayList");
 

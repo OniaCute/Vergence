@@ -1,7 +1,6 @@
 package cc.vergence.features.managers.player;
 
 import cc.vergence.Vergence;
-import cc.vergence.features.enums.RotateModes;
 import cc.vergence.util.interfaces.Wrapper;
 import cc.vergence.util.rotation.Rotation;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;

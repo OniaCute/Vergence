@@ -1,8 +1,8 @@
 package cc.vergence.modules.hud;
 
-import cc.vergence.features.enums.Aligns;
-import cc.vergence.features.enums.FontSize;
-import cc.vergence.features.enums.MouseButtons;
+import cc.vergence.features.enums.other.Aligns;
+import cc.vergence.features.enums.font.FontSize;
+import cc.vergence.features.enums.client.MouseButtons;
 import cc.vergence.features.managers.ui.HudManager;
 import cc.vergence.features.options.Option;
 import cc.vergence.features.options.impl.BooleanOption;
@@ -14,13 +14,8 @@ import cc.vergence.util.font.FontUtil;
 import cc.vergence.util.render.utils.Render2DUtil;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.scoreboard.ScoreboardDisplaySlot;
-import net.minecraft.scoreboard.ScoreboardEntry;
-import net.minecraft.scoreboard.ScoreboardObjective;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Scoreboard extends Module {
     public static Scoreboard INSTANCE;

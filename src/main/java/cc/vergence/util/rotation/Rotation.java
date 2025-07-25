@@ -1,6 +1,6 @@
 package cc.vergence.util.rotation;
 
-import cc.vergence.features.enums.RotateModes;
+import cc.vergence.features.enums.player.RotateModes;
 
 public class Rotation {
     private float pitch;

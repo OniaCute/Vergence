@@ -62,6 +62,25 @@ public class FontRenderers {
     public static FontAdapter RHR_28F;
     public static FontAdapter RHR_32F;
 
+    public static FontAdapter ICON_3F;
+    public static FontAdapter ICON_4F;
+    public static FontAdapter ICON_5F;
+    public static FontAdapter ICON_6F;
+    public static FontAdapter ICON_7F;
+    public static FontAdapter ICON_8F;
+    public static FontAdapter ICON_9F;
+    public static FontAdapter ICON_10F;
+    public static FontAdapter ICON_12F;
+    public static FontAdapter ICON_14F;
+    public static FontAdapter ICON_15F;
+    public static FontAdapter ICON_16F;
+    public static FontAdapter ICON_18F;
+    public static FontAdapter ICON_20F;
+    public static FontAdapter ICON_21F;
+    public static FontAdapter ICON_24F;
+    public static FontAdapter ICON_28F;
+    public static FontAdapter ICON_32F;
+
     public static RendererFontAdapter create(String name, int style, float size) {
         return new RendererFontAdapter(new Font(name, style, (int) size), size);
     }
@@ -80,6 +99,12 @@ public class FontRenderers {
 
     public static RendererFontAdapter RhrFont(float size) throws IOException, FontFormatException {
         InputStream fontStream = FontRenderers.class.getClassLoader().getResourceAsStream("assets/vergence/font/rhr.ttf");
+        Font font = Font.createFont(Font.TRUETYPE_FONT, fontStream).deriveFont(Font.PLAIN, size);
+        return new RendererFontAdapter(font, size);
+    }
+
+    public static RendererFontAdapter IconFont(float size) throws IOException, FontFormatException {
+        InputStream fontStream = FontRenderers.class.getClassLoader().getResourceAsStream("assets/vergence/font/icons.ttf");
         Font font = Font.createFont(Font.TRUETYPE_FONT, fontStream).deriveFont(Font.PLAIN, size);
         return new RendererFontAdapter(font, size);
     }

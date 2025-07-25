@@ -1,26 +1,30 @@
 package cc.vergence.features.managers.ui;
 
 import cc.vergence.Vergence;
-import cc.vergence.features.enums.Aligns;
-import cc.vergence.features.enums.FontSize;
-import cc.vergence.features.enums.MouseButtons;
+import cc.vergence.features.enums.other.Aligns;
+import cc.vergence.features.enums.font.FontSize;
+import cc.vergence.features.enums.client.MouseButtons;
 import cc.vergence.features.managers.feature.ModuleManager;
 import cc.vergence.features.options.Option;
 import cc.vergence.features.options.impl.*;
 import cc.vergence.features.screens.ClickGuiScreen;
 import cc.vergence.modules.Module;
 import cc.vergence.modules.client.ClickGUI;
-import cc.vergence.ui.gui.GuiComponent;
-import cc.vergence.ui.gui.impl.*;
-import cc.vergence.ui.gui.impl.impl.button.BooleanButtonComponent;
-import cc.vergence.ui.gui.impl.impl.choice.BindChoicesComponent;
-import cc.vergence.ui.gui.impl.impl.choice.EnumChoicesComponent;
-import cc.vergence.ui.gui.impl.impl.choice.MultipleChoicesComponent;
-import cc.vergence.ui.gui.impl.impl.hovered.*;
-import cc.vergence.ui.gui.impl.impl.input.*;
-import cc.vergence.ui.gui.impl.impl.color.ColorPalette;
-import cc.vergence.ui.gui.impl.impl.color.ColorPreviewer;
-import cc.vergence.ui.gui.impl.impl.slider.DoubleSlider;
+import cc.vergence.ui.GuiComponent;
+import cc.vergence.ui.clickgui.*;
+import cc.vergence.ui.clickgui.module.ModuleAreaComponent;
+import cc.vergence.ui.clickgui.module.ModuleComponent;
+import cc.vergence.ui.clickgui.option.*;
+import cc.vergence.ui.clickgui.option.TextComponent;
+import cc.vergence.ui.clickgui.subcomponent.button.BooleanButtonComponent;
+import cc.vergence.ui.clickgui.subcomponent.choice.BindChoicesComponent;
+import cc.vergence.ui.clickgui.subcomponent.choice.EnumChoicesComponent;
+import cc.vergence.ui.clickgui.subcomponent.choice.MultipleChoicesComponent;
+import cc.vergence.ui.clickgui.subcomponent.hovered.*;
+import cc.vergence.ui.clickgui.subcomponent.input.*;
+import cc.vergence.ui.clickgui.subcomponent.color.ColorPalette;
+import cc.vergence.ui.clickgui.subcomponent.color.ColorPreviewer;
+import cc.vergence.ui.clickgui.subcomponent.slider.DoubleSlider;
 import cc.vergence.util.animations.ScrollAnimation;
 import cc.vergence.util.font.FontUtil;
 import cc.vergence.util.interfaces.Wrapper;
@@ -32,11 +36,18 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.math.MatrixStack;
 import oshi.util.tuples.Pair;
 
+import java.awt.*;
 import java.util.ArrayList;
+import java.util.EnumSet;
 
+/**
+ * &#064;author: Voury_, OniaCute
+ * &#064;version: vergence_1_0_ui_gird
+ */
 public class GuiManager implements Wrapper {
     private static GuiComponent currentComponent = null;
-    public static ArrayList<GuiComponent> rootComponents = new ArrayList<>();
+    public static ArrayList<GuiComponent> topbarComponents = new ArrayList<>();
+    public static ArrayList<GuiComponent> categoryComponents = new ArrayList<>();
     public static ArrayList<GuiComponent> hoveredComponents = new ArrayList<>();
     public static ArrayList<GuiComponent> inputComponents = new ArrayList<>();
     public static ArrayList<GuiComponent> positionComponents = new ArrayList<>();
@@ -65,8 +76,10 @@ public class GuiManager implements Wrapper {
     public static GuiAnimation ENTRY_ANIMATION = new GuiAnimation(0);
     private static double lastMouseX = -1;
     private static double lastMouseY = -1;
-    private static boolean isDragging;
+    public static boolean isDragging;
     public static boolean isTyping = false;
+
+    // top bar components
     public static SearchFrameComponent SEARCH = new SearchFrameComponent();
 
 
@@ -179,8 +192,11 @@ public class GuiManager implements Wrapper {
             CLICKED_RIGHT = false;
         }
         isDragging = false;
+        for (GuiComponent component : topbarComponents) {
+            component.onMouseRelease(mouseX, mouseY, screen, button);
+        }
         for (GuiComponent component : positionComponents) {
-            ((DoubleSlider) component).onMouseRelease(mouseX, mouseY, screen, button);
+            component.onMouseRelease(mouseX, mouseY, screen, button);
         }
     }
 
@@ -228,7 +244,7 @@ public class GuiManager implements Wrapper {
 //            return;
 //        }
 
-        for (GuiComponent categoryComponent : rootComponents) {
+        for (GuiComponent categoryComponent : categoryComponents) {
             latestModuleComponentPosition = new Pair<>(MAIN_PAGE_X, MAIN_PAGE_Y + 37 + (mouseScrolledOffset * 8));
             categoryComponent.setX(MAIN_PAGE_X + 3);
             categoryComponent.setY(latestCategoryComponentPosition.getB());
@@ -252,6 +268,8 @@ public class GuiManager implements Wrapper {
             }
             latestModuleComponentPosition = new Pair<>(0.00, 0.00);
         }
+
+        layoutTopBar();
     }
 
     public static boolean shouldDisplayOptionComponent(GuiComponent component) {
@@ -304,6 +322,10 @@ public class GuiManager implements Wrapper {
                         EnumChoicesComponent enumChoicesComponent = new EnumChoicesComponent((EnumOption) option);
                         HoverEnumChoicesComponent hoverEnumChoicesComponent = new HoverEnumChoicesComponent(enumChoicesComponent);
                         for (Enum<?> clazz : EnumUtil.getAllEnumValuesReflect(option.getValue().getClass())) {
+                            if (((EnumOption) option).isHidden(clazz.name())) {
+                                continue ;
+                            }
+
                             EnumChoiceComponent component = new EnumChoiceComponent(hoverEnumChoicesComponent, clazz);
                             component.setParentComponent(hoverEnumChoicesComponent);
                             hoverEnumChoicesComponent.addSub(component);
@@ -326,6 +348,9 @@ public class GuiManager implements Wrapper {
                         Class<? extends Enum<?>> enumClass = ((MultipleOption<?>) option).getEnumClass();
                         if (enumClass != null) {
                             for (Enum<?> enumConstant : EnumUtil.getAllEnumValuesReflect(enumClass)) {
+                                if (((MultipleOption<?>) option).isHidden(enumConstant.name())) {
+                                    continue ;
+                                }
                                 MultipleChoiceComponent component = new MultipleChoiceComponent(hoverMultipleChoicesComponent, enumConstant);
                                 component.setParentComponent(hoverMultipleChoicesComponent);
                                 hoverMultipleChoicesComponent.addSub(component);
@@ -419,8 +444,11 @@ public class GuiManager implements Wrapper {
                 categoryComponent.addSub(moduleComponent);
                 allModuleComponent.add(moduleComponent);
             }
-            rootComponents.add(categoryComponent);
+            categoryComponents.add(categoryComponent);
         }
+
+        // Top bar
+        topbarComponents.add(SEARCH);
     }
 
     public void drawClickGui(DrawContext context, float tickDelta) {
@@ -516,24 +544,13 @@ public class GuiManager implements Wrapper {
             }
         }
 
-        for (GuiComponent component : rootComponents) {
+        for (GuiComponent component : categoryComponents) {
             component.onDraw(context, MOUSE_X, MOUSE_Y, CLICKED_LEFT && !hoverComponentDrawing && !isDragging && notInTopBarChecking(), CLICKED_RIGHT && !hoverComponentDrawing && !isDragging && notInTopBarChecking());
         }
 
-//        SEARCH.setX(MAIN_PAGE_X + 106 + 3);
-//        SEARCH.setY(MAIN_PAGE_Y);
-//        SEARCH.setWidth(MAIN_PAGE_WIDTH - 106 - 6);
-//        SEARCH.setHeight(FontUtil.getHeight(FontSize.MEDIUM) + 2);
-//        SEARCH.onDraw(context, MOUSE_X, MOUSE_Y, CLICKED_LEFT, CLICKED_RIGHT);
-//
-//        if (SEARCH.isListening() || !SEARCH.searchText.isEmpty()) {
-//            for (GuiComponent component : allModuleComponent) {
-//                if (searchModuleComponent.contains(component)) {
-//                    component.onDraw(context, MOUSE_X, MOUSE_Y, CLICKED_LEFT && !hoverComponentDrawing && !isDragging && notInTopBarChecking(), CLICKED_RIGHT && !hoverComponentDrawing && !isDragging && !notInTopBarChecking());
-//                }
-//            }
-//            searchModuleComponent.clear();
-//        }
+        for (GuiComponent component : topbarComponents) {
+            component.onDraw(context, MOUSE_X, MOUSE_Y, CLICKED_LEFT && !hoverComponentDrawing && !isDragging && !notInTopBarChecking(), CLICKED_RIGHT && !hoverComponentDrawing && !isDragging && !notInTopBarChecking());
+        }
 
         Render2DUtil.popDisplayArea();
 
@@ -582,6 +599,11 @@ public class GuiManager implements Wrapper {
 
     private static boolean notInTopBarChecking() {
         return !((MOUSE_X >= MAIN_PAGE_X + 106) && (MOUSE_X <= MAIN_PAGE_X + MAIN_PAGE_WIDTH) && (MOUSE_Y >= MAIN_PAGE_Y) && (MOUSE_Y <= MAIN_PAGE_Y + 37));
+    }
+
+    private static void layoutTopBar() {
+        for (GuiComponent component : topbarComponents) {
+        }
     }
 
     private static void layoutModuleAreaComponent(ModuleComponent moduleComponent) {

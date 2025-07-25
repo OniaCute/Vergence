@@ -1,13 +1,9 @@
 package cc.vergence.modules.visual;
 
-import cc.vergence.features.enums.Hands;
 import cc.vergence.features.options.Option;
 import cc.vergence.features.options.impl.BooleanOption;
 import cc.vergence.features.options.impl.DoubleOption;
-import cc.vergence.features.options.impl.MultipleOption;
 import cc.vergence.modules.Module;
-
-import java.util.EnumSet;
 
 public class SwingModifier extends Module {
     public static SwingModifier INSTANCE;

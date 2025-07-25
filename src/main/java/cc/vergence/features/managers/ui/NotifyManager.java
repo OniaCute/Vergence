@@ -1,5 +1,6 @@
 package cc.vergence.features.managers.ui;
 
+import cc.vergence.features.managers.other.MessageManager;
 import cc.vergence.features.notifications.*;
 import cc.vergence.modules.Module;
 import cc.vergence.modules.client.Notify;
@@ -81,6 +82,7 @@ public class NotifyManager implements Wrapper {
         if (Notify.INSTANCE == null || !Notify.INSTANCE.getStatus()) {
             return;
         }
+
         double padding = Notify.INSTANCE.padding.getValue();
         boolean alignRight = Notify.INSTANCE.align.getValue() == Notify.Aligns.Right;
         boolean popUp = Notify.INSTANCE.popType.getValue() == Notify.PopTypes.UpToDown;

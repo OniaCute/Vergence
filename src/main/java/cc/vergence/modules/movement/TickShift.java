@@ -1,12 +1,11 @@
 package cc.vergence.modules.movement;
 
 import cc.vergence.Vergence;
-import cc.vergence.features.enums.SpeedUnit;
+import cc.vergence.features.enums.units.SpeedUnit;
 import cc.vergence.features.options.Option;
 import cc.vergence.features.options.impl.DoubleOption;
 import cc.vergence.modules.Module;
 import cc.vergence.util.player.EntityUtil;
-import net.minecraft.util.Formatting;
 
 public class TickShift extends Module {
     public static TickShift INSTANCE;

@@ -1,7 +1,7 @@
 package cc.vergence.features.managers.client;
 
 import cc.vergence.Vergence;
-import cc.vergence.features.enums.MouseButtons;
+import cc.vergence.features.enums.client.MouseButtons;
 import cc.vergence.features.event.eventbus.EventHandler;
 import cc.vergence.features.event.events.*;
 import cc.vergence.features.managers.ui.GuiManager;
@@ -332,7 +332,7 @@ public class EventManager implements Wrapper {
         for (Module module : ModuleManager.modules) {
             module.onMouseActiveAlways(button, action);
             BindOption bind = module.getBind();
-            if (bind.getValue() == bindCode && bind.isNeedShift() == shiftPressed && (mc.currentScreen instanceof ClickGuiScreen || mc.currentScreen == null)) {
+            if (bind.getValue() == bindCode && bind.isNeedShift() == shiftPressed && (mc.currentScreen instanceof ClickGuiScreen || mc.currentScreen == null) && !module.isAlwaysEnable()) {
                 if (action == GLFW.GLFW_PRESS) {
                     if (bind.getBindType() == BindOption.BindType.Click) {
                         module.toggle();
@@ -401,7 +401,7 @@ public class EventManager implements Wrapper {
             int bindKey = bind.getValue();
 
             if (key == bindKey && (mc.currentScreen instanceof ClickGuiScreen || mc.currentScreen == null)) {
-                if (bind.isNeedShift() && !shiftPressed) continue;
+                if ((bind.isNeedShift() && !shiftPressed) || module.isAlwaysEnable()) continue;
                 if (action == GLFW.GLFW_PRESS) {
                     if (bind.getBindType() == BindOption.BindType.Click) {
                         module.toggle();

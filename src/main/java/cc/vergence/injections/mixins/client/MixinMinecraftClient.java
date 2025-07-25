@@ -95,6 +95,25 @@ public abstract class MixinMinecraftClient extends ReentrantThreadExecutor<Runna
             FontRenderers.RHR_28F = FontRenderers.RhrFont(28f);
             FontRenderers.RHR_32F = FontRenderers.RhrFont(32f);
 
+            FontRenderers.ICON_3F = FontRenderers.IconFont(3f);
+            FontRenderers.ICON_4F = FontRenderers.IconFont(4f);
+            FontRenderers.ICON_5F = FontRenderers.IconFont(5f);
+            FontRenderers.ICON_6F = FontRenderers.IconFont(6f);
+            FontRenderers.ICON_7F = FontRenderers.IconFont(7f);
+            FontRenderers.ICON_8F = FontRenderers.IconFont(8f);
+            FontRenderers.ICON_9F = FontRenderers.IconFont(9f);
+            FontRenderers.ICON_10F = FontRenderers.IconFont(10f);
+            FontRenderers.ICON_12F = FontRenderers.IconFont(12f);
+            FontRenderers.ICON_14F = FontRenderers.IconFont(14f);
+            FontRenderers.ICON_15F = FontRenderers.IconFont(15f);
+            FontRenderers.ICON_16F = FontRenderers.IconFont(16f);
+            FontRenderers.ICON_18F = FontRenderers.IconFont(18f);
+            FontRenderers.ICON_20F = FontRenderers.IconFont(20f);
+            FontRenderers.ICON_21F = FontRenderers.IconFont(21f);
+            FontRenderers.ICON_24F = FontRenderers.IconFont(24f);
+            FontRenderers.ICON_28F = FontRenderers.IconFont(28f);
+            FontRenderers.ICON_32F = FontRenderers.IconFont(32f);
+
             FontUtil.LOADED = true;
         } catch (Exception e) {
             e.printStackTrace();

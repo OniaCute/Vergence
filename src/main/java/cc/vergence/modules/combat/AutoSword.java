@@ -1,6 +1,6 @@
 package cc.vergence.modules.combat;
 
-import cc.vergence.features.enums.TargetTypes;
+import cc.vergence.features.enums.player.TargetTypes;
 import cc.vergence.features.event.events.PlayerUpdateEvent;
 import cc.vergence.features.options.Option;
 import cc.vergence.features.options.impl.BooleanOption;
@@ -8,11 +8,7 @@ import cc.vergence.features.options.impl.DoubleOption;
 import cc.vergence.features.options.impl.MultipleOption;
 import cc.vergence.modules.Module;
 import cc.vergence.util.combat.CombatUtil;
-import cc.vergence.util.other.FastTimerUtil;
-import cc.vergence.util.player.EntityUtil;
 import cc.vergence.util.player.InventoryUtil;
-import net.minecraft.item.Item;
-import net.minecraft.item.Items;
 import net.minecraft.util.Hand;
 
 import java.util.EnumSet;

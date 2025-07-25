@@ -1,13 +1,13 @@
 package cc.vergence.modules.client;
 
-import cc.vergence.features.enums.AntiCheats;
+import cc.vergence.features.enums.client.AntiCheats;
+import cc.vergence.features.managers.other.MessageManager;
 import cc.vergence.features.options.Option;
 import cc.vergence.features.options.impl.BooleanOption;
 import cc.vergence.features.options.impl.EnumOption;
 import cc.vergence.modules.Module;
 import cc.vergence.modules.combat.KillAura;
 import cc.vergence.modules.combat.Reach;
-import cc.vergence.modules.exploit.AntiHungry;
 import cc.vergence.modules.misc.Spammer;
 import cc.vergence.modules.movement.*;
 import cc.vergence.modules.player.FastUse;
@@ -39,6 +39,7 @@ public class SafeMode extends Module {
 
     @Override
     public void onEnable() {
+        defaultValue.clear();
         switch ((AntiCheats) antiCheatMode.getValue()) {
             case Legit -> {
                 addBlocked(KillAura.INSTANCE);
@@ -63,8 +64,8 @@ public class SafeMode extends Module {
     }
 
     private void addBlocked(Module module) {
-        module.block(this);
         defaultValue.put(module, module.getStatus());
+        module.block(this);
     }
 
     @Override

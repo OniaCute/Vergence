@@ -1,7 +1,7 @@
 package cc.vergence.modules.visual;
 
 import cc.vergence.Vergence;
-import cc.vergence.features.enums.TargetTypes;
+import cc.vergence.features.enums.player.TargetTypes;
 import cc.vergence.features.options.Option;
 import cc.vergence.features.options.impl.BooleanOption;
 import cc.vergence.features.options.impl.ColorOption;

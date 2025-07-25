@@ -1,11 +1,10 @@
 package cc.vergence.util.render.utils;
 
-import cc.vergence.features.enums.Aligns;
+import cc.vergence.features.enums.other.Aligns;
 import cc.vergence.modules.client.Client;
 import cc.vergence.util.interfaces.Wrapper;
 import cc.vergence.util.maths.MathUtil;
 import cc.vergence.util.render.other.AlphaOverride;
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gl.ShaderProgramKeys;
 import net.minecraft.client.gui.DrawContext;

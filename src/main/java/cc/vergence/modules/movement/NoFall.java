@@ -1,17 +1,13 @@
 package cc.vergence.modules.movement;
 
 import cc.vergence.Vergence;
-import cc.vergence.features.enums.AntiCheats;
 import cc.vergence.features.event.events.PlayerUpdateEvent;
 import cc.vergence.features.options.Option;
 import cc.vergence.features.options.impl.BooleanOption;
-import cc.vergence.features.options.impl.EnumOption;
 import cc.vergence.modules.Module;
 import cc.vergence.modules.client.AntiCheat;
 import cc.vergence.util.player.EntityUtil;
-import net.minecraft.block.Blocks;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
-import net.minecraft.util.math.BlockPos;
 
 public class NoFall extends Module {
     public static NoFall INSTANCE;

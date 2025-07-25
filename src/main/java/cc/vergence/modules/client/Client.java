@@ -1,8 +1,8 @@
 package cc.vergence.modules.client;
 
 import cc.vergence.Vergence;
-import cc.vergence.features.enums.Fonts;
-import cc.vergence.features.enums.Languages;
+import cc.vergence.features.enums.font.Fonts;
+import cc.vergence.features.enums.client.Languages;
 import cc.vergence.features.event.events.PacketEvent;
 import cc.vergence.features.managers.ui.GuiManager;
 import cc.vergence.features.options.Option;
@@ -11,9 +11,10 @@ import cc.vergence.features.options.impl.EnumOption;
 import cc.vergence.features.options.impl.TextOption;
 import cc.vergence.injections.accessors.player.CustomPayloadC2SPacketAccessor;
 import cc.vergence.modules.Module;
-import cc.vergence.ui.gui.GuiComponent;
-import cc.vergence.ui.gui.impl.*;
-import cc.vergence.ui.gui.impl.TextComponent;
+import cc.vergence.ui.GuiComponent;
+import cc.vergence.ui.clickgui.*;
+import cc.vergence.ui.clickgui.module.ModuleComponent;
+import cc.vergence.ui.clickgui.option.*;
 import net.minecraft.network.packet.BrandCustomPayload;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.c2s.common.CustomPayloadC2SPacket;
@@ -21,6 +22,7 @@ import net.minecraft.network.packet.c2s.common.CustomPayloadC2SPacket;
 public class Client extends Module {
     public static Client INSTANCE;
     private static Languages lastLanguage = Languages.English;
+    private static Fonts lastFont = Fonts.Sans;
 
     public Client() {
         super("Client", Category.CLIENT);
@@ -32,7 +34,7 @@ public class Client extends Module {
     public Option<String> clientBrand = addOption(new TextOption("Brand", "{full_name}"));
     public Option<Enum<?>> UIScale = addOption(new EnumOption("UIScale", UIScales.X100));
     public Option<Enum<?>> language = addOption(new EnumOption("Language", Languages.English));
-    public Option<Enum<?>> font = addOption(new EnumOption("Font", Fonts.Sans));
+    public Option<Enum<?>> font = addOption(new EnumOption("Font", Fonts.Sans).addHideItem("Icon"));
 
     @Override
     public String getDetails() {
@@ -54,10 +56,15 @@ public class Client extends Module {
     }
 
     @Override
-    public void onTickAlways() {
+    public void onOptionValueUpdate() {
+        if (font.getValue().equals(Fonts.Icon)) {
+            font.setValue(lastFont);
+        } else {
+            lastFont = (Fonts) font.getValue();
+        }
         if (!language.getValue().equals(lastLanguage)) {
             lastLanguage = (Languages) language.getValue();
-            for (GuiComponent component : GuiManager.rootComponents) {
+            for (GuiComponent component : GuiManager.categoryComponents) {
                 component.setDisplayName(Vergence.TEXT.get("Module.Category." + ((CategoryComponent) component).getCategory().name() + ".name"));
                 for (GuiComponent component1 : component.getSubComponents()) {
                     if (component1 instanceof ModuleComponent moduleComponent) {
@@ -88,6 +95,11 @@ public class Client extends Module {
                                     ((MultipleComponent) component3).getOption().setDescription(Vergence.TEXT.get("Module.Modules." + moduleComponent.getModule().getName() + ".Options.MultipleOption." + ((MultipleComponent) component3).getOption().getName() + ".description"));
                                 }
                                 else if (component3 instanceof DoubleComponent) {
+                                    if (((DoubleComponent) component3).getOption().getName().equals("_PRIORITY_")) {
+                                        ((DoubleComponent) component3).getOption().setDisplayName(Vergence.TEXT.get("Module.Special.ModulePriority.name"));
+                                        ((DoubleComponent) component3).getOption().setDescription(Vergence.TEXT.get("Module.Special.ModulePriority.description"));
+                                        continue;
+                                    }
                                     ((DoubleComponent) component3).getOption().setDisplayName(Vergence.TEXT.get("Module.Modules." + moduleComponent.getModule().getName() + ".Options.DoubleOption." + ((DoubleComponent) component3).getOption().getName() + ".name"));
                                     ((DoubleComponent) component3).getOption().setDescription(Vergence.TEXT.get("Module.Modules." + moduleComponent.getModule().getName() + ".Options.DoubleOption." + ((DoubleComponent) component3).getOption().getName() + ".description"));
                                 }

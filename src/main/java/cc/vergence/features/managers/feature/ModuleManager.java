@@ -1,6 +1,7 @@
 package cc.vergence.features.managers.feature;
 
 import cc.vergence.Vergence;
+import cc.vergence.features.enums.font.FontSize;
 import cc.vergence.features.managers.ui.GuiManager;
 import cc.vergence.features.managers.ui.HudManager;
 import cc.vergence.features.options.Option;
@@ -13,11 +14,11 @@ import cc.vergence.modules.hud.*;
 import cc.vergence.modules.misc.*;
 import cc.vergence.modules.movement.*;
 import cc.vergence.modules.player.*;
+import cc.vergence.modules.player.Timer;
 import cc.vergence.modules.visual.*;
+import cc.vergence.util.font.FontUtil;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class ModuleManager {
     public static List<Module> modules = new ArrayList<Module>();
@@ -114,6 +115,10 @@ public class ModuleManager {
         }
         modules.add(module);
         categoryModuleHashMap.get(module.getCategory()).add(module);
+        modules.sort(Comparator
+                .<Module>comparingInt(m -> m.isAlwaysEnable() ? 0 : 1)
+                .thenComparing(Module::getDisplayName)
+        );
         if (module.getCategory().equals(Module.Category.HUD)) {
             HudManager.hudList.add(module);
         }
@@ -147,6 +152,11 @@ public class ModuleManager {
             option.setDescription(Vergence.TEXT.get("Module.Modules." + module.getName() + ".Options.ColorOption." + option.getName() + ".description"));
         }
         else if (option instanceof DoubleOption) {
+            if (option.getName().equals("_PRIORITY_")) {
+                option.setDisplayName(Vergence.TEXT.get("Module.Special.ModulePriority.name"));
+                option.setDescription(Vergence.TEXT.get("Module.Special.ModulePriority.description"));
+                return ;
+            }
             option.setDisplayName(Vergence.TEXT.get("Module.Modules." + module.getName() + ".Options.DoubleOption." + option.getName() + ".name"));
             option.setDescription(Vergence.TEXT.get("Module.Modules." + module.getName() + ".Options.DoubleOption." + option.getName() + ".description"));
         }

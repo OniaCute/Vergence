@@ -1,6 +1,6 @@
 package cc.vergence.util.other;
 
-import cc.vergence.features.enums.Dimensions;
+import cc.vergence.features.enums.world.Dimensions;
 import cc.vergence.util.interfaces.Wrapper;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;

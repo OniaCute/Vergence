@@ -1,7 +1,7 @@
 package cc.vergence.features.options.impl;
 
 import cc.vergence.Vergence;
-import cc.vergence.features.enums.Dimensions;
+import cc.vergence.features.enums.world.Dimensions;
 import cc.vergence.features.event.events.OptionValueUpdateEvent;
 import cc.vergence.features.options.Option;
 import cc.vergence.modules.client.Placeholder;
@@ -10,7 +10,6 @@ import cc.vergence.util.other.WorldUtil;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 
-import java.util.Objects;
 import java.util.function.Predicate;
 
 public class TextOption extends Option<String> implements Wrapper {

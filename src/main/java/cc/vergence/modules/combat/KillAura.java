@@ -1,10 +1,9 @@
 package cc.vergence.modules.combat;
 
 import cc.vergence.Vergence;
-import cc.vergence.features.enums.AntiCheats;
-import cc.vergence.features.enums.RotateModes;
-import cc.vergence.features.enums.SwingModes;
-import cc.vergence.features.enums.TargetTypes;
+import cc.vergence.features.enums.player.RotateModes;
+import cc.vergence.features.enums.player.SwingModes;
+import cc.vergence.features.enums.player.TargetTypes;
 import cc.vergence.features.options.Option;
 import cc.vergence.features.options.impl.BooleanOption;
 import cc.vergence.features.options.impl.DoubleOption;

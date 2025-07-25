@@ -1,8 +1,8 @@
 package cc.vergence.modules.client;
 
-import cc.vergence.features.enums.AntiCheats;
-import cc.vergence.features.enums.RotateModes;
-import cc.vergence.features.enums.SwingModes;
+import cc.vergence.features.enums.client.AntiCheats;
+import cc.vergence.features.enums.player.RotateModes;
+import cc.vergence.features.enums.player.SwingModes;
 import cc.vergence.features.options.Option;
 import cc.vergence.features.options.impl.EnumOption;
 import cc.vergence.modules.Module;

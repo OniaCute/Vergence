@@ -49,9 +49,5 @@
     "defaultRequire": 1
   },
   "client": [
-    "accessors.render.GameRendererAccessor",
-    "accessors.render.RenderLayerMultiPhaseAccessor",
-    "accessors.render.RenderLayerMultiPhaseParametersAccessor",
-    "accessors.render.RenderPhaseTextureBaseAccessor"
   ]
 }

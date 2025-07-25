@@ -193,8 +193,8 @@ public class ConfigManager implements Wrapper {
                     } else {
                         Vergence.CONSOLE.logInfo("[CONFIG] Config file info \"Config Template Version\" : " + client.get(2).getAsString());
                     }
-
-                    currentConfigName = client.get(3).getAsString().length() <= 1 ? "Unknown" : client.get(3).getAsString();
+                    Vergence.CONSOLE.logInfo("[CONFIG] Config file info \"UI Style Version\" : " + client.get(3).getAsString());
+                    currentConfigName = client.get(3).getAsString().length() <= 1 ? "Unknown" : client.get(4).getAsString();
                 } catch (Exception e) {
                     Vergence.CONSOLE.logWarn("[CONFIG] Client Info incomplete or invalid.");
                     e.printStackTrace();
@@ -386,6 +386,7 @@ public class ConfigManager implements Wrapper {
         array.add(new JsonPrimitive(Vergence.MOD_ID));
         array.add(new JsonPrimitive(Vergence.VERSION));
         array.add(new JsonPrimitive(Vergence.CONFIG_TEMPLATE_VERSION));
+        array.add(new JsonPrimitive(Vergence.UI_STYLE_VERSION));
         array.add(new JsonPrimitive(currentConfigName));
         return array;
     }

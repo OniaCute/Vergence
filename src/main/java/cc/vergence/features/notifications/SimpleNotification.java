@@ -1,15 +1,11 @@
 package cc.vergence.features.notifications;
 
-import cc.vergence.Vergence;
-import cc.vergence.features.enums.Aligns;
-import cc.vergence.features.enums.FontSize;
+import cc.vergence.features.enums.other.Aligns;
+import cc.vergence.features.enums.font.FontSize;
 import cc.vergence.modules.client.Notify;
-import cc.vergence.util.color.ColorUtil;
 import cc.vergence.util.font.FontUtil;
 import cc.vergence.util.render.utils.Render2DUtil;
 import net.minecraft.client.gui.DrawContext;
-
-import java.awt.*;
 
 public class SimpleNotification extends Notification {
     public SimpleNotification(String text, double aliveTime) {

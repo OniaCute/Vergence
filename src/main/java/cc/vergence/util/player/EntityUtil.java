@@ -1,10 +1,9 @@
 package cc.vergence.util.player;
 
 import cc.vergence.Vergence;
-import cc.vergence.features.enums.Hands;
-import cc.vergence.features.enums.SpeedUnit;
-import cc.vergence.features.enums.SwingModes;
-import cc.vergence.modules.misc.FakePlayer;
+import cc.vergence.features.enums.player.Hands;
+import cc.vergence.features.enums.units.SpeedUnit;
+import cc.vergence.features.enums.player.SwingModes;
 import cc.vergence.util.interfaces.Wrapper;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.entity.Entity;

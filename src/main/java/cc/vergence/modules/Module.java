@@ -1,13 +1,14 @@
 package cc.vergence.modules;
 
 import cc.vergence.Vergence;
-import cc.vergence.features.enums.MouseButtons;
+import cc.vergence.features.enums.client.MouseButtons;
 import cc.vergence.features.event.events.*;
 import cc.vergence.features.managers.other.MessageManager;
 import cc.vergence.features.managers.ui.NotifyManager;
 import cc.vergence.features.options.Option;
 import cc.vergence.features.options.impl.BindOption;
 import cc.vergence.features.options.impl.BooleanOption;
+import cc.vergence.features.options.impl.DoubleOption;
 import cc.vergence.modules.client.SafeMode;
 import cc.vergence.util.interfaces.Wrapper;
 import net.minecraft.block.Block;
@@ -36,15 +37,14 @@ public abstract class Module implements Wrapper {
     private String description;
     private Category category;
     private BindOption bind;
+    private DoubleOption priority;
     private BooleanOption draw;
     private double x;
     private double y;
     private double width;
     private double height;
-    private int priority = 0;
     private boolean status; // default disabled
     private boolean alwaysEnable = false;
-    private String details;
     private ArrayList<Option<?>> options = new ArrayList<>();
     private HashMap<String, Option<?>> optionHashMap = new HashMap<>();
     public boolean isBlocked;
@@ -56,6 +56,7 @@ public abstract class Module implements Wrapper {
         this.category = category;
 
         this.bind = (BindOption) addOption(new BindOption("_BIND_", -1, BindOption.BindType.Click));
+        this.priority = (DoubleOption) addOption(new DoubleOption("_PRIORITY_", -1, 20, 0).addSpecialValue(-1, "HIGHEST").addSpecialValue(20, "LOWEST").addSpecialValue(0, "DEFAULT"));
         this.draw = (BooleanOption) addOption(new BooleanOption("_DRAW_", true));
     }
 
@@ -64,9 +65,9 @@ public abstract class Module implements Wrapper {
         this.displayName = Vergence.TEXT.get("Module.Modules." + name + ".name");
         this.description = Vergence.TEXT.get("Module.Modules." + name + ".description");
         this.category = category;
-        this.priority = priority;
 
         this.bind = (BindOption) addOption(new BindOption("_BIND_", -1, BindOption.BindType.Click));
+        this.priority = (DoubleOption) addOption(new DoubleOption("_PRIORITY_", -1, 20, priority).addSpecialValue(-1, "HIGHEST").addSpecialValue(20, "LOWEST").addSpecialValue(0, "DEFAULT"));
         this.draw = (BooleanOption) addOption(new BooleanOption("_DRAW_", true));
     }
 
@@ -84,9 +85,16 @@ public abstract class Module implements Wrapper {
 
     public void setAlwaysEnable(boolean alwaysEnable) {
         this.alwaysEnable = alwaysEnable;
-        this.bind.setValue(-1);
-        this.bind.setInvisibility(v -> false);
-        this.status = true;
+        if (alwaysEnable) {
+            this.bind.setValue(-1);
+            this.bind.setInvisibility(v -> false);
+            this.priority.setValue(0.00);
+            this.priority.setInvisibility(v -> false);
+            this.status = true;
+        } else {
+            this.bind.setInvisibility(v -> true);
+            this.priority.setInvisibility(v -> true);
+        }
     }
 
     public boolean isAlwaysEnable() {
@@ -102,6 +110,7 @@ public abstract class Module implements Wrapper {
 
         if (isBlocked && SafeMode.INSTANCE.getStatus()) {
             MessageManager.blockedMessage(this, SafeMode.INSTANCE);
+            return ;
         }
 
         NotifyManager.newNotification(this, Vergence.TEXT.get("Module.Special.Messages.Enable").replace("{module}", this.getDisplayName()));
@@ -135,6 +144,7 @@ public abstract class Module implements Wrapper {
         }
 
         MessageManager.blockedMessage(this, SafeMode.INSTANCE);
+        isBlocked = true;
 
         this.setStatus(false);
         this.onBlock(module);
@@ -146,8 +156,13 @@ public abstract class Module implements Wrapper {
         }
 
         MessageManager.unblockedMessage(this, SafeMode.INSTANCE);
+        isBlocked = false;
 
-        this.setStatus(status);
+        if (status) {
+            this.enable();
+        } else {
+            this.disable();
+        }
         this.onUnblock();
     }
 
@@ -468,19 +483,19 @@ public abstract class Module implements Wrapper {
     }
 
     public int getPriority() {
-        return priority;
+        return priority.getValue().intValue();
     }
 
     public void setPriority(int priority) {
-        this.priority = priority;
+        this.priority.setValue((double) priority);
     }
 
     public void addPriority() {
-        priority ++;
+        setPriority(getPriority() + 1);
     }
 
     public void reducePriority() {
-        priority --;
+        setPriority(getPriority() - 1);
     }
 
     public void setDescription(String description) {

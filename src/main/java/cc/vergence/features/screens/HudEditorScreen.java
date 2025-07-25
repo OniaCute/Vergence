@@ -1,7 +1,7 @@
 package cc.vergence.features.screens;
 
 import cc.vergence.Vergence;
-import cc.vergence.features.enums.MouseButtons;
+import cc.vergence.features.enums.client.MouseButtons;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;

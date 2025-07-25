@@ -1,7 +1,7 @@
 package cc.vergence.modules.visual;
 
 import cc.vergence.Vergence;
-import cc.vergence.features.enums.FontSize;
+import cc.vergence.features.enums.font.FontSize;
 import cc.vergence.features.options.Option;
 import cc.vergence.features.options.impl.*;
 import cc.vergence.modules.Module;
@@ -10,7 +10,6 @@ import cc.vergence.util.font.FontUtil;
 import cc.vergence.util.player.EntityUtil;
 import cc.vergence.util.render.utils.Render2DUtil;
 import cc.vergence.util.render.utils.Render3DUtil;
-import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Formatting;
@@ -19,7 +18,6 @@ import net.minecraft.util.math.Vec3d;
 
 import java.awt.*;
 import java.text.DecimalFormat;
-import java.util.Comparator;
 import java.util.EnumSet;
 
 public class NameTags extends Module {

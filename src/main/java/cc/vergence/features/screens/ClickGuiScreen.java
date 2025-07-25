@@ -1,11 +1,11 @@
 package cc.vergence.features.screens;
 
 import cc.vergence.Vergence;
-import cc.vergence.features.enums.MouseButtons;
+import cc.vergence.features.enums.client.MouseButtons;
 import cc.vergence.features.managers.ui.GuiManager;
 import cc.vergence.modules.client.ClickGUI;
-import cc.vergence.ui.gui.GuiComponent;
-import cc.vergence.ui.gui.impl.impl.input.*;
+import cc.vergence.ui.GuiComponent;
+import cc.vergence.ui.clickgui.subcomponent.input.*;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;

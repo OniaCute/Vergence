@@ -1,8 +1,8 @@
 package cc.vergence.modules.hud;
 
-import cc.vergence.features.enums.Aligns;
-import cc.vergence.features.enums.FontSize;
-import cc.vergence.features.enums.MouseButtons;
+import cc.vergence.features.enums.other.Aligns;
+import cc.vergence.features.enums.font.FontSize;
+import cc.vergence.features.enums.client.MouseButtons;
 import cc.vergence.features.managers.ui.HudManager;
 import cc.vergence.features.managers.feature.ModuleManager;
 import cc.vergence.features.options.Option;

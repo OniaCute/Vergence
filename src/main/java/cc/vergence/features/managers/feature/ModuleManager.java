@@ -103,6 +103,21 @@ public class ModuleManager {
         // special module
         registerModule(new SafeMode());
 
+        // sort
+        Vergence.CONSOLE.logInfo("[UI] Sorting modules ...");
+        modules.sort(Comparator
+                .<Module>comparingInt(m -> m.isAlwaysEnable() ? 0 : 1)
+                .thenComparing(Module::getDisplayName)
+        );
+        for (ArrayList<Module> categoryList : categoryModuleHashMap.values()) {
+            categoryList.sort(Comparator
+                    .<Module>comparingInt(m -> m.isAlwaysEnable() ? 0 : 1)
+                    .thenComparing(Module::getDisplayName)
+            );
+        }
+        Vergence.CONSOLE.logInfo("[UI] All modules are sorted!");
+
+        // init UI
         Vergence.CONSOLE.logInfo("[UI] Init UI ...");
         GuiManager.initClickGui();
         Vergence.CONSOLE.logInfo("[UI] UI was loaded!");
@@ -115,10 +130,6 @@ public class ModuleManager {
         }
         modules.add(module);
         categoryModuleHashMap.get(module.getCategory()).add(module);
-        modules.sort(Comparator
-                .<Module>comparingInt(m -> m.isAlwaysEnable() ? 0 : 1)
-                .thenComparing(Module::getDisplayName)
-        );
         if (module.getCategory().equals(Module.Category.HUD)) {
             HudManager.hudList.add(module);
         }

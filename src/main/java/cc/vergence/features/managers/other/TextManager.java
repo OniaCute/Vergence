@@ -229,7 +229,7 @@ public class TextManager {
         englishLanguageBase.put("Module.Modules.AntiHungry.Options.EnumOption.AntiCheat.description", "Determine which functions need to be blocked by anti cheat mode");
 
         englishLanguageBase.put("Module.Modules.BetterChat.name", "Better Chat");
-        englishLanguageBase.put("Module.Modules.BetterChat.description", "Customize chat appearance with colored names, prefixes, suffixes and smooth animations");
+        englishLanguageBase.put("Module.Modules.BetterChat.description", "Allow you to highly customize the chat hud");
         englishLanguageBase.put("Module.Modules.BetterChat.Options.EnumOption.Prefix.name", "Prefix Style");
         englishLanguageBase.put("Module.Modules.BetterChat.Options.EnumOption.Prefix.description", "Choose between Default or Line prefix style for messages");
         englishLanguageBase.put("Module.Modules.BetterChat.Options.ColorOption.PrefixColor.name", "Prefix Color");
@@ -643,9 +643,9 @@ public class TextManager {
         englishLanguageBase.put("Module.Modules.CameraClip.Options.DoubleOption.Distance.description", "The distance of the third person camera from your character");
 
         englishLanguageBase.put("Module.Modules.Chams.name", "Chams");
-        englishLanguageBase.put("Module.Modules.Chams.description", "Renders entities through walls with customizable colors");
+        englishLanguageBase.put("Module.Modules.Chams.description", "Highlights entities through walls with customizable fill and outline colors");
         englishLanguageBase.put("Module.Modules.Chams.Options.MultipleOption.Targets.name", "Targets");
-        englishLanguageBase.put("Module.Modules.Chams.Options.MultipleOption.Targets.description", "Which entity types to highlight");
+        englishLanguageBase.put("Module.Modules.Chams.Options.MultipleOption.Targets.description", "Entity categories to highlight");
         englishLanguageBase.put("Module.Modules.Chams.Options.BooleanOption.RenderEnemy.name", "Render Enemy");
         englishLanguageBase.put("Module.Modules.Chams.Options.BooleanOption.RenderEnemy.description", "Highlight enemy players");
         englishLanguageBase.put("Module.Modules.Chams.Options.BooleanOption.RenderFriend.name", "Render Friend");
@@ -653,23 +653,31 @@ public class TextManager {
         englishLanguageBase.put("Module.Modules.Chams.Options.BooleanOption.RenderSelf.name", "Render Self");
         englishLanguageBase.put("Module.Modules.Chams.Options.BooleanOption.RenderSelf.description", "Highlight your own player");
         englishLanguageBase.put("Module.Modules.Chams.Options.BooleanOption.Shine.name", "Shine");
-        englishLanguageBase.put("Module.Modules.Chams.Options.BooleanOption.Shine.description", "Apply shine effect to highlighted models");
+        englishLanguageBase.put("Module.Modules.Chams.Options.BooleanOption.Shine.description", "Apply a glowing effect to highlighted models");
         englishLanguageBase.put("Module.Modules.Chams.Options.ColorOption.EnemyFill.name", "Enemy Fill");
-        englishLanguageBase.put("Module.Modules.Chams.Options.ColorOption.EnemyFill.description", "Fill color for enemy entities");
+        englishLanguageBase.put("Module.Modules.Chams.Options.ColorOption.EnemyFill.description", "Fill color for enemy players");
         englishLanguageBase.put("Module.Modules.Chams.Options.ColorOption.EnemyOutline.name", "Enemy Outline");
-        englishLanguageBase.put("Module.Modules.Chams.Options.ColorOption.EnemyOutline.description", "Outline color for enemy entities");
+        englishLanguageBase.put("Module.Modules.Chams.Options.ColorOption.EnemyOutline.description", "Outline color for enemy players");
         englishLanguageBase.put("Module.Modules.Chams.Options.ColorOption.FriendFill.name", "Friend Fill");
-        englishLanguageBase.put("Module.Modules.Chams.Options.ColorOption.FriendFill.description", "Fill color for friendly entities");
+        englishLanguageBase.put("Module.Modules.Chams.Options.ColorOption.FriendFill.description", "Fill color for friendly players");
         englishLanguageBase.put("Module.Modules.Chams.Options.ColorOption.FriendOutline.name", "Friend Outline");
-        englishLanguageBase.put("Module.Modules.Chams.Options.ColorOption.FriendOutline.description", "Outline color for friendly entities");
+        englishLanguageBase.put("Module.Modules.Chams.Options.ColorOption.FriendOutline.description", "Outline color for friendly players");
         englishLanguageBase.put("Module.Modules.Chams.Options.ColorOption.SelfFill.name", "Self Fill");
-        englishLanguageBase.put("Module.Modules.Chams.Options.ColorOption.SelfFill.description", "Fill color for your own model");
+        englishLanguageBase.put("Module.Modules.Chams.Options.ColorOption.SelfFill.description", "Fill color for your own player");
         englishLanguageBase.put("Module.Modules.Chams.Options.ColorOption.SelfOutline.name", "Self Outline");
-        englishLanguageBase.put("Module.Modules.Chams.Options.ColorOption.SelfOutline.description", "Outline color for your own model");
+        englishLanguageBase.put("Module.Modules.Chams.Options.ColorOption.SelfOutline.description", "Outline color for your own player");
+        englishLanguageBase.put("Module.Modules.Chams.Options.ColorOption.MobFill.name", "Mob Fill");
+        englishLanguageBase.put("Module.Modules.Chams.Options.ColorOption.MobFill.description", "Fill color for hostile mobs");
+        englishLanguageBase.put("Module.Modules.Chams.Options.ColorOption.MobOutline.name", "Mob Outline");
+        englishLanguageBase.put("Module.Modules.Chams.Options.ColorOption.MobOutline.description", "Outline color for hostile mobs");
+        englishLanguageBase.put("Module.Modules.Chams.Options.ColorOption.AnimalFill.name", "Animal Fill");
+        englishLanguageBase.put("Module.Modules.Chams.Options.ColorOption.AnimalFill.description", "Fill color for passive animals");
+        englishLanguageBase.put("Module.Modules.Chams.Options.ColorOption.AnimalOutline.name", "Animal Outline");
+        englishLanguageBase.put("Module.Modules.Chams.Options.ColorOption.AnimalOutline.description", "Outline color for passive animals");
         englishLanguageBase.put("Module.Modules.Chams.Options.ColorOption.DefaultFill.name", "Default Fill");
-        englishLanguageBase.put("Module.Modules.Chams.Options.ColorOption.DefaultFill.description", "Fill color for other entities");
+        englishLanguageBase.put("Module.Modules.Chams.Options.ColorOption.DefaultFill.description", "Fallback fill color for unmatched entities");
         englishLanguageBase.put("Module.Modules.Chams.Options.ColorOption.DefaultOutline.name", "Default Outline");
-        englishLanguageBase.put("Module.Modules.Chams.Options.ColorOption.DefaultOutline.description", "Outline color for other entities");
+        englishLanguageBase.put("Module.Modules.Chams.Options.ColorOption.DefaultOutline.description", "Fallback outline color for unmatched entities");
 
         englishLanguageBase.put("Module.Modules.FullBright.name", "Full Bright");
         englishLanguageBase.put("Module.Modules.FullBright.description", "Removes darkness and provides maximum visibility");
@@ -1038,29 +1046,29 @@ public class TextManager {
         englishLanguageBase.put("Module.Modules.AutoRepairArmor.Options.BooleanOption.Swing.description", "Perform a swing animation when throwing");
         englishLanguageBase.put("Module.Modules.AutoRepairArmor.Options.DoubleOption.Delay.name", "Delay");
         englishLanguageBase.put("Module.Modules.AutoRepairArmor.Options.DoubleOption.Delay.description", "Milliseconds between each XP bottle throw");
-        englishLanguageBase.put("Module.Modules.AutoRepairArmor.Messages.Repairing", "Trying to repair armor now.");
-        englishLanguageBase.put("Module.Modules.AutoRepairArmor.Messages.Stopped", "Stop repairing armor now.");
+        englishLanguageBase.put("Module.Modules.AutoRepairArmor.Messages.Repairing", "Trying to repair armor now");
+        englishLanguageBase.put("Module.Modules.AutoRepairArmor.Messages.Stopped", "Stop repairing armor now");
 
         englishLanguageBase.put("Module.Modules.Scoreboard.name", "Scoreboard");
-        englishLanguageBase.put("Module.Modules.Scoreboard.description", "Customizes the appearance of the vanilla scoreboard.");
+        englishLanguageBase.put("Module.Modules.Scoreboard.description", "Customizes the appearance of the vanilla scoreboard");
         englishLanguageBase.put("Module.Modules.Scoreboard.Options.BooleanOption.Hide.name", "Hide");
-        englishLanguageBase.put("Module.Modules.Scoreboard.Options.BooleanOption.Hide.description", "Hide the vanilla scoreboard.");
+        englishLanguageBase.put("Module.Modules.Scoreboard.Options.BooleanOption.Hide.description", "Hide the vanilla scoreboard");
         englishLanguageBase.put("Module.Modules.Scoreboard.Options.ColorOption.TitleColor.name", "Title Color");
-        englishLanguageBase.put("Module.Modules.Scoreboard.Options.ColorOption.TitleColor.description", "Color of the scoreboard title.");
+        englishLanguageBase.put("Module.Modules.Scoreboard.Options.ColorOption.TitleColor.description", "Color of the scoreboard title");
         englishLanguageBase.put("Module.Modules.Scoreboard.Options.ColorOption.TextColor.name", "Text Color");
-        englishLanguageBase.put("Module.Modules.Scoreboard.Options.ColorOption.TextColor.description", "Color of the scoreboard text.");
+        englishLanguageBase.put("Module.Modules.Scoreboard.Options.ColorOption.TextColor.description", "Color of the scoreboard text");
         englishLanguageBase.put("Module.Modules.Scoreboard.Options.BooleanOption.Rounded.name", "Rounded");
-        englishLanguageBase.put("Module.Modules.Scoreboard.Options.BooleanOption.Rounded.description", "Apply rounded corners to the background.");
+        englishLanguageBase.put("Module.Modules.Scoreboard.Options.BooleanOption.Rounded.description", "Apply rounded corners to the background");
         englishLanguageBase.put("Module.Modules.Scoreboard.Options.DoubleOption.Radius.name", "Radius");
-        englishLanguageBase.put("Module.Modules.Scoreboard.Options.DoubleOption.Radius.description", "Corner radius when rounded is enabled.");
+        englishLanguageBase.put("Module.Modules.Scoreboard.Options.DoubleOption.Radius.description", "Corner radius when rounded is enabled");
         englishLanguageBase.put("Module.Modules.Scoreboard.Options.BooleanOption.TitleBackground.name", "Title Background");
-        englishLanguageBase.put("Module.Modules.Scoreboard.Options.BooleanOption.TitleBackground.description", "Draw a background behind the scoreboard title.");
+        englishLanguageBase.put("Module.Modules.Scoreboard.Options.BooleanOption.TitleBackground.description", "Draw a background behind the scoreboard title");
         englishLanguageBase.put("Module.Modules.Scoreboard.Options.ColorOption.TitleBackgroundColor.name", "Title Background Color");
-        englishLanguageBase.put("Module.Modules.Scoreboard.Options.ColorOption.TitleBackgroundColor.description", "Color used for the title background.");
+        englishLanguageBase.put("Module.Modules.Scoreboard.Options.ColorOption.TitleBackgroundColor.description", "Color used for the title background");
         englishLanguageBase.put("Module.Modules.Scoreboard.Options.BooleanOption.Background.name", "Background");
-        englishLanguageBase.put("Module.Modules.Scoreboard.Options.BooleanOption.Background.description", "Draw a background behind the scoreboard.");
+        englishLanguageBase.put("Module.Modules.Scoreboard.Options.BooleanOption.Background.description", "Draw a background behind the scoreboard");
         englishLanguageBase.put("Module.Modules.Scoreboard.Options.ColorOption.BackgroundColor.name", "Background Color");
-        englishLanguageBase.put("Module.Modules.Scoreboard.Options.ColorOption.BackgroundColor.description", "Color used for the scoreboard background.");
+        englishLanguageBase.put("Module.Modules.Scoreboard.Options.ColorOption.BackgroundColor.description", "Color used for the scoreboard background");
     }
 
     private void loadChinese() {

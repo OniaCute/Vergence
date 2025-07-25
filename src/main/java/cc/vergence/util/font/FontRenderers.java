@@ -104,7 +104,7 @@ public class FontRenderers {
     }
 
     public static RendererFontAdapter IconFont(float size) throws IOException, FontFormatException {
-        InputStream fontStream = FontRenderers.class.getClassLoader().getResourceAsStream("assets/vergence/font/icons.ttf");
+        InputStream fontStream = FontRenderers.class.getClassLoader().getResourceAsStream("assets/vergence/font/icons.otf");
         Font font = Font.createFont(Font.TRUETYPE_FONT, fontStream).deriveFont(Font.PLAIN, size);
         return new RendererFontAdapter(font, size);
     }

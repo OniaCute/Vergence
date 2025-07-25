@@ -45,12 +45,12 @@ public class SearchFrameComponent extends GuiComponent implements Wrapper {
                 if (InputUtil.isKeyPressed(mc.getWindow().getHandle(), GLFW.GLFW_KEY_LEFT_CONTROL)) {
                     String clipboard = SelectionManager.getClipboard(mc);
                     searchText += clipboard;
-                    reset();
+                    GuiManager.resetScroll();
                 }
             }
             case GLFW.GLFW_KEY_ESCAPE, GLFW.GLFW_KEY_ENTER, GLFW.GLFW_KEY_KP_ENTER -> {
                 isListening = false;
-                reset();
+                GuiManager.resetScroll();
             }
             case GLFW.GLFW_KEY_BACKSPACE -> {
                 searchText = removeLastChar(searchText);
@@ -60,11 +60,11 @@ public class SearchFrameComponent extends GuiComponent implements Wrapper {
 
     public void charType(char word) {
         searchText += word;
-        reset();
+        GuiManager.resetScroll();
     }
 
     public static String removeLastChar(String string) {
-        reset();
+        GuiManager.resetScroll();
         return (string != null && !string.isEmpty()) ? string.substring(0, string.length() - 1) : "";
     }
 
@@ -88,7 +88,7 @@ public class SearchFrameComponent extends GuiComponent implements Wrapper {
                 if (isListening) {
                     animationTimer.reset();
                     showSuffixChar = true;
-                    reset();
+                    GuiManager.resetScroll();
                 }
             }
         } else {
@@ -124,12 +124,5 @@ public class SearchFrameComponent extends GuiComponent implements Wrapper {
                 isHovered(mouseX, mouseY) ? Vergence.THEME.getTheme().getInputFrameHoveredTextColor() : Vergence.THEME.getTheme().getInputFrameTextColor(),
                 FontSize.SMALL
         );
-    }
-
-    private static void reset() {
-        GuiManager.scrollAnimation.reset();
-        GuiManager.scrollAnimation.to(0.00);
-        GuiManager.mouseScrolledOffset = 0;
-        GuiManager.latestModuleComponentPosition = new Pair<>(GuiManager.MAIN_PAGE_X, GuiManager.MAIN_PAGE_Y + 34 * Render2DUtil.getScaleFactor() + (GuiManager.mouseScrolledOffset * 8));
     }
 }

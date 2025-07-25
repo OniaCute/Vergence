@@ -6,5 +6,6 @@ public enum Pages {
     Search,
     Information,
     Languages,
-    Themes
+    Themes,
+    Configs
 }

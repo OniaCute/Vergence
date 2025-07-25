@@ -90,6 +90,10 @@ public class DefaultTheme extends Theme {
         setTopBarHoveredResearchFrameTextColor(new Color(21, 21, 21));
         setTopBarFocusedResearchFrameBackgroundColor(new Color(241, 241, 241));
         setTopBarFocusedResearchFrameTextColor(new Color(9, 9, 9));
+        setTopbarButtonBackgroundColor(new Color(236, 236, 236));
+        setTopbarHoveredButtonBackgroundColor(new Color(255, 200, 246));
+        setTopbarButtonIconColor(new Color(31, 31, 31, 221));
+        setTopbarHoveredButtonIconColor(new Color(255, 119, 253));
 
         // ===== InputFrame =====
         setInputFrameBackgroundColor(new Color(241, 241, 241));

@@ -1006,7 +1006,7 @@ public class FontUtil implements Wrapper {
     }
 
     public static void drawIconWithAlign(DrawContext context, String text, double originalX, double originalY, double originalEx, double originalEy, Aligns align, Color color, FontSize size) {
-        drawTextWithAlign(context, text, originalX, originalY, originalEx, originalEy, align, color.getRGB(), size);
+        drawIconWithAlign(context, text, originalX, originalY, originalEx, originalEy, align, color.getRGB(), size);
     }
 
     public static void drawIconWithAlign(DrawContext context, String text, double originalX, double originalY, double originalEx, double originalEy, Aligns align, int color, FontSize size) {

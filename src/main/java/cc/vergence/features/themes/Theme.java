@@ -77,6 +77,10 @@ public class Theme {
     private Color colorPaletteOutlineColor;
     private Color descriptionBackgroundColor;
     private Color descriptionTextColor;
+    private Color topbarButtonBackgroundColor;
+    private Color topbarButtonIconColor;
+    private Color topbarHoveredButtonBackgroundColor;
+    private Color topbarHoveredButtonIconColor;
 
     public Theme(String name, String displayName, String description, ArrayList<String> authors) {
         this.name = name;
@@ -667,5 +671,37 @@ public class Theme {
 
     public Color getDescriptionTextColor() {
         return descriptionTextColor;
+    }
+
+    public void setTopbarButtonBackgroundColor(Color topbarButtonBackgroundColor) {
+        this.topbarButtonBackgroundColor = topbarButtonBackgroundColor;
+    }
+
+    public void setTopbarButtonIconColor(Color topbarButtonIconColor) {
+        this.topbarButtonIconColor = topbarButtonIconColor;
+    }
+
+    public void setTopbarHoveredButtonBackgroundColor(Color topbarHoveredButtonBackgroundColor) {
+        this.topbarHoveredButtonBackgroundColor = topbarHoveredButtonBackgroundColor;
+    }
+
+    public Color getTopbarButtonBackgroundColor() {
+        return topbarButtonBackgroundColor;
+    }
+
+    public Color getTopbarButtonIconColor() {
+        return topbarButtonIconColor;
+    }
+
+    public Color getTopbarHoveredButtonBackgroundColor() {
+        return topbarHoveredButtonBackgroundColor;
+    }
+
+    public void setTopbarHoveredButtonIconColor(Color topbarHoveredButtonIconColor) {
+        this.topbarHoveredButtonIconColor = topbarHoveredButtonIconColor;
+    }
+
+    public Color getTopbarHoveredButtonIconColor() {
+        return topbarHoveredButtonIconColor;
     }
 }

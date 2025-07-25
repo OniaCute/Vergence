@@ -558,16 +558,16 @@ public abstract class Module implements Wrapper {
         ArrayList<Category> categories = new ArrayList<>();
         categories.add(Category.CLIENT);
         categories.add(Category.COMBAT);
-        categories.add(Category.MISC);
-        categories.add(Category.EXPLOIT);
-        categories.add(Category.MOVEMENT);
         categories.add(Category.PLAYER);
+        categories.add(Category.MOVEMENT);
+        categories.add(Category.EXPLOIT);
         categories.add(Category.VISUAL);
+        categories.add(Category.MISC);
         categories.add(Category.HUD);
         return categories;
     }
 
     public enum Category {
-        CLIENT, COMBAT, MISC, EXPLOIT, MOVEMENT, PLAYER, VISUAL, HUD
+        CLIENT, COMBAT,PLAYER, MOVEMENT, EXPLOIT, VISUAL, MISC, HUD
     }
 }

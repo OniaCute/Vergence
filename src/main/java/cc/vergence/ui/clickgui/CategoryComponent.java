@@ -49,9 +49,7 @@ public class CategoryComponent extends GuiComponent {
                 GuiManager.PAGE = Pages.Modules;
                 GuiManager.SEARCH.searchText = "";
                 GuiManager.SEARCH.setListening(false);
-                GuiManager.scrollAnimation.reset();
-                GuiManager.scrollAnimation.to(0.00);
-                GuiManager.mouseScrolledOffset = 0;
+                GuiManager.resetScroll();
                 GuiManager.latestModuleComponentPosition = new Pair<>(GuiManager.MAIN_PAGE_X, GuiManager.MAIN_PAGE_Y + 34 * Render2DUtil.getScaleFactor() + (GuiManager.mouseScrolledOffset * 8));
                 GuiManager.CLICKED_LEFT = false;
             }

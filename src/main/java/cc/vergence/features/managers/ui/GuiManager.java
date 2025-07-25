@@ -26,6 +26,7 @@ import cc.vergence.ui.clickgui.subcomponent.input.*;
 import cc.vergence.ui.clickgui.subcomponent.color.ColorPalette;
 import cc.vergence.ui.clickgui.subcomponent.color.ColorPreviewer;
 import cc.vergence.ui.clickgui.subcomponent.slider.DoubleSlider;
+import cc.vergence.ui.clickgui.topbar.TopbarButton;
 import cc.vergence.util.animations.ScrollAnimation;
 import cc.vergence.util.font.FontUtil;
 import cc.vergence.util.interfaces.Wrapper;
@@ -59,6 +60,7 @@ public class GuiManager implements Wrapper {
     public static Pair<Double, Double> latestCategoryComponentPosition = new Pair<>(0.00, 0.00);
     public static Pair<Double, Double> latestModuleComponentPosition = new Pair<>(0.00, 0.00);
     public static Pair<Double, Double> latestOptionComponentPosition = new Pair<>(0.00, 0.00);
+    public static double latestTopbarIncrease = 0;
     public static double mouseScrolledOffset = 0;
     public static ScrollAnimation scrollAnimation = new ScrollAnimation(0, 0);
     public static ClickGuiScreen CLICK_GUI_SCREEN = new ClickGuiScreen();
@@ -438,6 +440,12 @@ public class GuiManager implements Wrapper {
         }
 
         // Top bar
+        TopbarButton infoButton = new TopbarButton(Pages.Information, "\uF05A");
+        TopbarButton languageButton = new TopbarButton(Pages.Languages, "\uF7A2");
+        TopbarButton configButton = new TopbarButton(Pages.Configs, "\uF07C");
+        topbarComponents.add(infoButton);
+        topbarComponents.add(languageButton);
+        topbarComponents.add(configButton);
         topbarComponents.add(SEARCH);
     }
 
@@ -596,6 +604,8 @@ public class GuiManager implements Wrapper {
         }
         switch (PAGE) {
             case Search  -> {
+                searchModuleComponent.sort(Comparator.comparing((GuiComponent c) -> ((ModuleComponent) c).getModule().isAlwaysEnable() ? 0 : 1)
+                        .thenComparing(c -> ((ModuleComponent) c).getModule().getDisplayName(), String.CASE_INSENSITIVE_ORDER));
                 for (GuiComponent component : searchModuleComponent) {
                     Render2DUtil.pushDisplayArea( // topbar cover
                             context.getMatrices(),
@@ -612,11 +622,38 @@ public class GuiManager implements Wrapper {
                     Render2DUtil.popDisplayArea();
                 }
             }
+            case Information -> {
+                drawInformationPage(context);
+            }
         }
     }
 
+    private static void drawInformationPage(DrawContext context) {
+        double PAGE_X = MAIN_PAGE_X + 106;
+        double PAGE_Y = MAIN_PAGE_Y + 30;
+        double PAGE_WIDTH = MAIN_PAGE_WIDTH - 106;
+        double PAGE_HEIGHT = MAIN_PAGE_HEIGHT - 30;
+    }
+
     private static void layoutTopBar() {
+        latestTopbarIncrease = 6;
         for (GuiComponent component : topbarComponents) {
+            if (component instanceof TopbarButton) {
+                double[] pos = Render2DUtil.getAlignPosition(
+                        MAIN_PAGE_X,
+                        MAIN_PAGE_Y,
+                        MAIN_PAGE_X + MAIN_PAGE_WIDTH - latestTopbarIncrease,
+                        MAIN_PAGE_Y + 30,
+                        18,
+                        18,
+                        Aligns.RIGHT
+                );
+                latestTopbarIncrease += 18 + 3; // 3 px padding
+                component.setX(pos[0]);
+                component.setY(pos[1]);
+                component.setWidth(18);
+                component.setHeight(18);
+            }
             if (component instanceof SearchFrameComponent) { // search
                 double[] pos = Render2DUtil.getAlignPosition(
                         MAIN_PAGE_X + 106 + 6,
@@ -633,6 +670,7 @@ public class GuiManager implements Wrapper {
                 SEARCH.setHeight(16);
             }
         }
+        SEARCH.setWidth(MAIN_PAGE_WIDTH - 106 - 6 - latestTopbarIncrease);
     }
 
     private static void layoutSearch() {
@@ -661,8 +699,6 @@ public class GuiManager implements Wrapper {
                 searchModuleComponent.add(moduleComponent);
             }
         }
-        searchModuleComponent.sort(Comparator.comparing((GuiComponent c) -> ((ModuleComponent) c).getModule().isAlwaysEnable() ? 0 : 1)
-                        .thenComparing(c -> ((ModuleComponent) c).getModule().getDisplayName(), String.CASE_INSENSITIVE_ORDER));
     }
 
     private static void layoutModuleAreaComponent(ModuleComponent moduleComponent) {
@@ -930,5 +966,15 @@ public class GuiManager implements Wrapper {
                 }
             }
         }
+    }
+
+    public static void resetScroll() {
+        if (GuiManager.scrollAnimation == null) {
+            return ;
+        }
+        GuiManager.scrollAnimation.reset();
+        GuiManager.scrollAnimation.to(0.00);
+        GuiManager.mouseScrolledOffset = 0;
+        GuiManager.latestModuleComponentPosition = new Pair<>(GuiManager.MAIN_PAGE_X, GuiManager.MAIN_PAGE_Y + 34 * Render2DUtil.getScaleFactor() + (GuiManager.mouseScrolledOffset * 8));
     }
 }

@@ -442,7 +442,7 @@ public class EventManager implements Wrapper {
             }
         }
         Vergence.POP.onTick();
-        Vergence.ROTATE.onTick();
+//        Vergence.ROTATE.onTick();
         if (!GuiManager.isClickGuiInited && mc.getWindow() != null) {
             Vergence.CONSOLE.logInfo("[UI] precalc ui position ...");
             GuiManager.updateClickGui();
@@ -463,6 +463,7 @@ public class EventManager implements Wrapper {
     }
 
     public void onDraw3D(MatrixStack matrixStack,  float tickDelta) {
+        Vergence.ROTATE.onTick();
         for (Module module : ModuleManager.modules) {
             if (module.getStatus()) {
                 module.onDraw3D(matrixStack, tickDelta);

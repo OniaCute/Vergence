@@ -123,6 +123,9 @@ public class GuiManager implements Wrapper {
     private static void stopAllListening() {
         if (!(mc.currentScreen instanceof ClickGuiScreen) || ClickGUI.INSTANCE == null || !ClickGUI.INSTANCE.getStatus()) {
             isTyping = false;
+            isDragging = false;
+            CLICKED_LEFT = false;
+            CLICKED_RIGHT = false;
             for (GuiComponent component : inputComponents) {
                 if (component instanceof BindFrameComponent component1) {
                     component1.setListening(false);
@@ -633,6 +636,29 @@ public class GuiManager implements Wrapper {
         double PAGE_Y = MAIN_PAGE_Y + 30;
         double PAGE_WIDTH = MAIN_PAGE_WIDTH - 106;
         double PAGE_HEIGHT = MAIN_PAGE_HEIGHT - 30;
+
+        FontUtil.drawTextWithAlign(
+                context,
+                Vergence.NAME + "  Client",
+                PAGE_X,
+                PAGE_Y,
+                PAGE_X + PAGE_WIDTH,
+                PAGE_Y + (PAGE_HEIGHT / 3) * 2,
+                Aligns.CENTER,
+                Vergence.THEME.getTheme().getMainColor(),
+                FontSize.LARGEST
+        );
+        FontUtil.drawTextWithAlign(
+                context,
+                Vergence.MOD_ID + " " + Vergence.VERSION,
+                PAGE_X,
+                PAGE_Y,
+                PAGE_X + PAGE_WIDTH,
+                PAGE_Y + (PAGE_HEIGHT / 3) * 2 + 6 + FontUtil.getHeight(FontSize.LARGEST),
+                Aligns.CENTER,
+                new Color(42, 42, 42, 231),
+                FontSize.SMALLEST
+        );
     }
 
     private static void layoutTopBar() {

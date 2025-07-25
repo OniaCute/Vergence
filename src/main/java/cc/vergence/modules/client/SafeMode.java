@@ -8,6 +8,7 @@ import cc.vergence.features.options.impl.EnumOption;
 import cc.vergence.modules.Module;
 import cc.vergence.modules.combat.KillAura;
 import cc.vergence.modules.combat.Reach;
+import cc.vergence.modules.exploit.MovementLagSpoof;
 import cc.vergence.modules.misc.Spammer;
 import cc.vergence.modules.movement.*;
 import cc.vergence.modules.player.FastUse;
@@ -40,6 +41,9 @@ public class SafeMode extends Module {
     @Override
     public void onEnable() {
         defaultValue.clear();
+        if (isNull()) {
+            return ;
+        }
         switch ((AntiCheats) antiCheatMode.getValue()) {
             case Legit -> {
                 addBlocked(KillAura.INSTANCE);
@@ -47,9 +51,26 @@ public class SafeMode extends Module {
                 addBlocked(InventoryMove.INSTANCE);
                 addBlocked(NoFall.INSTANCE);
                 addBlocked(Reach.INSTANCE);
-                if (FastUse.INSTANCE.delay.getValue() < 2) {
+                addBlocked(MovementLagSpoof.INSTANCE);
+                addBlocked(AntiLevitation.INSTANCE);
+                addBlocked(TickShift.INSTANCE);
+                if (FastUse.INSTANCE.delay.getValue() < 1) {
                     addBlocked(FastUse.INSTANCE);
                 }
+                if (Spammer.INSTANCE.cooldown.getValue() < 300) {
+                    addBlocked(Spammer.INSTANCE);
+                }
+                if (SafeWalk.INSTANCE.doInject.getValue()) {
+                    addBlocked(SafeWalk.INSTANCE);
+                }
+                if (AutoSprint.INSTANCE.forAttack.getValue() || AutoSprint.INSTANCE.useItem.getValue()) {
+                    addBlocked(AutoSprint.INSTANCE);
+                }
+            }
+            case NCP -> {
+                addBlocked(KillAura.INSTANCE);
+                addBlocked(Scaffold.INSTANCE);
+                addBlocked(NoFall.INSTANCE);
                 if (Spammer.INSTANCE.cooldown.getValue() < 300) {
                     addBlocked(Spammer.INSTANCE);
                 }

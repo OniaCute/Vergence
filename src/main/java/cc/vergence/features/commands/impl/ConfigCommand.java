@@ -29,7 +29,7 @@ public class ConfigCommand extends Command {
 		switch (cmd) {
 			case "save":
 				String saveName = parameters.length < 2 ? cm.currentConfigName : parameters[1];
-				cm.save(new File(cm.CONFIG_FOLDER, saveName + ".vgc"));
+				cm.save(new File(ConfigManager.CONFIG_FOLDER, saveName + ".vgc"));
 				NotifyManager.newNotification(
 						"§a" + Vergence.TEXT.get("COMMANDS.Config.MESSAGE.SAVED").replace("{config}", saveName)
 				);
@@ -51,7 +51,7 @@ public class ConfigCommand extends Command {
 				break;
 
 			case "list":
-				File[] files = cm.CONFIG_FOLDER.listFiles((d, n) -> n.endsWith(".vgc"));
+				File[] files = ConfigManager.CONFIG_FOLDER.listFiles((d, n) -> n.endsWith(".vgc"));
 				if (files == null || files.length == 0) {
 					NotifyManager.newNotification(Vergence.TEXT.get("COMMANDS.Config.MESSAGE.NO_CONFIGS"));
 					return;

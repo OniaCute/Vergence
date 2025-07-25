@@ -1,6 +1,7 @@
 package cc.vergence.ui.clickgui.subcomponent.input;
 
 import cc.vergence.Vergence;
+import cc.vergence.features.enums.client.Pages;
 import cc.vergence.features.enums.other.Aligns;
 import cc.vergence.features.enums.font.FontSize;
 import cc.vergence.features.managers.ui.GuiManager;
@@ -13,6 +14,7 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.client.util.SelectionManager;
 import org.lwjgl.glfw.GLFW;
+import oshi.util.tuples.Pair;
 
 /**
  * &#064;author: Voury_, OniaCute
@@ -43,10 +45,12 @@ public class SearchFrameComponent extends GuiComponent implements Wrapper {
                 if (InputUtil.isKeyPressed(mc.getWindow().getHandle(), GLFW.GLFW_KEY_LEFT_CONTROL)) {
                     String clipboard = SelectionManager.getClipboard(mc);
                     searchText += clipboard;
+                    reset();
                 }
             }
             case GLFW.GLFW_KEY_ESCAPE, GLFW.GLFW_KEY_ENTER, GLFW.GLFW_KEY_KP_ENTER -> {
                 isListening = false;
+                reset();
             }
             case GLFW.GLFW_KEY_BACKSPACE -> {
                 searchText = removeLastChar(searchText);
@@ -56,9 +60,11 @@ public class SearchFrameComponent extends GuiComponent implements Wrapper {
 
     public void charType(char word) {
         searchText += word;
+        reset();
     }
 
     public static String removeLastChar(String string) {
+        reset();
         return (string != null && !string.isEmpty()) ? string.substring(0, string.length() - 1) : "";
     }
 
@@ -75,12 +81,14 @@ public class SearchFrameComponent extends GuiComponent implements Wrapper {
 
         if (isHovered(mouseX, mouseY)) {
             if (clickLeft) {
+                GuiManager.PAGE = Pages.Search;
                 isListening = !isListening;
                 GuiManager.CLICKED_LEFT = false;
 
                 if (isListening) {
                     animationTimer.reset();
                     showSuffixChar = true;
+                    reset();
                 }
             }
         } else {
@@ -107,14 +115,21 @@ public class SearchFrameComponent extends GuiComponent implements Wrapper {
 
         FontUtil.drawTextWithAlign(
                 context,
-                searchText + (showSuffixChar && isListening ? "_" : ""),
+                searchText.isEmpty() && !isListening ? "Type to search module" : searchText + (showSuffixChar && isListening ? "_" : ""),
                 getX() + 2,
                 getY() + 4,
                 getX() + getWidth() - 4,
                 getY() + getHeight(),
                 Aligns.LEFT,
                 isHovered(mouseX, mouseY) ? Vergence.THEME.getTheme().getInputFrameHoveredTextColor() : Vergence.THEME.getTheme().getInputFrameTextColor(),
-                FontSize.SMALLEST
+                FontSize.SMALL
         );
+    }
+
+    private static void reset() {
+        GuiManager.scrollAnimation.reset();
+        GuiManager.scrollAnimation.to(0.00);
+        GuiManager.mouseScrolledOffset = 0;
+        GuiManager.latestModuleComponentPosition = new Pair<>(GuiManager.MAIN_PAGE_X, GuiManager.MAIN_PAGE_Y + 34 * Render2DUtil.getScaleFactor() + (GuiManager.mouseScrolledOffset * 8));
     }
 }

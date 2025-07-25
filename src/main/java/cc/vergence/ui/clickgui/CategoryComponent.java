@@ -1,6 +1,7 @@
 package cc.vergence.ui.clickgui;
 
 import cc.vergence.Vergence;
+import cc.vergence.features.enums.client.Pages;
 import cc.vergence.features.enums.other.Aligns;
 import cc.vergence.features.enums.font.FontSize;
 import cc.vergence.features.managers.ui.GuiManager;
@@ -45,6 +46,7 @@ public class CategoryComponent extends GuiComponent {
             GuiManager.setCurrentComponent(this);
             if (clickLeft) {
                 GuiManager.currentCategory = this.category;
+                GuiManager.PAGE = Pages.Modules;
                 GuiManager.SEARCH.searchText = "";
                 GuiManager.SEARCH.setListening(false);
                 GuiManager.scrollAnimation.reset();
@@ -110,7 +112,7 @@ public class CategoryComponent extends GuiComponent {
                 textColorAnimation.getCurrent(),
                 FontSize.LARGE
         );
-        if (!(GuiManager.currentCategory == null) && GuiManager.currentCategory.equals(this.category)) {
+        if (!(GuiManager.currentCategory == null) && GuiManager.currentCategory.equals(this.category) && GuiManager.PAGE.equals(Pages.Modules)) {
             for (GuiComponent component : this.subComponents) {
                 Render2DUtil.pushDisplayArea(
                         context.getMatrices(),

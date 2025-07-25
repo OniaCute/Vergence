@@ -1,6 +1,7 @@
 package cc.vergence.features.managers.ui;
 
 import cc.vergence.Vergence;
+import cc.vergence.features.enums.client.Pages;
 import cc.vergence.features.enums.other.Aligns;
 import cc.vergence.features.enums.font.FontSize;
 import cc.vergence.features.enums.client.MouseButtons;
@@ -38,6 +39,7 @@ import oshi.util.tuples.Pair;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.EnumSet;
 
 /**
@@ -45,6 +47,7 @@ import java.util.EnumSet;
  * &#064;version: vergence_1_0_ui_gird
  */
 public class GuiManager implements Wrapper {
+    public static Pages PAGE = Pages.Empty;
     private static GuiComponent currentComponent = null;
     public static ArrayList<GuiComponent> topbarComponents = new ArrayList<>();
     public static ArrayList<GuiComponent> categoryComponents = new ArrayList<>();
@@ -115,7 +118,7 @@ public class GuiManager implements Wrapper {
         MOUSE_Y = mouseY;
     }
 
-    public void onTick() {
+    private static void stopAllListening() {
         if (!(mc.currentScreen instanceof ClickGuiScreen) || ClickGUI.INSTANCE == null || !ClickGUI.INSTANCE.getStatus()) {
             isTyping = false;
             for (GuiComponent component : inputComponents) {
@@ -136,6 +139,10 @@ public class GuiManager implements Wrapper {
                 }
             }
         }
+    }
+
+    public void onTick() {
+        stopAllListening();
         boolean temp = false;
         for (GuiComponent component : inputComponents) {
             if (component instanceof BindFrameComponent component1 && component1.isListening()) {
@@ -220,29 +227,12 @@ public class GuiManager implements Wrapper {
         MAIN_PAGE_HEIGHT *= Render2DUtil.getScaleFactor();
         latestCategoryComponentPosition = new Pair<>(MAIN_PAGE_X, MAIN_PAGE_Y + 50);
 
-//        if (SEARCH.isListening() || !SEARCH.searchText.isEmpty()) {
-//            String query = SEARCH.searchText.toLowerCase();
-//            latestModuleComponentPosition = new Pair<>(MAIN_PAGE_X, MAIN_PAGE_Y + 37 + (mouseScrolledOffset * 8));
-//            for (GuiComponent categoryComponent : rootComponents) {
-//                for (GuiComponent moduleComponent : categoryComponent.getSubComponents()) {
-//                    Module module = ((ModuleComponent) moduleComponent).getModule();
-//                    String name = ClickGUI.INSTANCE.searchIgnoreCase.getValue() ? module.getName().toLowerCase() : module.getName();
-//                    String description = (module.getDescription() != null) ? module.getDescription().toLowerCase() : "";
-//                    if (name.contains(query) || (description.contains(query) && ClickGUI.INSTANCE.searchForDescription.getValue())) {
-//                        moduleComponent.setX(MAIN_PAGE_X + 111);
-//                        moduleComponent.setY(latestModuleComponentPosition.getB());
-//                        moduleComponent.setWidth((400 - 114));
-//                        moduleComponent.setHeight(FontUtil.getHeight(FontSize.MEDIUM) + FontUtil.getHeight(FontSize.SMALL) + 2);
-//                        latestModuleComponentPosition = new Pair<>(moduleComponent.getX(), moduleComponent.getY() + moduleComponent.getHeight() + 2);
-//                        if (((ModuleComponent) moduleComponent).isActuallySpread) {
-//                            layoutModuleAreaComponent(((ModuleComponent) moduleComponent));
-//                        }
-//                    }
-//                }
-//            }
-//            latestModuleComponentPosition = new Pair<>(0.00, 0.00);
-//            return;
-//        }
+        if (SEARCH.isListening() || PAGE.equals(Pages.Search) || !SEARCH.searchText.isEmpty()) {
+            searchModuleComponent.clear();
+            layoutSearch();
+        }
+
+        latestCategoryComponentPosition = new Pair<>(MAIN_PAGE_X, MAIN_PAGE_Y + 50);
 
         for (GuiComponent categoryComponent : categoryComponents) {
             latestModuleComponentPosition = new Pair<>(MAIN_PAGE_X, MAIN_PAGE_Y + 37 + (mouseScrolledOffset * 8));
@@ -544,9 +534,7 @@ public class GuiManager implements Wrapper {
             }
         }
 
-        for (GuiComponent component : categoryComponents) {
-            component.onDraw(context, MOUSE_X, MOUSE_Y, CLICKED_LEFT && !hoverComponentDrawing && !isDragging && notInTopBarChecking(), CLICKED_RIGHT && !hoverComponentDrawing && !isDragging && notInTopBarChecking());
-        }
+        handlePages(context); // pages
 
         for (GuiComponent component : topbarComponents) {
             component.onDraw(context, MOUSE_X, MOUSE_Y, CLICKED_LEFT && !hoverComponentDrawing && !isDragging && !notInTopBarChecking(), CLICKED_RIGHT && !hoverComponentDrawing && !isDragging && !notInTopBarChecking());
@@ -585,6 +573,7 @@ public class GuiManager implements Wrapper {
             if (MOUSE_X > MAIN_PAGE_X && MOUSE_X < MAIN_PAGE_X + MAIN_PAGE_WIDTH && MOUSE_Y > MAIN_PAGE_Y && MOUSE_Y < MAIN_PAGE_Y + MAIN_PAGE_HEIGHT) {
                 if (!isDragging) {
                     isDragging = true;
+                    stopAllListening();
                 } else {
                     MAIN_PAGE_X_OFFSET += MOUSE_X - lastMouseX;
                     MAIN_PAGE_Y_OFFSET += MOUSE_Y - lastMouseY;
@@ -601,9 +590,79 @@ public class GuiManager implements Wrapper {
         return !((MOUSE_X >= MAIN_PAGE_X + 106) && (MOUSE_X <= MAIN_PAGE_X + MAIN_PAGE_WIDTH) && (MOUSE_Y >= MAIN_PAGE_Y) && (MOUSE_Y <= MAIN_PAGE_Y + 37));
     }
 
+    private static void handlePages(DrawContext context) {
+        for (GuiComponent component : categoryComponents) {
+            component.onDraw(context, MOUSE_X, MOUSE_Y, CLICKED_LEFT && !hoverComponentDrawing && !isDragging && notInTopBarChecking(), CLICKED_RIGHT && !hoverComponentDrawing && !isDragging && notInTopBarChecking());
+        }
+        switch (PAGE) {
+            case Search  -> {
+                for (GuiComponent component : searchModuleComponent) {
+                    Render2DUtil.pushDisplayArea( // topbar cover
+                            context.getMatrices(),
+                            (float) component.getX(),
+                            (float) (GuiManager.MAIN_PAGE_Y + 33),
+                            (float) (component.getX() + component.getWidth()),
+                            (float) (GuiManager.MAIN_PAGE_Y + GuiManager.MAIN_PAGE_HEIGHT),
+                            1d
+
+                    );
+
+                    component.onDraw(context, MOUSE_X, MOUSE_Y, CLICKED_LEFT && !hoverComponentDrawing && !isDragging && notInTopBarChecking(), CLICKED_RIGHT && !hoverComponentDrawing && !isDragging && notInTopBarChecking());
+
+                    Render2DUtil.popDisplayArea();
+                }
+            }
+        }
+    }
+
     private static void layoutTopBar() {
         for (GuiComponent component : topbarComponents) {
+            if (component instanceof SearchFrameComponent) { // search
+                double[] pos = Render2DUtil.getAlignPosition(
+                        MAIN_PAGE_X + 106 + 6,
+                        MAIN_PAGE_Y,
+                        MAIN_PAGE_X + 106 + 6 + 120,
+                        MAIN_PAGE_Y + 30,
+                        200,
+                        16,
+                        Aligns.LEFT
+                );
+                SEARCH.setX(pos[0]);
+                SEARCH.setY(pos[1]);
+                SEARCH.setWidth(200);
+                SEARCH.setHeight(16);
+            }
         }
+    }
+
+    private static void layoutSearch() {
+        latestModuleComponentPosition = new Pair<>(MAIN_PAGE_X, MAIN_PAGE_Y + 37 + (mouseScrolledOffset * 8));
+        for (GuiComponent moduleComponent : allModuleComponent) {
+            String displayName = ((ModuleComponent) moduleComponent).getModule().getDisplayName();
+            String realName = ((ModuleComponent) moduleComponent).getModule().getName();
+            String description = ((ModuleComponent) moduleComponent).getModule().getDescription();
+            if (
+                    displayName.contains(SEARCH.searchText) ||
+                    realName.contains(SEARCH.searchText) ||
+                    ClickGUI.INSTANCE.searchForDescription.getValue() && description.toLowerCase().contains(SEARCH.searchText.toLowerCase()) ||
+                    (displayName.toLowerCase().contains(SEARCH.searchText.toLowerCase()) && ClickGUI.INSTANCE.searchIgnoreCase.getValue()) ||
+                    (realName.toLowerCase().contains(SEARCH.searchText.toLowerCase()) && ClickGUI.INSTANCE.searchIgnoreCase.getValue()) ||
+                    (ClickGUI.INSTANCE.searchForDescription.getValue() && (description.toLowerCase().contains(SEARCH.searchText.toLowerCase()) && ClickGUI.INSTANCE.searchIgnoreCase.getValue()))
+            ) {
+                moduleComponent.setX(MAIN_PAGE_X + 111);
+                moduleComponent.setY(latestModuleComponentPosition.getB());
+                moduleComponent.setWidth((400 - 114));
+                moduleComponent.setHeight(FontUtil.getHeight(FontSize.MEDIUM) + FontUtil.getHeight(FontSize.SMALL) + 2);
+                latestModuleComponentPosition = new Pair<>(moduleComponent.getX(), moduleComponent.getY() + moduleComponent.getHeight() + 2);
+
+                if (((ModuleComponent) moduleComponent).isActuallySpread) {
+                    layoutModuleAreaComponent(((ModuleComponent) moduleComponent));
+                }
+                searchModuleComponent.add(moduleComponent);
+            }
+        }
+        searchModuleComponent.sort(Comparator.comparing((GuiComponent c) -> ((ModuleComponent) c).getModule().isAlwaysEnable() ? 0 : 1)
+                        .thenComparing(c -> ((ModuleComponent) c).getModule().getDisplayName(), String.CASE_INSENSITIVE_ORDER));
     }
 
     private static void layoutModuleAreaComponent(ModuleComponent moduleComponent) {

@@ -18,7 +18,8 @@ public class CommandManager {
                 new ToggleCommand(),
                 new PrefixCommand(),
                 new FriendCommand(),
-                new EnemyCommand()
+                new EnemyCommand(),
+                new ConfigCommand()
         );
     }
 

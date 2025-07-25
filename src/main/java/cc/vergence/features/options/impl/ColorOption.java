@@ -49,7 +49,6 @@ public class ColorOption extends Option<Color> {
         return this.value;
     }
 
-
     @Override
     public void setValue(Color value) {
         this.value = value;

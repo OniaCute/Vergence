@@ -485,10 +485,6 @@ public class Theme {
         return inputFrameHoveredBackgroundColor;
     }
 
-    public Color getInputFramehoveredTextColor() {
-        return inputFrameHoveredTextColor;
-    }
-
     public Color getInputFrameTextColor() {
         return inputFrameTextColor;
     }

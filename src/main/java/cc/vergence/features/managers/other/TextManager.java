@@ -28,6 +28,7 @@ public class TextManager {
         englishLanguageBase.put("COMMANDS.Bind.desc", "Bind key");
         englishLanguageBase.put("COMMANDS.Prefix.desc", "Set command prefix");
         englishLanguageBase.put("COMMANDS.Toggle.desc", "Toggle module status");
+        englishLanguageBase.put("COMMANDS.Config.desc", "Manage configuration files");
         englishLanguageBase.put("COMMANDS.MESSAGE.COMMAND_NOT_FOUND", "No commands found about:");
         englishLanguageBase.put("COMMANDS.MESSAGE.INVALID_COMMAND", "§cInvalid Command! §fType§b help§f for a list of commands");
         englishLanguageBase.put("COMMANDS.MESSAGE.FRIEND.LIST_TITLE", "§bFriends:");
@@ -49,6 +50,12 @@ public class TextManager {
         englishLanguageBase.put("COMMANDS.MESSAGE.PREFIX.NO_PREFIX", "Please specify a prefix. (one char)");
         englishLanguageBase.put("COMMANDS.MESSAGE.PREFIX.OK", "Now prefix is");
         englishLanguageBase.put("COMMANDS.MESSAGE.TOGGLE.UNKNOWN_MODULE", "Target is a unknown module");
+        englishLanguageBase.put("COMMANDS.Config.MESSAGE.SAVED", "Saved config: {config}");
+        englishLanguageBase.put("COMMANDS.Config.MESSAGE.LOADED", "Loaded config: {config}");
+        englishLanguageBase.put("COMMANDS.Config.MESSAGE.LIST_TITLE", "Configs: {config}");
+        englishLanguageBase.put("COMMANDS.Config.MESSAGE.NO_CONFIGS", "§cNo configs found.");
+        englishLanguageBase.put("COMMANDS.Config.MESSAGE.NOT_FOUND", "Config §b{config} §rnot found.");
+        englishLanguageBase.put("COMMANDS.Config.MESSAGE.MISSING_NAME", "§cPlease specify a config name.");
 
         englishLanguageBase.put("SCREEN.MainMenu.Buttons.SinglePlayer", "Single Player");
         englishLanguageBase.put("SCREEN.MainMenu.Buttons.MultiPlayer", "Multiplayer");

@@ -5,10 +5,12 @@ import cc.vergence.features.enums.client.Pages;
 import cc.vergence.features.enums.other.Aligns;
 import cc.vergence.features.enums.font.FontSize;
 import cc.vergence.features.enums.client.MouseButtons;
+import cc.vergence.features.managers.client.ConfigManager;
 import cc.vergence.features.managers.feature.ModuleManager;
 import cc.vergence.features.options.Option;
 import cc.vergence.features.options.impl.*;
 import cc.vergence.features.screens.ClickGuiScreen;
+import cc.vergence.features.themes.Theme;
 import cc.vergence.modules.Module;
 import cc.vergence.modules.client.ClickGUI;
 import cc.vergence.ui.GuiComponent;
@@ -27,21 +29,26 @@ import cc.vergence.ui.clickgui.subcomponent.color.ColorPalette;
 import cc.vergence.ui.clickgui.subcomponent.color.ColorPreviewer;
 import cc.vergence.ui.clickgui.subcomponent.slider.DoubleSlider;
 import cc.vergence.ui.clickgui.topbar.TopbarButton;
+import cc.vergence.ui.themes.ThemeComponent;
 import cc.vergence.util.animations.ScrollAnimation;
 import cc.vergence.util.font.FontUtil;
 import cc.vergence.util.interfaces.Wrapper;
 import cc.vergence.util.animations.GuiAnimation;
 import cc.vergence.util.other.EnumUtil;
 import cc.vergence.util.render.utils.Render2DUtil;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.math.MatrixStack;
+import org.lwjgl.glfw.GLFW;
 import oshi.util.tuples.Pair;
 
 import java.awt.*;
+import java.io.File;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.EnumSet;
 
 /**
  * &#064;author: Voury_, OniaCute
@@ -55,11 +62,13 @@ public class GuiManager implements Wrapper {
     public static ArrayList<GuiComponent> hoveredComponents = new ArrayList<>();
     public static ArrayList<GuiComponent> inputComponents = new ArrayList<>();
     public static ArrayList<GuiComponent> positionComponents = new ArrayList<>();
-    public static ArrayList<GuiComponent> allModuleComponent = new ArrayList<>();
+    public static ArrayList<GuiComponent> allModuleComponents = new ArrayList<>();
     public static ArrayList<GuiComponent> searchModuleComponent = new ArrayList<>();
+    public static ArrayList<GuiComponent> themeComponents = new ArrayList<>();
     public static Pair<Double, Double> latestCategoryComponentPosition = new Pair<>(0.00, 0.00);
     public static Pair<Double, Double> latestModuleComponentPosition = new Pair<>(0.00, 0.00);
     public static Pair<Double, Double> latestOptionComponentPosition = new Pair<>(0.00, 0.00);
+    public static Pair<Double, Double> latestThemeComponentPosition = new Pair<>(0.00, 0.00);
     public static double latestTopbarIncrease = 0;
     public static double mouseScrolledOffset = 0;
     public static ScrollAnimation scrollAnimation = new ScrollAnimation(0, 0);
@@ -101,6 +110,12 @@ public class GuiManager implements Wrapper {
 
     public static void setCurrentComponent(GuiComponent currentComponent) {
         GuiManager.currentComponent = currentComponent;
+    }
+
+    public void onKeyboardActive(int key, int action) {
+        if (key == GLFW.GLFW_KEY_TAB && action == 1) {
+            resetScroll();
+        }
     }
 
     public void onRenderClickGui(DrawContext context, int mouseX, int mouseY, float partialTicks) {
@@ -262,6 +277,26 @@ public class GuiManager implements Wrapper {
                 }
             }
             latestModuleComponentPosition = new Pair<>(0.00, 0.00);
+        }
+
+        if (PAGE.equals(Pages.Themes)) {
+            themeComponents.clear();
+            File[] themeFiles = ConfigManager.THEMES_FOLDER.listFiles((d, n) -> n.endsWith(".json"));
+            if (themeFiles != null) {
+                for (File themeFile : themeFiles) {
+                    try {
+                        JsonObject json = JsonParser.parseReader(new FileReader(themeFile)).getAsJsonObject();
+                        Theme theme = Vergence.THEME.loadFromJson(json);
+                        if (theme != null) {
+                            ThemeComponent themeComponent = new ThemeComponent(theme);
+                            themeComponents.add(themeComponent);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            layoutThemes();
         }
 
         layoutTopBar();
@@ -437,7 +472,7 @@ public class GuiManager implements Wrapper {
                 moduleComponent.addSub(moduleAreaComponent);
                 moduleComponent.setParentComponent(categoryComponent);
                 categoryComponent.addSub(moduleComponent);
-                allModuleComponent.add(moduleComponent);
+                allModuleComponents.add(moduleComponent);
             }
             categoryComponents.add(categoryComponent);
         }
@@ -628,6 +663,27 @@ public class GuiManager implements Wrapper {
             case Information -> {
                 drawInformationPage(context);
             }
+            case Themes -> {
+                drawThemesPage(context);
+            }
+        }
+    }
+
+    private static void drawThemesPage(DrawContext context) {
+        for (GuiComponent themeComponent : themeComponents) {
+            Render2DUtil.pushDisplayArea( // topbar cover
+                    context.getMatrices(),
+                    (float) themeComponent.getX(),
+                    (float) (GuiManager.MAIN_PAGE_Y + 33),
+                    (float) (themeComponent.getX() + themeComponent.getWidth()),
+                    (float) (GuiManager.MAIN_PAGE_Y + GuiManager.MAIN_PAGE_HEIGHT),
+                    1d
+
+            );
+
+            themeComponent.onDraw(context, MOUSE_X, MOUSE_Y, CLICKED_LEFT && !hoverComponentDrawing && !isDragging && notInTopBarChecking(), CLICKED_RIGHT && !hoverComponentDrawing && !isDragging && notInTopBarChecking());
+
+            Render2DUtil.popDisplayArea();
         }
     }
 
@@ -699,9 +755,21 @@ public class GuiManager implements Wrapper {
         SEARCH.setWidth(MAIN_PAGE_WIDTH - 106 - 6 - latestTopbarIncrease);
     }
 
+    private static void layoutThemes() {
+        latestModuleComponentPosition = new Pair<>(MAIN_PAGE_X, MAIN_PAGE_Y + 37 + (mouseScrolledOffset * 8));
+        for (GuiComponent moduleComponent : themeComponents) {
+            moduleComponent.setX(MAIN_PAGE_X + 111);
+            moduleComponent.setY(latestModuleComponentPosition.getB());
+            moduleComponent.setWidth((400 - 114));
+            moduleComponent.setHeight(FontUtil.getHeight(FontSize.MEDIUM) + FontUtil.getHeight(FontSize.SMALL) + 2);
+            latestModuleComponentPosition = new Pair<>(moduleComponent.getX(), moduleComponent.getY() + moduleComponent.getHeight() + 2);
+            searchModuleComponent.add(moduleComponent);
+        }
+    }
+
     private static void layoutSearch() {
         latestModuleComponentPosition = new Pair<>(MAIN_PAGE_X, MAIN_PAGE_Y + 37 + (mouseScrolledOffset * 8));
-        for (GuiComponent moduleComponent : allModuleComponent) {
+        for (GuiComponent moduleComponent : allModuleComponents) {
             String displayName = ((ModuleComponent) moduleComponent).getModule().getDisplayName();
             String realName = ((ModuleComponent) moduleComponent).getModule().getName();
             String description = ((ModuleComponent) moduleComponent).getModule().getDescription();
@@ -1002,5 +1070,6 @@ public class GuiManager implements Wrapper {
         GuiManager.scrollAnimation.to(0.00);
         GuiManager.mouseScrolledOffset = 0;
         GuiManager.latestModuleComponentPosition = new Pair<>(GuiManager.MAIN_PAGE_X, GuiManager.MAIN_PAGE_Y + 34 * Render2DUtil.getScaleFactor() + (GuiManager.mouseScrolledOffset * 8));
+        GuiManager.latestThemeComponentPosition = new Pair<>(GuiManager.MAIN_PAGE_X, GuiManager.MAIN_PAGE_Y + 34 * Render2DUtil.getScaleFactor() + (GuiManager.mouseScrolledOffset * 8));
     }
 }

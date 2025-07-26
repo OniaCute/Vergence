@@ -277,7 +277,7 @@ public class ConfigManager implements Wrapper {
                 .filter(m -> object.getAsJsonObject(m.getName()) != null)
                 .findFirst()
                 .orElse(null);
-        if (module == null) {
+        if (module == null || module.getName().equals("ThemeEditor")) {
             return ;
         }
 

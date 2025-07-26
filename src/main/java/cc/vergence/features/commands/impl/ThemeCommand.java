@@ -33,16 +33,14 @@ public class ThemeCommand extends Command {
         switch (cmd) {
             case "save":
                 if (parameters.length < 2) {
-                    NotifyManager.newNotification(
-                            Vergence.TEXT.get("COMMANDS.THEME.MESSAGE.MISSING_NAME"));
+                    NotifyManager.newNotification(Vergence.TEXT.get("COMMANDS.THEME.MESSAGE.MISSING_NAME"));
                     return;
                 }
                 String saveName = parameters[1];
+                Vergence.THEME.getTheme().setName(saveName);
                 JsonObject json = Vergence.THEME.dumpToJson();
                 Vergence.THEME.saveTheme(saveName, json);
-                NotifyManager.newNotification(
-                        Vergence.TEXT.get("COMMANDS.THEME.MESSAGE.SAVED")
-                                .replace("{theme}", saveName));
+                NotifyManager.newNotification(Vergence.TEXT.get("COMMANDS.THEME.MESSAGE.SAVED").replace("{theme}", saveName));
                 break;
 
             case "load":

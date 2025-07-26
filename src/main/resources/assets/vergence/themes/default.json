@@ -81,6 +81,15 @@
     "topbarButtonBackgroundColor": "#FFECECEC",
     "topbarButtonIconColor": "#FF1F1F1F",
     "topbarHoveredButtonBackgroundColor": "#FFFFC8F6",
-    "topbarHoveredButtonIconColor": "#FFFF77FD"
+    "topbarHoveredButtonIconColor": "#FFFF77FD",
+    "themePageComponentBackgroundColor": "#ECECECEC",
+    "themePageComponentTextColor": "#FF151515",
+    "themePageComponentAuthorsColor": "#FF2D2D2D",
+    "themePageComponentHoveredBackgroundColor": "#FFFFFFFF",
+    "themePageComponentHoveredTextColor": "#FF000000",
+    "themePageComponentHoveredAuthorsColor": "#FF101010",
+    "themePageComponentChosenBackgroundColor": "#FFF88DFF",
+    "themePageComponentChosenTextColor": "#FFF5F5F5",
+    "themePageComponentChosenAuthorsColor": "#FFFFD7F2"
   }
 }

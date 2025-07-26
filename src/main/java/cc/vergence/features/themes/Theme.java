@@ -1,5 +1,8 @@
 package cc.vergence.features.themes;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -81,6 +84,15 @@ public class Theme {
     private Color topbarButtonIconColor;
     private Color topbarHoveredButtonBackgroundColor;
     private Color topbarHoveredButtonIconColor;
+    private Color themePageComponentBackgroundColor;
+    private Color themePageComponentTextColor;
+    private Color themePageComponentAuthorsColor;
+    private Color themePageComponentHoveredBackgroundColor;
+    private Color themePageComponentHoveredTextColor;
+    private Color themePageComponentHoveredAuthorsColor;
+    private Color themePageComponentChosenBackgroundColor;
+    private Color themePageComponentChosenTextColor;
+    private Color themePageComponentChosenAuthorsColor;
 
     public Theme(String name, String displayName, String description, ArrayList<String> authors) {
         this.name = name;
@@ -704,5 +716,80 @@ public class Theme {
     public Color getTopbarHoveredButtonIconColor() {
         return topbarHoveredButtonIconColor;
     }
-}
 
+    public void setThemePageComponentBackgroundColor(Color themePageComponentBackgroundColor) {
+        this.themePageComponentBackgroundColor = themePageComponentBackgroundColor;
+    }
+
+    public void setThemePageComponentChosenBackgroundColor(Color themePageComponentChosenBackgroundColor) {
+        this.themePageComponentChosenBackgroundColor = themePageComponentChosenBackgroundColor;
+    }
+
+    public void setThemePageComponentChosenTextColor(Color themePageComponentChosenTextColor) {
+        this.themePageComponentChosenTextColor = themePageComponentChosenTextColor;
+    }
+
+    public void setThemePageComponentHoveredBackgroundColor(Color themePageComponentHoveredBackgroundColor) {
+        this.themePageComponentHoveredBackgroundColor = themePageComponentHoveredBackgroundColor;
+    }
+
+    public void setThemePageComponentHoveredTextColor(Color themePageComponentHoveredTextColor) {
+        this.themePageComponentHoveredTextColor = themePageComponentHoveredTextColor;
+    }
+
+    public void setThemePageComponentTextColor(Color themePageComponentTextColor) {
+        this.themePageComponentTextColor = themePageComponentTextColor;
+    }
+
+    public Color getThemePageComponentBackgroundColor() {
+        return themePageComponentBackgroundColor;
+    }
+
+    public Color getThemePageComponentChosenBackgroundColor() {
+        return themePageComponentChosenBackgroundColor;
+    }
+
+    public Color getThemePageComponentChosenTextColor() {
+        return themePageComponentChosenTextColor;
+    }
+
+    public Color getThemePageComponentHoveredBackgroundColor() {
+        return themePageComponentHoveredBackgroundColor;
+    }
+
+    public Color getThemePageComponentHoveredTextColor() {
+        return themePageComponentHoveredTextColor;
+    }
+
+    public Color getThemePageComponentTextColor() {
+        return themePageComponentTextColor;
+    }
+
+    public void setThemePageComponentChosenAuthorsColor(Color themePageComponentChosenAuthorsColor) {
+        this.themePageComponentChosenAuthorsColor = themePageComponentChosenAuthorsColor;
+    }
+
+    public Color getThemePageComponentChosenAuthorsColor() {
+        return themePageComponentChosenAuthorsColor;
+    }
+
+    public void setThemePageComponentHoveredAuthorsColor(Color themePageComponentHoveredAuthorsColor) {
+        this.themePageComponentHoveredAuthorsColor = themePageComponentHoveredAuthorsColor;
+    }
+
+    public Color getThemePageComponentHoveredAuthorsColor() {
+        return themePageComponentHoveredAuthorsColor;
+    }
+
+    public void setThemePageComponentAuthorsColor(Color themePageComponentAuthorsColor) {
+        this.themePageComponentAuthorsColor = themePageComponentAuthorsColor;
+    }
+
+    public Color getThemePageComponentAuthorsColor() {
+        return themePageComponentAuthorsColor;
+    }
+
+    public void setAuthors(ArrayList<String> authors) {
+        this.authors = authors;
+    }
+}

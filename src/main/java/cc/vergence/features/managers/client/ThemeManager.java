@@ -57,15 +57,17 @@ public class ThemeManager {
         info.add("authors", authors);
         root.add("info", info);
         JsonObject colors = new JsonObject();
-        try {
-            for (Method m : Theme.class.getDeclaredMethods()) {
-                if (m.getName().startsWith("get") && m.getReturnType() == Color.class) {
-                    Color c = (Color) m.invoke(currentTheme);
-                    String key = decapitalize(m.getName().substring(3));
-                    colors.addProperty(key, new HexColor(c).getValue());
+        for (Method method : Theme.class.getDeclaredMethods()) {
+            if (method.getName().startsWith("get") && method.getReturnType() == Color.class) {
+                try {
+                    String fieldName = decapitalize(method.getName().substring(3));
+                    Color color = (Color) method.invoke(currentTheme);
+                    colors.addProperty(fieldName, new HexColor(color).getValue());
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
-        } catch (Exception ignored) {}
+        }
         root.add("colors", colors);
         return root;
     }
@@ -81,17 +83,22 @@ public class ThemeManager {
             authorsArr.forEach(e -> authors.add(e.getAsString()));
             Theme theme = new Theme(id, name, desc, authors);
             JsonObject colors = root.getAsJsonObject("colors");
-            for (Map.Entry<String, JsonElement> e : colors.entrySet()) {
-                String key = e.getKey();
-                String hex = e.getValue().getAsString();
+            for (Map.Entry<String, JsonElement> entry : colors.entrySet()) {
+                String fieldName = entry.getKey();
+                String hex = entry.getValue().getAsString();
                 Color color = new HexColor(hex).getValueAsColor();
-                String setter = "set" + capitalize(key);
-                Method m = Theme.class.getDeclaredMethod(setter, Color.class);
-                m.invoke(theme, color);
+                try {
+                    String setterName = "set" + capitalize(fieldName);
+                    Method setter = Theme.class.getDeclaredMethod(setterName, Color.class);
+                    setter.invoke(theme, color);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
             return theme;
         } catch (Exception ex) {
-            Vergence.CONSOLE.logError("Failed to load theme from JSON");
+            Vergence.CONSOLE.logError("Failed to load theme from JSON: " + ex.getMessage());
+            ex.printStackTrace();
             return null;
         }
     }

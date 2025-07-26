@@ -116,6 +116,17 @@ public class DefaultTheme extends Theme {
         setColorPaletteBackgroundColor(new Color(243, 243, 243));
         setColorPaletteOutlineColor(new Color(201, 201, 201));
 
+        // ===== Theme Page Color =====
+        setThemePageComponentChosenBackgroundColor(new Color(248, 141, 255));
+        setThemePageComponentTextColor(new Color(21, 21, 21));
+        setThemePageComponentAuthorsColor(new Color(45, 45, 45));
+        setThemePageComponentHoveredAuthorsColor(new Color(16, 16, 16));
+        setThemePageComponentChosenAuthorsColor(new Color(255, 215, 242));
+        setThemePageComponentHoveredBackgroundColor(new Color(255, 255, 255));
+        setThemePageComponentBackgroundColor(new Color(236, 236, 236));
+        setThemePageComponentHoveredTextColor(new Color(0, 0, 0));
+        setThemePageComponentChosenTextColor(new Color(245, 245, 245));
+
         INSTANCE = this;
     }
 }

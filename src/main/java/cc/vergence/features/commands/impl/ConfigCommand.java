@@ -31,9 +31,7 @@ public class ConfigCommand extends Command {
 			case "save":
 				String saveName = parameters.length < 2 ? cm.currentConfigName : parameters[1];
 				cm.save(new File(ConfigManager.CONFIG_FOLDER, saveName + ".vgc"));
-				NotifyManager.newNotification(
-						"§a" + Vergence.TEXT.get("COMMANDS.CONFIG.MESSAGE.SAVED").replace("{config}", saveName)
-				);
+				NotifyManager.newNotification(Vergence.TEXT.get("COMMANDS.CONFIG.MESSAGE.SAVED").replace("{config}", saveName));
 				break;
 
 			case "load":
@@ -47,8 +45,7 @@ public class ConfigCommand extends Command {
 					return;
 				}
 				cm.load(parameters[1]);
-				NotifyManager.newNotification(Vergence.TEXT.get("COMMANDS.CONFIG.MESSAGE.LOADED").replace("{config}", parameters[1])
-				);
+				NotifyManager.newNotification(Vergence.TEXT.get("COMMANDS.CONFIG.MESSAGE.LOADED").replace("{config}", parameters[1]));
 				break;
 
 			case "list":

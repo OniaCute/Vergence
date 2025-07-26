@@ -37,10 +37,13 @@ public class ColorOption extends Option<Color> {
     public Color getValue() {
         if (isRainbow()) {
             float[] hsb = Color.RGBtoHSB(value.getRed(), value.getGreen(), value.getBlue(), null);
-
-            double rainbowState = ((ClickGUI.INSTANCE != null && ClickGUI.INSTANCE.rainbowSync.getValue() ? System.currentTimeMillis() : System.currentTimeMillis() - time) / (ClickGUI.INSTANCE != null ? ClickGUI.INSTANCE.rainbowSpeed.getValue() : 5)) % 360;
-
-            int rgb = Color.getHSBColor((float) (rainbowState * 360.0f), hsb[1], hsb[2]).getRGB();
+            final int minSpeed = 1;
+            final int maxSpeed = 100;
+            double rainbowSpeed = ClickGUI.INSTANCE != null ? ClickGUI.INSTANCE.rainbowSpeed.getValue() : 1;
+            rainbowSpeed = 101 - rainbowSpeed;
+            double mappedSpeed = minSpeed + (maxSpeed - minSpeed) * ((double) (rainbowSpeed - 1) / (maxSpeed - 1));
+            double rainbowState = ((ClickGUI.INSTANCE != null && ClickGUI.INSTANCE.rainbowSync.getValue() ? System.currentTimeMillis() : System.currentTimeMillis() - time) / mappedSpeed) % 360;
+            int rgb = Color.getHSBColor((float) (rainbowState / 360.0f), hsb[1], hsb[2]).getRGB();
             int red = (rgb >> 16) & 0xFF;
             int green = (rgb >> 8) & 0xFF;
             int blue = (rgb) & 0xFF;

@@ -99,6 +99,7 @@ public class ModuleManager {
         registerModule(new AutoLogout());
         registerModule(new AutoRepairArmor());
         registerModule(new Scoreboard());
+        registerModule(new ThemeEditor());
 
         // special module
         registerModule(new SafeMode());

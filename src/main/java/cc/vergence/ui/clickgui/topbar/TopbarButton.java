@@ -27,6 +27,7 @@ public class TopbarButton extends GuiComponent {
             GuiManager.currentCategory = null;
             GuiManager.PAGE = targetPage;
             GuiManager.CLICKED_LEFT = false;
+            GuiManager.resetScroll();
         }
 
         Render2DUtil.drawRoundedRect(

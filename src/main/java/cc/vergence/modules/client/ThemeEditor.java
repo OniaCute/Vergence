@@ -66,12 +66,6 @@ public class ThemeEditor extends Module {
     public Option<Color> descriptionBackgroundColorOption = addOption(new ColorOption("DescriptionBackgroundColor", new Color(255, 255, 255, 242)));
     public Option<Color> descriptionTextColorOption = addOption(new ColorOption("DescriptionTextColor", new Color(16, 16, 16)));
     public Option<Color> topBarBackgroundColorOption = addOption(new ColorOption("TopBarBackgroundColor", new Color(239, 239, 239, 239)));
-    public Option<Color> topBarResearchFrameBackgroundColorOption = addOption(new ColorOption("TopBarResearchFrameBackgroundColor", new Color(229, 229, 229, 255)));
-    public Option<Color> topBarResearchFrameTextColorOption = addOption(new ColorOption("TopBarResearchFrameTextColor", new Color(49, 49, 49)));
-    public Option<Color> topBarHoveredResearchFrameBackgroundColorOption = addOption(new ColorOption("TopBarHoveredResearchFrameBackgroundColor", new Color(231, 231, 231)));
-    public Option<Color> topBarHoveredResearchFrameTextColorOption = addOption(new ColorOption("TopBarHoveredResearchFrameTextColor", new Color(21, 21, 21)));
-    public Option<Color> topBarFocusedResearchFrameBackgroundColorOption = addOption(new ColorOption("TopBarFocusedResearchFrameBackgroundColor", new Color(241, 241, 241)));
-    public Option<Color> topBarFocusedResearchFrameTextColorOption = addOption(new ColorOption("TopBarFocusedResearchFrameTextColor", new Color(9, 9, 9)));
     public Option<Color> topbarButtonBackgroundColorOption = addOption(new ColorOption("TopbarButtonBackgroundColor", new Color(236, 236, 236)));
     public Option<Color> topbarHoveredButtonBackgroundColorOption = addOption(new ColorOption("TopbarHoveredButtonBackgroundColor", new Color(255, 200, 246)));
     public Option<Color> topbarButtonIconColorOption = addOption(new ColorOption("TopbarButtonIconColor", new Color(31, 31, 31, 221)));
@@ -100,6 +94,15 @@ public class ThemeEditor extends Module {
     public Option<Color> themePageComponentBackgroundColorOption = addOption(new ColorOption("ThemePageComponentBackgroundColor", new Color(236, 236, 236)));
     public Option<Color> themePageComponentHoveredTextColorOption = addOption(new ColorOption("ThemePageComponentHoveredTextColor", new Color(0, 0, 0)));
     public Option<Color> themePageComponentChosenTextColorOption = addOption(new ColorOption("ThemePageComponentChosenTextColor", new Color(245, 245, 245)));
+    public Option<Color> configPageComponentChosenBackgroundColorOption = addOption(new ColorOption("ConfigPageComponentChosenBackgroundColor", new Color(248, 141, 255)));
+    public Option<Color> configPageComponentTextColorOption = addOption(new ColorOption("ConfigPageComponentTextColor", new Color(21, 21, 21)));
+    public Option<Color> configPageComponentDateColorOption = addOption(new ColorOption("ConfigPageComponentDateColor", new Color(45, 45, 45)));
+    public Option<Color> configPageComponentHoveredDateColorOption = addOption(new ColorOption("ConfigPageComponentHoveredDateColor", new Color(16, 16, 16)));
+    public Option<Color> configPageComponentChosenDateColorOption = addOption(new ColorOption("ConfigPageComponentChosenDateColor", new Color(255, 215, 242)));
+    public Option<Color> configPageComponentHoveredBackgroundColorOption = addOption(new ColorOption("ConfigPageComponentHoveredBackgroundColor", new Color(255, 255, 255)));
+    public Option<Color> configPageComponentBackgroundColorOption = addOption(new ColorOption("ConfigPageComponentBackgroundColor", new Color(236, 236, 236)));
+    public Option<Color> configPageComponentHoveredTextColorOption = addOption(new ColorOption("ConfigPageComponentHoveredTextColor", new Color(0, 0, 0)));
+    public Option<Color> configPageComponentChosenTextColorOption = addOption(new ColorOption("ConfigPageComponentChosenTextColor", new Color(245, 245, 245)));
 
     @Override
     public String getDetails() {
@@ -185,6 +188,15 @@ public class ThemeEditor extends Module {
             themePageComponentBackgroundColorOption.setValue(currentTheme.getThemePageComponentBackgroundColor());
             themePageComponentHoveredTextColorOption.setValue(currentTheme.getThemePageComponentHoveredTextColor());
             themePageComponentChosenTextColorOption.setValue(currentTheme.getThemePageComponentChosenTextColor());
+            configPageComponentChosenBackgroundColorOption.setValue(currentTheme.getConfigPageComponentChosenBackgroundColor());
+            configPageComponentTextColorOption.setValue(currentTheme.getConfigPageComponentTextColor());
+            configPageComponentDateColorOption.setValue(currentTheme.getConfigPageComponentDateColor());
+            configPageComponentHoveredDateColorOption.setValue(currentTheme.getConfigPageComponentHoveredDateColor());
+            configPageComponentChosenDateColorOption.setValue(currentTheme.getConfigPageComponentChosenDateColor());
+            configPageComponentHoveredBackgroundColorOption.setValue(currentTheme.getConfigPageComponentHoveredBackgroundColor());
+            configPageComponentBackgroundColorOption.setValue(currentTheme.getConfigPageComponentBackgroundColor());
+            configPageComponentHoveredTextColorOption.setValue(currentTheme.getConfigPageComponentHoveredTextColor());
+            configPageComponentChosenTextColorOption.setValue(currentTheme.getConfigPageComponentChosenTextColor());
         }
     }
 
@@ -270,6 +282,15 @@ public class ThemeEditor extends Module {
             currentTheme.setThemePageComponentBackgroundColor(themePageComponentBackgroundColorOption.getValue());
             currentTheme.setThemePageComponentHoveredTextColor(themePageComponentHoveredTextColorOption.getValue());
             currentTheme.setThemePageComponentChosenTextColor(themePageComponentChosenTextColorOption.getValue());
+            currentTheme.setConfigPageComponentChosenBackgroundColor(configPageComponentChosenBackgroundColorOption.getValue());
+            currentTheme.setConfigPageComponentTextColor(configPageComponentTextColorOption.getValue());
+            currentTheme.setConfigPageComponentDateColor(configPageComponentDateColorOption.getValue());
+            currentTheme.setConfigPageComponentHoveredDateColor(configPageComponentHoveredDateColorOption.getValue());
+            currentTheme.setConfigPageComponentChosenDateColor(configPageComponentChosenDateColorOption.getValue());
+            currentTheme.setConfigPageComponentHoveredBackgroundColor(configPageComponentHoveredBackgroundColorOption.getValue());
+            currentTheme.setConfigPageComponentBackgroundColor(configPageComponentBackgroundColorOption.getValue());
+            currentTheme.setConfigPageComponentHoveredTextColor(configPageComponentHoveredTextColorOption.getValue());
+            currentTheme.setConfigPageComponentChosenTextColor(configPageComponentChosenTextColorOption.getValue());
         }
     }
 }

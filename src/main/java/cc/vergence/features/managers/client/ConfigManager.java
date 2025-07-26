@@ -17,6 +17,8 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.Scanner;
@@ -131,17 +133,18 @@ public class ConfigManager implements Wrapper {
         }
     }
 
-    public void load(String name) {
+    public boolean load(String name) {
         File file = new File(CONFIG_FOLDER, name + ".vgc");
         if (!file.exists()) {
             Vergence.CONSOLE.logError("File \"" + file.getName() + "\" doesn't found!");
-            return;
+            return false;
         }
 
         if (currentConfig != null) {
             save(currentConfig);
         }
         load(file);
+        return true;
     }
 
     public void load(@NotNull File config) {
@@ -218,7 +221,8 @@ public class ConfigManager implements Wrapper {
                         Vergence.CONSOLE.logInfo("[CONFIG] Config file info \"Config Template Version\" : " + client.get(2).getAsString());
                     }
                     Vergence.CONSOLE.logInfo("[CONFIG] Config file info \"UI Style Version\" : " + client.get(3).getAsString());
-                    currentConfigName = client.get(3).getAsString().length() <= 1 ? "Unknown" : client.get(4).getAsString();
+                    Vergence.CONSOLE.logInfo("[CONFIG] Config file info \"Save Date\" : " + client.get(4).getAsString());
+                    currentConfigName = client.get(3).getAsString().length() <= 1 ? "Unknown" : client.get(5).getAsString();
                 } catch (Exception e) {
                     Vergence.CONSOLE.logWarn("[CONFIG] Client Info incomplete or invalid.");
                     e.printStackTrace();
@@ -252,7 +256,7 @@ public class ConfigManager implements Wrapper {
     }
 
     public void saveCurrentConfig() {
-        File file = new File(CONFIG_FOLDER_NAME + "/config/default.vgc");
+        File file = new File(CONFIG_FOLDER_NAME + "/config/" + currentConfigName + ".vgc");
         try {
             if (file.exists()) {
                 FileWriter writer = new FileWriter(file);
@@ -409,11 +413,16 @@ public class ConfigManager implements Wrapper {
     }
 
     private @NotNull JsonArray getClientInfoArray() {
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        String formattedDate = now.format(formatter);
+
         JsonArray array = new JsonArray();
         array.add(new JsonPrimitive(Vergence.MOD_ID));
         array.add(new JsonPrimitive(Vergence.VERSION));
         array.add(new JsonPrimitive(Vergence.CONFIG_TEMPLATE_VERSION));
         array.add(new JsonPrimitive(Vergence.UI_STYLE_VERSION));
+        array.add(new JsonPrimitive(formattedDate));
         array.add(new JsonPrimitive(currentConfigName));
         return array;
     }

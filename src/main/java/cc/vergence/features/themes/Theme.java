@@ -83,6 +83,15 @@ public class Theme {
     private Color themePageComponentChosenBackgroundColor;
     private Color themePageComponentChosenTextColor;
     private Color themePageComponentChosenAuthorsColor;
+    private Color configPageComponentBackgroundColor;
+    private Color configPageComponentTextColor;
+    private Color configPageComponentDateColor;
+    private Color configPageComponentHoveredBackgroundColor;
+    private Color configPageComponentHoveredTextColor;
+    private Color configPageComponentHoveredDateColor;
+    private Color configPageComponentChosenBackgroundColor;
+    private Color configPageComponentChosenTextColor;
+    private Color configPageComponentChosenDateColor;
 
     public Theme(String name, String displayName, String description, ArrayList<String> authors) {
         this.name = name;
@@ -701,5 +710,77 @@ public class Theme {
 
     public void setAuthors(ArrayList<String> authors) {
         this.authors = authors;
+    }
+
+    public void setConfigPageComponentDateColor(Color configPageComponentDateColor) {
+        this.configPageComponentDateColor = configPageComponentDateColor;
+    }
+
+    public void setConfigPageComponentBackgroundColor(Color configPageComponentBackgroundColor) {
+        this.configPageComponentBackgroundColor = configPageComponentBackgroundColor;
+    }
+
+    public void setConfigPageComponentChosenDateColor(Color configPageComponentChosenDateColor) {
+        this.configPageComponentChosenDateColor = configPageComponentChosenDateColor;
+    }
+
+    public void setConfigPageComponentChosenBackgroundColor(Color configPageComponentChosenBackgroundColor) {
+        this.configPageComponentChosenBackgroundColor = configPageComponentChosenBackgroundColor;
+    }
+
+    public void setConfigPageComponentChosenTextColor(Color configPageComponentChosenTextColor) {
+        this.configPageComponentChosenTextColor = configPageComponentChosenTextColor;
+    }
+
+    public void setConfigPageComponentHoveredDateColor(Color configPageComponentHoveredDateColor) {
+        this.configPageComponentHoveredDateColor = configPageComponentHoveredDateColor;
+    }
+
+    public void setConfigPageComponentHoveredBackgroundColor(Color configPageComponentHoveredBackgroundColor) {
+        this.configPageComponentHoveredBackgroundColor = configPageComponentHoveredBackgroundColor;
+    }
+
+    public void setConfigPageComponentHoveredTextColor(Color configPageComponentHoveredTextColor) {
+        this.configPageComponentHoveredTextColor = configPageComponentHoveredTextColor;
+    }
+
+    public void setConfigPageComponentTextColor(Color configPageComponentTextColor) {
+        this.configPageComponentTextColor = configPageComponentTextColor;
+    }
+
+    public Color getConfigPageComponentDateColor() {
+        return configPageComponentDateColor;
+    }
+
+    public Color getConfigPageComponentBackgroundColor() {
+        return configPageComponentBackgroundColor;
+    }
+
+    public Color getConfigPageComponentChosenDateColor() {
+        return configPageComponentChosenDateColor;
+    }
+
+    public Color getConfigPageComponentChosenBackgroundColor() {
+        return configPageComponentChosenBackgroundColor;
+    }
+
+    public Color getConfigPageComponentChosenTextColor() {
+        return configPageComponentChosenTextColor;
+    }
+
+    public Color getConfigPageComponentHoveredDateColor() {
+        return configPageComponentHoveredDateColor;
+    }
+
+    public Color getConfigPageComponentHoveredBackgroundColor() {
+        return configPageComponentHoveredBackgroundColor;
+    }
+
+    public Color getConfigPageComponentHoveredTextColor() {
+        return configPageComponentHoveredTextColor;
+    }
+
+    public Color getConfigPageComponentTextColor() {
+        return configPageComponentTextColor;
     }
 }

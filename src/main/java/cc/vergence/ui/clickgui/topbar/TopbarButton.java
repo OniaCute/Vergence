@@ -10,6 +10,10 @@ import cc.vergence.util.font.FontUtil;
 import cc.vergence.util.render.utils.Render2DUtil;
 import net.minecraft.client.gui.DrawContext;
 
+/**
+ * &#064;author: Voury_, OniaCute
+ * &#064;version: vergence_1_0_ui_gird
+ */
 public class TopbarButton extends GuiComponent {
     private Pages targetPage;
     private String iconString;

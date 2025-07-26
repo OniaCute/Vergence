@@ -80,6 +80,15 @@
     "themePageComponentHoveredAuthorsColor": "#FF101010",
     "themePageComponentChosenBackgroundColor": "#FFF88DFF",
     "themePageComponentChosenTextColor": "#FFF5F5F5",
-    "themePageComponentChosenAuthorsColor": "#FFFFD7F2"
+    "themePageComponentChosenAuthorsColor": "#FFFFD7F2",
+    "configPageComponentBackgroundColor": "#ECECECEC",
+    "configPageComponentTextColor": "#FF151515",
+    "configPageComponentDateColor": "#FF2D2D2D",
+    "configPageComponentHoveredBackgroundColor": "#FFFFFFFF",
+    "configPageComponentHoveredTextColor": "#FF000000",
+    "configPageComponentHoveredDateColor": "#FF101010",
+    "configPageComponentChosenBackgroundColor": "#FFF88DFF",
+    "configPageComponentChosenTextColor": "#FFF5F5F5",
+    "configPageComponentChosenDateColor": "#FFFFD7F2"
   }
 }

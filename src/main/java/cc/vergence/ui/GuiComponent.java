@@ -15,8 +15,8 @@ public abstract class GuiComponent {
     protected int id;
     protected String name;
     protected String displayName;
-    protected double x = -100;
-    protected double y = - 100;
+    protected double x = -2000;
+    protected double y = -2000;
     protected double width = 0;
     protected double height = 0;
     protected GuiComponent parentComponent;

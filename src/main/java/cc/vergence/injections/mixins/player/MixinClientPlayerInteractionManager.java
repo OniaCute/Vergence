@@ -21,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class MixinClientPlayerInteractionManager {
 	@ModifyConstant(method = "updateBlockBreakingProgress", constant = @Constant(intValue = 5))
 	private int MiningCooldownFix(int value) {
-		return NoCooldown.INSTANCE.forBreak.getValue() ? 0 : value;
+		return NoCooldown.INSTANCE.getStatus() && NoCooldown.INSTANCE.forBreak.getValue() ? 0 : value;
 	}
 
 	@Inject(method = "cancelBlockBreaking", at = @At("HEAD"), cancellable = true)

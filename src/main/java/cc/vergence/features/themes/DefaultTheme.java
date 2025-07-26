@@ -113,6 +113,17 @@ public class DefaultTheme extends Theme {
         setThemePageComponentHoveredTextColor(new Color(0, 0, 0));
         setThemePageComponentChosenTextColor(new Color(245, 245, 245));
 
+        // ===== Config Page Color =====
+        setConfigPageComponentChosenBackgroundColor(new Color(248, 141, 255));
+        setConfigPageComponentTextColor(new Color(21, 21, 21));
+        setConfigPageComponentDateColor(new Color(45, 45, 45));
+        setConfigPageComponentHoveredDateColor(new Color(16, 16, 16));
+        setConfigPageComponentChosenDateColor(new Color(255, 215, 242));
+        setConfigPageComponentHoveredBackgroundColor(new Color(255, 255, 255));
+        setConfigPageComponentBackgroundColor(new Color(236, 236, 236));
+        setConfigPageComponentHoveredTextColor(new Color(0, 0, 0));
+        setConfigPageComponentChosenTextColor(new Color(245, 245, 245));
+
         INSTANCE = this;
     }
 }

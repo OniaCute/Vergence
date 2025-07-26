@@ -14,7 +14,7 @@ import java.util.Objects;
 public class ConfigCommand extends Command {
 
 	public ConfigCommand() {
-		super("config", Vergence.TEXT.get("COMMANDS.CONFIG.desc"), "[save|load|list] [name]");
+		super("config", Vergence.TEXT.get("COMMANDS.CONFIG.desc"), "[save|load|list|delete] [name]");
 	}
 
 	@Override
@@ -61,6 +61,24 @@ public class ConfigCommand extends Command {
 				MessageManager.newMessage("Vergence", Vergence.TEXT.get("COMMANDS.CONFIG.MESSAGE.LIST_TITLE"));
 				for (String name : arr) {
 					MessageManager.newMessage("Vergence", "§e - " + name);
+				}
+				break;
+			case "delete":
+				if (parameters.length < 2) {
+					NotifyManager.newNotification(Vergence.TEXT.get("COMMANDS.CONFIG.MESSAGE.MISSING_NAME"));
+					return;
+				}
+				File del = new File(ConfigManager.CONFIG_FOLDER, parameters[1] + ".vgc");
+				if (!del.exists()) {
+					NotifyManager.newNotification(Vergence.TEXT.get("COMMANDS.CONFIG.MESSAGE.NOT_FOUND").replace("{config}", parameters[1]));
+					return;
+				}
+				if ("default".equalsIgnoreCase(parameters[1])) {
+					NotifyManager.newNotification(Vergence.TEXT.get("COMMANDS.CONFIG.MESSAGE.CANNOT_DELETE_DEFAULT"));
+					return;
+				}
+				if (del.delete()) {
+					NotifyManager.newNotification(Vergence.TEXT.get("COMMANDS.CONFIG.MESSAGE.DELETED").replace("{config}", parameters[1]));
 				}
 				break;
 

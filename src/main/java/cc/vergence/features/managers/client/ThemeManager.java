@@ -3,6 +3,7 @@ package cc.vergence.features.managers.client;
 import cc.vergence.Vergence;
 import cc.vergence.features.themes.DefaultTheme;
 import cc.vergence.features.themes.Theme;
+import cc.vergence.modules.client.ThemeEditor;
 import cc.vergence.util.color.HexColor;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -30,6 +31,9 @@ public class ThemeManager {
     }
 
     public void loadTheme(Theme theme) {
+        if (ThemeEditor.INSTANCE != null && ThemeEditor.INSTANCE.getStatus()) {
+            ThemeEditor.INSTANCE.disable(); // avoid some mistakes
+        }
         if (theme == defaultTheme) {
             Vergence.CONSOLE.logWarn("Theme unload failed. It's default theme.");
         }
@@ -37,6 +41,9 @@ public class ThemeManager {
     }
 
     public void unloadTheme() {
+        if (ThemeEditor.INSTANCE != null && ThemeEditor.INSTANCE.getStatus()) {
+            ThemeEditor.INSTANCE.disable(); // avoid some mistakes
+        }
         Vergence.CONSOLE.logInfo("unloading theme ...");
         currentTheme = new DefaultTheme();
         Vergence.CONSOLE.logInfo("Theme unloaded, now the theme is default theme.");

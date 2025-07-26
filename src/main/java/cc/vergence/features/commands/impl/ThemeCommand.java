@@ -98,6 +98,9 @@ public class ThemeCommand extends Command {
                 if (del.delete()) {
                     NotifyManager.newNotification(Vergence.TEXT.get("COMMANDS.THEME.MESSAGE.DELETED").replace("{theme}", parameters[1]));
                 }
+                if (parameters[1].equals(Vergence.THEME.getTheme().getName())) {
+                    Vergence.THEME.unloadTheme();
+                }
                 break;
 
             default:

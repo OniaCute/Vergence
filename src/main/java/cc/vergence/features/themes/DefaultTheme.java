@@ -39,11 +39,6 @@ public class DefaultTheme extends Theme {
         setModuleHoveredGearTextColor(new Color(28, 28, 28));
         setModuleEnabledGearTextColor(new Color(255, 255, 255));
 
-        // ===== Notification =====
-        setNotificationBackgroundColor(new Color(227, 227, 227, 182));
-        setNotificationTextColor(new Color(255, 255, 255));
-        setNotificationHighlightTextColor(new Color(255, 127, 226));
-
         // ===== Button =====
         setButtonCircleColor(new Color(232, 232, 232));
         setButtonInlineColor(new Color(243, 243, 243));
@@ -79,17 +74,8 @@ public class DefaultTheme extends Theme {
         setDescriptionBackgroundColor(new Color(255, 255, 255, 242));
         setDescriptionTextColor(new Color(16, 16, 16));
 
-        // ===== Client Tips =====
-        setChatPrefixColor(new Color(237, 151, 255));
-
         // ===== TopBar =====
         setTopBarBackgroundColor(new Color(239, 239, 239, 239));
-        setTopBarResearchFrameBackgroundColor(new Color(229, 229, 229, 255));
-        setTopBarResearchFrameTextColor(new Color(49, 49, 49));
-        setTopBarHoveredResearchFrameBackgroundColor(new Color(231, 231, 231));
-        setTopBarHoveredResearchFrameTextColor(new Color(21, 21, 21));
-        setTopBarFocusedResearchFrameBackgroundColor(new Color(241, 241, 241));
-        setTopBarFocusedResearchFrameTextColor(new Color(9, 9, 9));
         setTopbarButtonBackgroundColor(new Color(236, 236, 236));
         setTopbarHoveredButtonBackgroundColor(new Color(255, 200, 246));
         setTopbarButtonIconColor(new Color(31, 31, 31, 221));

@@ -9,7 +9,6 @@ import cc.vergence.modules.Module;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class ThemeEditor extends Module {
@@ -41,9 +40,6 @@ public class ThemeEditor extends Module {
     public Option<Color> moduleGearTextColorOption = addOption(new ColorOption("ModuleGearTextColor", new Color(40, 40, 40)));
     public Option<Color> moduleHoveredGearTextColorOption = addOption(new ColorOption("ModuleHoveredGearTextColor", new Color(28, 28, 28)));
     public Option<Color> moduleEnabledGearTextColorOption = addOption(new ColorOption("ModuleEnabledGearTextColor", new Color(255, 255, 255)));
-    public Option<Color> notificationBackgroundColorOption = addOption(new ColorOption("NotificationBackgroundColor", new Color(227, 227, 227, 182)));
-    public Option<Color> notificationTextColorOption = addOption(new ColorOption("NotificationTextColor", new Color(255, 255, 255)));
-    public Option<Color> notificationHighlightTextColorOption = addOption(new ColorOption("NotificationHighlightTextColor", new Color(255, 127, 226)));
     public Option<Color> buttonCircleColorOption = addOption(new ColorOption("ButtonCircleColor", new Color(232, 232, 232)));
     public Option<Color> buttonInlineColorOption = addOption(new ColorOption("ButtonInlineColor", new Color(243, 243, 243)));
     public Option<Color> buttonEnabledCircleColorOption = addOption(new ColorOption("ButtonEnabledCircleColor", new Color(250, 142, 255)));
@@ -69,7 +65,6 @@ public class ThemeEditor extends Module {
     public Option<Color> hoverComponentTextColorOption = addOption(new ColorOption("HoverComponentTextColor", new Color(255, 255, 255)));
     public Option<Color> descriptionBackgroundColorOption = addOption(new ColorOption("DescriptionBackgroundColor", new Color(255, 255, 255, 242)));
     public Option<Color> descriptionTextColorOption = addOption(new ColorOption("DescriptionTextColor", new Color(16, 16, 16)));
-    public Option<Color> chatPrefixColorOption = addOption(new ColorOption("ChatPrefixColor", new Color(237, 151, 255)));
     public Option<Color> topBarBackgroundColorOption = addOption(new ColorOption("TopBarBackgroundColor", new Color(239, 239, 239, 239)));
     public Option<Color> topBarResearchFrameBackgroundColorOption = addOption(new ColorOption("TopBarResearchFrameBackgroundColor", new Color(229, 229, 229, 255)));
     public Option<Color> topBarResearchFrameTextColorOption = addOption(new ColorOption("TopBarResearchFrameTextColor", new Color(49, 49, 49)));
@@ -106,7 +101,6 @@ public class ThemeEditor extends Module {
     public Option<Color> themePageComponentHoveredTextColorOption = addOption(new ColorOption("ThemePageComponentHoveredTextColor", new Color(0, 0, 0)));
     public Option<Color> themePageComponentChosenTextColorOption = addOption(new ColorOption("ThemePageComponentChosenTextColor", new Color(245, 245, 245)));
 
-
     @Override
     public String getDetails() {
         return "";
@@ -118,7 +112,6 @@ public class ThemeEditor extends Module {
         if (currentTheme != null && !currentTheme.getName().equals("default")) {
             displayNameOption.setValue(currentTheme.getDisplayName());
             descriptionOption.setValue(currentTheme.getDescription());
-            authorsOption.setValue(String.join("|", currentTheme.getAuthors()));
 
             mainColorOption.setValue(currentTheme.getMainColor());
             mainPageBackgroundColorOption.setValue(currentTheme.getMainPageBackgroundColor());
@@ -138,9 +131,6 @@ public class ThemeEditor extends Module {
             moduleGearTextColorOption.setValue(currentTheme.getModuleGearTextColor());
             moduleHoveredGearTextColorOption.setValue(currentTheme.getModuleHoveredGearTextColor());
             moduleEnabledGearTextColorOption.setValue(currentTheme.getModuleEnabledGearTextColor());
-            notificationBackgroundColorOption.setValue(currentTheme.getNotificationBackgroundColor());
-            notificationTextColorOption.setValue(currentTheme.getNotificationTextColor());
-            notificationHighlightTextColorOption.setValue(currentTheme.getNotificationHighlightTextColor());
             buttonCircleColorOption.setValue(currentTheme.getButtonCircleColor());
             buttonInlineColorOption.setValue(currentTheme.getButtonInlineColor());
             buttonEnabledCircleColorOption.setValue(currentTheme.getButtonEnabledCircleColor());
@@ -166,14 +156,7 @@ public class ThemeEditor extends Module {
             hoverComponentTextColorOption.setValue(currentTheme.getHoverComponentTextColor());
             descriptionBackgroundColorOption.setValue(currentTheme.getDescriptionBackgroundColor());
             descriptionTextColorOption.setValue(currentTheme.getDescriptionTextColor());
-            chatPrefixColorOption.setValue(currentTheme.getChatPrefixColor());
             topBarBackgroundColorOption.setValue(currentTheme.getTopBarBackgroundColor());
-            topBarResearchFrameBackgroundColorOption.setValue(currentTheme.getTopBarResearchFrameBackgroundColor());
-            topBarResearchFrameTextColorOption.setValue(currentTheme.getTopBarResearchFrameTextColor());
-            topBarHoveredResearchFrameBackgroundColorOption.setValue(currentTheme.getTopBarHoveredResearchFrameBackgroundColor());
-            topBarHoveredResearchFrameTextColorOption.setValue(currentTheme.getTopBarHoveredResearchFrameTextColor());
-            topBarFocusedResearchFrameBackgroundColorOption.setValue(currentTheme.getTopBarFocusedResearchFrameBackgroundColor());
-            topBarFocusedResearchFrameTextColorOption.setValue(currentTheme.getTopBarFocusedResearchFrameTextColor());
             topbarButtonBackgroundColorOption.setValue(currentTheme.getTopbarButtonBackgroundColor());
             topbarHoveredButtonBackgroundColorOption.setValue(currentTheme.getTopbarHoveredButtonBackgroundColor());
             topbarButtonIconColorOption.setValue(currentTheme.getTopbarButtonIconColor());
@@ -209,17 +192,11 @@ public class ThemeEditor extends Module {
     public void onOptionValueUpdate() {
         Theme currentTheme = Vergence.THEME.getTheme();
         if (currentTheme != null && !currentTheme.getName().equals("default")) {
-            ArrayList<String> arr = new ArrayList<>();
 
             // Info
             currentTheme.setDisplayName(displayNameOption.getValue());
             currentTheme.setDescription(descriptionOption.getValue());
-            if (authorsOption.getValue().isEmpty() || authorsOption.getValue().trim().equals("|")) {
-                arr.add("");
-            } else {
-                arr.addAll(Arrays.asList(authorsOption.getValue().split("\\|")));
-            }
-            currentTheme.setAuthors(arr);
+            currentTheme.setAuthors(new ArrayList<>(List.of(authorsOption.getValue().split("\\|"))));
 
             currentTheme.setMainColor(mainColorOption.getValue());
             currentTheme.setMainPageBackgroundColor(mainPageBackgroundColorOption.getValue());
@@ -239,9 +216,6 @@ public class ThemeEditor extends Module {
             currentTheme.setModuleGearTextColor(moduleGearTextColorOption.getValue());
             currentTheme.setModuleHoveredGearTextColor(moduleHoveredGearTextColorOption.getValue());
             currentTheme.setModuleEnabledGearTextColor(moduleEnabledGearTextColorOption.getValue());
-            currentTheme.setNotificationBackgroundColor(notificationBackgroundColorOption.getValue());
-            currentTheme.setNotificationTextColor(notificationTextColorOption.getValue());
-            currentTheme.setNotificationHighlightTextColor(notificationHighlightTextColorOption.getValue());
             currentTheme.setButtonCircleColor(buttonCircleColorOption.getValue());
             currentTheme.setButtonInlineColor(buttonInlineColorOption.getValue());
             currentTheme.setButtonEnabledCircleColor(buttonEnabledCircleColorOption.getValue());
@@ -267,14 +241,7 @@ public class ThemeEditor extends Module {
             currentTheme.setHoverComponentTextColor(hoverComponentTextColorOption.getValue());
             currentTheme.setDescriptionBackgroundColor(descriptionBackgroundColorOption.getValue());
             currentTheme.setDescriptionTextColor(descriptionTextColorOption.getValue());
-            currentTheme.setChatPrefixColor(chatPrefixColorOption.getValue());
             currentTheme.setTopBarBackgroundColor(topBarBackgroundColorOption.getValue());
-            currentTheme.setTopBarResearchFrameBackgroundColor(topBarResearchFrameBackgroundColorOption.getValue());
-            currentTheme.setTopBarResearchFrameTextColor(topBarResearchFrameTextColorOption.getValue());
-            currentTheme.setTopBarHoveredResearchFrameBackgroundColor(topBarHoveredResearchFrameBackgroundColorOption.getValue());
-            currentTheme.setTopBarHoveredResearchFrameTextColor(topBarHoveredResearchFrameTextColorOption.getValue());
-            currentTheme.setTopBarFocusedResearchFrameBackgroundColor(topBarFocusedResearchFrameBackgroundColorOption.getValue());
-            currentTheme.setTopBarFocusedResearchFrameTextColor(topBarFocusedResearchFrameTextColorOption.getValue());
             currentTheme.setTopbarButtonBackgroundColor(topbarButtonBackgroundColorOption.getValue());
             currentTheme.setTopbarHoveredButtonBackgroundColor(topbarHoveredButtonBackgroundColorOption.getValue());
             currentTheme.setTopbarButtonIconColor(topbarButtonIconColorOption.getValue());

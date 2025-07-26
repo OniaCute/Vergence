@@ -113,7 +113,7 @@ public class GuiManager implements Wrapper {
     }
 
     public void onKeyboardActive(int key, int action) {
-        if (key == GLFW.GLFW_KEY_TAB && action == 1) {
+        if (key == GLFW.GLFW_KEY_TAB && action == 1 && mc.currentScreen instanceof ClickGuiScreen) {
             resetScroll();
         }
     }

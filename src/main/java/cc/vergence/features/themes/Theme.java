@@ -25,9 +25,6 @@ public class Theme {
     private Color moduleEnabledTextColor;
     private Color moduleHoveredTextColor;
     private Color moduleHoveredBackgroundColor;
-    private Color notificationTextColor;
-    private Color notificationHighlightTextColor;
-    private Color notificationBackgroundColor;
     private Color buttonBackgroundColor;
     private Color buttonHoveredBackgroundColor;
     private Color buttonCircleColor;
@@ -41,15 +38,8 @@ public class Theme {
     private Color hudEditorTipsTextColor;
     private Color hoverComponentBackgroundColor;
     private Color hoverComponentTextColor;
-    private Color chatPrefixColor;
     private Color mainPageSplitLineColor;
     private Color topBarBackgroundColor;
-    private Color topBarResearchFrameBackgroundColor;
-    private Color topBarResearchFrameTextColor;
-    private Color topBarHoveredResearchFrameBackgroundColor;
-    private Color topBarHoveredResearchFrameTextColor;
-    private Color topBarFocusedResearchFrameBackgroundColor;
-    private Color topBarFocusedResearchFrameTextColor;
     private Color moduleGearTextColor;
     private Color moduleHoveredGearTextColor;
     private Color moduleEnabledGearTextColor;
@@ -189,30 +179,6 @@ public class Theme {
         return moduleTextColor;
     }
 
-    public void setNotificationBackgroundColor(Color notificationBackgroundColor) {
-        this.notificationBackgroundColor = notificationBackgroundColor;
-    }
-
-    public Color getNotificationBackgroundColor() {
-        return notificationBackgroundColor;
-    }
-
-    public void setNotificationHighlightTextColor(Color notificationHighlightTextColor) {
-        this.notificationHighlightTextColor = notificationHighlightTextColor;
-    }
-
-    public Color getNotificationTextColor() {
-        return notificationTextColor;
-    }
-
-    public void setNotificationTextColor(Color notificationTextColor) {
-        this.notificationTextColor = notificationTextColor;
-    }
-
-    public Color getNotificationHighlightTextColor() {
-        return notificationHighlightTextColor;
-    }
-
     public void setButtonCircleColor(Color buttonCircleColor) {
         this.buttonCircleColor = buttonCircleColor;
     }
@@ -333,14 +299,6 @@ public class Theme {
         return moduleHoveredTextColor;
     }
 
-    public void setChatPrefixColor(Color chatPrefixColor) {
-        this.chatPrefixColor = chatPrefixColor;
-    }
-
-    public Color getChatPrefixColor() {
-        return chatPrefixColor;
-    }
-
     public void setCategoryCurrentBackgroundColor(Color categoryCurrentBackgroundColor) {
         this.categoryCurrentBackgroundColor = categoryCurrentBackgroundColor;
     }
@@ -369,56 +327,8 @@ public class Theme {
         this.topBarBackgroundColor = topBarBackgroundColor;
     }
 
-    public void setTopBarHoveredResearchFrameBackgroundColor(Color topBarHoveredResearchFrameBackgroundColor) {
-        this.topBarHoveredResearchFrameBackgroundColor = topBarHoveredResearchFrameBackgroundColor;
-    }
-
-    public void setTopBarResearchFrameBackgroundColor(Color topBarResearchFrameBackgroundColor) {
-        this.topBarResearchFrameBackgroundColor = topBarResearchFrameBackgroundColor;
-    }
-
-    public void setTopBarHoveredResearchFrameTextColor(Color topBarHoveredResearchFrameTextColor) {
-        this.topBarHoveredResearchFrameTextColor = topBarHoveredResearchFrameTextColor;
-    }
-
-    public void setTopBarResearchFrameTextColor(Color topBarResearchFrameTextColor) {
-        this.topBarResearchFrameTextColor = topBarResearchFrameTextColor;
-    }
-
     public Color getTopBarBackgroundColor() {
         return topBarBackgroundColor;
-    }
-
-    public Color getTopBarHoveredResearchFrameBackgroundColor() {
-        return topBarHoveredResearchFrameBackgroundColor;
-    }
-
-    public Color getTopBarHoveredResearchFrameTextColor() {
-        return topBarHoveredResearchFrameTextColor;
-    }
-
-    public Color getTopBarResearchFrameBackgroundColor() {
-        return topBarResearchFrameBackgroundColor;
-    }
-
-    public Color getTopBarResearchFrameTextColor() {
-        return topBarResearchFrameTextColor;
-    }
-
-    public void setTopBarFocusedResearchFrameBackgroundColor(Color topBarFocusedResearchFrameBackgroundColor) {
-        this.topBarFocusedResearchFrameBackgroundColor = topBarFocusedResearchFrameBackgroundColor;
-    }
-
-    public void setTopBarFocusedResearchFrameTextColor(Color topBarFocusedResearchFrameTextColor) {
-        this.topBarFocusedResearchFrameTextColor = topBarFocusedResearchFrameTextColor;
-    }
-
-    public Color getTopBarFocusedResearchFrameBackgroundColor() {
-        return topBarFocusedResearchFrameBackgroundColor;
-    }
-
-    public Color getTopBarFocusedResearchFrameTextColor() {
-        return topBarFocusedResearchFrameTextColor;
     }
 
     public void setModuleGearTextColor(Color moduleGearTextColor) {

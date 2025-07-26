@@ -3,6 +3,7 @@ package cc.vergence.features.commands.impl;
 import cc.vergence.Vergence;
 import cc.vergence.features.commands.Command;
 import cc.vergence.features.managers.client.ConfigManager;
+import cc.vergence.features.managers.other.MessageManager;
 import cc.vergence.features.managers.ui.NotifyManager;
 
 import java.io.File;
@@ -13,7 +14,7 @@ import java.util.Objects;
 public class ConfigCommand extends Command {
 
 	public ConfigCommand() {
-		super("config", Vergence.TEXT.get("COMMANDS.Config.desc"), "[save|load|list] [name]");
+		super("config", Vergence.TEXT.get("COMMANDS.CONFIG.desc"), "[save|load|list] [name]");
 	}
 
 	@Override
@@ -31,34 +32,39 @@ public class ConfigCommand extends Command {
 				String saveName = parameters.length < 2 ? cm.currentConfigName : parameters[1];
 				cm.save(new File(ConfigManager.CONFIG_FOLDER, saveName + ".vgc"));
 				NotifyManager.newNotification(
-						"§a" + Vergence.TEXT.get("COMMANDS.Config.MESSAGE.SAVED").replace("{config}", saveName)
+						"§a" + Vergence.TEXT.get("COMMANDS.CONFIG.MESSAGE.SAVED").replace("{config}", saveName)
 				);
 				break;
 
 			case "load":
 				if (parameters.length < 2) {
-					NotifyManager.newNotification(Vergence.TEXT.get("COMMANDS.Config.MESSAGE.MISSING_NAME"));
+					NotifyManager.newNotification(Vergence.TEXT.get("COMMANDS.CONFIG.MESSAGE.MISSING_NAME"));
 					return;
 				}
 				File target = new File(ConfigManager.CONFIG_FOLDER, parameters[1] + ".vgc");
 				if (!target.exists()) {
-					NotifyManager.newNotification(Vergence.TEXT.get("COMMANDS.Config.MESSAGE.NOT_FOUND").replace("{config}", parameters[1]));
+					NotifyManager.newNotification(Vergence.TEXT.get("COMMANDS.CONFIG.MESSAGE.NOT_FOUND").replace("{config}", parameters[1]));
 					return;
 				}
 				cm.load(parameters[1]);
-				NotifyManager.newNotification(Vergence.TEXT.get("COMMANDS.Config.MESSAGE.LOADED").replace("{config}", parameters[1])
+				NotifyManager.newNotification(Vergence.TEXT.get("COMMANDS.CONFIG.MESSAGE.LOADED").replace("{config}", parameters[1])
 				);
 				break;
 
 			case "list":
 				File[] files = ConfigManager.CONFIG_FOLDER.listFiles((d, n) -> n.endsWith(".vgc"));
 				if (files == null || files.length == 0) {
-					NotifyManager.newNotification(Vergence.TEXT.get("COMMANDS.Config.MESSAGE.NO_CONFIGS"));
+					NotifyManager.newNotification(Vergence.TEXT.get("COMMANDS.CONFIG.MESSAGE.NO_CONFIGS"));
 					return;
 				}
-				StringBuilder sb = new StringBuilder();
-				for (File f : files) sb.append(f.getName().replace(".vgc", "")).append(" ");
-				NotifyManager.newNotification(Vergence.TEXT.get("COMMANDS.Config.MESSAGE.LIST_TITLE").replace("{config}", sb.toString().trim()));
+				ArrayList<String> sb = new ArrayList<>();
+				for (File f : files) {
+					sb.add(f.getName().replace(".vgc", ""));
+				}
+				MessageManager.newMessage("Vergence", Vergence.TEXT.get("COMMANDS.CONFIG.MESSAGE.LIST_TITLE"));
+				for (String name : Vergence.ENEMY.enemyList) {
+					MessageManager.newMessage("Vergence", "§e - " + name);
+				}
 				break;
 
 			default:

@@ -19,7 +19,8 @@ public class CommandManager {
                 new PrefixCommand(),
                 new FriendCommand(),
                 new EnemyCommand(),
-                new ConfigCommand()
+                new ConfigCommand(),
+                new ThemeCommand()
         );
     }
 

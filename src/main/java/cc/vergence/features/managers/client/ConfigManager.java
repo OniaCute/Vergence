@@ -26,6 +26,7 @@ public class ConfigManager implements Wrapper {
     public static final File MAIN_FOLDER = new File(mc.runDirectory, CONFIG_FOLDER_NAME);
     public static final File CONFIG_FOLDER = new File(MAIN_FOLDER, "configs");
     public static final File SOUNDS_FOLDER = new File(MAIN_FOLDER, "sounds");
+    public static final File THEMES_FOLDER = new File(MAIN_FOLDER, "themes");
     public static final File MISC_FOLDER = new File(MAIN_FOLDER, "misc");
     public static final File MISC_SPAMMER_FOLDER = new File(MISC_FOLDER, "spammer");
     public static final File MISC_ADVERTISER_FOLDER = new File(MISC_FOLDER, "advertiser");
@@ -42,6 +43,7 @@ public class ConfigManager implements Wrapper {
         ensureDirectory(MAIN_FOLDER);
         ensureDirectory(CONFIG_FOLDER);
         ensureDirectory(SOUNDS_FOLDER);
+        ensureDirectory(THEMES_FOLDER);
         ensureDirectory(MISC_FOLDER);
         ensureDirectory(MISC_SPAMMER_FOLDER);
         ensureDirectory(MISC_ADVERTISER_FOLDER);
@@ -63,6 +65,28 @@ public class ConfigManager implements Wrapper {
             defaultValue.add("Get Vergence Get Unique Sense Of Minecraft.");
             defaultValue.add("Get Vergence In https://github.com/OniaCute/Vergence");
             createDefaultFile(MISC_ADVERTISER_FOLDER, "default.txt", defaultValue);
+        }
+
+        File defaultThemeFile = new File(THEMES_FOLDER, "default.json");
+
+        if (defaultThemeFile.exists()) {
+            try {
+                defaultThemeFile.delete();
+            } catch (Exception _E) {
+                _E.printStackTrace();
+            }
+        }
+
+        try (InputStream in = getClass().getResourceAsStream("/assets/vergence/themes/default.json");
+             OutputStream out = Files.newOutputStream(defaultThemeFile.toPath())) {
+            if (in != null) {
+                Files.createDirectories(defaultThemeFile.getParentFile().toPath());
+                IOUtils.copy(in, out);
+                Vergence.CONSOLE.logInfo("Copied default theme to " + defaultThemeFile.getAbsolutePath());
+            }
+        } catch (IOException e) {
+            Vergence.CONSOLE.logError("Failed to copy default theme");
+            e.printStackTrace();
         }
     }
 
@@ -242,6 +266,9 @@ public class ConfigManager implements Wrapper {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+        if (!Vergence.THEME.getTheme().getName().equals("default")) {
+            Vergence.THEME.saveTheme(Vergence.THEME.getTheme().getName(), Vergence.THEME.dumpToJson());
         }
     }
 

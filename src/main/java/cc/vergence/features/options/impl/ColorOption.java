@@ -38,9 +38,9 @@ public class ColorOption extends Option<Color> {
         if (isRainbow()) {
             float[] hsb = Color.RGBtoHSB(value.getRed(), value.getGreen(), value.getBlue(), null);
 
-            double rainbowState = ((ClickGUI.INSTANCE != null && ClickGUI.INSTANCE.rainbowSync.getValue() ? System.currentTimeMillis() : System.currentTimeMillis() - time) / (ClickGUI.INSTANCE != null ? ClickGUI.INSTANCE.rainbowSpeed.getValue() : 100)) % 360;
+            double rainbowState = ((ClickGUI.INSTANCE != null && ClickGUI.INSTANCE.rainbowSync.getValue() ? System.currentTimeMillis() : System.currentTimeMillis() - time) / (ClickGUI.INSTANCE != null ? ClickGUI.INSTANCE.rainbowSpeed.getValue() : 5)) % 360;
 
-            int rgb = Color.getHSBColor((float) (rainbowState / 360.0f), hsb[1], hsb[2]).getRGB();
+            int rgb = Color.getHSBColor((float) (rainbowState * 360.0f), hsb[1], hsb[2]).getRGB();
             int red = (rgb >> 16) & 0xFF;
             int green = (rgb >> 8) & 0xFF;
             int blue = (rgb) & 0xFF;

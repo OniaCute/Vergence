@@ -444,10 +444,10 @@ public class GuiManager implements Wrapper {
 
         // Top bar
         TopbarButton infoButton = new TopbarButton(Pages.Information, "\uF05A");
-        TopbarButton languageButton = new TopbarButton(Pages.Languages, "\uF7A2");
+        TopbarButton themeButton = new TopbarButton(Pages.Themes, "\uF1FC");
         TopbarButton configButton = new TopbarButton(Pages.Configs, "\uF07C");
         topbarComponents.add(infoButton);
-        topbarComponents.add(languageButton);
+        topbarComponents.add(themeButton);
         topbarComponents.add(configButton);
         topbarComponents.add(SEARCH);
     }
@@ -548,7 +548,7 @@ public class GuiManager implements Wrapper {
         handlePages(context); // pages
 
         for (GuiComponent component : topbarComponents) {
-            component.onDraw(context, MOUSE_X, MOUSE_Y, CLICKED_LEFT && !hoverComponentDrawing && !isDragging && !notInTopBarChecking(), CLICKED_RIGHT && !hoverComponentDrawing && !isDragging && !notInTopBarChecking());
+            component.onDraw(context, MOUSE_X, MOUSE_Y, CLICKED_LEFT && !hoverComponentDrawing && !isDragging, CLICKED_RIGHT && !hoverComponentDrawing && !isDragging);
         }
 
         Render2DUtil.popDisplayArea();

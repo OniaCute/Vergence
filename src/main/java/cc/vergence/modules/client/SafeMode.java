@@ -1,5 +1,6 @@
 package cc.vergence.modules.client;
 
+import cc.vergence.Vergence;
 import cc.vergence.features.enums.client.AntiCheats;
 import cc.vergence.features.managers.other.MessageManager;
 import cc.vergence.features.options.Option;
@@ -41,7 +42,7 @@ public class SafeMode extends Module {
     @Override
     public void onEnable() {
         defaultValue.clear();
-        if (isNull()) {
+        if (isNull() || !Vergence.LOADED) {
             return ;
         }
         switch ((AntiCheats) antiCheatMode.getValue()) {

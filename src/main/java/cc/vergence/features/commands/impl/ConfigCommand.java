@@ -57,12 +57,12 @@ public class ConfigCommand extends Command {
 					NotifyManager.newNotification(Vergence.TEXT.get("COMMANDS.CONFIG.MESSAGE.NO_CONFIGS"));
 					return;
 				}
-				ArrayList<String> sb = new ArrayList<>();
+				ArrayList<String> arr = new ArrayList<>();
 				for (File f : files) {
-					sb.add(f.getName().replace(".vgc", ""));
+					arr.add(f.getName().replace(".vgc", ""));
 				}
 				MessageManager.newMessage("Vergence", Vergence.TEXT.get("COMMANDS.CONFIG.MESSAGE.LIST_TITLE"));
-				for (String name : Vergence.ENEMY.enemyList) {
+				for (String name : arr) {
 					MessageManager.newMessage("Vergence", "§e - " + name);
 				}
 				break;

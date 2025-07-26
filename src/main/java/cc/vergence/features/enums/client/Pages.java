@@ -5,7 +5,6 @@ public enum Pages {
     Modules,
     Search,
     Information,
-    Languages,
     Themes,
     Configs
 }

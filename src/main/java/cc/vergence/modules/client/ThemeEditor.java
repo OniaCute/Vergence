@@ -214,10 +214,12 @@ public class ThemeEditor extends Module {
             // Info
             currentTheme.setDisplayName(displayNameOption.getValue());
             currentTheme.setDescription(descriptionOption.getValue());
-            if (!authorsOption.getValue().trim().equals("|")) {
-                arr.addAll(List.of(authorsOption.getValue().split("\\|")));
-                currentTheme.setAuthors(arr);
+            if (authorsOption.getValue().isEmpty() || authorsOption.getValue().trim().equals("|")) {
+                arr.add("");
+            } else {
+                arr.addAll(Arrays.asList(authorsOption.getValue().split("\\|")));
             }
+            currentTheme.setAuthors(arr);
 
             currentTheme.setMainColor(mainColorOption.getValue());
             currentTheme.setMainPageBackgroundColor(mainPageBackgroundColorOption.getValue());

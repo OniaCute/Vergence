@@ -431,6 +431,8 @@ public class EventManager implements Wrapper {
                 module.onKeyboardActive(key, action);
             }
         }
+
+        Vergence.GUI.onKeyboardActive(key, action);
     }
 
 

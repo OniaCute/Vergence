@@ -18,7 +18,7 @@ public class BetterChat extends Module {
     }
 
     public Option<Enum<?>> prefix = addOption(new EnumOption("Prefix", MessagePrefixTypes.Default));
-    public Option<Color> prefixColor = addOption(new ColorOption("PrefixColor", Vergence.THEME.getTheme().getChatPrefixColor()));
+    public Option<Color> prefixColor = addOption(new ColorOption("PrefixColor", Vergence.THEME.getTheme().getMainColor()));
     public Option<String> chatPrefix = addOption(new TextOption("ChatPrefix", ""));
     public Option<String> chatSuffix = addOption(new TextOption("ChatSuffix", " | Vergence"));
     public Option<Boolean> customNameColor = addOption(new BooleanOption("CustomNameColor", true));

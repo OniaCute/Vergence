@@ -29,7 +29,7 @@ public class NameTags extends Module {
     }
 
     public Option<Boolean> antiBot = addOption(new BooleanOption("AntiBot", true));
-    public Option<Boolean> forMyself = addOption(new BooleanOption("For Myself", false));
+    public Option<Boolean> forMyself = addOption(new BooleanOption("ForMyself", false));
     public Option<Enum<?>> fontSize = addOption(new EnumOption("FonsSize", FontSize.SMALL));
     public Option<Color> textColor = addOption(new ColorOption("TextColor", new Color(14, 14, 14)));
     public Option<EnumSet<Modes>> mode = addOption(new MultipleOption<Modes>("Modes", EnumSet.of(Modes.Fill, Modes.Outline)));

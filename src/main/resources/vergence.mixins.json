@@ -44,13 +44,12 @@
     "mixins.screen.MixinDownloadingTerrainScreen",
     "mixins.screen.MixinScreen",
     "mixins.screen.MixinTitleScreen",
-    "mixins.world.MixinClientWorld"
+    "mixins.world.MixinClientWorld",
+    "mixins.screen.MixinConnectScreen"
   ],
   "injectors": {
     "defaultRequire": 1
   },
   "client": [
-    "mixins.screen.ConnectScreenMixin",
-    "mixins.screen.MixinConnectScreen"
   ]
 }

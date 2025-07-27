@@ -237,8 +237,10 @@ public class EnglishLanguage extends Language {
 
         languageBase.put("Module.Modules.AntiHungry.name", "Anti Hungry");
         languageBase.put("Module.Modules.AntiHungry.description", "By using a reasonable method, you can reduce the feeling of hunger");
-        languageBase.put("Module.Modules.AntiHungry.Options.EnumOption.AntiCheat.name", "Anti Cheat");
-        languageBase.put("Module.Modules.AntiHungry.Options.EnumOption.AntiCheat.description", "Determine which functions need to be blocked by anti cheat mode");
+        languageBase.put("Module.Modules.AntiHungry.Options.BooleanOption.Sprint.name", "Sprint");
+        languageBase.put("Module.Modules.AntiHungry.Options.BooleanOption.Sprint.description", "Cancel sprint packets to prevent hunger");
+        languageBase.put("Module.Modules.AntiHungry.Options.BooleanOption.Ground.name", "Ground");
+        languageBase.put("Module.Modules.AntiHungry.Options.BooleanOption.Ground.description", "Modify onGround flag to prevent hunger");
 
         languageBase.put("Module.Modules.BetterChat.name", "Better Chat");
         languageBase.put("Module.Modules.BetterChat.description", "Allow you to highly customize the chat hud");
@@ -274,8 +276,6 @@ public class EnglishLanguage extends Language {
 
         languageBase.put("Module.Modules.KillAura.name", "Kill Aura");
         languageBase.put("Module.Modules.KillAura.description", "Auto attacks the closest valid target within range");
-        languageBase.put("Module.Modules.KillAura.Options.EnumOption.AntiCheat.name", "Anti Cheat");
-        languageBase.put("Module.Modules.KillAura.Options.EnumOption.AntiCheat.description", "Preset behavior to match specific anti-cheat systems");
         languageBase.put("Module.Modules.KillAura.Options.MultipleOption.Targets.name", "Targets");
         languageBase.put("Module.Modules.KillAura.Options.MultipleOption.Targets.description", "Entity types that will be attacked");
         languageBase.put("Module.Modules.KillAura.Options.EnumOption.ClickType.name", "Click Type");
@@ -305,8 +305,6 @@ public class EnglishLanguage extends Language {
 
         languageBase.put("Module.Modules.Scaffold.name", "Scaffold");
         languageBase.put("Module.Modules.Scaffold.description", "Automatically places blocks under you while walking");
-        languageBase.put("Module.Modules.Scaffold.Options.EnumOption.AntiCheat.name", "Anti Cheat");
-        languageBase.put("Module.Modules.Scaffold.Options.EnumOption.AntiCheat.description", "Preset behavior to match specific anti-cheat systems");
         languageBase.put("Module.Modules.Scaffold.Options.BooleanOption.Sprint.name", "Sprint");
         languageBase.put("Module.Modules.Scaffold.Options.BooleanOption.Sprint.description", "Allow sprinting while scaffolding");
         languageBase.put("Module.Modules.Scaffold.Options.BooleanOption.Rotate.name", "Rotate");
@@ -404,13 +402,9 @@ public class EnglishLanguage extends Language {
 
         languageBase.put("Module.Modules.Disabler.name", "Disabler");
         languageBase.put("Module.Modules.Disabler.description", "Attempt to disable certain anti cheat behaviors");
-        languageBase.put("Module.Modules.Disabler.Options.EnumOption.AntiCheat.name", "Anti Cheat");
-        languageBase.put("Module.Modules.Disabler.Options.EnumOption.AntiCheat.description", "Determine which functions need to be blocked by anti cheat mode");
 
         languageBase.put("Module.Modules.InventoryMove.name", "Inventory Move");
         languageBase.put("Module.Modules.InventoryMove.description", "Enable you to be able to move when opening certain GUI");
-        languageBase.put("Module.Modules.InventoryMove.Options.EnumOption.AntiCheat.name", "Anti Cheat");
-        languageBase.put("Module.Modules.InventoryMove.Options.EnumOption.AntiCheat.description", "Determine which functions need to be blocked by anti cheat mode");
         languageBase.put("Module.Modules.InventoryMove.Options.BooleanOption.HorizontalCollision.name", "Horizontal Collision");
         languageBase.put("Module.Modules.InventoryMove.Options.BooleanOption.HorizontalCollision.description", "Whether to enable Horizontal Collision when sending packets");
 
@@ -833,8 +827,8 @@ public class EnglishLanguage extends Language {
         languageBase.put("Module.Modules.PacketsLimit.description", "Restricts the rate of movement packets sent to the server to reduce anti cheat flags");
         languageBase.put("Module.Modules.PacketsLimit.Options.BooleanOption.Stop.name", "Stop");
         languageBase.put("Module.Modules.PacketsLimit.Options.BooleanOption.Stop.description", "Cancel the sending of the packets when the limit is exceeded");
-        languageBase.put("Module.Modules.PacketsLimit.Options.DoubleOption.resetTime.name", "Reset Time");
-        languageBase.put("Module.Modules.PacketsLimit.Options.DoubleOption.resetTime.description", "The interval for resetting a record");
+        languageBase.put("Module.Modules.PacketsLimit.Options.DoubleOption.ResetTime.name", "Reset Time");
+        languageBase.put("Module.Modules.PacketsLimit.Options.DoubleOption.ResetTime.description", "The interval for resetting a record");
         languageBase.put("Module.Modules.PacketsLimit.Options.DoubleOption.Limit.name", "Full Packet Limit");
         languageBase.put("Module.Modules.PacketsLimit.Options.DoubleOption.Limit.description", "Maximum Full PlayerMove packets sent in period of time");
         languageBase.put("Module.Modules.PacketsLimit.Options.BooleanOption.Notify.name", "Notify");
@@ -1048,8 +1042,8 @@ public class EnglishLanguage extends Language {
         languageBase.put("Module.Modules.AutoRepairArmor.description", "Automatically throws XP bottles to repair your armor when durability is low");
         languageBase.put("Module.Modules.AutoRepairArmor.Options.BooleanOption.Notify.name", "Notify");
         languageBase.put("Module.Modules.AutoRepairArmor.Options.BooleanOption.Notify.description", "Notify you when repairing the item");
-        languageBase.put("Module.Modules.AutoRepairArmor.Options.BooleanOption.Sound.name", "Play Sound");
-        languageBase.put("Module.Modules.AutoRepairArmor.Options.BooleanOption.Sound.description", "Play a sound along with the notification");
+        languageBase.put("Module.Modules.AutoRepairArmor.Options.BooleanOption.Sounds.name", "Play Sound");
+        languageBase.put("Module.Modules.AutoRepairArmor.Options.BooleanOption.Sounds.description", "Play a sound along with the notification");
         languageBase.put("Module.Modules.AutoRepairArmor.Options.BooleanOption.DurabilityCheck.name", "Durability Check");
         languageBase.put("Module.Modules.AutoRepairArmor.Options.BooleanOption.DurabilityCheck.description", "Stop repairing once all items are fully repaired");
         languageBase.put("Module.Modules.AutoRepairArmor.Options.BooleanOption.Rotate.name", "Rotate");
@@ -1253,18 +1247,22 @@ public class EnglishLanguage extends Language {
         languageBase.put("Module.Modules.ThemeEditor.Options.ColorOption.ConfigPageComponentChosenTextColor.name", "Config Page Component Chosen Text Color");
         languageBase.put("Module.Modules.ThemeEditor.Options.ColorOption.ConfigPageComponentChosenTextColor.description", "Text color of chosen components on the config page");
 
-        languageBase.put("Module.Modules.PingLagSpoof.name", "PingLagSpoof");
+        languageBase.put("Module.Modules.PingLagSpoof.name", "Ping Lag Spoof");
         languageBase.put("Module.Modules.PingLagSpoof.description", "Spoof your ping to the server by delaying keep alive packets");
+        languageBase.put("Module.Modules.PingLagSpoof.Options.DoubleOption.Delay.name", "Delay");
+        languageBase.put("Module.Modules.PingLagSpoof.Options.DoubleOption.Delay.description", "The delay in milliseconds to spoof your ping");
 
-        languageBase.put("Module.Modules.AutoBowAim.name", "AutoBowAim");
+        languageBase.put("Module.Modules.AutoBowAim.name", "Auto Bow Aim");
         languageBase.put("Module.Modules.AutoBowAim.description", "Automatically aims your bow at targets");
+        languageBase.put("Module.Modules.AutoBowAim.Options.MultipleOption.Targets.name", "Targets");
+        languageBase.put("Module.Modules.AutoBowAim.Options.MultipleOption.Targets.description", "Select which types of entities to target");
+        languageBase.put("Module.Modules.AutoBowAim.Options.DoubleOption.Range.name", "Range");
+        languageBase.put("Module.Modules.AutoBowAim.Options.DoubleOption.Range.description", "The maximum distance to target entities");
 
         languageBase.put("Module.Modules.FastEat.name", "FastEat");
         languageBase.put("Module.Modules.FastEat.description", "Speeds up the eating process");
-
         languageBase.put("Module.Modules.FastEat.Options.EnumOption.Mode.name", "Mode");
         languageBase.put("Module.Modules.FastEat.Options.EnumOption.Mode.description", "The mode to use for speeding up eating");
-
         languageBase.put("Module.Modules.FastEat.Options.DoubleOption.Ticks.name", "Ticks");
         languageBase.put("Module.Modules.FastEat.Options.DoubleOption.Ticks.description", "The number of ticks to speed up the eating process");
 
@@ -1273,14 +1271,13 @@ public class EnglishLanguage extends Language {
 
         languageBase.put("Module.Modules.NoEntityTrace.name", "No Entity Trace");
         languageBase.put("Module.Modules.NoEntityTrace.description", "Prevents the server from tracing entities");
-
         languageBase.put("Module.Modules.NoEntityTrace.Options.BooleanOption.OnlyPickaxe.name", "Only Pickaxe");
         languageBase.put("Module.Modules.NoEntityTrace.Options.BooleanOption.OnlyPickaxe.description", "Only applies the no trace effect when holding a pickaxe");
 
         languageBase.put("Module.Modules.NoInteract.name", "No Interact");
         languageBase.put("Module.Modules.NoInteract.description", "Prevents interaction with entities and blocks");
 
-        languageBase.put("Module.Modules.LagNotify.name", "LagNotify");
+        languageBase.put("Module.Modules.LagNotify.name", "Lag Notify");
         languageBase.put("Module.Modules.LagNotify.description", "Notifies you when the server is lagging or when the client is experiencing high latency");
         languageBase.put("Module.Modules.LagNotify.Options.BooleanOption.ServerLagging.name", "Server Lagging");
         languageBase.put("Module.Modules.LagNotify.Options.BooleanOption.ServerLagging.description", "Notify when the server response time exceeds a certain threshold");
@@ -1290,5 +1287,15 @@ public class EnglishLanguage extends Language {
         languageBase.put("Module.Modules.LagNotify.Options.BooleanOption.Sounds.description", "Play a sound when lag is detected");
         languageBase.put("Module.Modules.LagNotify.Messages.ServerLag", "§cServer is lagging! Response time: §b{timer}s");
         languageBase.put("Module.Modules.LagNotify.Messages.ClientLag", "§cClient is lagging! Lag time: §b{timer}s");
+
+        languageBase.put("Module.Modules.FastLatencyCalc.name", "Fast Latency Calc");
+        languageBase.put("Module.Modules.FastLatencyCalc.description", "Calculates your latency to the server by sending command completion requests");
+        languageBase.put("Module.Modules.FastLatencyCalc.Options.DoubleOption.Delay.name", "Delay");
+        languageBase.put("Module.Modules.FastLatencyCalc.Options.DoubleOption.Delay.description", "The delay between sending command completion requests");
+        languageBase.put("Module.Modules.FastLatencyCalc.Options.BooleanOption.spikeNotify.name", "Spike Notify");
+        languageBase.put("Module.Modules.FastLatencyCalc.Options.BooleanOption.spikeNotify.description", "Notify when a latency spike is detected");
+        languageBase.put("Module.Modules.FastLatencyCalc.Options.DoubleOption.Threshold.name", "Threshold");
+        languageBase.put("Module.Modules.FastLatencyCalc.Options.DoubleOption.Threshold.description", "The minimum latency increase required to trigger a spike notification");
+        languageBase.put("Module.Modules.FastLatencyCalc.Messages.Spike", "Latency spike detected!");
     }
 }

@@ -26,7 +26,7 @@ public class AutoRepairArmor extends Module {
 
     // Options
     public Option<Boolean> notify = addOption(new BooleanOption("Notify", true));
-    public Option<Boolean> withSound = addOption(new BooleanOption("PlaySound", true));
+    public Option<Boolean> withSound = addOption(new BooleanOption("Sounds", true));
     public Option<Boolean> durabilityCheck = addOption(new BooleanOption("DurabilityCheck", true));
     public Option<Boolean> doRotate = addOption(new BooleanOption("Rotate", false));
     public Option<Boolean> doSwing = addOption(new BooleanOption("Swing", false));

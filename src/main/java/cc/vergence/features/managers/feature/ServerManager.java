@@ -7,6 +7,7 @@ import cc.vergence.features.event.events.ClientConnectEvent;
 import cc.vergence.features.event.events.PacketEvent;
 import cc.vergence.features.event.events.PlayerConnectEvent;
 import cc.vergence.features.event.events.ServerConnectEvent;
+import cc.vergence.modules.exploit.FastLatencyCalc;
 import cc.vergence.util.interfaces.Wrapper;
 import cc.vergence.util.maths.MathUtil;
 import cc.vergence.util.other.FastTimerUtil;
@@ -105,6 +106,10 @@ public class ServerManager implements Wrapper {
     }
 
     public int getPing() {
+        if (FastLatencyCalc.INSTANCE != null && FastLatencyCalc.INSTANCE.getStatus()) {
+            return FastLatencyCalc.INSTANCE.getLatency();
+        }
+
         PlayerListEntry entry = mc.getNetworkHandler().getPlayerListEntry(mc.player.getUuid());
         return entry == null ? 0 : entry.getLatency();
     }

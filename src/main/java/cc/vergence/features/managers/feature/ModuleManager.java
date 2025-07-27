@@ -107,6 +107,7 @@ public class ModuleManager {
         registerModule(new NoInteract());
         registerModule(new PingLagSpoof());
         registerModule(new LagNotify());
+        registerModule(new FastLatencyCalc());
 
         // special module
         registerModule(new SafeMode());

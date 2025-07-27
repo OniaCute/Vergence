@@ -1,6 +1,5 @@
-package cc.vergence.injections.mixins.entity;
+package cc.vergence.injections.mixins.render;
 
-import cc.vergence.Vergence;
 import cc.vergence.modules.visual.NameTags;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.state.EntityRenderState;

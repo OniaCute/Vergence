@@ -1,4 +1,4 @@
-package cc.vergence.injections.mixins.world;
+package cc.vergence.injections.mixins.render;
 
 import cc.vergence.Vergence;
 import net.minecraft.client.render.RenderTickCounter;

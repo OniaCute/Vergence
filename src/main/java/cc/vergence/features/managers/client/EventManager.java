@@ -15,6 +15,8 @@ import cc.vergence.util.interfaces.Wrapper;
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.network.ServerAddress;
+import net.minecraft.client.network.ServerInfo;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.InputUtil;
@@ -29,6 +31,8 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import org.lwjgl.glfw.GLFW;
+
+import java.util.UUID;
 
 public class EventManager implements Wrapper {
     public EventManager() {
@@ -322,6 +326,75 @@ public class EventManager implements Wrapper {
             module.onDisconnectAlways(event, reason);
             if (module.getStatus()) {
                 module.onDisconnect(event, reason);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onPlayerConnect(PlayerConnectEvent event) {
+        UUID uuid = event.getId();
+        for (Module module : ModuleManager.modules) {
+            module.onPlayerConnectAlways(event, uuid);
+            if (module.getStatus()) {
+                module.onPlayerConnect(event, uuid);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onPlayerDisconnect(PlayerDisconnectEvent event) {
+        UUID uuid = event.getId();
+        for (Module module : ModuleManager.modules) {
+            module.onPlayerDisconnectAlways(event, uuid);
+            if (module.getStatus()) {
+                module.onPlayerDisconnect(event, uuid);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onClientDisconnect(ClientConnectEvent event) {
+        for (Module module : ModuleManager.modules) {
+            module.onClientConnectAlways();
+            if (module.getStatus()) {
+                module.onClientConnect();
+            }
+        }
+    }
+
+    @EventHandler
+    public void onServerConnect(ServerConnectEvent event) {
+        ServerAddress address = event.getAddress();
+        ServerInfo info = event.getInfo();
+        for (Module module : ModuleManager.modules) {
+            module.onServerConnectAlways(event, address, info);
+            if (module.getStatus()) {
+                module.onServerConnect(event, address, info);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onLookDirection(LookDirectionEvent event) {
+        Entity entity = event.getEntity();
+        double cursorDeltaX = event.getCursorDeltaX();
+        double cursorDeltaY = event.getCursorDeltaY();
+        for (Module module : ModuleManager.modules) {
+            module.onLookDirectionAlways(event, entity, cursorDeltaX, cursorDeltaY);
+            if (module.getStatus()) {
+                module.onLookDirection(event, entity, cursorDeltaX, cursorDeltaY);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onSetCurrentHand(SetCurrentHandEvent event) {
+        Hand hand = event.getHand();
+        ItemStack stack = event.getStackInHand();
+        for (Module module : ModuleManager.modules) {
+            module.onSetCurrentHandAlways(event, hand, stack);
+            if (module.getStatus()) {
+                module.onSetCurrentHand(event, hand, stack);
             }
         }
     }

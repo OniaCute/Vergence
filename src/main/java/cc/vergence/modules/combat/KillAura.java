@@ -31,15 +31,15 @@ public class KillAura extends Module implements Wrapper {
     public Option<EnumSet<TargetTypes>> targets = addOption(new MultipleOption<>("Targets", EnumSet.of(TargetTypes.EnemyPlayers, TargetTypes.Mobs)));
     public Option<Enum<?>> clickType = addOption(new EnumOption("ClickType", ClickTypes.New));
     public Option<Double> range = addOption(new DoubleOption("Range", 1, 7, 3));
-    public Option<Double> fov = addOption(new DoubleOption("FOV", 1, 180, 180));
+    public Option<Double> fov = addOption(new DoubleOption("FOV", 1, 180, 180, v -> !AntiCheat.INSTANCE.isGrim()));
     public Option<Double> minCPS = addOption(new DoubleOption("MinCPS", 1, 18, 3, v -> clickType.getValue().equals(ClickTypes.Old)));
     public Option<Double> maxCPS = addOption(new DoubleOption("MaxCPS", 1, 18, 7, v -> clickType.getValue().equals(ClickTypes.Old)));
     public Option<Double> delay = addOption(new DoubleOption("Delay", 1, 18, 7, v -> clickType.getValue().equals(ClickTypes.New)).addSpecialValue(1, "INSTANT"));
     public Option<Boolean> crosshairLock = addOption(new BooleanOption("CrosshairLock", true, v -> AntiCheat.INSTANCE.isLegit()));
     public Option<Enum<?>> rotateType = addOption(new EnumOption("RotateType", RotateModes.Server));
     public Option<Double> rotateSpeed = addOption(new DoubleOption("RotateSpeed", 1, 180, 180).addSpecialValue(1, "INSTANT"));
-    public Option<Boolean> rotateLock = addOption(new BooleanOption("RotateLock", true));
-    public Option<Double> rotateLockTime = addOption(new DoubleOption("RotateLockTime", 1, 300, 40, v -> rotateLock.getValue()).setUnit("ms"));
+    public Option<Boolean> rotateLock = addOption(new BooleanOption("RotateLock", true, v -> !AntiCheat.INSTANCE.isGrim()));
+    public Option<Double> rotateLockTime = addOption(new DoubleOption("RotateLockTime", 1, 300, 40, v -> rotateLock.getValue() && !AntiCheat.INSTANCE.isGrim()).setUnit("ms"));
     public Option<Enum<?>> swingMode = addOption(new EnumOption("SwingMode", SwingModes.Client));
 
     private long lastAttackTime = 0;
@@ -131,7 +131,6 @@ public class KillAura extends Module implements Wrapper {
         Rotation rotation = new Rotation(pitch, yaw, rotateSpeed.getValue(), mode, this.getPriority());
         Vergence.ROTATE.rotate(rotation, attack);
     }
-
 
     public enum ClickTypes {
         Old, New

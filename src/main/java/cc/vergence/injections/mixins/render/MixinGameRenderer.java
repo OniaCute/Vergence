@@ -2,17 +2,22 @@ package cc.vergence.injections.mixins.render;
 
 import cc.vergence.Vergence;
 import cc.vergence.modules.player.FreeCamera;
+import cc.vergence.modules.player.NoEntityTrace;
 import cc.vergence.modules.visual.FOVModifier;
 import cc.vergence.util.interfaces.Wrapper;
 import cc.vergence.util.player.EntityUtil;
 import cc.vergence.util.render.utils.Render3DUtil;
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.item.PickaxeItem;
+import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.profiler.Profilers;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -54,5 +59,13 @@ public abstract class MixinGameRenderer implements Wrapper {
             mc.crosshairTarget = EntityUtil.getRaytraceTarget(FreeCamera.INSTANCE.getFreeYaw(), FreeCamera.INSTANCE.getFreePitch(), FreeCamera.INSTANCE.getFreeX(), FreeCamera.INSTANCE.getFreeY(), FreeCamera.INSTANCE.getFreeZ());
             info.cancel();
         }
+    }
+
+    @ModifyExpressionValue(method = "findCrosshairTarget", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/projectile/ProjectileUtil;raycast(Lnet/minecraft/entity/Entity;Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/util/math/Box;Ljava/util/function/Predicate;D)Lnet/minecraft/util/hit/EntityHitResult;"))
+    private @Nullable EntityHitResult findCrosshairTarget(@Nullable EntityHitResult original) {
+        if (NoEntityTrace.INSTANCE != null && NoEntityTrace.INSTANCE.getStatus()) {
+            return (NoEntityTrace.INSTANCE.onlyPickaxe.getValue() && mc.player.getMainHandStack().getItem() instanceof PickaxeItem) ? null : original;
+        }
+        return original;
     }
 }

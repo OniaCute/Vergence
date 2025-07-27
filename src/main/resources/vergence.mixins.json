@@ -4,15 +4,15 @@
   "package": "cc.vergence.injections",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "accessors.render.AccessiblePassesShaderEffect",
-    "accessors.world.ClientWorldAccessor",
     "accessors.client.CreativeInventoryScreenAccessor",
+    "accessors.client.MinecraftClientAccessor",
     "accessors.player.CustomPayloadC2SPacketAccessor",
     "accessors.player.EntityAccessor",
-    "accessors.client.MinecraftClientAccessor",
-    "accessors.render.NativeImageAccessor",
     "accessors.player.PlayerMoveC2SPacketAccessor",
+    "accessors.render.AccessiblePassesShaderEffect",
+    "accessors.render.NativeImageAccessor",
     "accessors.render.WorldRendererAccessor",
+    "accessors.world.ClientWorldAccessor",
     "mixins.chat.MixinChatHud",
     "mixins.chat.MixinChatHudLine",
     "mixins.chat.MixinChatHudLineVisible",
@@ -20,9 +20,8 @@
     "mixins.chat.MixinChatMessages",
     "mixins.client.MixinMinecraftClient",
     "mixins.client.MixinWindow",
-    "mixins.entity.MixinEntityRenderer",
+    "mixins.entity.MixinEntity",
     "mixins.entity.MixinLivingEntity",
-    "mixins.entity.MixinLivingEntityRenderer",
     "mixins.hardware.KeyboardInputMixin",
     "mixins.hardware.MixinKeyboard",
     "mixins.hardware.MixinMouseActive",
@@ -32,22 +31,26 @@
     "mixins.player.MixinClientPlayerEntity",
     "mixins.player.MixinClientPlayerInteractionManager",
     "mixins.player.MixinPlayerEntity",
+    "mixins.render.MixinEntityRenderer",
     "mixins.render.MixinGameRenderer",
     "mixins.render.MixinHeldItemRenderer",
     "mixins.render.MixinLightmapTextureManager",
+    "mixins.render.MixinLivingEntityRenderer",
     "mixins.render.MixinMinecraftInGameHud",
     "mixins.render.MixinPlayerListHud",
+    "mixins.render.MixinRenderTickCounter",
     "mixins.render.MixinTextVisitFactory",
     "mixins.render.MixinWorldRenderer",
     "mixins.screen.MixinDownloadingTerrainScreen",
     "mixins.screen.MixinScreen",
     "mixins.screen.MixinTitleScreen",
-    "mixins.world.MixinClientWorld",
-    "mixins.world.MixinRenderTickCounter"
+    "mixins.world.MixinClientWorld"
   ],
   "injectors": {
     "defaultRequire": 1
   },
   "client": [
+    "mixins.screen.ConnectScreenMixin",
+    "mixins.screen.MixinConnectScreen"
   ]
 }

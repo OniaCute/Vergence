@@ -2,10 +2,7 @@ package cc.vergence.injections.mixins.player;
 
 import cc.vergence.Vergence;
 import cc.vergence.features.event.Event;
-import cc.vergence.features.event.events.MoveEvent;
-import cc.vergence.features.event.events.PlayerUpdateEvent;
-import cc.vergence.features.event.events.SyncEvent;
-import cc.vergence.features.event.events.UpdateWalkingEvent;
+import cc.vergence.features.event.events.*;
 import cc.vergence.modules.player.PortalGod;
 import cc.vergence.modules.visual.SwingModifier;
 import cc.vergence.util.interfaces.Wrapper;
@@ -80,5 +77,11 @@ public abstract class MixinClientPlayerEntity extends AbstractClientPlayerEntity
 		if (PortalGod.INSTANCE != null && PortalGod.INSTANCE.getStatus()) {
 			ci.cancel();
 		}
+	}
+
+	@Inject(method = "setCurrentHand", at = @At(value = "HEAD"))
+	private void hookSetCurrentHand(Hand hand, CallbackInfo ci) {
+		SetCurrentHandEvent setCurrentHandEvent = new SetCurrentHandEvent(hand);
+		Vergence.EVENTBUS.post(setCurrentHandEvent);
 	}
 }

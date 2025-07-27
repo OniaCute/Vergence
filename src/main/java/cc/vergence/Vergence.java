@@ -4,6 +4,7 @@ import cc.vergence.features.event.eventbus.EventBus;
 import cc.vergence.features.managers.client.*;
 import cc.vergence.features.managers.feature.ModuleManager;
 import cc.vergence.features.managers.feature.NetworkManager;
+import cc.vergence.features.managers.feature.ServerManager;
 import cc.vergence.features.managers.feature.TimerManager;
 import cc.vergence.features.managers.other.MessageManager;
 import cc.vergence.features.managers.other.TextManager;
@@ -49,6 +50,7 @@ public class Vergence implements ModInitializer {
     public static EventManager EVENTS;
     public static NetworkManager NETWORK;
     public static TimerManager TIMER;
+    public static ServerManager SERVER;
     public static ShaderManager SHADER;
     public static GuiManager GUI;
     public static HudManager HUD;
@@ -125,6 +127,9 @@ public class Vergence implements ModInitializer {
 
         TIMER = new TimerManager();
         CONSOLE.logInfo("Timer Manager was loaded");
+
+        SERVER = new ServerManager();
+        CONSOLE.logInfo("Server Manager was loaded");
 
         SHADER = new ShaderManager();
         CONSOLE.logInfo("Shader Manager was loaded");

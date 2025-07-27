@@ -1,4 +1,4 @@
-package cc.vergence.injections.mixins.entity;
+package cc.vergence.injections.mixins.render;
 
 import cc.vergence.Vergence;
 import cc.vergence.modules.visual.NoRender;

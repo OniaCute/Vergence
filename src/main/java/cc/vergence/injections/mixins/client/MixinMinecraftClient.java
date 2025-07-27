@@ -6,9 +6,11 @@ import cc.vergence.modules.Module;
 import cc.vergence.modules.client.Title;
 import cc.vergence.modules.combat.NoCooldown;
 import cc.vergence.modules.player.AutoRespawn;
+import cc.vergence.modules.player.MultipleTask;
 import cc.vergence.util.font.FontRenderers;
 import cc.vergence.util.font.FontUtil;
 import cc.vergence.util.interfaces.Wrapper;
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.RunArgs;
 import net.minecraft.client.gui.screen.DeathScreen;
@@ -170,5 +172,21 @@ public abstract class MixinMinecraftClient extends ReentrantThreadExecutor<Runna
             mc.player.requestRespawn();
             info.cancel();
         }
+    }
+
+    @ModifyExpressionValue(method = "handleBlockBreaking", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;isUsingItem()Z"))
+    private boolean handleBlockBreaking(boolean original) {
+        if (MultipleTask.INSTANCE != null && MultipleTask.INSTANCE.getStatus()) {
+            return false;
+        }
+        return original;
+    }
+
+    @ModifyExpressionValue(method = "doItemUse", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerInteractionManager;isBreakingBlock()Z"))
+    private boolean handleInputEvents(boolean original) {
+        if (MultipleTask.INSTANCE != null && MultipleTask.INSTANCE.getStatus()) {
+            return false;
+        }
+        return original;
     }
 }

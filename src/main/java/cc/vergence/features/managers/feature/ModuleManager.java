@@ -100,6 +100,13 @@ public class ModuleManager {
         registerModule(new AutoRepairArmor());
         registerModule(new Scoreboard());
         registerModule(new ThemeEditor());
+        registerModule(new AutoBowAim());
+        registerModule(new FastEat());
+        registerModule(new MultipleTask());
+        registerModule(new NoEntityTrace());
+        registerModule(new NoInteract());
+        registerModule(new PingLagSpoof());
+        registerModule(new LagNotify());
 
         // special module
         registerModule(new SafeMode());

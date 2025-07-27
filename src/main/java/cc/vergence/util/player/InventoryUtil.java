@@ -11,15 +11,45 @@ import net.minecraft.network.packet.c2s.play.PickItemFromEntityC2SPacket;
 import net.minecraft.network.packet.c2s.play.UpdateSelectedSlotC2SPacket;
 import net.minecraft.screen.slot.SlotActionType;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class InventoryUtil implements Wrapper {
-
     static int lastSlot = -1;
     static int lastSelect = -1;
+    private static final HashSet<Item> FOOD_ITEMS = new HashSet<>();
+
+    static {
+        FOOD_ITEMS.add(Items.APPLE);
+        FOOD_ITEMS.add(Items.BAKED_POTATO);
+        FOOD_ITEMS.add(Items.BREAD);
+        FOOD_ITEMS.add(Items.CARROT);
+        FOOD_ITEMS.add(Items.CHORUS_FRUIT);
+        FOOD_ITEMS.add(Items.COOKIE);
+        FOOD_ITEMS.add(Items.GOLDEN_APPLE);
+        FOOD_ITEMS.add(Items.GOLDEN_CARROT);
+        FOOD_ITEMS.add(Items.MELON_SLICE);
+        FOOD_ITEMS.add(Items.POISONOUS_POTATO);
+        FOOD_ITEMS.add(Items.POTATO);
+        FOOD_ITEMS.add(Items.PUMPKIN_PIE);
+        FOOD_ITEMS.add(Items.RABBIT_STEW);
+        FOOD_ITEMS.add(Items.BEEF);
+        FOOD_ITEMS.add(Items.CHICKEN);
+        FOOD_ITEMS.add(Items.MUTTON);
+        FOOD_ITEMS.add(Items.PORKCHOP);
+        FOOD_ITEMS.add(Items.RABBIT);
+        FOOD_ITEMS.add(Items.ROTTEN_FLESH);
+        FOOD_ITEMS.add(Items.SPIDER_EYE);
+        FOOD_ITEMS.add(Items.BROWN_MUSHROOM);
+        FOOD_ITEMS.add(Items.RED_MUSHROOM);
+        FOOD_ITEMS.add(Items.DRIED_KELP);
+        FOOD_ITEMS.add(Items.SWEET_BERRIES);
+        FOOD_ITEMS.add(Items.GLOW_BERRIES);
+    }
+
+    public static boolean isFood(ItemStack stack) {
+        return FOOD_ITEMS.contains(stack.getItem());
+    }
+
     public static void doSwap(int slot) {
         mc.player.getInventory().selectedSlot = slot;
         mc.getNetworkHandler().sendPacket(new UpdateSelectedSlotC2SPacket(slot));

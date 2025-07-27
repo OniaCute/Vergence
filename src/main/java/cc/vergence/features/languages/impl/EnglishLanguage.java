@@ -1252,5 +1252,43 @@ public class EnglishLanguage extends Language {
         languageBase.put("Module.Modules.ThemeEditor.Options.ColorOption.ConfigPageComponentHoveredTextColor.description", "Text color of components when hovered on the config page");
         languageBase.put("Module.Modules.ThemeEditor.Options.ColorOption.ConfigPageComponentChosenTextColor.name", "Config Page Component Chosen Text Color");
         languageBase.put("Module.Modules.ThemeEditor.Options.ColorOption.ConfigPageComponentChosenTextColor.description", "Text color of chosen components on the config page");
+
+        languageBase.put("Module.Modules.PingLagSpoof.name", "PingLagSpoof");
+        languageBase.put("Module.Modules.PingLagSpoof.description", "Spoof your ping to the server by delaying keep alive packets");
+
+        languageBase.put("Module.Modules.AutoBowAim.name", "AutoBowAim");
+        languageBase.put("Module.Modules.AutoBowAim.description", "Automatically aims your bow at targets");
+
+        languageBase.put("Module.Modules.FastEat.name", "FastEat");
+        languageBase.put("Module.Modules.FastEat.description", "Speeds up the eating process");
+
+        languageBase.put("Module.Modules.FastEat.Options.EnumOption.Mode.name", "Mode");
+        languageBase.put("Module.Modules.FastEat.Options.EnumOption.Mode.description", "The mode to use for speeding up eating");
+
+        languageBase.put("Module.Modules.FastEat.Options.DoubleOption.Ticks.name", "Ticks");
+        languageBase.put("Module.Modules.FastEat.Options.DoubleOption.Ticks.description", "The number of ticks to speed up the eating process");
+
+        languageBase.put("Module.Modules.MultipleTask.name", "Multiple Task");
+        languageBase.put("Module.Modules.MultipleTask.description", "Allows you to perform multiple tasks at once");
+
+        languageBase.put("Module.Modules.NoEntityTrace.name", "No Entity Trace");
+        languageBase.put("Module.Modules.NoEntityTrace.description", "Prevents the server from tracing entities");
+
+        languageBase.put("Module.Modules.NoEntityTrace.Options.BooleanOption.OnlyPickaxe.name", "Only Pickaxe");
+        languageBase.put("Module.Modules.NoEntityTrace.Options.BooleanOption.OnlyPickaxe.description", "Only applies the no trace effect when holding a pickaxe");
+
+        languageBase.put("Module.Modules.NoInteract.name", "No Interact");
+        languageBase.put("Module.Modules.NoInteract.description", "Prevents interaction with entities and blocks");
+
+        languageBase.put("Module.Modules.LagNotify.name", "LagNotify");
+        languageBase.put("Module.Modules.LagNotify.description", "Notifies you when the server is lagging or when the client is experiencing high latency");
+        languageBase.put("Module.Modules.LagNotify.Options.BooleanOption.ServerLagging.name", "Server Lagging");
+        languageBase.put("Module.Modules.LagNotify.Options.BooleanOption.ServerLagging.description", "Notify when the server response time exceeds a certain threshold");
+        languageBase.put("Module.Modules.LagNotify.Options.BooleanOption.ClientLayback.name", "Client Layback");
+        languageBase.put("Module.Modules.LagNotify.Options.BooleanOption.ClientLayback.description", "Notify when the client experiences significant lag");
+        languageBase.put("Module.Modules.LagNotify.Options.BooleanOption.Sounds.name", "Sounds");
+        languageBase.put("Module.Modules.LagNotify.Options.BooleanOption.Sounds.description", "Play a sound when lag is detected");
+        languageBase.put("Module.Modules.LagNotify.Messages.ServerLag", "§cServer is lagging! Response time: §b{timer}s");
+        languageBase.put("Module.Modules.LagNotify.Messages.ClientLag", "§cClient is lagging! Lag time: §b{timer}s");
     }
 }

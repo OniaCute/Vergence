@@ -10,15 +10,6 @@ public class Rotation {
     private double rotateSpeed;
     private RotateModes rotateModes;
 
-    public Rotation(float pitch, double yaw, double rotateSpeed, double smoothOffset, RotateModes rotateModes, int priority) {
-        this.pitch = pitch;
-        this.yaw = yaw;
-        this.rotateSpeed = rotateSpeed;
-        this.rotateModes = rotateModes;
-        this.priority = priority;
-        this.ticks = 0;
-    }
-
     public Rotation(float pitch, double yaw, double rotateSpeed, RotateModes rotateModes, int priority) {
         this.pitch = pitch;
         this.yaw = yaw;
@@ -32,6 +23,15 @@ public class Rotation {
         this.pitch = pitch;
         this.yaw = yaw;
         this.rotateSpeed = rotateSpeed;
+        this.rotateModes = rotateModes;
+        this.priority = 0;
+        this.ticks = 0;
+    }
+
+    public Rotation(float pitch, double yaw, RotateModes rotateModes) {
+        this.pitch = pitch;
+        this.yaw = yaw;
+        this.rotateSpeed = 180;
         this.rotateModes = rotateModes;
         this.priority = 0;
         this.ticks = 0;

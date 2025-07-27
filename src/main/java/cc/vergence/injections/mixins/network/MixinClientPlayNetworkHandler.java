@@ -1,8 +1,10 @@
 package cc.vergence.injections.mixins.network;
 
 import cc.vergence.Vergence;
+import cc.vergence.features.event.events.ClientConnectEvent;
 import cc.vergence.features.event.events.SendMessageEvent;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
+import net.minecraft.network.packet.s2c.play.GameJoinS2CPacket;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -38,5 +40,8 @@ public abstract class MixinClientPlayNetworkHandler {
         }
     }
 
-
+    @Inject(method = "onGameJoin", at = @At("TAIL"))
+    private void onGameJoin(GameJoinS2CPacket packet, CallbackInfo info) {
+        Vergence.EVENTBUS.post(new ClientConnectEvent());
+    }
 }

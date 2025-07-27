@@ -446,6 +446,12 @@ public abstract class Module implements Wrapper {
     public void onClientConnectAlways() {
     }
 
+    public void onTickMovement(TickMovementEvent event) {
+    }
+
+    public void onTickMovementAlways(TickMovementEvent event) {
+    }
+
     public void onPlayerConnect(PlayerConnectEvent event, UUID uuid) {
     }
 

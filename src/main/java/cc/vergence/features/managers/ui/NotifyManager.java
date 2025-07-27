@@ -70,10 +70,19 @@ public class NotifyManager implements Wrapper {
             return;
         }
         synchronized (lock) {
-            notifications.removeIf(Notification::isDead);
-            for (Notification n : notifications) {
-                if (n.shouldStartOut()) n.startExit();
-                else n.reduceAliveTime(1);
+            Iterator<Notification> iterator = notifications.iterator();
+            while (iterator.hasNext()) {
+                Notification n = iterator.next();
+                if (n.isDead()) {
+                    iterator.remove();
+                } else {
+                    if (n.shouldStartOut()) {
+                        n.startExit();
+                    }
+                    else {
+                        n.reduceAliveTime(1);
+                    }
+                }
             }
         }
     }

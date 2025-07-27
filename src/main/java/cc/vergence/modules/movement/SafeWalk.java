@@ -96,7 +96,9 @@ public class SafeWalk extends Module implements Wrapper {
     }
 
     private boolean isNearEdge(ClientPlayerEntity player, double threshold, boolean onlyBack) {
-        if (!player.isOnGround()) return false;
+        if (!player.isOnGround()) {
+            return false;
+        }
 
         Vec3d pos = player.getPos();
         Box box = player.getBoundingBox().offset(0, -0.05, 0);

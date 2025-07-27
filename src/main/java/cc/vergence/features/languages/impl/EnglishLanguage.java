@@ -1304,5 +1304,14 @@ public class EnglishLanguage extends Language {
         languageBase.put("Module.Modules.FastDrop.description", "Reduces the delay between dropping items");
         languageBase.put("Module.Modules.FastDrop.Options.DoubleOption.Delay.name", "Delay");
         languageBase.put("Module.Modules.FastDrop.Options.DoubleOption.Delay.description", "The delay in ticks between each item drop");
+
+        languageBase.put("Module.Modules.FastFall.name", "Fast Fall");
+        languageBase.put("Module.Modules.FastFall.description", "Allows you to fall faster");
+        languageBase.put("Module.Modules.FastFall.Options.EnumOption.FallMode.name", "Fall Mode");
+        languageBase.put("Module.Modules.FastFall.Options.EnumOption.FallMode.description", "The mode used to accelerate falling");
+        languageBase.put("Module.Modules.FastFall.Options.DoubleOption.ShiftTicks.name", "Shift Ticks");
+        languageBase.put("Module.Modules.FastFall.Options.DoubleOption.ShiftTicks.description", "Number of ticks to shift when falling");
+        languageBase.put("Module.Modules.FastFall.Options.DoubleOption.Distance.name", "Distance");
+        languageBase.put("Module.Modules.FastFall.Options.DoubleOption.Distance.description", "Maximum distance to check for blocks below");
     }
 }

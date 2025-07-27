@@ -22,7 +22,7 @@ public class AntiCheat extends Module {
 
     @Override
     public String getDetails() {
-        return "";
+        return antiCheat.getValue().name();
     }
 
     public boolean isLegit() {

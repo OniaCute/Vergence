@@ -110,6 +110,7 @@ public class ModuleManager {
         registerModule(new FastLatencyCalc());
         registerModule(new UnfocusedFPS());
         registerModule(new FastDrop());
+        registerModule(new FastFall());
 
         // special module
         registerModule(new SafeMode());

@@ -19,6 +19,7 @@ import net.minecraft.util.math.Vec3d;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -29,9 +30,15 @@ public abstract class MixinClientPlayerEntity extends AbstractClientPlayerEntity
 	private void sendSprintingPacket() {
 	}
 
+	@Unique
+	private boolean ticking;
+
 	@Final
 	@Shadow
 	protected MinecraftClient client;
+
+	@Shadow
+	protected abstract void sendMovementPackets();
 
 	@Shadow
 	public abstract float getPitch(float tickDelta);
@@ -83,5 +90,24 @@ public abstract class MixinClientPlayerEntity extends AbstractClientPlayerEntity
 	private void hookSetCurrentHand(Hand hand, CallbackInfo ci) {
 		SetCurrentHandEvent setCurrentHandEvent = new SetCurrentHandEvent(hand);
 		Vergence.EVENTBUS.post(setCurrentHandEvent);
+	}
+
+	@Inject(method = "tick", at = @At(value = "INVOKE", target = "Lnet/" +
+			"minecraft/client/network/ClientPlayerEntity;sendMovementPackets" +
+			"()V", ordinal = 0, shift = At.Shift.AFTER))
+	private void hookTick(CallbackInfo ci) {
+		if (ticking) {
+			return;
+		}
+		TickMovementEvent event = new TickMovementEvent();
+		Vergence.EVENTBUS.post(event);
+		if (event.isCancelled()) {
+			for (int i = 0; i < event.getIterations(); i++) {
+				ticking = true;
+				tick();
+				ticking = false;
+				sendMovementPackets();
+			}
+		}
 	}
 }

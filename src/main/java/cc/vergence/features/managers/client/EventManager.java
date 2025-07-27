@@ -363,6 +363,16 @@ public class EventManager implements Wrapper {
     }
 
     @EventHandler
+    public void onTickMovement(TickMovementEvent event) {
+        for (Module module : ModuleManager.modules) {
+            module.onTickMovementAlways(event);
+            if (module.getStatus()) {
+                module.onTickMovement(event);
+            }
+        }
+    }
+
+    @EventHandler
     public void onServerConnect(ServerConnectEvent event) {
         ServerAddress address = event.getAddress();
         ServerInfo info = event.getInfo();

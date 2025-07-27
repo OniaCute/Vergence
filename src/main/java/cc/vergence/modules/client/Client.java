@@ -69,7 +69,7 @@ public class Client extends Module {
                 for (GuiComponent component1 : component.getSubComponents()) {
                     if (component1 instanceof ModuleComponent moduleComponent) {
                         moduleComponent.getModule().setDisplayName(Vergence.TEXT.get("Module.Modules." + moduleComponent.getModule().getName() + ".name"));
-                        moduleComponent.getModule().setDescription(Vergence.TEXT.get("Module.Modules." + moduleComponent.getModule().getName() + ".desc"));
+                        moduleComponent.getModule().setDescription(Vergence.TEXT.get("Module.Modules." + moduleComponent.getModule().getName() + ".description"));
                         for (GuiComponent component2 : component1.getSubComponents()) {
                             moduleComponent.getModule().setDescription(Vergence.TEXT.get("Module.Modules." + moduleComponent.getModule().getName() + ".description"));
                             for (GuiComponent component3 : component2.getSubComponents()) {

@@ -4,7 +4,6 @@ import cc.vergence.features.options.Option;
 import cc.vergence.features.options.impl.BooleanOption;
 import cc.vergence.modules.Module;
 import cc.vergence.util.other.FastTimerUtil;
-import lombok.Getter;
 import net.minecraft.util.math.Vec3d;
 
 public class HitboxDesync extends Module {
@@ -18,7 +17,7 @@ public class HitboxDesync extends Module {
     }
 
     public Option<Boolean> alternating = addOption(new BooleanOption("Alternating", false));
-    public Option<Boolean> minimal = addOption(new BooleanOption("specific", false, v -> alternating.getValue()));
+    public Option<Boolean> minimal = addOption(new BooleanOption("Minimal", false, v -> alternating.getValue()));
     public Option<Boolean> specific = addOption(new BooleanOption("Specific", false, v -> alternating.getValue()));
     public Option<Boolean> autoDisable = addOption(new BooleanOption("AutoDisable", false, v -> alternating.getValue()));
     public Option<Boolean> jumpDisable = addOption(new BooleanOption("JumpDisable", false, v -> alternating.getValue()));

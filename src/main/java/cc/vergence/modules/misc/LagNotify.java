@@ -55,14 +55,16 @@ public class LagNotify extends Module {
 
         if (serverLagging.getValue() && Vergence.SERVER.getResponseTimer().passedMs(1000)) {
             NotifyManager.newNotification(this, Vergence.TEXT.get("Module.Modules.LagNotify.Messages.ServerLag").replace("{timer}", String.valueOf(MathUtil.round(Vergence.SERVER.getResponseTimer().getGapMs() / 1000f, 1))));
+            if (withSound.getValue()) {
+                mc.world.playSound(mc.player, mc.player.getBlockPos(), SoundEvents.BLOCK_ANVIL_LAND, SoundCategory.BLOCKS, 1f, 1f);
+            }
         }
 
         if (clientLayback.getValue() && System.currentTimeMillis() - laggingTime < 3000) {
             NotifyManager.newNotification(this, Vergence.TEXT.get("Module.Modules.LagNotify.Messages.ClientLag").replace("{timer}", String.valueOf(MathUtil.round((System.currentTimeMillis() - laggingTime) / 1000f, 1))));
-        }
-
-        if (withSound.getValue()) {
-            mc.world.playSound(mc.player, mc.player.getBlockPos(), SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.BLOCKS, 1f, 1f);
+            if (withSound.getValue()) {
+                mc.world.playSound(mc.player, mc.player.getBlockPos(), SoundEvents.BLOCK_ANVIL_LAND, SoundCategory.BLOCKS, 1f, 1f);
+            }
         }
     }
 }

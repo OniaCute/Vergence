@@ -41,11 +41,12 @@
     "mixins.render.MixinRenderTickCounter",
     "mixins.render.MixinTextVisitFactory",
     "mixins.render.MixinWorldRenderer",
+    "mixins.screen.MixinConnectScreen",
     "mixins.screen.MixinDownloadingTerrainScreen",
     "mixins.screen.MixinScreen",
     "mixins.screen.MixinTitleScreen",
     "mixins.world.MixinClientWorld",
-    "mixins.screen.MixinConnectScreen"
+    "mixins.client.MixinInactivityFpsLimiter"
   ],
   "injectors": {
     "defaultRequire": 1

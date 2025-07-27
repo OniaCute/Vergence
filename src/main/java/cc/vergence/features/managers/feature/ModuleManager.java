@@ -108,6 +108,8 @@ public class ModuleManager {
         registerModule(new PingLagSpoof());
         registerModule(new LagNotify());
         registerModule(new FastLatencyCalc());
+        registerModule(new UnfocusedFPS());
+        registerModule(new FastDrop());
 
         // special module
         registerModule(new SafeMode());

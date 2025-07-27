@@ -12,6 +12,7 @@ public class EnglishLanguage extends Language {
 
     @Override
     public void load() {
+        languageBase.put("COMMANDS.USAGE", "§6Usage: §e");
         languageBase.put("COMMANDS.Aim.desc", "Aim to pos");
         languageBase.put("COMMANDS.Friend.desc", "Edit friend list");
         languageBase.put("COMMANDS.Enemy.desc", "Edit enemy list");
@@ -793,10 +794,6 @@ public class EnglishLanguage extends Language {
 
         languageBase.put("Module.Modules.AutoLogin.name", "Auto Login");
         languageBase.put("Module.Modules.AutoLogin.description", "Automatically sends login command when the local player joins the server");
-        languageBase.put("Module.Modules.AutoLogin.Options.TextOption.Username.name", "User Name");
-        languageBase.put("Module.Modules.AutoLogin.Options.TextOption.Username.description", "Player name that should trigger the login");
-        languageBase.put("Module.Modules.AutoLogin.Options.TextOption.Command.name", "Command");
-        languageBase.put("Module.Modules.AutoLogin.Options.TextOption.Command.description", "The login command to send");
         languageBase.put("Module.Modules.AutoLogin.Options.TextOption.Password.name", "Password");
         languageBase.put("Module.Modules.AutoLogin.Options.TextOption.Password.description", "The password appended to the command");
 
@@ -1259,7 +1256,7 @@ public class EnglishLanguage extends Language {
         languageBase.put("Module.Modules.AutoBowAim.Options.DoubleOption.Range.name", "Range");
         languageBase.put("Module.Modules.AutoBowAim.Options.DoubleOption.Range.description", "The maximum distance to target entities");
 
-        languageBase.put("Module.Modules.FastEat.name", "FastEat");
+        languageBase.put("Module.Modules.FastEat.name", "Fast Eat");
         languageBase.put("Module.Modules.FastEat.description", "Speeds up the eating process");
         languageBase.put("Module.Modules.FastEat.Options.EnumOption.Mode.name", "Mode");
         languageBase.put("Module.Modules.FastEat.Options.EnumOption.Mode.description", "The mode to use for speeding up eating");
@@ -1297,5 +1294,15 @@ public class EnglishLanguage extends Language {
         languageBase.put("Module.Modules.FastLatencyCalc.Options.DoubleOption.Threshold.name", "Threshold");
         languageBase.put("Module.Modules.FastLatencyCalc.Options.DoubleOption.Threshold.description", "The minimum latency increase required to trigger a spike notification");
         languageBase.put("Module.Modules.FastLatencyCalc.Messages.Spike", "Latency spike detected!");
+
+        languageBase.put("Module.Modules.UnfocusedFPS.name", "Unfocused FPS");
+        languageBase.put("Module.Modules.UnfocusedFPS.description", "Limits the FPS when the game window is not focused");
+        languageBase.put("Module.Modules.UnfocusedFPS.Options.DoubleOption.FPSLimit.name", "FPS Limit");
+        languageBase.put("Module.Modules.UnfocusedFPS.Options.DoubleOption.FPSLimit.description", "The maximum FPS allowed when the game window is not focused");
+
+        languageBase.put("Module.Modules.FastDrop.name", "Fast Drop");
+        languageBase.put("Module.Modules.FastDrop.description", "Reduces the delay between dropping items");
+        languageBase.put("Module.Modules.FastDrop.Options.DoubleOption.Delay.name", "Delay");
+        languageBase.put("Module.Modules.FastDrop.Options.DoubleOption.Delay.description", "The delay in ticks between each item drop");
     }
 }

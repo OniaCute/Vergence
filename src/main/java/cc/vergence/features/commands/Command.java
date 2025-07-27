@@ -1,5 +1,6 @@
 package cc.vergence.features.commands;
 
+import cc.vergence.Vergence;
 import cc.vergence.features.managers.other.MessageManager;
 import cc.vergence.features.managers.ui.NotifyManager;
 import cc.vergence.util.interfaces.Wrapper;
@@ -34,6 +35,6 @@ public abstract class Command implements Wrapper {
 	public abstract String[] getAutocorrect(int count, List<String> seperated);
 
 	public void sendUsage() {
-		NotifyManager.newNotification("§6Usage: §e" + getName() + " " + getSyntax());
+		NotifyManager.newNotification(Vergence.TEXT.get("COMMANDS.USAGE") + getName() + " " + getSyntax());
 	}
 }

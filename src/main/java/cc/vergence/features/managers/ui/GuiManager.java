@@ -677,8 +677,6 @@ public class GuiManager implements Wrapper {
         }
         switch (PAGE) {
             case Search  -> {
-                searchModuleComponent.sort(Comparator.comparing((GuiComponent c) -> ((ModuleComponent) c).getModule().isAlwaysEnable() ? 0 : 1)
-                        .thenComparing(c -> ((ModuleComponent) c).getModule().getDisplayName(), String.CASE_INSENSITIVE_ORDER));
                 for (GuiComponent component : searchModuleComponent) {
                     Render2DUtil.pushDisplayArea( // topbar cover
                             context.getMatrices(),
@@ -813,25 +811,23 @@ public class GuiManager implements Wrapper {
 
     private static void layoutThemes() {
         latestThemeComponentPosition = new Pair<>(MAIN_PAGE_X, MAIN_PAGE_Y + 37 + (mouseScrolledOffset * 8));
-        for (GuiComponent moduleComponent : themeComponents) {
-            moduleComponent.setX(MAIN_PAGE_X + 111);
-            moduleComponent.setY(latestThemeComponentPosition.getB());
-            moduleComponent.setWidth((400 - 114));
-            moduleComponent.setHeight(FontUtil.getHeight(FontSize.MEDIUM) + FontUtil.getHeight(FontSize.SMALL) + 2);
-            latestThemeComponentPosition = new Pair<>(moduleComponent.getX(), moduleComponent.getY() + moduleComponent.getHeight() + 2);
-//            searchModuleComponent.add(moduleComponent);
+        for (GuiComponent component : themeComponents) {
+            component.setX(MAIN_PAGE_X + 111);
+            component.setY(latestThemeComponentPosition.getB());
+            component.setWidth((400 - 114));
+            component.setHeight(FontUtil.getHeight(FontSize.MEDIUM) + FontUtil.getHeight(FontSize.SMALL) + 2);
+            latestThemeComponentPosition = new Pair<>(component.getX(), component.getY() + component.getHeight() + 2);
         }
     }
 
     private static void layoutConfigs() {
         latestConfigComponentPosition = new Pair<>(MAIN_PAGE_X, MAIN_PAGE_Y + 37 + (mouseScrolledOffset * 8));
-        for (GuiComponent moduleComponent : configComponents) {
-            moduleComponent.setX(MAIN_PAGE_X + 111);
-            moduleComponent.setY(latestConfigComponentPosition.getB());
-            moduleComponent.setWidth((400 - 114));
-            moduleComponent.setHeight(FontUtil.getHeight(FontSize.MEDIUM) + FontUtil.getHeight(FontSize.SMALL) + 2);
-            latestConfigComponentPosition = new Pair<>(moduleComponent.getX(), moduleComponent.getY() + moduleComponent.getHeight() + 2);
-//            searchModuleComponent.add(moduleComponent);
+        for (GuiComponent component : configComponents) {
+            component.setX(MAIN_PAGE_X + 111);
+            component.setY(latestConfigComponentPosition.getB());
+            component.setWidth((400 - 114));
+            component.setHeight(FontUtil.getHeight(FontSize.MEDIUM) + FontUtil.getHeight(FontSize.SMALL) + 2);
+            latestConfigComponentPosition = new Pair<>(component.getX(), component.getY() + component.getHeight() + 2);
         }
     }
 
@@ -861,6 +857,7 @@ public class GuiManager implements Wrapper {
                 searchModuleComponent.add(moduleComponent);
             }
         }
+        searchModuleComponent.sort(Comparator.comparing((GuiComponent c) -> ((ModuleComponent) c).getModule().isAlwaysEnable() ? 0 : 1).thenComparing(c -> ((ModuleComponent) c).getModule().getDisplayName(), String.CASE_INSENSITIVE_ORDER));
     }
 
     private static void layoutModuleAreaComponent(ModuleComponent moduleComponent) {

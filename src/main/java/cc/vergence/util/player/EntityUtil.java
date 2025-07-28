@@ -6,6 +6,7 @@ import cc.vergence.features.enums.units.SpeedUnit;
 import cc.vergence.features.enums.player.SwingModes;
 import cc.vergence.util.interfaces.Wrapper;
 import net.minecraft.client.network.PlayerListEntry;
+import net.minecraft.client.option.KeyBinding;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -161,5 +162,14 @@ public class EntityUtil implements Wrapper {
     public static boolean isBot(PlayerEntity player) {
         PlayerListEntry entry = mc.getNetworkHandler().getPlayerListEntry(player.getUuid());
         return entry == null || entry.getProfile() == null || player.getUuid().toString().startsWith(player.getName().getString()) || !player.getGameProfile().getName().equals(player.getName().getString());
+    }
+
+    public static boolean isHotbarKeysPressed() {
+        for (KeyBinding binding : mc.options.hotbarKeys) {
+            if (binding.isPressed()) {
+                return true;
+            }
+        }
+        return false;
     }
 }

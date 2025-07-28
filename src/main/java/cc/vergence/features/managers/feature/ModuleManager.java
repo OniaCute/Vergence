@@ -111,6 +111,8 @@ public class ModuleManager {
         registerModule(new UnfocusedFPS());
         registerModule(new FastDrop());
         registerModule(new FastFall());
+        registerModule(new AutoReplenish());
+        registerModule(new CrystalAura());
 
         // special module
         registerModule(new SafeMode());

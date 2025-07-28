@@ -1,9 +1,11 @@
 package cc.vergence.features.managers.player;
 
 import cc.vergence.Vergence;
+import cc.vergence.features.event.events.PacketEvent;
 import cc.vergence.util.interfaces.Wrapper;
 import cc.vergence.util.rotation.Rotation;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
+import net.minecraft.util.math.MathHelper;
 
 import java.util.PriorityQueue;
 
@@ -11,8 +13,33 @@ public class RotateManager implements Wrapper {
     private final PriorityQueue<RotationTask> rotationQueue = new PriorityQueue<>();
     private RotationTask currentTask = null;
 
-    private float lastYaw, lastPitch;
+    private float lastYaw, lastPitch, serverYaw, serverPitch;
     private long lastRenderTime;
+
+    public RotateManager() {
+        Vergence.EVENTBUS.subscribe(this);
+    }
+
+    public void onReceivePackets(PacketEvent.Receive event) {
+        if (event.getPacket() instanceof PlayerMoveC2SPacket packet && packet.changesLook()) {
+            float packetYaw = packet.getYaw(0.0f);
+            float packetPitch = packet.getPitch(0.0f);
+            serverYaw = packetYaw;
+            serverPitch = packetPitch;
+        }
+    }
+
+    public float getServerPitch() {
+        return serverPitch;
+    }
+
+    public float getServerYaw() {
+        return serverYaw;
+    }
+
+    public float getWrappedYaw() {
+        return MathHelper.wrapDegrees(serverYaw);
+    }
 
     public boolean inRenderTime() {
         return System.currentTimeMillis() - lastRenderTime < 1000;

@@ -25,7 +25,7 @@ public class Chams extends Module implements Wrapper {
         INSTANCE = this;
     }
 
-    public Option<EnumSet<TargetTypes>> targets = addOption(new MultipleOption<>("Targets", EnumSet.of(TargetTypes.EnemyPlayers, TargetTypes.invisible)));
+    public Option<EnumSet<TargetTypes>> targets = addOption(new MultipleOption<>("Targets", EnumSet.of(TargetTypes.EnemyPlayers, TargetTypes.Invisible)));
     public Option<Boolean> forEnemy = addOption(new BooleanOption("RenderEnemy", true));
     public Option<Boolean> forFriend = addOption(new BooleanOption("RenderFriend", true));
     public Option<Boolean> forMyself = addOption(new BooleanOption("RenderSelf", false));
@@ -113,7 +113,7 @@ public class Chams extends Module implements Wrapper {
     }
 
     private boolean isValidEntity(Entity entity) {
-        if (targets.getValue().contains(TargetTypes.EnemyPlayers) && entity.getType() == EntityType.PLAYER || (entity.isInvisible() && targets.getValue().contains(TargetTypes.invisible))) {
+        if (targets.getValue().contains(TargetTypes.EnemyPlayers) && entity.getType() == EntityType.PLAYER || (entity.isInvisible() && targets.getValue().contains(TargetTypes.Invisible))) {
             return true;
         }
         if (targets.getValue().contains(TargetTypes.Mobs) && entity.getType().getSpawnGroup() == SpawnGroup.MONSTER) {

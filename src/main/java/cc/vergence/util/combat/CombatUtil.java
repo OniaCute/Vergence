@@ -113,7 +113,7 @@ public class CombatUtil implements Wrapper {
         if (mc.player.distanceTo(entity) > range) {
             return false;
         }
-        if (entity.isInvisible() && !types.contains(TargetTypes.invisible)) {
+        if (entity.isInvisible() && !types.contains(TargetTypes.Invisible)) {
             return false;
         }
         if (entity instanceof PlayerEntity player) {

@@ -2,14 +2,21 @@ package cc.vergence.util.player;
 
 import cc.vergence.util.blocks.BlockUtil;
 import cc.vergence.util.interfaces.Wrapper;
+import com.google.common.collect.Lists;
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.*;
+import net.minecraft.network.packet.c2s.play.ClickSlotC2SPacket;
 import net.minecraft.network.packet.c2s.play.PickItemFromEntityC2SPacket;
 import net.minecraft.network.packet.c2s.play.UpdateSelectedSlotC2SPacket;
+import net.minecraft.screen.ScreenHandler;
+import net.minecraft.screen.slot.Slot;
 import net.minecraft.screen.slot.SlotActionType;
+import net.minecraft.util.collection.DefaultedList;
 
 import java.util.*;
 
@@ -201,6 +208,18 @@ public class InventoryUtil implements Wrapper {
         mc.getNetworkHandler().sendPacket(new UpdateSelectedSlotC2SPacket(slot));
     }
 
+    public static void sendServerSlot(int slot) {
+        mc.getNetworkHandler().sendPacket(new UpdateSelectedSlotC2SPacket(slot));
+    }
+
+    public static void setClientSlot(final int barSlot) {
+        if (mc.player.getInventory().selectedSlot != barSlot
+                && PlayerInventory.isValidHotbarIndex(barSlot)) {
+            mc.player.getInventory().selectedSlot = barSlot;
+            sendServerSlot(barSlot);
+        }
+    }
+
     public static int findHotbarSlot(java.util.function.Predicate<ItemStack> filter) {
         for (int i = 0; i < 9; i++) {
             ItemStack stack = mc.player.getInventory().getStack(i);
@@ -214,6 +233,29 @@ public class InventoryUtil implements Wrapper {
         if (slot != -1) {
             switchToSlot(slot);
         }
+    }
+
+    public static void pickupSlot(final int slot) {
+        click(slot, 0, SlotActionType.PICKUP);
+    }
+
+    public static void click(int slot, int button, SlotActionType type) {
+        ScreenHandler screenHandler = mc.player.currentScreenHandler;
+        DefaultedList<Slot> defaultedList = screenHandler.slots;
+        int i = defaultedList.size();
+        ArrayList<ItemStack> list = Lists.newArrayListWithCapacity(i);
+        for (Slot slot1 : defaultedList) {
+            list.add(slot1.getStack().copy());
+        }
+        screenHandler.onSlotClick(slot, button, type, mc.player);
+        Int2ObjectOpenHashMap<ItemStack> int2ObjectMap = new Int2ObjectOpenHashMap<>();
+        for (int j = 0; j < i; ++j) {
+            ItemStack itemStack2;
+            ItemStack itemStack = list.get(j);
+            if (ItemStack.areEqual(itemStack, itemStack2 = defaultedList.get(j).getStack())) continue;
+            int2ObjectMap.put(j, itemStack2.copy());
+        }
+        mc.player.networkHandler.sendPacket(new ClickSlotC2SPacket(screenHandler.syncId, screenHandler.getRevision(), slot, button, type, screenHandler.getCursorStack().copy(), int2ObjectMap));
     }
 }
 

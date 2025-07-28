@@ -76,7 +76,7 @@ public class AutoRepairArmor extends Module {
         }
 
         int prevSlot = mc.player.getInventory().selectedSlot;
-        InventoryUtil.switchToSlot(expSlot);
+        InventoryUtil.pickupSlot(expSlot);
 
         if (doRotate.getValue()) {
             mc.player.setPitch(90f);
@@ -93,7 +93,7 @@ public class AutoRepairArmor extends Module {
             mc.player.swingHand(Hand.MAIN_HAND);
         }
 
-        InventoryUtil.switchToSlot(prevSlot);
+        InventoryUtil.pickupSlot(prevSlot);
         repairing = true;
         timer.reset();
 

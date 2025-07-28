@@ -28,8 +28,8 @@ public class Velocity extends Module {
     }
 
     public Option<Enum<?>> mode = addOption(new EnumOption("Mode", Modes.Normal));
-    public Option<Double> horizontal = addOption(new DoubleOption("Horizontal", 100.0, 0.0, 100.0, v -> mode.getValue().equals(Modes.Normal)));
-    public Option<Double> vertical = addOption(new DoubleOption("Vertical", 100.0, 0.0, 100.0, v -> mode.getValue().equals(Modes.Normal)));
+    public Option<Double> horizontal = addOption(new DoubleOption("Horizontal", 0, 100, 100, v -> mode.getValue().equals(Modes.Normal)));
+    public Option<Double> vertical = addOption(new DoubleOption("Vertical", 0, 100, 100, v -> mode.getValue().equals(Modes.Normal)));
     public Option<Boolean> explosions = addOption(new BooleanOption("Explosions", true));
     public Option<Boolean> pause = addOption(new BooleanOption("Pause", true, v -> !mode.getValue().equals(Modes.Normal)));
     public Option<Boolean> antiPush = addOption(new BooleanOption("AntiPush", true));

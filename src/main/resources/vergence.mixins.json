@@ -8,7 +8,9 @@
     "accessors.client.MinecraftClientAccessor",
     "accessors.player.CustomPayloadC2SPacketAccessor",
     "accessors.player.EntityAccessor",
+    "accessors.player.EntityVelocityUpdateS2CPacketAccessor",
     "accessors.player.PlayerMoveC2SPacketAccessor",
+    "accessors.player.Vec3dAccessor",
     "accessors.render.AccessiblePassesShaderEffect",
     "accessors.render.NativeImageAccessor",
     "accessors.render.WorldRendererAccessor",
@@ -18,6 +20,7 @@
     "mixins.chat.MixinChatHudLineVisible",
     "mixins.chat.MixinChatInputSuggester",
     "mixins.chat.MixinChatMessages",
+    "mixins.client.MixinInactivityFpsLimiter",
     "mixins.client.MixinMinecraftClient",
     "mixins.client.MixinWindow",
     "mixins.entity.MixinEntity",
@@ -30,10 +33,16 @@
     "mixins.player.MixinCamera",
     "mixins.player.MixinClientPlayerEntity",
     "mixins.player.MixinClientPlayerInteractionManager",
+    "mixins.player.MixinFishingBobberEntity",
     "mixins.player.MixinPlayerEntity",
+    "mixins.render.MixinAbstractSignBlockEntityRenderer",
+    "mixins.render.MixinArmorFeatureRenderer",
+    "mixins.render.MixinBackgroundRenderer",
     "mixins.render.MixinEntityRenderer",
     "mixins.render.MixinGameRenderer",
     "mixins.render.MixinHeldItemRenderer",
+    "mixins.render.MixinInGameHud",
+    "mixins.render.MixinInGameOverlayRenderer",
     "mixins.render.MixinLightmapTextureManager",
     "mixins.render.MixinLivingEntityRenderer",
     "mixins.render.MixinMinecraftInGameHud",
@@ -46,7 +55,7 @@
     "mixins.screen.MixinScreen",
     "mixins.screen.MixinTitleScreen",
     "mixins.world.MixinClientWorld",
-    "mixins.client.MixinInactivityFpsLimiter"
+    "mixins.world.MixinParticleManager"
   ],
   "injectors": {
     "defaultRequire": 1

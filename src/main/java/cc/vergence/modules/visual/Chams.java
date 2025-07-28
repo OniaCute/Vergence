@@ -12,6 +12,7 @@ import cc.vergence.util.render.other.ModelRenderer;
 import cc.vergence.util.render.utils.Render3DUtil;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.*;
+import net.minecraft.entity.decoration.EndCrystalEntity;
 import net.minecraft.entity.player.PlayerEntity;
 
 import java.awt.*;
@@ -30,6 +31,9 @@ public class Chams extends Module implements Wrapper {
     public Option<Boolean> forFriend = addOption(new BooleanOption("RenderFriend", true));
     public Option<Boolean> forMyself = addOption(new BooleanOption("RenderSelf", false));
     public Option<Boolean> shine = addOption(new BooleanOption("Shine", true));
+    public Option<Boolean> forCrystal = addOption(new BooleanOption("RenderCrystal", true));
+    public Option<Color> crystalFillColor = addOption(new ColorOption("CrystalFill", new Color(236, 105, 255, 130), v -> forCrystal.getValue()));
+    public Option<Color> crystalOutlineColor = addOption(new ColorOption("CrystalOutline", new Color(165, 84, 255), v -> forCrystal.getValue()));
     public Option<Color> enemyFillColor = addOption(new ColorOption("EnemyFill", new Color(255, 19, 19, 108), v -> forEnemy.getValue()));
     public Option<Color> enemyOutlineColor = addOption(new ColorOption("EnemyOutline", new Color(197, 6, 6), v -> forEnemy.getValue()));
     public Option<Color> friendFillColor = addOption(new ColorOption("FriendFill", new Color(38, 184, 255, 128), v -> forFriend.getValue()));
@@ -54,61 +58,64 @@ public class Chams extends Module implements Wrapper {
             return;
         }
         for (Entity entity : mc.world.getEntities()) {
-            if (!(entity instanceof LivingEntity living)) {
-                continue;
-            }
             if (!Render3DUtil.isFrustumVisible(entity.getBoundingBox())) {
                 continue;
             }
 
-            boolean isPlayer = entity instanceof PlayerEntity;
-            boolean isSelf = entity == mc.player;
-            boolean isFriend = isPlayer && Vergence.FRIEND.isFriend(entity.getName().getString());
-            boolean isEnemy = isPlayer && Vergence.ENEMY.isEnemy(entity.getName().getString());
+            if (entity instanceof LivingEntity living) {
+                boolean isPlayer = entity instanceof PlayerEntity;
+                boolean isSelf = entity == mc.player;
+                boolean isFriend = isPlayer && Vergence.FRIEND.isFriend(entity.getName().getString());
+                boolean isEnemy = isPlayer && Vergence.ENEMY.isEnemy(entity.getName().getString());
 
-            if (isSelf && !forMyself.getValue()) {
-                continue;
-            }
-            if (isFriend && !forFriend.getValue()) {
-                continue;
-            }
-            if (!isPlayer && !isValidEntity(entity)) {
-                continue;
-            }
+                if (isSelf && !forMyself.getValue()) {
+                    continue;
+                }
+                if (isFriend && !forFriend.getValue()) {
+                    continue;
+                }
+                if (!isPlayer && !isValidEntity(entity)) {
+                    continue;
+                }
 
-            Color fill, outline;
+                Color fill, outline;
 
-            if (isSelf && forMyself.getValue()) {
-                fill = selfFillColor.getValue();
-                outline = selfOutlineColor.getValue();
-            } else if (isFriend && forFriend.getValue()) {
-                fill = friendFillColor.getValue();
-                outline = friendOutlineColor.getValue();
-            } else if (isEnemy && forEnemy.getValue()) {
-                fill = enemyFillColor.getValue();
-                outline = enemyOutlineColor.getValue();
-            } else if (!isPlayer) {
-                if (entity.getType().getSpawnGroup() == SpawnGroup.MONSTER && targets.getValue().contains(TargetTypes.Mobs)) {
-                    fill = mobFillColor.getValue();
-                    outline = mobOutlineColor.getValue();
-                } else if ((entity.getType().getSpawnGroup() == SpawnGroup.CREATURE
-                        || entity.getType().getSpawnGroup() == SpawnGroup.WATER_CREATURE
-                        || entity.getType().getSpawnGroup() == SpawnGroup.WATER_AMBIENT
-                        || entity.getType().getSpawnGroup() == SpawnGroup.UNDERGROUND_WATER_CREATURE
-                        || entity.getType().getSpawnGroup() == SpawnGroup.AXOLOTLS)
-                        && targets.getValue().contains(TargetTypes.Animals)) {
-                    fill = animalFillColor.getValue();
-                    outline = animalOutlineColor.getValue();
+                if (isSelf && forMyself.getValue()) {
+                    fill = selfFillColor.getValue();
+                    outline = selfOutlineColor.getValue();
+                } else if (isFriend && forFriend.getValue()) {
+                    fill = friendFillColor.getValue();
+                    outline = friendOutlineColor.getValue();
+                } else if (isEnemy && forEnemy.getValue()) {
+                    fill = enemyFillColor.getValue();
+                    outline = enemyOutlineColor.getValue();
+                } else if (!isPlayer) {
+                    if (entity.getType().getSpawnGroup() == SpawnGroup.MONSTER && targets.getValue().contains(TargetTypes.Mobs)) {
+                        fill = mobFillColor.getValue();
+                        outline = mobOutlineColor.getValue();
+                    } else if ((entity.getType().getSpawnGroup() == SpawnGroup.CREATURE
+                            || entity.getType().getSpawnGroup() == SpawnGroup.WATER_CREATURE
+                            || entity.getType().getSpawnGroup() == SpawnGroup.WATER_AMBIENT
+                            || entity.getType().getSpawnGroup() == SpawnGroup.UNDERGROUND_WATER_CREATURE
+                            || entity.getType().getSpawnGroup() == SpawnGroup.AXOLOTLS)
+                            && targets.getValue().contains(TargetTypes.Animals)) {
+                        fill = animalFillColor.getValue();
+                        outline = animalOutlineColor.getValue();
+                    } else {
+                        fill = defaultFillColor.getValue();
+                        outline = defaultOutlineColor.getValue();
+                    }
                 } else {
                     fill = defaultFillColor.getValue();
                     outline = defaultOutlineColor.getValue();
                 }
-            } else {
-                fill = defaultFillColor.getValue();
-                outline = defaultOutlineColor.getValue();
+
+                ModelRenderer.renderModel(living, 1.0f, tickDelta, new ModelRenderer.Render(true, fill, true, outline, shine.getValue()));
             }
 
-            ModelRenderer.renderModel(living, 1.0f, tickDelta, new ModelRenderer.Render(true, fill, true, outline, shine.getValue()));
+            else if (entity instanceof EndCrystalEntity crystalEntity) {
+                ModelRenderer.renderModel(crystalEntity, 1.0f, tickDelta, new ModelRenderer.Render(true, crystalFillColor.getValue(), true, crystalOutlineColor.getValue(), shine.getValue()));
+            }
         }
     }
 

@@ -26,20 +26,20 @@ public class BindCommand extends Command {
 		String moduleName = parameters[0];
 		Module module = Vergence.MODULE.getModuleByName(moduleName);
 		if (module == null) {
-			NotifyManager.newNotification(Vergence.TEXT.get("COMMANDS.MESSAGE.BIND.UNKNOWN_MODULE"));
+			NotifyManager.newNotification("Vergence", Vergence.TEXT.get("COMMANDS.MESSAGE.BIND.UNKNOWN_MODULE"));
 			return;
 		}
 		if (parameters.length == 1) {
-			NotifyManager.newNotification(Vergence.TEXT.get("COMMANDS.MESSAGE.BIND.NO_KEY"));
+			NotifyManager.newNotification("Vergence", Vergence.TEXT.get("COMMANDS.MESSAGE.BIND.NO_KEY"));
 			return;
 		}
 		String rkey = parameters[1];
 		if (rkey == null) {
-			NotifyManager.newNotification(Vergence.TEXT.get("COMMANDS.MESSAGE.BIND.UNKNOWN_ERROR"));
+			NotifyManager.newNotification("Vergence", Vergence.TEXT.get("COMMANDS.MESSAGE.BIND.UNKNOWN_ERROR"));
 			return;
 		}
 		if (module.setBindValue(rkey.toUpperCase())) {
-			NotifyManager.newNotification(Vergence.TEXT.get("COMMANDS.MESSAGE.BIND.BIND_OK"));
+			NotifyManager.newNotification("Vergence", Vergence.TEXT.get("COMMANDS.MESSAGE.BIND.BIND_OK"));
 		}
 	}
 

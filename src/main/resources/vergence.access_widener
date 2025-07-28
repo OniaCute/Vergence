@@ -4,3 +4,4 @@ accessible method net/minecraft/client/texture/NativeImage setColor (III)V
 accessible method net/minecraft/client/render/RenderPhase$Texture getId ()Ljava/util/Optional;
 accessible field net/minecraft/client/gl/PostEffectProcessor passes Ljava/util/List;
 accessible field net/minecraft/client/MinecraftClient itemUseCooldown I
+accessible class net/minecraft/client/render/BackgroundRenderer$StatusEffectFogModifier

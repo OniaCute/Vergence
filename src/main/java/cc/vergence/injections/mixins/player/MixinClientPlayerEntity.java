@@ -3,6 +3,7 @@ package cc.vergence.injections.mixins.player;
 import cc.vergence.Vergence;
 import cc.vergence.features.event.Event;
 import cc.vergence.features.event.events.*;
+import cc.vergence.modules.movement.Velocity;
 import cc.vergence.modules.player.PortalGod;
 import cc.vergence.modules.visual.SwingModifier;
 import cc.vergence.util.interfaces.Wrapper;
@@ -108,6 +109,13 @@ public abstract class MixinClientPlayerEntity extends AbstractClientPlayerEntity
 				ticking = false;
 				sendMovementPackets();
 			}
+		}
+	}
+
+	@Inject(method = "pushOutOfBlocks", at = @At("HEAD"), cancellable = true)
+	private void pushOutOfBlocks(double x, double z, CallbackInfo info) {
+		if (Velocity.INSTANCE.getStatus() && Velocity.INSTANCE.antiBlockPush.getValue()) {
+			info.cancel();
 		}
 	}
 }

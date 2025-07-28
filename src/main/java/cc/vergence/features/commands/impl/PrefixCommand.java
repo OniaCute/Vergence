@@ -20,11 +20,11 @@ public class PrefixCommand extends Command {
 			return;
 		}
 		if (parameters[0].startsWith("/")) {
-			NotifyManager.newNotification(Vergence.TEXT.get("COMMANDS.MESSAGE.PREFIX.NO_PREFIX"));
+			NotifyManager.newNotification("Vergence", Vergence.TEXT.get("COMMANDS.MESSAGE.PREFIX.NO_PREFIX"));
 			return;
 		}
 		Vergence.PREFIX = parameters[0];
-		NotifyManager.newNotification(Vergence.TEXT.get("COMMANDS.MESSAGE.PREFIX.OK") + " \"" + parameters[0] + "\"");
+		NotifyManager.newNotification("Vergence", Vergence.TEXT.get("COMMANDS.MESSAGE.PREFIX.OK") + " \"" + parameters[0] + "\"");
 	}
 
 	@Override

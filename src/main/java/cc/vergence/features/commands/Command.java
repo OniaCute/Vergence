@@ -35,6 +35,6 @@ public abstract class Command implements Wrapper {
 	public abstract String[] getAutocorrect(int count, List<String> seperated);
 
 	public void sendUsage() {
-		NotifyManager.newNotification(Vergence.TEXT.get("COMMANDS.USAGE") + getName() + " " + getSyntax());
+		NotifyManager.newNotification("Vergence", Vergence.TEXT.get("COMMANDS.USAGE") + getName() + " " + getSyntax());
 	}
 }

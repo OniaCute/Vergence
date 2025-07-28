@@ -51,8 +51,8 @@ public class ConfigManager implements Wrapper {
         ensureDirectory(MISC_ADVERTISER_FOLDER);
         ensureDirectory(FONTS_FOLDER);
 
-        File defaultSpammer = new File(MISC_SPAMMER_FOLDER.getName() + "default.txt");
-        File defaultAdvertiser = new File(MISC_ADVERTISER_FOLDER.getName() + "default.txt");
+        File defaultSpammer = new File(MISC_SPAMMER_FOLDER + "default.txt");
+        File defaultAdvertiser = new File(MISC_ADVERTISER_FOLDER + "default.txt");
 
         if (firstUse || !defaultSpammer.exists() || !defaultSpammer.isFile()) {
             ArrayList<String> defaultValue = new ArrayList<>();
@@ -118,18 +118,6 @@ public class ConfigManager implements Wrapper {
             } catch (IOException e) {
                 Vergence.CONSOLE.logError("Failed to create default file: " + folder.getName() + "/" + fileName);
             }
-        }
-    }
-
-    public void loadDefault(String name) {
-        Path path = Paths.get(CONFIG_FOLDER_NAME + "/configs/" + name + ".vgc");
-        try (InputStream in = this.getClass().getClassLoader().getResourceAsStream("cfg/" + name + ".vgc");
-             OutputStream out = Files.newOutputStream(path)) {
-            if (in == null) return;
-            IOUtils.copy(in, out);
-            load(name);
-        } catch (IOException _E) {
-            _E.printStackTrace();
         }
     }
 
@@ -239,8 +227,8 @@ public class ConfigManager implements Wrapper {
     }
 
     public File getCurrentConfig() {
-        File file = new File(CONFIG_FOLDER_NAME + "/config/default.vgc");
-        String name = "default";
+        File file = new File(CONFIG_FOLDER_NAME + "/config/" + currentConfigName + ".vgc");
+        String name = currentConfigName;
         try {
             if (file.exists()) {
                 Scanner reader = new Scanner(file);

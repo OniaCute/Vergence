@@ -31,27 +31,27 @@ public class ConfigCommand extends Command {
 			case "save":
 				String saveName = parameters.length < 2 ? cm.currentConfigName : parameters[1];
 				cm.save(new File(ConfigManager.CONFIG_FOLDER, saveName + ".vgc"));
-				NotifyManager.newNotification(Vergence.TEXT.get("COMMANDS.CONFIG.MESSAGE.SAVED").replace("{config}", saveName));
+				NotifyManager.newNotification("Vergence", Vergence.TEXT.get("COMMANDS.CONFIG.MESSAGE.SAVED").replace("{config}", saveName));
 				break;
 
 			case "load":
 				if (parameters.length < 2) {
-					NotifyManager.newNotification(Vergence.TEXT.get("COMMANDS.CONFIG.MESSAGE.MISSING_NAME"));
+					NotifyManager.newNotification("Vergence", Vergence.TEXT.get("COMMANDS.CONFIG.MESSAGE.MISSING_NAME"));
 					return;
 				}
 				File target = new File(ConfigManager.CONFIG_FOLDER, parameters[1] + ".vgc");
 				if (!target.exists()) {
-					NotifyManager.newNotification(Vergence.TEXT.get("COMMANDS.CONFIG.MESSAGE.NOT_FOUND").replace("{config}", parameters[1]));
+					NotifyManager.newNotification("Vergence", Vergence.TEXT.get("COMMANDS.CONFIG.MESSAGE.NOT_FOUND").replace("{config}", parameters[1]));
 					return;
 				}
 				cm.load(parameters[1]);
-				NotifyManager.newNotification(Vergence.TEXT.get("COMMANDS.CONFIG.MESSAGE.LOADED").replace("{config}", parameters[1]));
+				NotifyManager.newNotification("Vergence", Vergence.TEXT.get("COMMANDS.CONFIG.MESSAGE.LOADED").replace("{config}", parameters[1]));
 				break;
 
 			case "list":
 				File[] files = ConfigManager.CONFIG_FOLDER.listFiles((d, n) -> n.endsWith(".vgc"));
 				if (files == null || files.length == 0) {
-					NotifyManager.newNotification(Vergence.TEXT.get("COMMANDS.CONFIG.MESSAGE.NO_CONFIGS"));
+					NotifyManager.newNotification("Vergence", Vergence.TEXT.get("COMMANDS.CONFIG.MESSAGE.NO_CONFIGS"));
 					return;
 				}
 				ArrayList<String> arr = new ArrayList<>();
@@ -63,22 +63,23 @@ public class ConfigCommand extends Command {
 					MessageManager.newMessage("Vergence", "§e - " + name);
 				}
 				break;
+
 			case "delete":
 				if (parameters.length < 2) {
-					NotifyManager.newNotification(Vergence.TEXT.get("COMMANDS.CONFIG.MESSAGE.MISSING_NAME"));
+					NotifyManager.newNotification("Vergence", Vergence.TEXT.get("COMMANDS.CONFIG.MESSAGE.MISSING_NAME"));
 					return;
 				}
 				File del = new File(ConfigManager.CONFIG_FOLDER, parameters[1] + ".vgc");
 				if (!del.exists()) {
-					NotifyManager.newNotification(Vergence.TEXT.get("COMMANDS.CONFIG.MESSAGE.NOT_FOUND").replace("{config}", parameters[1]));
+					NotifyManager.newNotification("Vergence", Vergence.TEXT.get("COMMANDS.CONFIG.MESSAGE.NOT_FOUND").replace("{config}", parameters[1]));
 					return;
 				}
 				if ("default".equalsIgnoreCase(parameters[1])) {
-					NotifyManager.newNotification(Vergence.TEXT.get("COMMANDS.CONFIG.MESSAGE.CANNOT_DELETE_DEFAULT"));
+					NotifyManager.newNotification("Vergence", Vergence.TEXT.get("COMMANDS.CONFIG.MESSAGE.CANNOT_DELETE_DEFAULT"));
 					return;
 				}
 				if (del.delete()) {
-					NotifyManager.newNotification(Vergence.TEXT.get("COMMANDS.CONFIG.MESSAGE.DELETED").replace("{config}", parameters[1]));
+					NotifyManager.newNotification("Vergence", Vergence.TEXT.get("COMMANDS.CONFIG.MESSAGE.DELETED").replace("{config}", parameters[1]));
 				}
 				break;
 
@@ -89,13 +90,28 @@ public class ConfigCommand extends Command {
 
 	@Override
 	public String[] getAutocorrect(int count, List<String> separated) {
-		if (count == 1) return new String[]{"save", "load", "list"};
-		if (count == 2 && "load".equalsIgnoreCase(separated.get(separated.size() - 2))) {
-			File[] fs = ConfigManager.CONFIG_FOLDER.listFiles((d, n) -> n.endsWith(".vgc"));
-			List<String> names = new ArrayList<>();
-			if (fs != null) for (File f : fs) names.add(f.getName().replace(".vgc", ""));
-			return names.toArray(new String[0]);
+		if (count == 1) {
+			return new String[]{"save", "load", "list", "delete"};
 		}
+
+		if (count == 2) {
+			String cmd = separated.get(separated.size() - 2).toLowerCase();
+			switch (cmd) {
+				case "load":
+				case "delete":
+					File[] fs = ConfigManager.CONFIG_FOLDER.listFiles((d, n) -> n.endsWith(".vgc"));
+					List<String> names = new ArrayList<>();
+					if (fs != null) {
+						for (File f : fs) {
+							names.add(f.getName().replace(".vgc", ""));
+						}
+					}
+					return names.toArray(new String[0]);
+				default:
+					return null;
+			}
+		}
+
 		return null;
 	}
 }

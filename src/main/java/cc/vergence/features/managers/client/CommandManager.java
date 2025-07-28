@@ -45,7 +45,7 @@ public class CommandManager {
     public void command(String[] commandIn) {
         Command command = commands.get(commandIn[0].substring(Vergence.PREFIX.length()));
         if (command == null)
-            NotifyManager.newNotification(Vergence.TEXT.get("COMMANDS.MESSAGE.INVALID_COMMAND"));
+            NotifyManager.newNotification("Vergence", Vergence.TEXT.get("COMMANDS.MESSAGE.INVALID_COMMAND"));
         else {
             String[] parameterList = new String[commandIn.length - 1];
             for (int i = 1; i < commandIn.length; i++) {

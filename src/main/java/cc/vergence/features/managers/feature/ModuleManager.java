@@ -113,6 +113,9 @@ public class ModuleManager {
         registerModule(new FastFall());
         registerModule(new AutoReplenish());
         registerModule(new CrystalAura());
+        registerModule(new SmartOffhand());
+        registerModule(new AutoBowRelease());
+        registerModule(new Velocity());
 
         // special module
         registerModule(new SafeMode());

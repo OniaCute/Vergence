@@ -4,6 +4,7 @@ import cc.vergence.Vergence;
 import cc.vergence.modules.player.FreeCamera;
 import cc.vergence.modules.player.NoEntityTrace;
 import cc.vergence.modules.visual.FOVModifier;
+import cc.vergence.modules.visual.NoRender;
 import cc.vergence.util.interfaces.Wrapper;
 import cc.vergence.util.player.EntityUtil;
 import cc.vergence.util.render.utils.Render3DUtil;
@@ -67,5 +68,12 @@ public abstract class MixinGameRenderer implements Wrapper {
             return (NoEntityTrace.INSTANCE.onlyPickaxe.getValue() && mc.player.getMainHandStack().getItem() instanceof PickaxeItem) ? null : original;
         }
         return original;
+    }
+
+    @Inject(method = "tiltViewWhenHurt", at = @At("HEAD"), cancellable = true)
+    private void tiltViewWhenHurt(CallbackInfo info) {
+        if (NoRender.INSTANCE.getStatus() && NoRender.INSTANCE.noHurtCamera.getValue()) {
+            info.cancel();
+        }
     }
 }

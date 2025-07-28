@@ -1,5 +1,6 @@
 package cc.vergence.util.player;
 
+import cc.vergence.features.enums.player.SwapModes;
 import cc.vergence.util.blocks.BlockUtil;
 import cc.vergence.util.interfaces.Wrapper;
 import com.google.common.collect.Lists;
@@ -60,6 +61,24 @@ public class InventoryUtil implements Wrapper {
     public static void doSwap(int slot) {
         mc.player.getInventory().selectedSlot = slot;
         mc.getNetworkHandler().sendPacket(new UpdateSelectedSlotC2SPacket(slot));
+    }
+
+    public static void doSwap(SwapModes mode, int slot, int targetSlot) {
+        switch (mode) {
+            case Pickup -> {
+                mc.interactionManager.clickSlot(mc.player.currentScreenHandler.syncId, indexToSlot(slot), 0, SlotActionType.PICKUP, mc.player);
+                mc.interactionManager.clickSlot(mc.player.currentScreenHandler.syncId, indexToSlot(targetSlot), 0, SlotActionType.PICKUP, mc.player);
+                mc.interactionManager.clickSlot(mc.player.currentScreenHandler.syncId, indexToSlot(slot), 0, SlotActionType.PICKUP, mc.player);
+            }
+            case Swap -> {
+                mc.interactionManager.clickSlot(mc.player.currentScreenHandler.syncId, indexToSlot(slot), targetSlot, SlotActionType.SWAP, mc.player);
+            }
+        }
+    }
+
+    public static int indexToSlot(int index) {
+        if (index >= 0 && index <= 8) return 36 + index;
+        return index;
     }
 
     public static int getItemCount(Item item) {
@@ -256,6 +275,22 @@ public class InventoryUtil implements Wrapper {
             int2ObjectMap.put(j, itemStack2.copy());
         }
         mc.player.networkHandler.sendPacket(new ClickSlotC2SPacket(screenHandler.syncId, screenHandler.getRevision(), slot, button, type, screenHandler.getCursorStack().copy(), int2ObjectMap));
+    }
+
+    public static int findEmptySlot() {
+        // hotbar
+        for (int i = 0; i < 9; i++) {
+            if (mc.player.getInventory().getStack(i).isEmpty()) {
+                return i;
+            }
+        }
+        // inv
+        for (int i = 9; i < 36; i++) {
+            if (mc.player.getInventory().getStack(i).isEmpty()) {
+                return i;
+            }
+        }
+        return -1;
     }
 }
 

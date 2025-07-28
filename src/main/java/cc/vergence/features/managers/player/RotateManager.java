@@ -1,6 +1,7 @@
 package cc.vergence.features.managers.player;
 
 import cc.vergence.Vergence;
+import cc.vergence.features.event.eventbus.EventHandler;
 import cc.vergence.features.event.events.PacketEvent;
 import cc.vergence.util.interfaces.Wrapper;
 import cc.vergence.util.rotation.Rotation;
@@ -20,6 +21,7 @@ public class RotateManager implements Wrapper {
         Vergence.EVENTBUS.subscribe(this);
     }
 
+    @EventHandler
     public void onReceivePackets(PacketEvent.Receive event) {
         if (event.getPacket() instanceof PlayerMoveC2SPacket packet && packet.changesLook()) {
             float packetYaw = packet.getYaw(0.0f);
@@ -129,4 +131,3 @@ public class RotateManager implements Wrapper {
         }
     }
 }
-

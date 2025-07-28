@@ -48,8 +48,6 @@ import net.minecraft.world.RaycastContext;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import static cc.vergence.util.combat.CombatUtil.isValidTarget;
 
@@ -121,7 +119,7 @@ public class CrystalAura extends Module {
     public Option<Double> placeRange = addOption(new DoubleOption("PlaceRange", 1, 10, 4, v -> page.getValue().equals(Pages.Place)));
     public Option<Double> placeWallRange = addOption(new DoubleOption("PlaceWallRange", 0.6, 6, 4, v -> page.getValue().equals(Pages.Place)));
     public Option<Boolean> placeSwing = addOption(new BooleanOption("PlaceSwing", true, v -> page.getValue().equals(Pages.Place)));
-    public Option<Double> placeSpeed = addOption(new DoubleOption("PlaceSpeed", 1, 10, 4, v -> page.getValue().equals(Pages.Place)));
+    public Option<Double> placeSpeed = addOption(new DoubleOption("PlaceSpeed", 1, 20, 4, v -> page.getValue().equals(Pages.Place)));
     public Option<Boolean> placeCalcByEye = addOption(new BooleanOption("PlaceCalcByEye", false, v -> page.getValue().equals(Pages.Place)));
     public Option<Boolean> placeCalcCenter = addOption(new BooleanOption("PlaceCalcCenter", false, v -> page.getValue().equals(Pages.Place)));
     public Option<Enum<?>> placeSwapMode = addOption(new EnumOption("PlaceSwapMode", SwapModes.None, v -> page.getValue().equals(Pages.Place)));
@@ -661,7 +659,7 @@ public class CrystalAura extends Module {
         if (placeSwing.getValue()) {
             mc.player.swingHand(hand);
         } else {
-            Vergence.NETWORK.sendPacket(new HandSwingC2SPacket(hand));
+            Vergence.NETWORK.sendPacketWithChach(new HandSwingC2SPacket(hand));
         }
     }
 
@@ -771,12 +769,12 @@ public class CrystalAura extends Module {
 
     private void attackInternal(EndCrystalEntity crystalEntity, Hand hand) {
         hand = hand != null ? hand : Hand.MAIN_HAND;
-        Vergence.NETWORK.sendPacket(PlayerInteractEntityC2SPacket.attack(crystalEntity, mc.player.isSneaking()));
+        Vergence.NETWORK.sendPacketWithChach(PlayerInteractEntityC2SPacket.attack(crystalEntity, mc.player.isSneaking()));
         attackPackets.put(crystalEntity.getId(), System.currentTimeMillis());
         if (attackSwing.getValue()) {
             mc.player.swingHand(hand);
         } else {
-            Vergence.NETWORK.sendPacket(new HandSwingC2SPacket(hand));
+            Vergence.NETWORK.sendPacketWithChach(new HandSwingC2SPacket(hand));
         }
     }
 

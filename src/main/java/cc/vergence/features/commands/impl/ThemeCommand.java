@@ -33,14 +33,14 @@ public class ThemeCommand extends Command {
         switch (cmd) {
             case "save":
                 if (parameters.length < 2) {
-                    NotifyManager.newNotification(Vergence.TEXT.get("COMMANDS.THEME.MESSAGE.MISSING_NAME"));
+                    NotifyManager.newNotification("Vergence", Vergence.TEXT.get("COMMANDS.THEME.MESSAGE.MISSING_NAME"));
                     return;
                 }
                 String saveName = parameters[1];
                 Vergence.THEME.getTheme().setName(saveName);
                 JsonObject json = Vergence.THEME.dumpToJson();
                 Vergence.THEME.saveTheme(saveName, json);
-                NotifyManager.newNotification(Vergence.TEXT.get("COMMANDS.THEME.MESSAGE.SAVED").replace("{theme}", saveName));
+                NotifyManager.newNotification("Vergence", Vergence.TEXT.get("COMMANDS.THEME.MESSAGE.SAVED").replace("{theme}", saveName));
                 break;
 
             case "load":
@@ -51,24 +51,24 @@ public class ThemeCommand extends Command {
                 }
                 File target = new File(themesFolder, parameters[1] + ".json");
                 if (!target.exists()) {
-                    NotifyManager.newNotification(Vergence.TEXT.get("COMMANDS.THEME.MESSAGE.NOT_FOUND").replace("{theme}", parameters[1]));
+                    NotifyManager.newNotification("Vergence", Vergence.TEXT.get("COMMANDS.THEME.MESSAGE.NOT_FOUND").replace("{theme}", parameters[1]));
                     return;
                 }
                 Theme theme = null;
                 try {
                     theme = Vergence.THEME.loadFromJson(JsonParser.parseReader(new FileReader(target)).getAsJsonObject());
                 } catch (Exception e) {
-                    NotifyManager.newNotification(Vergence.TEXT.get("COMMANDS.THEME.MESSAGE.NOT_FOUND").replace("{theme}", parameters[1]));
+                    NotifyManager.newNotification("Vergence", Vergence.TEXT.get("COMMANDS.THEME.MESSAGE.NOT_FOUND").replace("{theme}", parameters[1]));
                     e.printStackTrace();
                 }
                 if (theme != null) Vergence.THEME.loadTheme(theme);
-                NotifyManager.newNotification(Vergence.TEXT.get("COMMANDS.THEME.MESSAGE.LOADED").replace("{theme}", parameters[1]));
+                NotifyManager.newNotification("Vergence", Vergence.TEXT.get("COMMANDS.THEME.MESSAGE.LOADED").replace("{theme}", parameters[1]));
                 break;
 
             case "list":
                 File[] files = themesFolder.listFiles((d, n) -> n.endsWith(".json"));
                 if (files == null || files.length == 0) {
-                    NotifyManager.newNotification(Vergence.TEXT.get("COMMANDS.THEME.MESSAGE.NO_THEMES"));
+                    NotifyManager.newNotification("Vergence", Vergence.TEXT.get("COMMANDS.THEME.MESSAGE.NO_THEMES"));
                     return;
                 }
                 ArrayList<String> sb = new ArrayList<>();
@@ -83,20 +83,20 @@ public class ThemeCommand extends Command {
 
             case "delete":
                 if (parameters.length < 2) {
-                    NotifyManager.newNotification(Vergence.TEXT.get("COMMANDS.THEME.MESSAGE.MISSING_NAME"));
+                    NotifyManager.newNotification("Vergence", Vergence.TEXT.get("COMMANDS.THEME.MESSAGE.MISSING_NAME"));
                     return;
                 }
                 File del = new File(themesFolder, parameters[1] + ".json");
                 if (!del.exists()) {
-                    NotifyManager.newNotification(Vergence.TEXT.get("COMMANDS.THEME.MESSAGE.NOT_FOUND").replace("{theme}", parameters[1]));
+                    NotifyManager.newNotification("Vergence", Vergence.TEXT.get("COMMANDS.THEME.MESSAGE.NOT_FOUND").replace("{theme}", parameters[1]));
                     return;
                 }
                 if ("default".equalsIgnoreCase(parameters[1])) {
-                    NotifyManager.newNotification(Vergence.TEXT.get("COMMANDS.THEME.MESSAGE.CANNOT_DELETE_DEFAULT"));
+                    NotifyManager.newNotification("Vergence", Vergence.TEXT.get("COMMANDS.THEME.MESSAGE.CANNOT_DELETE_DEFAULT"));
                     return;
                 }
                 if (del.delete()) {
-                    NotifyManager.newNotification(Vergence.TEXT.get("COMMANDS.THEME.MESSAGE.DELETED").replace("{theme}", parameters[1]));
+                    NotifyManager.newNotification("Vergence", Vergence.TEXT.get("COMMANDS.THEME.MESSAGE.DELETED").replace("{theme}", parameters[1]));
                 }
                 if (parameters[1].equals(Vergence.THEME.getTheme().getName())) {
                     Vergence.THEME.unloadTheme();

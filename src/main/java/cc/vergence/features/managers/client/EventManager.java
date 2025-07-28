@@ -30,6 +30,7 @@ import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Vec3d;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.UUID;
@@ -576,6 +577,18 @@ public class EventManager implements Wrapper {
             module.onClickSlotAlways(slotActionType, slot, button, id);
             if (module.getStatus()) {
                 module.onClickSlot(slotActionType, slot, button, id);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onUpdateVelocity(UpdateVelocityEvent event) {
+        Vec3d movement = event.getMovementInput();
+        float speed = event.getSpeed();
+        for (Module module : ModuleManager.modules) {
+            module.onUpdateVelocityAlways(event, movement, speed);
+            if (module.getStatus()) {
+                module.onUpdateVelocity(event, movement, speed);
             }
         }
     }

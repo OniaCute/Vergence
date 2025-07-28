@@ -2,7 +2,9 @@ package cc.vergence.features.managers.player;
 
 import cc.vergence.Vergence;
 import cc.vergence.features.event.eventbus.EventHandler;
+import cc.vergence.features.event.events.MoveEvent;
 import cc.vergence.features.event.events.PacketEvent;
+import cc.vergence.features.event.events.SyncEvent;
 import cc.vergence.util.interfaces.Wrapper;
 import cc.vergence.util.rotation.Rotation;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
@@ -19,6 +21,13 @@ public class RotateManager implements Wrapper {
 
     public RotateManager() {
         Vergence.EVENTBUS.subscribe(this);
+    }
+
+    @EventHandler
+    public void onSync(SyncEvent event) {
+        serverPitch = event.getPitch();
+        serverYaw = event.getYaw();
+
     }
 
     @EventHandler
@@ -41,6 +50,10 @@ public class RotateManager implements Wrapper {
 
     public float getWrappedYaw() {
         return MathHelper.wrapDegrees(serverYaw);
+    }
+
+    public void snapBack() {
+        mc.getNetworkHandler().sendPacket(new PlayerMoveC2SPacket.Full(mc.player.getX(), mc.player.getY(), mc.player.getZ(), serverYaw, serverPitch, mc.player.isOnGround(), false));
     }
 
     public boolean inRenderTime() {

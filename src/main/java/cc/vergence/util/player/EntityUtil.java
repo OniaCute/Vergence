@@ -4,7 +4,10 @@ import cc.vergence.Vergence;
 import cc.vergence.features.enums.player.Hands;
 import cc.vergence.features.enums.units.SpeedUnit;
 import cc.vergence.features.enums.player.SwingModes;
+import cc.vergence.util.blocks.BlockUtil;
+import cc.vergence.util.blocks.FixedBlockPos;
 import cc.vergence.util.interfaces.Wrapper;
+import net.minecraft.block.Blocks;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.entity.Entity;
@@ -15,10 +18,7 @@ import net.minecraft.network.packet.c2s.play.HandSwingC2SPacket;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.*;
 import net.minecraft.world.GameMode;
 import net.minecraft.world.RaycastContext;
 
@@ -40,6 +40,17 @@ public class EntityUtil implements Wrapper {
 
     public static boolean isFalling(double distance) {
         return mc.player.fallDistance > distance && !mc.player.isOnGround() && !mc.player.isGliding();
+    }
+
+    public static boolean isInsideBlock() {
+        if (BlockUtil.getBlock(EntityUtil.getPlayerPos(true)) == Blocks.ENDER_CHEST) {
+            return true;
+        }
+        return mc.world.canCollide(mc.player, mc.player.getBoundingBox());
+    }
+
+    public static BlockPos getPlayerPos(boolean fix) {
+        return new FixedBlockPos(mc.player.getPos(), fix);
     }
 
     public static float getHealth(Entity entity) {

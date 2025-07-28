@@ -59,4 +59,7 @@ public class BlockUtil implements Wrapper {
         return closestResult;
     }
 
+    public static Block getBlock(BlockPos pos) {
+        return mc.world.getBlockState(pos).getBlock();
+    }
 }

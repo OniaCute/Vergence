@@ -29,6 +29,7 @@ import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Vec3d;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -468,6 +469,12 @@ public abstract class Module implements Wrapper {
     }
 
     public void onServerConnectAlways(ServerConnectEvent event, ServerAddress address, ServerInfo info) {
+    }
+
+    public void onUpdateVelocity(UpdateVelocityEvent event, Vec3d movement, float speed) {
+    }
+
+    public void onUpdateVelocityAlways(UpdateVelocityEvent event, Vec3d movement, float speed) {
     }
 
     public void setName(String name) {

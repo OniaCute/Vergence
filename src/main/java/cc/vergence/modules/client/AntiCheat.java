@@ -1,9 +1,12 @@
 package cc.vergence.modules.client;
 
 import cc.vergence.features.enums.client.AntiCheats;
+import cc.vergence.features.enums.player.PlaceModes;
 import cc.vergence.features.enums.player.RotateModes;
 import cc.vergence.features.enums.player.SwingModes;
 import cc.vergence.features.options.Option;
+import cc.vergence.features.options.impl.BooleanOption;
+import cc.vergence.features.options.impl.DoubleOption;
 import cc.vergence.features.options.impl.EnumOption;
 import cc.vergence.modules.Module;
 
@@ -16,9 +19,20 @@ public class AntiCheat extends Module {
         setAlwaysEnable(true);
     }
 
+    public Option<Double> fov = addOption(new DoubleOption("AttackDelay", 0, 180, 90).setUnit("°"));
     public Option<Enum<?>> antiCheat = addOption(new EnumOption("AntiCheat", AntiCheats.Legit));
     public Option<Enum<?>> rotateMode = addOption(new EnumOption("RotateMode", RotateModes.Server));
     public Option<Enum<?>> swingMode = addOption(new EnumOption("SwingMode", SwingModes.Both));
+    public Option<Enum<?>> placeMode = addOption(new EnumOption("PlaceMode", PlaceModes.Legit));
+    public Option<Boolean> snapBack = addOption(new BooleanOption("SnapBack", false));
+    public Option<Boolean> attackRotate = addOption(new BooleanOption("AttackRotate", false));
+    public Option<Double> attackDelay = addOption(new DoubleOption("AttackDelay", 0, 5, 1).setUnit("s"));
+    public Option<Boolean> forceSync = addOption(new BooleanOption("ForceSync", false));
+    public Option<Boolean> spamCheck = addOption(new BooleanOption("SpamCheck", true));
+    public Option<Boolean> multiPlace = addOption(new BooleanOption("MultiPlace", false));
+    public Option<Boolean> strictBlock = addOption(new BooleanOption("StrictBlock", false));
+    public Option<Boolean> inventorySync = addOption(new BooleanOption("InventorySync", true));
+    public Option<Boolean> inventoryBypass = addOption(new BooleanOption("InventoryBypass", true));
 
     @Override
     public String getDetails() {

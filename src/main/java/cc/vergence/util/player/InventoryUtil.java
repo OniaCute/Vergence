@@ -1,6 +1,7 @@
 package cc.vergence.util.player;
 
 import cc.vergence.features.enums.player.SwapModes;
+import cc.vergence.modules.client.AntiCheat;
 import cc.vergence.util.blocks.BlockUtil;
 import cc.vergence.util.interfaces.Wrapper;
 import com.google.common.collect.Lists;
@@ -12,6 +13,7 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.*;
 import net.minecraft.network.packet.c2s.play.ClickSlotC2SPacket;
+import net.minecraft.network.packet.c2s.play.CloseHandledScreenC2SPacket;
 import net.minecraft.network.packet.c2s.play.PickItemFromEntityC2SPacket;
 import net.minecraft.network.packet.c2s.play.UpdateSelectedSlotC2SPacket;
 import net.minecraft.screen.ScreenHandler;
@@ -291,6 +293,33 @@ public class InventoryUtil implements Wrapper {
             }
         }
         return -1;
+    }
+
+    public static void syncInventory() {
+        if (AntiCheat.INSTANCE.inventorySync.getValue()) {
+            mc.getNetworkHandler().sendPacket(new CloseHandledScreenC2SPacket(mc.player.currentScreenHandler.syncId));
+        }
+    }
+
+    public static void inventorySwap(int slot, int selectedSlot) {
+        if (slot == lastSlot) {
+            switchToSlot(lastSelect);
+            lastSlot = -1;
+            lastSelect = -1;
+            return;
+        }
+        if (slot - 36 == selectedSlot) return;
+        if (AntiCheat.INSTANCE.inventoryBypass.getValue()) {
+            if (slot - 36 >= 0) {
+                lastSlot = slot;
+                lastSelect = selectedSlot;
+                switchToSlot(slot - 36);
+                return;
+            }
+            doSwap(SwapModes.Pickup, mc.player.getInventory().selectedSlot, selectedSlot);
+            return;
+        }
+        mc.interactionManager.clickSlot(mc.player.currentScreenHandler.syncId, slot, selectedSlot, SlotActionType.SWAP, mc.player);
     }
 }
 

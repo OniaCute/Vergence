@@ -453,6 +453,12 @@ public abstract class Module implements Wrapper {
     public void onTickMovementAlways(TickMovementEvent event) {
     }
 
+    public void onPlayerJump(PlayerJumpEvent event) {
+    }
+
+    public void onPlayerJumpAlways(PlayerJumpEvent event) {
+    }
+
     public void onPlayerConnect(PlayerConnectEvent event, UUID uuid) {
     }
 

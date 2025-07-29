@@ -116,6 +116,7 @@ public class ModuleManager {
         registerModule(new SmartOffhand());
         registerModule(new AutoBowRelease());
         registerModule(new Velocity());
+        registerModule(new Surround());
 
         // special module
         registerModule(new SafeMode());

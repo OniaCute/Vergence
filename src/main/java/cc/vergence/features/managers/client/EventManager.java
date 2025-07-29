@@ -374,6 +374,16 @@ public class EventManager implements Wrapper {
     }
 
     @EventHandler
+    public void onPlayerJump(PlayerJumpEvent event) {
+        for (Module module : ModuleManager.modules) {
+            module.onPlayerJumpAlways(event);
+            if (module.getStatus()) {
+                module.onPlayerJump(event);
+            }
+        }
+    }
+
+    @EventHandler
     public void onServerConnect(ServerConnectEvent event) {
         ServerAddress address = event.getAddress();
         ServerInfo info = event.getInfo();

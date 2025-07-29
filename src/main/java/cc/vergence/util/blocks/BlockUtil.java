@@ -1,16 +1,29 @@
 package cc.vergence.util.blocks;
 
+import cc.vergence.features.enums.player.PlaceModes;
+import cc.vergence.features.enums.player.RotateModes;
+import cc.vergence.modules.client.AntiCheat;
 import cc.vergence.util.interfaces.Wrapper;
+import cc.vergence.util.player.EntityUtil;
+import net.minecraft.block.BedBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.ExperienceOrbEntity;
+import net.minecraft.entity.ItemEntity;
+import net.minecraft.entity.decoration.ArmorStandEntity;
+import net.minecraft.entity.decoration.EndCrystalEntity;
+import net.minecraft.entity.projectile.ArrowEntity;
+import net.minecraft.entity.projectile.thrown.ExperienceBottleEntity;
+import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class BlockUtil implements Wrapper {
     public static final List<Block> shiftBlocks = Arrays.asList(
@@ -22,6 +35,7 @@ public class BlockUtil implements Wrapper {
             Blocks.PINK_SHULKER_BOX, Blocks.GRAY_SHULKER_BOX, Blocks.CYAN_SHULKER_BOX, Blocks.PURPLE_SHULKER_BOX,
             Blocks.BLUE_SHULKER_BOX, Blocks.BROWN_SHULKER_BOX, Blocks.GREEN_SHULKER_BOX, Blocks.RED_SHULKER_BOX, Blocks.BLACK_SHULKER_BOX
     );
+    public static final CopyOnWriteArrayList<BlockPos> placedPos = new CopyOnWriteArrayList<>();
 
     public static BlockHitResult findPlaceableFace(BlockPos target) {
         return findPlaceableFace(target, 1);
@@ -61,5 +75,154 @@ public class BlockUtil implements Wrapper {
 
     public static Block getBlock(BlockPos pos) {
         return mc.world.getBlockState(pos).getBlock();
+    }
+
+    public static Direction getPlaceSide(BlockPos pos) {
+        return getPlaceSide(pos, AntiCheat.INSTANCE.placeMode.getValue().equals(PlaceModes.Strict), AntiCheat.INSTANCE.placeMode.getValue().equals(PlaceModes.Legit));
+    }
+
+    public static Direction getPlaceSide(BlockPos pos, boolean strict, boolean legit) {
+        if (pos == null) return null;
+        double dis = 114514;
+        Direction side = null;
+        for (Direction i : Direction.values()) {
+            if (canClick(pos.offset(i)) && !canReplace(pos.offset(i))) {
+                if (legit) {
+                    if (!EntityUtil.canSee(pos.offset(i), i.getOpposite())) continue;
+                }
+                if (strict) {
+                    if (!isStrictDirection(pos.offset(i), i.getOpposite())) continue;
+                }
+                double vecDis = mc.player.getEyePos().squaredDistanceTo(pos.toCenterPos().add(i.getVector().getX() * 0.5, i.getVector().getY() * 0.5, i.getVector().getZ() * 0.5));
+                if (side == null || vecDis < dis) {
+                    side = i;
+                    dis = vecDis;
+                }
+            }
+        }
+        return side;
+    }
+
+    public static boolean canClick(BlockPos pos) {
+        if (AntiCheat.INSTANCE.multiPlace.getValue() && placedPos.contains(pos)) {
+            return true;
+        }
+        return mc.world.getBlockState(pos).isSolid() && (!(shiftBlocks.contains(getBlock(pos)) || getBlock(pos) instanceof BedBlock) || mc.player.isSneaking());
+    }
+
+    public static boolean isStrictDirection(BlockPos pos, Direction side) {
+        if (mc.player.getBlockY() - pos.getY() >= 0 && side == Direction.DOWN) return false;
+        if (!AntiCheat.INSTANCE.isNCP()) {
+            if (side == Direction.UP && pos.getY() + 1 > mc.player.getEyePos().getY()) {
+                return false;
+            }
+        } else {
+            if (side == Direction.UP && pos.getY() > mc.player.getEyePos().getY()) {
+                return false;
+            }
+        }
+
+        if (AntiCheat.INSTANCE.strictBlock.getValue() && (getBlock(pos.offset(side)) == Blocks.OBSIDIAN || getBlock(pos.offset(side)) == Blocks.BEDROCK || getBlock(pos.offset(side)) == Blocks.RESPAWN_ANCHOR)) return false;
+        Vec3d eyePos = mc.player.getEyePos();
+        Vec3d blockCenter = pos.toCenterPos();
+        ArrayList<Direction> validAxis = new ArrayList<>();
+        validAxis.addAll(checkAxis(eyePos.x - blockCenter.x, Direction.WEST, Direction.EAST, false));
+        validAxis.addAll(checkAxis(eyePos.y - blockCenter.y, Direction.DOWN, Direction.UP, true));
+        validAxis.addAll(checkAxis(eyePos.z - blockCenter.z, Direction.NORTH, Direction.SOUTH, false));
+        return validAxis.contains(side);
+    }
+
+    public static ArrayList<Direction> checkAxis(double diff, Direction negativeSide, Direction positiveSide, boolean bothIfInRange) {
+        ArrayList<Direction> valid = new ArrayList<>();
+        if (diff < -0.5) {
+            valid.add(negativeSide);
+        }
+        if (diff > 0.5) {
+            valid.add(positiveSide);
+        }
+        if (bothIfInRange) {
+            if (!valid.contains(negativeSide)) valid.add(negativeSide);
+            if (!valid.contains(positiveSide)) valid.add(positiveSide);
+        }
+        return valid;
+    }
+
+    public static boolean canReplace(BlockPos pos) {
+        if (pos.getY() >= 320) return false;
+        if (AntiCheat.INSTANCE.multiPlace.getValue() && placedPos.contains(pos)) {
+            return true;
+        }
+        return mc.world.getBlockState(pos).isReplaceable();
+    }
+
+    public static List<EndCrystalEntity> getEndCrystals(Box box) {
+        List<EndCrystalEntity> list = new ArrayList<>();
+        for (Entity entity : mc.world.getEntities()) {
+            if (entity instanceof EndCrystalEntity crystal) {
+                if (crystal.getBoundingBox().intersects(box)) {
+                    list.add(crystal);
+                }
+            }
+        }
+        return list;
+    }
+
+    public static boolean hasEntity(BlockPos pos, boolean ignoreCrystal) {
+        for (Entity entity : getEntities(new Box(pos))) {
+            if (!entity.isAlive() || entity instanceof ItemEntity || entity instanceof ExperienceOrbEntity || entity instanceof ExperienceBottleEntity || entity instanceof ArrowEntity || ignoreCrystal && entity instanceof EndCrystalEntity || entity instanceof ArmorStandEntity)
+                continue;
+            return true;
+        }
+        return false;
+    }
+
+    public static List<Entity> getEntities(Box box) {
+        List<Entity> list = new ArrayList<>();
+        for (Entity entity : mc.world.getEntities()) {
+            if (entity == null) continue;
+            if (entity.getBoundingBox().intersects(box)) {
+                list.add(entity);
+            }
+        }
+        return list;
+    }
+
+    public static Direction getPlaceSide(BlockPos pos, double distance) {
+        double dis = 10000;
+        Direction side = null;
+        for (Direction i : Direction.values()) {
+            if (canClick(pos.offset(i)) && !canReplace(pos.offset(i))) {
+                if (AntiCheat.INSTANCE.placeMode.getValue().equals(PlaceModes.Legit)) {
+                    if (!EntityUtil.canSee(pos.offset(i), i.getOpposite())) continue;
+                } else if (AntiCheat.INSTANCE.placeMode.getValue().equals(PlaceModes.Strict)) {
+                    if (!isStrictDirection(pos.offset(i), i.getOpposite())) continue;
+                }
+                double vecDis = mc.player.getEyePos().squaredDistanceTo(pos.toCenterPos().add(i.getVector().getX() * 0.5, i.getVector().getY() * 0.5, i.getVector().getZ() * 0.5));
+                if (MathHelper.sqrt((float) vecDis) > distance) {
+                    continue;
+                }
+                if (side == null || vecDis < dis) {
+                    side = i;
+                    dis = vecDis;
+                }
+            }
+        }
+        return side;
+    }
+
+    public static boolean canPlace(BlockPos pos) {
+        return canPlace(pos, 1000);
+    }
+
+    public static boolean canPlace(BlockPos pos, double distance) {
+        if (getPlaceSide(pos, distance) == null) return false;
+        if (!canReplace(pos)) return false;
+        return !hasEntity(pos, false);
+    }
+
+    public static boolean canPlace(BlockPos pos, double distance, boolean ignoreCrystal) {
+        if (getPlaceSide(pos, distance) == null) return false;
+        if (!canReplace(pos)) return false;
+        return !hasEntity(pos, ignoreCrystal);
     }
 }

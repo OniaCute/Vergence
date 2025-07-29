@@ -1,5 +1,7 @@
 package cc.vergence.injections.mixins.entity;
 
+import cc.vergence.Vergence;
+import cc.vergence.features.event.events.PlayerJumpEvent;
 import cc.vergence.modules.combat.NoCooldown;
 import cc.vergence.modules.movement.AntiLevitation;
 import cc.vergence.modules.visual.SwingModifier;
@@ -71,5 +73,21 @@ public abstract class MixinLivingEntity extends Entity implements ILivingEntity,
             return false;
         }
         return original;
+    }
+
+    @Inject(method = "jump", at = @At("HEAD"))
+    private void jumpHookHead(CallbackInfo info) {
+        if ((Object) this != mc.player) {
+            return;
+        }
+        Vergence.EVENTBUS.post(new PlayerJumpEvent());
+    }
+
+    @Inject(method = "jump", at = @At("RETURN"))
+    private void jumpHookReturn(CallbackInfo info) {
+        if ((Object) this != mc.player) {
+            return;
+        }
+        Vergence.EVENTBUS.post(new PlayerJumpEvent());
     }
 }

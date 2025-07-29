@@ -1,14 +1,19 @@
 package cc.vergence.features.managers.player;
 
 import cc.vergence.Vergence;
+import cc.vergence.features.enums.player.RotateModes;
 import cc.vergence.features.event.eventbus.EventHandler;
 import cc.vergence.features.event.events.MoveEvent;
 import cc.vergence.features.event.events.PacketEvent;
+import cc.vergence.features.event.events.RotateEvent;
 import cc.vergence.features.event.events.SyncEvent;
+import cc.vergence.modules.client.AntiCheat;
+import cc.vergence.util.combat.CombatUtil;
 import cc.vergence.util.interfaces.Wrapper;
 import cc.vergence.util.rotation.Rotation;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 
 import java.util.PriorityQueue;
 
@@ -27,7 +32,6 @@ public class RotateManager implements Wrapper {
     public void onSync(SyncEvent event) {
         serverPitch = event.getPitch();
         serverYaw = event.getYaw();
-
     }
 
     @EventHandler
@@ -37,6 +41,7 @@ public class RotateManager implements Wrapper {
             float packetPitch = packet.getPitch(0.0f);
             serverYaw = packetYaw;
             serverPitch = packetPitch;
+            Vergence.EVENTBUS.post(new RotateEvent(packetYaw, packetPitch));
         }
     }
 
@@ -135,6 +140,53 @@ public class RotateManager implements Wrapper {
         float yaw = currentTask != null ? (float) currentTask.rotation().getYaw() : mc.player.getYaw();
         float pitch = currentTask != null ? currentTask.rotation().getPitch() : mc.player.getPitch();
         return new float[] { yaw, pitch };
+    }
+
+    public void lookAt(Vec3d directionVec, int priority, RotateModes mode) {
+        CombatUtil.aimAt(directionVec, priority, mode);
+        snapAt(directionVec);
+    }
+
+    public float[] getRotation(Vec3d vec) {
+        Vec3d eyesPos = mc.player.getEyePos();
+        return getRotation(eyesPos, vec);
+    }
+
+    public float[] getRotation(Vec3d eyesPos, Vec3d vec) {
+        double diffX = vec.x - eyesPos.x;
+        double diffY = vec.y - eyesPos.y;
+        double diffZ = vec.z - eyesPos.z;
+        double diffXZ = Math.sqrt(diffX * diffX + diffZ * diffZ);
+        float yaw = (float) Math.toDegrees(Math.atan2(diffZ, diffX)) - 90.0f;
+        float pitch = (float) (-Math.toDegrees(Math.atan2(diffY, diffXZ)));
+        return new float[]{MathHelper.wrapDegrees(yaw), MathHelper.wrapDegrees(pitch)};
+    }
+
+    public void snapAt(Vec3d directionVec) {
+        float[] angle = getRotation(directionVec);
+        if (AntiCheat.INSTANCE.spamCheck.getValue()) {
+            if (MathHelper.angleBetween(angle[0], lastYaw) < AntiCheat.INSTANCE.fov.getValue() && Math.abs(angle[1] - lastPitch) < AntiCheat.INSTANCE.fov.getValue()) {
+                return;
+            }
+        }
+        snapAt(angle[0], angle[1]);
+    }
+
+    public void snapAt(float yaw, float pitch) {
+        if (AntiCheat.INSTANCE.isGrim()) {
+            mc.getNetworkHandler().sendPacket(new PlayerMoveC2SPacket.Full(mc.player.getX(), mc.player.getY(), mc.player.getZ(), yaw, pitch, mc.player.isOnGround(), false));
+        } else {
+            mc.getNetworkHandler().sendPacket(new PlayerMoveC2SPacket.LookAndOnGround(yaw, pitch, mc.player.isOnGround(), false));
+        }
+    }
+
+    public boolean inFov(Vec3d directionVec, float fov) {
+        float[] angle = getRotation(new Vec3d(mc.player.getX(), mc.player.getY() + mc.player.getEyeHeight(mc.player.getPose()), mc.player.getZ()), directionVec);
+        return inFov(angle[0], angle[1], fov);
+    }
+
+    public boolean inFov(float yaw, float pitch, float fov) {
+        return MathHelper.angleBetween(yaw, serverYaw) + Math.abs(pitch - serverPitch) <= fov;
     }
 
     private record RotationTask(Rotation rotation, Runnable onFinish) implements Comparable<RotationTask> {

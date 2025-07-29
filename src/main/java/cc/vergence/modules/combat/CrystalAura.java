@@ -231,7 +231,7 @@ public class CrystalAura extends Module {
                 rotated = true;
                 crystalRotation = null;
             }
-            Vergence.ROTATE.rotate(new Rotation(rotations[1], rotations[0], (RotateModes) rotateMode.getValue()));
+            Vergence.ROTATE.rotate(new Rotation(rotations[1], rotations[0], 180, (RotateModes) rotateMode.getValue(), this.getPriority()));
         }
         if (!rotated && doRotate.getValue()) {
             return;

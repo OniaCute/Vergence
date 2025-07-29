@@ -2,8 +2,10 @@ package cc.vergence.util.player;
 
 import cc.vergence.Vergence;
 import cc.vergence.features.enums.player.Hands;
+import cc.vergence.features.enums.player.RotateModes;
 import cc.vergence.features.enums.units.SpeedUnit;
 import cc.vergence.features.enums.player.SwingModes;
+import cc.vergence.modules.client.AntiCheat;
 import cc.vergence.util.blocks.BlockUtil;
 import cc.vergence.util.blocks.FixedBlockPos;
 import cc.vergence.util.interfaces.Wrapper;
@@ -15,7 +17,9 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.network.packet.c2s.play.HandSwingC2SPacket;
+import net.minecraft.network.packet.c2s.play.PlayerInteractBlockC2SPacket;
 import net.minecraft.util.Hand;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.*;
@@ -182,5 +186,28 @@ public class EntityUtil implements Wrapper {
             }
         }
         return false;
+    }
+
+    public static boolean canSee(BlockPos pos, Direction side) {
+        Vec3d testVec = pos.toCenterPos().add(side.getVector().getX() * 0.5, side.getVector().getY() * 0.5, side.getVector().getZ() * 0.5);
+        HitResult result = mc.world.raycast(new RaycastContext(mc.player.getEyePos(), testVec, RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, mc.player));
+        return result == null || result.getType() == HitResult.Type.MISS;
+    }
+
+    public static void clickBlock(BlockPos pos, Direction side, boolean rotate, int priority, RotateModes mode, Hand hand, boolean packet) {
+        Vec3d directionVec = new Vec3d(pos.getX() + 0.5 + side.getVector().getX() * 0.5, pos.getY() + 0.5 + side.getVector().getY() * 0.5, pos.getZ() + 0.5 + side.getVector().getZ() * 0.5);
+        if (rotate) {
+            Vergence.ROTATE.lookAt(directionVec, priority, mode);
+        }
+        EntityUtil.swingHand(hand, (SwingModes) AntiCheat.INSTANCE.swingMode.getValue());
+        BlockHitResult result = new BlockHitResult(directionVec, side, pos, false);
+        if (packet) {
+            Vergence.NETWORK.sendSequencedPacket(id -> new PlayerInteractBlockC2SPacket(hand, result, id));
+        } else {
+            mc.interactionManager.interactBlock(mc.player, hand, result);
+        }
+        if (rotate && AntiCheat.INSTANCE.snapBack.getValue()) {
+            Vergence.ROTATE.snapBack();
+        }
     }
 }

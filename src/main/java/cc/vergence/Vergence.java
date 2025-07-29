@@ -56,6 +56,7 @@ public class Vergence implements ModInitializer {
     public static HudManager HUD;
     public static PositionManager POSITION;
     public static RotateManager ROTATE;
+    public static MineManager MINE;
     public static ModuleManager MODULE;
     public static ConfigManager CONFIG;
     public static CommandManager COMMAND;
@@ -145,6 +146,9 @@ public class Vergence implements ModInitializer {
 
         ROTATE = new RotateManager();
         CONSOLE.logInfo("Rotate Manager was loaded");
+
+        MINE = new MineManager();
+        CONSOLE.logInfo("Mine Manager was loaded");
 
         MODULE = new ModuleManager();
         CONSOLE.logInfo("Module Manager was loaded");

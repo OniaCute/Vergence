@@ -5,14 +5,22 @@ import cc.vergence.features.enums.player.Hands;
 import cc.vergence.features.enums.player.RotateModes;
 import cc.vergence.features.enums.player.SwingModes;
 import cc.vergence.features.enums.player.TargetTypes;
+import cc.vergence.modules.client.AntiCheat;
+import cc.vergence.util.blocks.BlockUtil;
 import cc.vergence.util.interfaces.Wrapper;
+import cc.vergence.util.other.FastTimerUtil;
 import cc.vergence.util.player.EntityUtil;
 import cc.vergence.util.rotation.Rotation;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.decoration.EndCrystalEntity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.network.packet.c2s.play.PlayerInteractEntityC2SPacket;
+import net.minecraft.util.Hand;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
@@ -23,6 +31,7 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 public class CombatUtil implements Wrapper {
+    public static final FastTimerUtil breakTimer = new FastTimerUtil();
 
     public static void aimAt(Entity entity) {
         aimAt(entity, 0);
@@ -37,13 +46,17 @@ public class CombatUtil implements Wrapper {
     }
 
     public static void aimAt(Entity entity, int priority, RotateModes rotateModes) {
-        if (entity == null || mc.player == null) {
+        aimAt(new Vec3d(entity.getX(), entity.getY() + entity.getHeight() / 2.0, entity.getZ()), priority, rotateModes);
+    }
+
+    public static void aimAt(Vec3d pos, int priority, RotateModes rotateModes) {
+        if (mc.player == null) {
             return;
         }
 
-        double dx = entity.getX() - mc.player.getX();
-        double dy = (entity.getY() + entity.getHeight() / 2.0) - (mc.player.getY() + mc.player.getEyeHeight(mc.player.getPose()));
-        double dz = entity.getZ() - mc.player.getZ();
+        double dx = pos.getX() - mc.player.getX();
+        double dy = pos.getY() - (mc.player.getY() + mc.player.getEyeHeight(mc.player.getPose()));
+        double dz = pos.getZ() - mc.player.getZ();
         double distance = Math.sqrt(dx * dx + dz * dz);
 
         float yaw = (float) Math.toDegrees(Math.atan2(dz, dx)) - 90.0f;
@@ -206,5 +219,39 @@ public class CombatUtil implements Wrapper {
 
     public static boolean isFriend(PlayerEntity player) {
         return Vergence.FRIEND.isFriend(player.getGameProfile().getName());
+    }
+
+    public static void attackCrystal(BlockPos pos, boolean rotate, int priority, RotateModes rotateModes, boolean eatingPause) {
+        for (EndCrystalEntity entity : BlockUtil.getEndCrystals(new Box(pos))) {
+            attackCrystal(entity, rotate, priority, rotateModes, eatingPause);
+            break;
+        }
+    }
+
+    public static void attackCrystal(Box box, boolean rotate, int priority, RotateModes rotateModes, boolean eatingPause) {
+        for (EndCrystalEntity entity : BlockUtil.getEndCrystals(box)) {
+            attackCrystal(entity, rotate, priority, rotateModes, eatingPause);
+            break;
+        }
+    }
+
+    public static void attackCrystal(Entity crystal, boolean rotate, int priority, RotateModes rotateModes, boolean usingPause) {
+        if (!CombatUtil.breakTimer.passedMs(AntiCheat.INSTANCE.attackDelay.getValue() * 1000)) {
+            return;
+        }
+        if (usingPause && mc.player.isUsingItem())
+            return;
+        if (crystal != null) {
+            CombatUtil.breakTimer.reset();
+            if (rotate && AntiCheat.INSTANCE.attackRotate.getValue()) {
+                aimAt(new Vec3d(crystal.getX(), crystal.getY() + 0.25, crystal.getZ()), priority, rotateModes);
+            }
+            mc.getNetworkHandler().sendPacket(PlayerInteractEntityC2SPacket.attack(crystal, mc.player.isSneaking()));
+            mc.player.resetLastAttackedTicks();
+            EntityUtil.swingHand(Hand.MAIN_HAND, (SwingModes) AntiCheat.INSTANCE.swingMode.getValue());
+            if (rotate && AntiCheat.INSTANCE.snapBack.getValue()) {
+                Vergence.ROTATE.snapBack();
+            }
+        }
     }
 }

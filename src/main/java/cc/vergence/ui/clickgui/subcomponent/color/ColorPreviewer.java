@@ -38,6 +38,10 @@ public class ColorPreviewer extends GuiComponent {
                 isSpread = !isSpread;
                 GuiManager.CLICKED_RIGHT = false;
             }
+        } else {
+            if (clickRight) {
+                isSpread = false;
+            }
         }
 
         Render2DUtil.drawRoundedRectWithAlign(

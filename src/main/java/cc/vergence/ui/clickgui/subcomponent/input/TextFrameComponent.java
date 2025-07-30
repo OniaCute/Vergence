@@ -75,6 +75,15 @@ public class TextFrameComponent extends GuiComponent implements Wrapper {
 
     @Override
     public void onDraw(DrawContext context, double mouseX, double mouseY, boolean clickLeft, boolean clickRight) {
+        Render2DUtil.pushDisplayArea(
+                context.getMatrices(),
+                (float) getX(),
+                (float) getY(),
+                (float) (getX() + getWidth()),
+                (float) (getY() + getHeight()),
+                1d
+        );
+
         if (animationTimer.passedMs(520)) { // suffix animation
             animationTimer.reset();
             showSuffixChar = !showSuffixChar;
@@ -123,5 +132,7 @@ public class TextFrameComponent extends GuiComponent implements Wrapper {
                 isHovered(mouseX, mouseY) ? Vergence.THEME.getTheme().getInputFrameHoveredTextColor() : Vergence.THEME.getTheme().getInputFrameTextColor(),
                 FontSize.SMALLEST
         );
+
+        Render2DUtil.popDisplayArea();
     }
 }

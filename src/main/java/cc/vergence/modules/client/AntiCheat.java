@@ -19,7 +19,7 @@ public class AntiCheat extends Module {
         setAlwaysEnable(true);
     }
 
-    public Option<Double> fov = addOption(new DoubleOption("AttackDelay", 0, 180, 90).setUnit("°"));
+    public Option<Double> fov = addOption(new DoubleOption("Fov", 0, 180, 90));
     public Option<Enum<?>> antiCheat = addOption(new EnumOption("AntiCheat", AntiCheats.Legit));
     public Option<Enum<?>> rotateMode = addOption(new EnumOption("RotateMode", RotateModes.Server));
     public Option<Enum<?>> swingMode = addOption(new EnumOption("SwingMode", SwingModes.Both));
@@ -33,6 +33,8 @@ public class AntiCheat extends Module {
     public Option<Boolean> strictBlock = addOption(new BooleanOption("StrictBlock", false));
     public Option<Boolean> inventorySync = addOption(new BooleanOption("InventorySync", true));
     public Option<Boolean> inventoryBypass = addOption(new BooleanOption("InventoryBypass", true));
+    public Option<Double> hitboxSize = addOption(new DoubleOption("HitboxSize", 0, 1, 0.6));
+    public Option<Boolean> packetPlace = addOption(new BooleanOption("PacketPlace", true));
 
     @Override
     public String getDetails() {
@@ -61,5 +63,12 @@ public class AntiCheat extends Module {
 
     public String getAntiCheat() {
         return antiCheat.getValue().name();
+    }
+
+    public static double getHitboxOffset() {
+        if (INSTANCE != null) {
+            return INSTANCE.hitboxSize.getValue() / 2;
+        }
+        return 0.3;
     }
 }

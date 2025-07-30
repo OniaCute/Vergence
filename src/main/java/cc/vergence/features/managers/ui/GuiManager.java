@@ -64,6 +64,7 @@ public class GuiManager implements Wrapper {
     public static ArrayList<GuiComponent> hoveredComponents = new ArrayList<>();
     public static ArrayList<GuiComponent> inputComponents = new ArrayList<>();
     public static ArrayList<GuiComponent> positionComponents = new ArrayList<>();
+    public static ArrayList<GuiComponent> sliderComponents = new ArrayList<>();
     public static ArrayList<GuiComponent> allModuleComponents = new ArrayList<>();
     public static ArrayList<GuiComponent> searchModuleComponent = new ArrayList<>();
     public static ArrayList<GuiComponent> themeComponents = new ArrayList<>();
@@ -123,7 +124,7 @@ public class GuiManager implements Wrapper {
     }
 
     public void onRenderClickGui(DrawContext context, int mouseX, int mouseY, float partialTicks) {
-        if (!ClickGUI.INSTANCE.getStatus()) {
+        if (!ClickGUI.INSTANCE.getStatus() || !(mc.currentScreen instanceof ClickGuiScreen)) {
             return ;
         }
         MOUSE_X = mouseX;
@@ -140,33 +141,48 @@ public class GuiManager implements Wrapper {
     }
 
     private static void stopAllListening() {
+        isTyping = false;
         if (!(mc.currentScreen instanceof ClickGuiScreen) || ClickGUI.INSTANCE == null || !ClickGUI.INSTANCE.getStatus()) {
-            isTyping = false;
             isDragging = false;
             CLICKED_LEFT = false;
             CLICKED_RIGHT = false;
-            for (GuiComponent component : inputComponents) {
-                if (component instanceof BindFrameComponent component1) {
-                    component1.setListening(false);
-                }
-                else if (component instanceof ColorFrameComponent component1) {
-                    component1.setListening(false);
-                }
-                else if (component instanceof DoubleFrameComponent component1) {
-                    component1.setListening(false);
-                }
-                else if (component instanceof SearchFrameComponent component1) {
-                    component1.setListening(false);
-                }
-                else if (component instanceof TextFrameComponent component1) {
-                    component1.setListening(false);
-                }
+        }
+        for (GuiComponent component : sliderComponents) {
+            if (component instanceof DoubleSlider slider) {
+                slider.onMouseRelease(MOUSE_X, MOUSE_Y, CLICK_GUI_SCREEN, MouseButtons.LEFT);
+            }
+        }
+        for (GuiComponent component : inputComponents) {
+            if (component instanceof BindFrameComponent component1) {
+                component1.setListening(false);
+            }
+            else if (component instanceof ColorFrameComponent component1) {
+                component1.setListening(false);
+            }
+            else if (component instanceof DoubleFrameComponent component1) {
+                component1.setListening(false);
+            }
+            else if (component instanceof SearchFrameComponent component1) {
+                component1.setListening(false);
+            }
+            else if (component instanceof TextFrameComponent component1) {
+                component1.setListening(false);
             }
         }
     }
 
     public void onTick() {
-        stopAllListening();
+        if (CLICKED_LEFT && !inMainPageArea()) {
+            CLICKED_LEFT = false;
+            stopAllListening();
+        }
+        if (CLICKED_RIGHT && !inMainPageArea()) {
+            CLICKED_RIGHT = false;
+            stopAllListening();
+        }
+        if (!(mc.currentScreen instanceof ClickGuiScreen) || ClickGUI.INSTANCE == null || !ClickGUI.INSTANCE.getStatus()) {
+            stopAllListening();
+        }
         boolean temp = false;
         for (GuiComponent component : inputComponents) {
             if (component instanceof BindFrameComponent component1 && component1.isListening()) {
@@ -233,7 +249,6 @@ public class GuiManager implements Wrapper {
 
     /*
      * Main Page Size: 400x280
-     * Absolute Padding : 3px * scale
      */
     public static void updateClickGui() {
         scrollAnimation.setDuration(ClickGUI.INSTANCE.scrollAnimationTime.getValue().intValue());
@@ -251,13 +266,12 @@ public class GuiManager implements Wrapper {
         MAIN_PAGE_HEIGHT *= Render2DUtil.getScaleFactor();
         latestCategoryComponentPosition = new Pair<>(MAIN_PAGE_X, MAIN_PAGE_Y + 50);
 
-        if (SEARCH.isListening() || PAGE.equals(Pages.Search) || !SEARCH.searchText.isEmpty()) {
-            searchModuleComponent.clear();
-            layoutSearch();
-        }
+        // Search
+        searchModuleComponent.clear();
+        layoutSearch();
 
+        // Category and Modules
         latestCategoryComponentPosition = new Pair<>(MAIN_PAGE_X, MAIN_PAGE_Y + 50);
-
         for (GuiComponent categoryComponent : categoryComponents) {
             latestModuleComponentPosition = new Pair<>(MAIN_PAGE_X, MAIN_PAGE_Y + 37 + (mouseScrolledOffset * 8));
             categoryComponent.setX(MAIN_PAGE_X + 3);
@@ -276,49 +290,48 @@ public class GuiManager implements Wrapper {
 
                     if (((ModuleComponent) moduleComponent).isActuallySpread) {
                         layoutModuleAreaComponent(((ModuleComponent) moduleComponent));
-                        searchModuleComponent.add(moduleComponent);
                     }
                 }
             }
             latestModuleComponentPosition = new Pair<>(0.00, 0.00);
         }
 
-        if (PAGE.equals(Pages.Themes)) {
-            themeComponents.clear();
-            File[] themeFiles = ConfigManager.THEMES_FOLDER.listFiles((d, n) -> n.endsWith(".json"));
-            if (themeFiles != null) {
-                for (File themeFile : themeFiles) {
-                    try {
-                        JsonObject json = JsonParser.parseReader(new FileReader(themeFile)).getAsJsonObject();
-                        Theme theme = Vergence.THEME.loadFromJson(json);
-                        if (theme != null) {
-                            ThemeComponent themeComponent = new ThemeComponent(theme);
-                            themeComponents.add(themeComponent);
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
+        // Theme Page
+        themeComponents.clear();
+        File[] themeFiles = ConfigManager.THEMES_FOLDER.listFiles((d, n) -> n.endsWith(".json"));
+        if (themeFiles != null) {
+            for (File themeFile : themeFiles) {
+                try {
+                    JsonObject json = JsonParser.parseReader(new FileReader(themeFile)).getAsJsonObject();
+                    Theme theme = Vergence.THEME.loadFromJson(json);
+                    if (theme != null) {
+                        ThemeComponent themeComponent = new ThemeComponent(theme);
+                        themeComponents.add(themeComponent);
                     }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
-            layoutThemes();
         }
-        if (PAGE.equals(Pages.Configs)) {
-            configComponents.clear();
-            File[] configFiles = ConfigManager.CONFIG_FOLDER.listFiles((d, n) -> n.endsWith(".vgc"));
-            if (configFiles != null) {
-                for (File configFile : configFiles) {
-                    try {
-                        ConfigComponent component = new ConfigComponent("", "", "");
-                        parseConfigFile(configFile, component);
-                        configComponents.add(component);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-            layoutConfigs();
-        }
+        layoutThemes();
 
+        // Config Page
+        configComponents.clear();
+        File[] configFiles = ConfigManager.CONFIG_FOLDER.listFiles((d, n) -> n.endsWith(".vgc"));
+        if (configFiles != null) {
+            for (File configFile : configFiles) {
+                try {
+                    ConfigComponent component = new ConfigComponent("", "", "");
+                    parseConfigFile(configFile, component);
+                    configComponents.add(component);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        layoutConfigs();
+
+        // Topbar
         layoutTopBar();
     }
 
@@ -618,28 +631,26 @@ public class GuiManager implements Wrapper {
         handlePages(context); // pages
 
         for (GuiComponent component : topbarComponents) {
-            component.onDraw(context, MOUSE_X, MOUSE_Y, CLICKED_LEFT && !hoverComponentDrawing && !isDragging, CLICKED_RIGHT && !hoverComponentDrawing && !isDragging);
+            component.onDraw(context, MOUSE_X, MOUSE_Y, CLICKED_LEFT && inMainPageArea() && !hoverComponentDrawing && !isDragging, CLICKED_RIGHT && inMainPageArea() && !hoverComponentDrawing && !isDragging);
         }
-
-        Render2DUtil.popDisplayArea();
 
         for (GuiComponent component : hoveredComponents) {
             if (component instanceof HoverEnumChoicesComponent) {
                 if (((EnumChoicesComponent) component.getParentComponent()).isActuallySpread && ((ModuleComponent) component.getParentComponent().getParentComponent().getParentComponent().getParentComponent()).isSpread()) {
                     hoveredDrawingComponent = component;
-                    component.onDraw(context, MOUSE_X, MOUSE_Y, CLICKED_LEFT, CLICKED_RIGHT);
+                    component.onDraw(context, MOUSE_X, MOUSE_Y, CLICKED_LEFT && inMainPageArea(), CLICKED_RIGHT && inMainPageArea());
                 }
             }
             else if (component instanceof HoverMultipleChoicesComponent) {
                 if (((MultipleChoicesComponent) component.getParentComponent()).isActuallySpread && ((ModuleComponent) component.getParentComponent().getParentComponent().getParentComponent().getParentComponent()).isSpread()) {
                     hoveredDrawingComponent = component;
-                    component.onDraw(context, MOUSE_X, MOUSE_Y, CLICKED_LEFT, CLICKED_RIGHT);
+                    component.onDraw(context, MOUSE_X, MOUSE_Y, CLICKED_LEFT && inMainPageArea(), CLICKED_RIGHT && inMainPageArea());
                 }
             }
             else if (component instanceof HoverBindChoicesComponent) {
                 if (((BindChoicesComponent) component.getParentComponent()).isActuallySpread && ((ModuleComponent) component.getParentComponent().getParentComponent().getParentComponent().getParentComponent()).isSpread()) {
                     hoveredDrawingComponent = component;
-                    component.onDraw(context, MOUSE_X, MOUSE_Y, CLICKED_LEFT, CLICKED_RIGHT);
+                    component.onDraw(context, MOUSE_X, MOUSE_Y, CLICKED_LEFT && inMainPageArea(), CLICKED_RIGHT && inMainPageArea());
                 }
             }
             else if (component instanceof ColorPalette) {
@@ -649,6 +660,8 @@ public class GuiManager implements Wrapper {
                 }
             }
         }
+
+        Render2DUtil.popDisplayArea();
 
         if (CLICKED_LEFT && !hoverComponentDrawing) {
             if (MOUSE_X > MAIN_PAGE_X && MOUSE_X < MAIN_PAGE_X + MAIN_PAGE_WIDTH && MOUSE_Y > MAIN_PAGE_Y && MOUSE_Y < MAIN_PAGE_Y + MAIN_PAGE_HEIGHT) {
@@ -667,13 +680,17 @@ public class GuiManager implements Wrapper {
         matrices.pop();
     }
 
+    private static boolean inMainPageArea() {
+        return MOUSE_X >= MAIN_PAGE_X && MOUSE_X <= MAIN_PAGE_X + MAIN_PAGE_WIDTH && MOUSE_Y >= MAIN_PAGE_Y && MOUSE_Y <= MAIN_PAGE_Y + MAIN_PAGE_HEIGHT;
+    }
+
     private static boolean notInTopBarChecking() {
         return !((MOUSE_X >= MAIN_PAGE_X + 106) && (MOUSE_X <= MAIN_PAGE_X + MAIN_PAGE_WIDTH) && (MOUSE_Y >= MAIN_PAGE_Y) && (MOUSE_Y <= MAIN_PAGE_Y + 37));
     }
 
     private static void handlePages(DrawContext context) {
         for (GuiComponent component : categoryComponents) {
-            component.onDraw(context, MOUSE_X, MOUSE_Y, CLICKED_LEFT && !hoverComponentDrawing && !isDragging && notInTopBarChecking(), CLICKED_RIGHT && !hoverComponentDrawing && !isDragging && notInTopBarChecking());
+            component.onDraw(context, MOUSE_X, MOUSE_Y, CLICKED_LEFT && inMainPageArea() && !hoverComponentDrawing && !isDragging && notInTopBarChecking(), CLICKED_RIGHT && inMainPageArea() && !hoverComponentDrawing && !isDragging && notInTopBarChecking());
         }
         switch (PAGE) {
             case Search  -> {
@@ -688,7 +705,7 @@ public class GuiManager implements Wrapper {
 
                     );
 
-                    component.onDraw(context, MOUSE_X, MOUSE_Y, CLICKED_LEFT && !hoverComponentDrawing && !isDragging && notInTopBarChecking(), CLICKED_RIGHT && !hoverComponentDrawing && !isDragging && notInTopBarChecking());
+                    component.onDraw(context, MOUSE_X, MOUSE_Y, CLICKED_LEFT && inMainPageArea() && !hoverComponentDrawing && !isDragging && notInTopBarChecking(), CLICKED_RIGHT && inMainPageArea() && !hoverComponentDrawing && !isDragging && notInTopBarChecking());
 
                     Render2DUtil.popDisplayArea();
                 }
@@ -717,7 +734,7 @@ public class GuiManager implements Wrapper {
 
             );
 
-            themeComponent.onDraw(context, MOUSE_X, MOUSE_Y, CLICKED_LEFT && !hoverComponentDrawing && !isDragging && notInTopBarChecking(), CLICKED_RIGHT && !hoverComponentDrawing && !isDragging && notInTopBarChecking());
+            themeComponent.onDraw(context, MOUSE_X, MOUSE_Y, CLICKED_LEFT && inMainPageArea() && !hoverComponentDrawing && !isDragging && notInTopBarChecking(), CLICKED_RIGHT && inMainPageArea() && !hoverComponentDrawing && !isDragging && notInTopBarChecking());
 
             Render2DUtil.popDisplayArea();
         }
@@ -735,7 +752,7 @@ public class GuiManager implements Wrapper {
 
             );
 
-            configComponent.onDraw(context, MOUSE_X, MOUSE_Y, CLICKED_LEFT && !hoverComponentDrawing && !isDragging && notInTopBarChecking(), CLICKED_RIGHT && !hoverComponentDrawing && !isDragging && notInTopBarChecking());
+            configComponent.onDraw(context, MOUSE_X, MOUSE_Y, CLICKED_LEFT && inMainPageArea() && !hoverComponentDrawing && !isDragging && notInTopBarChecking(), CLICKED_RIGHT && inMainPageArea() && !hoverComponentDrawing && !isDragging && notInTopBarChecking());
 
             Render2DUtil.popDisplayArea();
         }
@@ -1065,7 +1082,7 @@ public class GuiManager implements Wrapper {
                 previewer.setHeight(previewSize);
                 for (GuiComponent popup : subComponent.getSubComponents()) {
                     popup.setX(previewX - spacing * 2 - frameWidth);
-                    popup.setY(optionComponent.getY() + optionComponent.getHeight() + 2);
+                    popup.setY(previewer.getY() + previewer.getHeight() + 1);
                     popup.setWidth(130);
                     popup.setHeight(90);
                 }

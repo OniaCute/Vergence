@@ -14,6 +14,10 @@ import net.minecraft.client.gui.DrawContext;
 
 import java.awt.*;
 
+/**
+ * &#064;author: Voury_, OniaCute
+ * &#064;version: vergence_1_0_ui_gird
+ */
 public class ConfigComponent extends GuiComponent {
     private String configName;
     private String version;

@@ -350,7 +350,7 @@ public class FontUtil implements Wrapper {
     }
 
     public static double getWidth(FontSize size, Fonts fontType, String text) {
-        if (Client.INSTANCE == null) {return 0;}
+        if (Client.INSTANCE == null || !LOADED) {return 0;}
 
         FontScales fontScales = asFontScales((Client.UIScales) Client.INSTANCE.UIScale.getValue(), size, fontType);
         if (fontType.equals(Fonts.Sans)) {
@@ -600,7 +600,7 @@ public class FontUtil implements Wrapper {
     }
 
     public static double getHeight(FontSize size, Fonts fontType, String text) {
-        if (Client.INSTANCE == null) {return 0;}
+        if (Client.INSTANCE == null || !LOADED) {return 0;}
 
         FontScales fontScales = asFontScales((Client.UIScales) Client.INSTANCE.UIScale.getValue(), size, fontType);
         if (fontType.equals(Fonts.Sans)) {
@@ -889,7 +889,7 @@ public class FontUtil implements Wrapper {
     }
 
     public static void drawText(MatrixStack matrixStack, String text, double x, double y, int color, FontSize size, Fonts fontType, boolean shadow) {
-        if (Client.INSTANCE == null) {return ;}
+        if (Client.INSTANCE == null || !LOADED) {return ;}
 
         FontScales fontScales = asFontScales((Client.UIScales) Client.INSTANCE.UIScale.getValue(), size, fontType);
         if (fontType.equals(Fonts.Sans)) {
@@ -1014,7 +1014,7 @@ public class FontUtil implements Wrapper {
     }
 
     public static void drawTextWithAlign(DrawContext context, String text, double originalX, double originalY, double originalEx, double originalEy, Aligns align, int color, FontSize size, Fonts fontType, boolean shadow) {
-        if (Client.INSTANCE == null) {
+        if (Client.INSTANCE == null || !LOADED) {
             return;
         }
         double textWidth = getWidth(size, fontType, text) * getScaleFactor();

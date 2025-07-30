@@ -48,21 +48,18 @@ public class Surround extends Module {
     public Option<Boolean> toCenter = addOption(new BooleanOption("ToCenter", true));
     public Option<Boolean> extension = addOption(new BooleanOption("Extension", true));
     public Option<Boolean> onlySelf = addOption(new BooleanOption("OnlySelf", true, v -> extension.getValue()));
-    public Option<Boolean> fillBottom = addOption(new BooleanOption("FillBottom", true));
     public Option<Boolean> whileEating = addOption(new BooleanOption("WhileEating", true));
     public Option<Boolean> whileMining = addOption(new BooleanOption("WhileMining", true));
     public Option<Boolean> inAir = addOption(new BooleanOption("InAir", false));
     public Option<Boolean> packetPlace = addOption(new BooleanOption("PacketPlace", false));
     public Option<Double> multiPlace = addOption(new DoubleOption("MultiPlace", 1, 8, 1));
     public Option<Double> placeDelay = addOption(new DoubleOption("PlaceDelay", 0, 500, 50));
-    public Option<Boolean> doSwap = addOption(new BooleanOption("Swap", true));
     public Option<Boolean> inventorySwap = addOption(new BooleanOption("InventorySwap", true));
     public Option<Boolean> enderChest = addOption(new BooleanOption("EnderChest", true));
     public Option<Boolean> doRotate = addOption(new BooleanOption("Rotate", true));
     public Option<Boolean> yawStep = addOption(new BooleanOption("YawStep", true, v -> doRotate.getValue()));
     public Option<Enum<?>> rotateMode = addOption(new EnumOption("RotateMode", RotateModes.Server, v -> doRotate.getValue()));
     public Option<Boolean> doSwing = addOption(new BooleanOption("Swing", true));
-    public Option<Enum<?>> swingMode = addOption(new EnumOption("SwingMode", SwingModes.Server, v -> doSwing.getValue()));
     public Option<Boolean> autoDisable = addOption(new BooleanOption("AutoDisable", false));
     public Option<EnumSet<DisableItems>> disableItems = addOption(new MultipleOption<DisableItems>("DisableItems", EnumSet.of(DisableItems.Exit, DisableItems.Jump, DisableItems.Place, DisableItems.Death)));
     public Option<Boolean> antiCrystal = addOption(new BooleanOption("AntiCrystal", false, v -> !autoDisable.getValue() || disableItems.getValue().isEmpty()));
@@ -82,6 +79,10 @@ public class Surround extends Module {
 
     @Override
     public void onRotateEvent(RotateEvent event, float yaw, float pitch) {
+        if (isNull()) {
+            return ;
+        }
+
         if (directionVec != null && doRotate.getValue() && yawStep.getValue()) {
             CombatUtil.aimAt(directionVec, this.getPriority(), (RotateModes) rotateMode.getValue());
         }

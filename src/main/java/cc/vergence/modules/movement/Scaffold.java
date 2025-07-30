@@ -44,7 +44,7 @@ public class Scaffold extends Module {
     public Option<Boolean> allowSprint = addOption(new BooleanOption("Sprint", false));
     public Option<Boolean> doRotate = addOption(new BooleanOption("Rotate", true));
     public Option<Enum<?>> rotateMode = addOption(new EnumOption("RotateMode", RotateModes.Both, v -> doRotate.getValue()));
-    public Option<Double> rotateSpeed = addOption(new DoubleOption("RotateSpeed", 1, 180, 30).addSpecialValue(180, "INSTANT").setUnit("°"));
+    public Option<Double> rotateSpeed = addOption(new DoubleOption("RotateSpeed", 1, 180, 30).addSpecialValue(180, "INSTANT"));
     public Option<Boolean> enableRotateRandom = addOption(new BooleanOption("EnableRotateRandom", true, v -> doRotate.getValue()));
     public Option<Double> rotateRandomYaw = addOption(new DoubleOption("RotateRandomYaw", 0, 3, 0.7, v -> enableRotateRandom.getValue()));
     public Option<Double> rotateRandomPitch = addOption(new DoubleOption("RotateRandomPitch", 0, 3, 0.7, v -> enableRotateRandom.getValue()));

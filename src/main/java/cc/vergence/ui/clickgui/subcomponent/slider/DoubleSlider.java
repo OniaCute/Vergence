@@ -3,6 +3,7 @@ package cc.vergence.ui.clickgui.subcomponent.slider;
 import cc.vergence.Vergence;
 import cc.vergence.features.enums.other.Aligns;
 import cc.vergence.features.enums.client.MouseButtons;
+import cc.vergence.features.managers.ui.GuiManager;
 import cc.vergence.features.options.impl.DoubleOption;
 import cc.vergence.features.screens.ClickGuiScreen;
 import cc.vergence.ui.GuiComponent;
@@ -22,6 +23,7 @@ public class DoubleSlider extends GuiComponent {
 
     public DoubleSlider(DoubleOption option) {
         this.option = option;
+        GuiManager.sliderComponents.add(this);
     }
 
     @Override

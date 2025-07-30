@@ -225,4 +225,9 @@ public class BlockUtil implements Wrapper {
         if (!canReplace(pos)) return false;
         return !hasEntity(pos, ignoreCrystal);
     }
+
+    public static boolean clientCanPlace(BlockPos pos, boolean ignoreCrystal) {
+        if (!canReplace(pos)) return false;
+        return !hasEntity(pos, ignoreCrystal);
+    }
 }

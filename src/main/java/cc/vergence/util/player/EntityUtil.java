@@ -210,4 +210,15 @@ public class EntityUtil implements Wrapper {
             Vergence.ROTATE.snapBack();
         }
     }
+
+    public static void placeBlock(BlockPos pos, boolean rotate, int priority, RotateModes mode) {
+        placeBlock(pos, rotate, priority, mode, AntiCheat.INSTANCE.packetPlace.getValue());
+    }
+
+    public static void placeBlock(BlockPos pos, boolean rotate, int priority, RotateModes mode, boolean packet) {
+        Direction side = BlockUtil.getPlaceSide(pos);
+        if (side == null) return;
+        BlockUtil.placedPos.add(pos);
+        clickBlock(pos.offset(side), side.getOpposite(), rotate, priority, mode, Hand.MAIN_HAND, packet);
+    }
 }

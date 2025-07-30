@@ -128,7 +128,7 @@ public abstract class MixinMinecraftClient extends ReentrantThreadExecutor<Runna
      */
     @Overwrite
     private String getWindowTitle() {
-        return Title.INSTANCE == null || !Title.INSTANCE.getStatus() ? "Vergence Client | Get unique sense of the Minecraft" : Title.title;
+        return Title.INSTANCE != null && Title.INSTANCE.getStatus() ? (Title.title.isEmpty() ? "Vergence Client | Get unique sense of the Minecraft" : Title.title) : "Vergence Client | Get unique sense of the Minecraft";
     }
 
     @Inject(at = @At("HEAD"), method = "tick()V")

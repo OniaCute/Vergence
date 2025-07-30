@@ -82,7 +82,7 @@ public abstract class MixinClientPlayerEntity extends AbstractClientPlayerEntity
 
 	@Inject(method = "tickNausea", at = @At("HEAD"), cancellable = true)
 	private void updateNauseaHook(CallbackInfo ci) {
-		if (PortalGod.INSTANCE != null && PortalGod.INSTANCE.getStatus()) {
+		if (PortalGod.INSTANCE != null && PortalGod.INSTANCE.getStatus() && PortalGod.INSTANCE.inventory.getValue()) {
 			ci.cancel();
 		}
 	}

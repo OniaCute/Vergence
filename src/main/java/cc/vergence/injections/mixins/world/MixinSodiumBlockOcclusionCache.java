@@ -17,7 +17,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class MixinSodiumBlockOcclusionCache {
     @Inject(method = "shouldDrawSide", at = @At("RETURN"), cancellable = true)
     void shouldDrawSideHook(BlockState state, BlockView view, BlockPos pos, Direction facing, CallbackInfoReturnable<Boolean> cir) {
-        if (Xray.INSTANCE.getStatus())
+        if (Xray.INSTANCE.getStatus()) {
             cir.setReturnValue(Xray.INSTANCE.check(state.getBlock()));
+        }
     }
 }

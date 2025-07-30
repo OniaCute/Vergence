@@ -63,5 +63,8 @@
     "defaultRequire": 1
   },
   "client": [
+    "accessors.render.ItemRendererAccessor",
+    "accessors.render.ItemRenderStateAccessor",
+    "accessors.render.LayerRenderStateAccessor"
   ]
 }

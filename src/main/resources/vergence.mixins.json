@@ -54,8 +54,10 @@
     "mixins.screen.MixinDownloadingTerrainScreen",
     "mixins.screen.MixinScreen",
     "mixins.screen.MixinTitleScreen",
+    "mixins.world.MixinBlock",
     "mixins.world.MixinClientWorld",
-    "mixins.world.MixinParticleManager"
+    "mixins.world.MixinParticleManager",
+    "mixins.world.MixinSodiumBlockOcclusionCache"
   ],
   "injectors": {
     "defaultRequire": 1

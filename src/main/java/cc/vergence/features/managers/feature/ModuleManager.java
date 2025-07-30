@@ -118,6 +118,7 @@ public class ModuleManager {
         registerModule(new Velocity());
         registerModule(new Surround());
         registerModule(new Defender());
+        registerModule(new Xray());
 
         // special module
         registerModule(new SafeMode());

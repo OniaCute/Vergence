@@ -1029,7 +1029,7 @@ public class GuiManager implements Wrapper {
     }
 
     private static void layoutDoubleComponent(DoubleComponent optionComponent) {
-        double frameWidth = FontUtil.getWidth(FontSize.SMALLEST, "10000.00_") + 6;
+        double frameWidth = FontUtil.getWidth(FontSize.SMALLEST, "100000.00_") + 6;
         double sliderWidth = 110;
         double spacing = 4;
         double totalWidth = frameWidth + spacing + sliderWidth;

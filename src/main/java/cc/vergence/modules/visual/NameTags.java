@@ -96,7 +96,7 @@ public class NameTags extends Module {
                 displayString += " " + ColorUtil.getPingColor(EntityUtil.getLatency(player)) + EntityUtil.getLatency(player) + "ms" + Formatting.RESET;
             }
             if (withDistance.getValue()) {
-                displayString += " " + new DecimalFormat("0.0").format(EntityUtil.getDistance(player)) + "m";
+                displayString += " " + new DecimalFormat("0.0").format(EntityUtil.getDistance(player)) + "m ";
             }
             if (withPop.getValue()) {
                 displayString += Vergence.POP.getPop(player.getName().getString()) != 0 ? Vergence.POP.getPop(player.getName().getString()) + "POP" : "";

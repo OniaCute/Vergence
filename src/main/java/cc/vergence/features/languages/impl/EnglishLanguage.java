@@ -438,7 +438,7 @@ public class EnglishLanguage extends Language {
         languageBase.put("Module.Modules.NoFall.Options.BooleanOption.AlwaysActive.name", "AlwaysActive");
         languageBase.put("Module.Modules.NoFall.Options.BooleanOption.AlwaysActive.description", "Always active regardless of falling state");
 
-        languageBase.put("Module.Modules.Placeholder.name", "Placeholder Previewer");
+        languageBase.put("Module.Modules.Placeholder.name", "Placeholder Support");
         languageBase.put("Module.Modules.Placeholder.description", "Display client and player information placeholders");
         languageBase.put("Module.Modules.Placeholder.Options.TextOption.Placeholder_Client_ID.name", "{id}");
         languageBase.put("Module.Modules.Placeholder.Options.TextOption.Placeholder_Client_ID.description", "Client ID placeholder");
@@ -1639,5 +1639,8 @@ public class EnglishLanguage extends Language {
         languageBase.put("Module.Modules.Defender.Options.BooleanOption.OnlySurround.description", "Only place blocks if Surround is enabled");
         languageBase.put("Module.Modules.Defender.Options.BooleanOption.BevelCev.name", "Bevel Cev");
         languageBase.put("Module.Modules.Defender.Options.BooleanOption.BevelCev.description", "Place blocks in a specific pattern");
+
+        languageBase.put("Module.Modules.Xray.name", "X-Ray");
+        languageBase.put("Module.Modules.Xray.description", "Show only resource blocks");
     }
 }

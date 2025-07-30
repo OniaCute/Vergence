@@ -80,7 +80,7 @@ public class TextFrameComponent extends GuiComponent implements Wrapper {
                 (float) getX(),
                 (float) getY(),
                 (float) (getX() + getWidth()),
-                (float) (getY() + getHeight()),
+                (float) (getY() + getHeight() + 3),
                 1d
         );
 

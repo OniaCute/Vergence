@@ -87,6 +87,10 @@ public class DoubleFrameComponent extends GuiComponent implements Wrapper {
     }
 
     public void charType(char c) {
+        if (inputCache.length() > "10000.000".length()) {
+            return ;
+        }
+
         if (Character.isDigit(c) || c == '.' || c == '-') {
             if (c == '.' && inputCache.contains(".")) return;
             if (c == '-' && !inputCache.isEmpty()) return;
@@ -96,15 +100,6 @@ public class DoubleFrameComponent extends GuiComponent implements Wrapper {
 
     @Override
     public void onDraw(DrawContext context, double mouseX, double mouseY, boolean clickLeft, boolean clickRight) {
-        Render2DUtil.pushDisplayArea(
-                context.getMatrices(),
-                (float) getX(),
-                (float) getY(),
-                (float) (getX() + getWidth()),
-                (float) (getY() + getHeight()),
-                1d
-        );
-
         if (cursorTimer.passedMs(520)) {
             cursorVisible = !cursorVisible;
             cursorTimer.reset();
@@ -163,7 +158,5 @@ public class DoubleFrameComponent extends GuiComponent implements Wrapper {
         for (GuiComponent component : getSubComponents()) {
             component.onDraw(context, mouseX, mouseY, clickLeft, clickRight);
         }
-
-        Render2DUtil.popDisplayArea();
     }
 }

@@ -16,12 +16,15 @@ import net.minecraft.entity.decoration.ArmorStandEntity;
 import net.minecraft.entity.decoration.EndCrystalEntity;
 import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.entity.projectile.thrown.ExperienceBottleEntity;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -35,6 +38,13 @@ public class BlockUtil implements Wrapper {
             Blocks.PINK_SHULKER_BOX, Blocks.GRAY_SHULKER_BOX, Blocks.CYAN_SHULKER_BOX, Blocks.PURPLE_SHULKER_BOX,
             Blocks.BLUE_SHULKER_BOX, Blocks.BROWN_SHULKER_BOX, Blocks.GREEN_SHULKER_BOX, Blocks.RED_SHULKER_BOX, Blocks.BLACK_SHULKER_BOX
     );
+
+    private static final List<Block> defensiveBlocks = new LinkedList<>() {{
+        add(Blocks.OBSIDIAN);
+        add(Blocks.CRYING_OBSIDIAN);
+        add(Blocks.ENDER_CHEST);
+    }};
+
     public static final CopyOnWriteArrayList<BlockPos> placedPos = new CopyOnWriteArrayList<>();
 
     public static BlockHitResult findPlaceableFace(BlockPos target) {
@@ -229,5 +239,28 @@ public class BlockUtil implements Wrapper {
     public static boolean clientCanPlace(BlockPos pos, boolean ignoreCrystal) {
         if (!canReplace(pos)) return false;
         return !hasEntity(pos, ignoreCrystal);
+    }
+
+    public static int getDefensiveBlockItem() {
+        for (final Block type : defensiveBlocks) {
+            final int slot = getBlockItemSlot(type);
+            if (slot != -1)
+            {
+                return slot;
+            }
+        }
+        return -1;
+    }
+
+    public static int getBlockItemSlot(final Block block) {
+        for (int i = 0; i < 9; i++) {
+            final ItemStack stack = mc.player.getInventory().getStack(i);
+            if (stack.getItem() instanceof BlockItem blockItem
+                    && blockItem.getBlock() == block)
+            {
+                return i;
+            }
+        }
+        return -1;
     }
 }

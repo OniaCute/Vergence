@@ -17,6 +17,8 @@ import net.minecraft.util.math.Vec3d;
 
 import java.util.PriorityQueue;
 
+import static java.lang.Integer.MAX_VALUE;
+
 public class RotateManager implements Wrapper {
     private final PriorityQueue<RotationTask> rotationQueue = new PriorityQueue<>();
     private RotationTask currentTask = null;
@@ -32,6 +34,7 @@ public class RotateManager implements Wrapper {
     public void onSync(SyncEvent event) {
         serverPitch = event.getPitch();
         serverYaw = event.getYaw();
+        Vergence.EVENTBUS.post(new RotateEvent(serverYaw, serverPitch));
     }
 
     @EventHandler
@@ -55,10 +58,6 @@ public class RotateManager implements Wrapper {
 
     public float getWrappedYaw() {
         return MathHelper.wrapDegrees(serverYaw);
-    }
-
-    public void snapBack() {
-        mc.getNetworkHandler().sendPacket(new PlayerMoveC2SPacket.Full(mc.player.getX(), mc.player.getY(), mc.player.getZ(), serverYaw, serverPitch, mc.player.isOnGround(), false));
     }
 
     public boolean inRenderTime() {
@@ -187,6 +186,26 @@ public class RotateManager implements Wrapper {
 
     public boolean inFov(float yaw, float pitch, float fov) {
         return MathHelper.angleBetween(yaw, serverYaw) + Math.abs(pitch - serverPitch) <= fov;
+    }
+
+    public void setRotationSilent(float yaw, float pitch, RotateModes rotateModes) {
+        if (AntiCheat.INSTANCE.isGrim()) {
+            rotate(new Rotation(MAX_VALUE, yaw, pitch, rotateModes));
+            Vergence.NETWORK.sendPacket(new PlayerMoveC2SPacket.Full(mc.player.getX(), mc.player.getY(), mc.player.getZ(), yaw, pitch, mc.player.isOnGround(), false));
+        } else {
+            Vergence.NETWORK.sendPacket(new PlayerMoveC2SPacket.LookAndOnGround(yaw, pitch, mc.player.isOnGround(), false));
+        }
+    }
+
+    public void setRotationSilentSync(RotateModes rotateModes) {
+        float yaw = mc.player.getYaw();
+        float pitch = mc.player.getPitch();
+        if (AntiCheat.INSTANCE.isGrim()) {
+            rotate(new Rotation(MAX_VALUE, yaw, pitch, rotateModes));
+            Vergence.NETWORK.sendPacket(new PlayerMoveC2SPacket.Full(mc.player.getX(), mc.player.getY(), mc.player.getZ(), yaw, pitch, mc.player.isOnGround(), false));
+        } else {
+            Vergence.NETWORK.sendPacket(new PlayerMoveC2SPacket.LookAndOnGround(yaw, pitch, mc.player.isOnGround(), false));
+        }
     }
 
     private record RotationTask(Rotation rotation, Runnable onFinish) implements Comparable<RotationTask> {

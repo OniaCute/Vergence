@@ -18,6 +18,7 @@ public class MineManager implements Wrapper {
     public MineManager() {
         Vergence.EVENTBUS.subscribe(this);
     }
+
     public final ConcurrentHashMap<Integer, MineData> breakMap = new ConcurrentHashMap<>();
 
     @EventHandler
@@ -41,6 +42,7 @@ public class MineManager implements Wrapper {
     public boolean isMining(BlockPos pos) {
         return isMining(pos, true);
     }
+
     public boolean isMining(BlockPos pos, boolean self) {
 //        if (self && PacketMine.getBreakPos() != null && PacketMine.getBreakPos().equals(pos)) {
 //            return true;

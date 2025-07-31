@@ -87,7 +87,6 @@ public class Velocity extends Module {
 
             if (flag) {
                 if (lagBackTimer.passedMs(100) && (flagInWall.getValue() || !EntityUtil.isInsideBlock())) {
-                    Vergence.ROTATE.snapBack();
                     mc.getNetworkHandler().sendPacket(new PlayerActionC2SPacket(PlayerActionC2SPacket.Action.STOP_DESTROY_BLOCK, mc.player.isCrawling() ? mc.player.getBlockPos() : mc.player.getBlockPos().up(), Direction.DOWN));
                 }
                 flag = false;

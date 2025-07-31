@@ -24,7 +24,6 @@ public class AntiCheat extends Module {
     public Option<Enum<?>> rotateMode = addOption(new EnumOption("RotateMode", RotateModes.Server));
     public Option<Enum<?>> swingMode = addOption(new EnumOption("SwingMode", SwingModes.Both));
     public Option<Enum<?>> placeMode = addOption(new EnumOption("PlaceMode", PlaceModes.Legit));
-    public Option<Boolean> snapBack = addOption(new BooleanOption("SnapBack", false));
     public Option<Boolean> attackRotate = addOption(new BooleanOption("AttackRotate", false));
     public Option<Double> attackDelay = addOption(new DoubleOption("AttackDelay", 0, 5, 1).setUnit("s"));
     public Option<Boolean> forceSync = addOption(new BooleanOption("ForceSync", false));

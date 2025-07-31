@@ -1,7 +1,6 @@
 package cc.vergence.features.managers.feature;
 
 import cc.vergence.Vergence;
-import cc.vergence.features.enums.font.FontSize;
 import cc.vergence.features.managers.ui.GuiManager;
 import cc.vergence.features.managers.ui.HudManager;
 import cc.vergence.features.options.Option;
@@ -16,7 +15,6 @@ import cc.vergence.modules.movement.*;
 import cc.vergence.modules.player.*;
 import cc.vergence.modules.player.Timer;
 import cc.vergence.modules.visual.*;
-import cc.vergence.util.font.FontUtil;
 
 import java.util.*;
 

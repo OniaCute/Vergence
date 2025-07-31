@@ -8,7 +8,10 @@ import cc.vergence.features.enums.player.SwingModes;
 import cc.vergence.modules.client.AntiCheat;
 import cc.vergence.util.blocks.BlockUtil;
 import cc.vergence.util.blocks.FixedBlockPos;
+import cc.vergence.util.interfaces.IRotation;
 import cc.vergence.util.interfaces.Wrapper;
+import cc.vergence.util.rotation.RotateUtil;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.client.option.KeyBinding;
@@ -18,6 +21,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.network.packet.c2s.play.HandSwingC2SPacket;
 import net.minecraft.network.packet.c2s.play.PlayerInteractBlockC2SPacket;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
@@ -25,6 +29,9 @@ import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.*;
 import net.minecraft.world.GameMode;
 import net.minecraft.world.RaycastContext;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class EntityUtil implements Wrapper {
     public static float[] getLegitRotations(Vec3d vec) {
@@ -206,9 +213,6 @@ public class EntityUtil implements Wrapper {
         } else {
             mc.interactionManager.interactBlock(mc.player, hand, result);
         }
-        if (rotate && AntiCheat.INSTANCE.snapBack.getValue()) {
-            Vergence.ROTATE.snapBack();
-        }
     }
 
     public static void placeBlock(BlockPos pos, boolean rotate, int priority, RotateModes mode) {
@@ -220,5 +224,92 @@ public class EntityUtil implements Wrapper {
         if (side == null) return;
         BlockUtil.placedPos.add(pos);
         clickBlock(pos.offset(side), side.getOpposite(), rotate, priority, mode, Hand.MAIN_HAND, packet);
+    }
+
+    public static boolean placeBlock(BlockPos pos, int slot, boolean strictDirection, boolean clientSwing, IRotation irotation) {
+        Direction direction = RotateUtil.getInteractDirection(pos, strictDirection);
+        if (direction == null) {
+            return false;
+        }
+        BlockPos neighbor = pos.offset(direction.getOpposite());
+        return placeBlock(neighbor, direction, slot, clientSwing, irotation);
+    }
+
+    public static boolean placeBlock(BlockPos pos, Direction direction, int slot, boolean clientSwing, IRotation irotation) {
+        Vec3d hitVec = pos.toCenterPos().add(new Vec3d(direction.getUnitVector()).multiply(0.5));
+        return placeBlock(new BlockHitResult(hitVec, direction, pos, false), slot, clientSwing, irotation);
+    }
+
+    public static boolean placeBlock(BlockHitResult hitResult, int slot, boolean clientSwing, IRotation irotation) {
+//        boolean isSpoofing = slot != InventoryUtil.getServerSlot();
+//        if (isSpoofing) {
+            InventoryUtil.sendServerSlot(slot);
+            // mc.player.getInventory().selectedSlot = slot;
+//        }
+
+        boolean isRotating = irotation != null;
+        if (isRotating) {
+            float[] angles = RotateUtil.getRotationsTo(mc.player.getEyePos(), hitResult.getPos());
+            irotation.handleRotation(true, angles);
+        }
+
+        boolean result = placeBlockImmediately(hitResult, clientSwing);
+        if (isRotating) {
+            float[] angles = RotateUtil.getRotationsTo(mc.player.getEyePos(), hitResult.getPos());
+            irotation.handleRotation(false, angles);
+        }
+
+//        if (isSpoofing)
+//        {
+            InventoryUtil.syncInventory();
+//        }
+
+        return result;
+    }
+
+    public static boolean placeBlockImmediately(BlockHitResult result, boolean clientSwing) {
+        BlockState state = mc.world.getBlockState(result.getBlockPos());
+        ActionResult actionResult = placeBlockInternally(result);
+        if (actionResult.isAccepted()) {
+            if (clientSwing) {
+                mc.player.swingHand(Hand.MAIN_HAND);
+            } else {
+                Vergence.NETWORK.sendPacket(new HandSwingC2SPacket(Hand.MAIN_HAND));
+            }
+        }
+        return actionResult.isAccepted();
+    }
+
+    private static ActionResult placeBlockInternally(BlockHitResult hitResult) {
+        return mc.interactionManager.interactBlock(mc.player, Hand.MAIN_HAND, hitResult);
+    }
+
+    public static BlockPos getRoundedBlockPos(double x, double y, double z) {
+        int flooredX = MathHelper.floor(x);
+        int flooredY = (int) Math.round(y);
+        int flooredZ = MathHelper.floor(z);
+        return new BlockPos(flooredX, flooredY, flooredZ);
+    }
+
+    public static List<BlockPos> getAllInBox(Box box, BlockPos pos) {
+        List<BlockPos> intersections = new ArrayList<>();
+        for (int x = (int) Math.floor(box.minX); x < Math.ceil(box.maxX); x++) {
+            for (int z = (int) Math.floor(box.minZ); z < Math.ceil(box.maxZ); z++) {
+                intersections.add(new BlockPos(x, pos.getY(), z));
+            }
+        }
+        return intersections;
+    }
+
+    public static List<BlockPos> getAllInBox(Box box) {
+        List<BlockPos> intersections = new ArrayList<>();
+        for (int x = (int) Math.floor(box.minX); x < Math.ceil(box.maxX); x++) {
+            for (int y = (int) Math.floor(box.minY); y < Math.ceil(box.maxY); y++) {
+                for (int z = (int) Math.floor(box.minZ); z < Math.ceil(box.maxZ); z++) {
+                    intersections.add(new BlockPos(x, y, z));
+                }
+            }
+        }
+        return intersections;
     }
 }

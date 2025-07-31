@@ -2,10 +2,10 @@ package cc.vergence.modules.combat;
 
 import cc.vergence.Vergence;
 import cc.vergence.features.enums.player.RotateModes;
-import cc.vergence.features.enums.player.SwapModes;
-import cc.vergence.features.enums.player.SwingModes;
-import cc.vergence.features.event.events.*;
-import cc.vergence.features.managers.ui.NotifyManager;
+import cc.vergence.features.event.events.DeathEvent;
+import cc.vergence.features.event.events.EntitySpawnEvent;
+import cc.vergence.features.event.events.PacketEvent;
+import cc.vergence.features.event.events.PlayerUpdateEvent;
 import cc.vergence.features.options.Option;
 import cc.vergence.features.options.impl.BooleanOption;
 import cc.vergence.features.options.impl.DoubleOption;
@@ -14,56 +14,63 @@ import cc.vergence.features.options.impl.MultipleOption;
 import cc.vergence.modules.Module;
 import cc.vergence.modules.client.AntiCheat;
 import cc.vergence.util.blocks.BlockUtil;
-import cc.vergence.util.combat.CombatUtil;
 import cc.vergence.util.other.FastTimerUtil;
 import cc.vergence.util.player.EntityUtil;
 import cc.vergence.util.player.InventoryUtil;
-import cc.vergence.util.player.MovementUtil;
 import cc.vergence.util.rotation.RotateUtil;
+import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.ExperienceOrbEntity;
+import net.minecraft.entity.ItemEntity;
+import net.minecraft.entity.decoration.EndCrystalEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.ItemStack;
+import net.minecraft.network.packet.Packet;
+import net.minecraft.network.packet.c2s.play.HandSwingC2SPacket;
+import net.minecraft.network.packet.c2s.play.PlayerInteractEntityC2SPacket;
+import net.minecraft.network.packet.s2c.play.BlockUpdateS2CPacket;
+import net.minecraft.network.packet.s2c.play.PlaySoundS2CPacket;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Hand;
-import net.minecraft.util.math.*;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Vec3d;
 
-import java.util.EnumSet;
+import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Surround extends Module {
     public static Surround INSTANCE;
-    private final FastTimerUtil timer = new FastTimerUtil();
-    double startX = 0;
-    double startY = 0;
-    double startZ = 0;
-    int progress = 0;
-    private boolean shouldCenter = true;
-    public Vec3d directionVec = null;
+    private List<BlockPos> surround = new ArrayList<>();
+    private List<BlockPos> placements = new ArrayList<>();
+    private int blocksPlaced;
+    private FastTimerUtil timer = new FastTimerUtil();
+    private double prevY;
 
     public Surround() {
         super("Surround", Category.COMBAT);
         INSTANCE = this;
     }
 
-    public Option<Double> fov = addOption(new DoubleOption("FOV", 0, 30, 5));
-    public Option<Boolean> tickLimit = addOption(new BooleanOption("TickLimit", false));
-    public Option<Boolean> toCenter = addOption(new BooleanOption("ToCenter", true));
-    public Option<Boolean> extension = addOption(new BooleanOption("Extension", true));
-    public Option<Boolean> onlySelf = addOption(new BooleanOption("OnlySelf", true, v -> extension.getValue()));
-    public Option<Boolean> whileEating = addOption(new BooleanOption("WhileEating", true));
-    public Option<Boolean> whileMining = addOption(new BooleanOption("WhileMining", true));
-    public Option<Boolean> inAir = addOption(new BooleanOption("InAir", false));
-    public Option<Boolean> packetPlace = addOption(new BooleanOption("PacketPlace", false));
+    public Option<Double> placeRange = addOption(new DoubleOption("PlaceRange", 1, 10, 4));
+    public Option<Double> placeDelay = addOption(new DoubleOption("PlaceDelay", 0, 1000, 50).setUnit("ms"));
     public Option<Double> multiPlace = addOption(new DoubleOption("MultiPlace", 1, 8, 1));
-    public Option<Double> placeDelay = addOption(new DoubleOption("PlaceDelay", 0, 500, 50));
-    public Option<Boolean> inventorySwap = addOption(new BooleanOption("InventorySwap", true));
-    public Option<Boolean> enderChest = addOption(new BooleanOption("EnderChest", true));
+    public Option<Boolean> strictDirection = addOption(new BooleanOption("StrictDirection", true));
     public Option<Boolean> doRotate = addOption(new BooleanOption("Rotate", true));
-    public Option<Boolean> yawStep = addOption(new BooleanOption("YawStep", true, v -> doRotate.getValue()));
-    public Option<Enum<?>> rotateMode = addOption(new EnumOption("RotateMode", RotateModes.Server, v -> doRotate.getValue()));
-    public Option<Boolean> doSwing = addOption(new BooleanOption("Swing", true));
+    public Option<Enum<?>> rotateMode = addOption(new EnumOption("RotateMode", RotateModes.Client, v -> doRotate.getValue()));
+    public Option<Boolean> whileEating = addOption(new BooleanOption("WhileEating", true));
+    public Option<Boolean> antiCrystal = addOption(new BooleanOption("AntiCrystal", true));
+    public Option<Boolean> center = addOption(new BooleanOption("ToCenter", true));
+    public Option<Boolean> expansion = addOption(new BooleanOption("Expansion", true));
+    public Option<Boolean> doSupport = addOption(new BooleanOption("Support", true));
     public Option<Boolean> autoDisable = addOption(new BooleanOption("AutoDisable", false));
-    public Option<EnumSet<DisableItems>> disableItems = addOption(new MultipleOption<DisableItems>("DisableItems", EnumSet.of(DisableItems.Exit, DisableItems.Jump, DisableItems.Place, DisableItems.Death)));
-    public Option<Boolean> antiCrystal = addOption(new BooleanOption("AntiCrystal", false, v -> !autoDisable.getValue() || disableItems.getValue().isEmpty()));
-    public Option<EnumSet<BlockModules>> blocker = addOption(new MultipleOption<BlockModules>("BlockModules", EnumSet.of(BlockModules.Step)));
+    public Option<EnumSet<DisableItems>> disableItems = addOption(new MultipleOption<DisableItems>("DisableItems", EnumSet.of(DisableItems.Jump, DisableItems.Leave, DisableItems.Death), v -> autoDisable.getValue()));
 
     @Override
     public String getDetails() {
@@ -71,250 +78,251 @@ public class Surround extends Module {
     }
 
     @Override
-    public void onPlayerJump(PlayerJumpEvent event) {
-        if (autoDisable.getValue() && disableItems.getValue().contains(DisableItems.Jump)) {
-            this.disable();
-        }
-    }
-
-    @Override
-    public void onRotateEvent(RotateEvent event, float yaw, float pitch) {
+    public void onEnable() {
         if (isNull()) {
             return ;
         }
-
-        if (directionVec != null && doRotate.getValue() && yawStep.getValue()) {
-            CombatUtil.aimAt(directionVec, this.getPriority(), (RotateModes) rotateMode.getValue());
+        if (center.getValue()) {
+            double x = Math.floor(mc.player.getX()) + 0.5;
+            double z = Math.floor(mc.player.getZ()) + 0.5;
+            Vec3d motion = mc.player.getVelocity();
+            mc.player.setVelocity((x - mc.player.getX()) / 2.0, motion.y, (z - mc.player.getZ()) / 2.0);
         }
-    }
-
-    @Override
-    public void onEntityRemove(EntityRemoveEvent event, Entity entity) {
-        if (entity == mc.player && autoDisable.getValue() && disableItems.getValue().contains(DisableItems.Death)) {
-            disable();
-        }
-    }
-
-    @Override
-    public void onShutDown() {
-        if (autoDisable.getValue() && disableItems.getValue().contains(DisableItems.Exit)) {
-            this.disable();
-        }
+        prevY = mc.player.getY();
+        timer.reset();
     }
 
     @Override
     public void onDisable() {
-        shouldCenter = true;
-        progress = 0;
-        directionVec = null;
-    }
-
-    @Override
-    public void onTickMovement(TickMovementEvent event) {
-        if (isNull() || tickLimit.getValue()) {
-            return;
-        }
-        onTick();
-    }
-
-    @Override
-    public void onEnable() {
-        if (isNull() && autoDisable.getValue() && disableItems.getValue().contains(DisableItems.Exit)) {
-            this.disable();
-            return ;
-        }
-
-        startX = mc.player.getX();
-        startY = mc.player.getY();
-        startZ = mc.player.getZ();
-        shouldCenter = true;
-    }
-
-    @Override
-    public void onMoveEvent(MoveEvent event, double x, double y, double z) {
-        if (isNull() || !toCenter.getValue() || EntityUtil.isFalling(10)) {
-            return;
-        }
-        BlockPos blockPos = EntityUtil.getPlayerPos(true);
-        if (mc.player.getX() - blockPos.getX() - 0.5 <= 0.2 && mc.player.getX() - blockPos.getX() - 0.5 >= -0.2 && mc.player.getZ() - blockPos.getZ() - 0.5 <= 0.2 && mc.player.getZ() - 0.5 - blockPos.getZ() >= -0.2) {
-            if (shouldCenter && (mc.player.isOnGround() || MovementUtil.isMoving())) {
-                event.setX(0);
-                event.setZ(0);
-                shouldCenter = false;
-            }
-        } else {
-            if (shouldCenter) {
-                Vec3d centerPos = EntityUtil.getPlayerPos(true).toCenterPos();
-                float rotation = RotateUtil.getRotationVec2f(mc.player.getPos(), centerPos).x;
-                float yawRad = rotation / 180.0f * 3.1415927f;
-                double dist = mc.player.getPos().distanceTo(new Vec3d(centerPos.x, mc.player.getY(), centerPos.z));
-                double cappedSpeed = Math.min(0.2873, dist);
-                double x1 = -(float) Math.sin(yawRad) * cappedSpeed;
-                double z1 = (float) Math.cos(yawRad) * cappedSpeed;
-                event.setX(x1);
-                event.setZ(z1);
-            }
-        }
-    }
-
-    @Override
-    public void onTick() {
-        if (isNull()) {
-            return ;
-        }
-
-        if (!timer.passedMs(placeDelay.getValue())) {
-            return;
-        }
-        directionVec = null;
-        progress = 0;
-        if (!MovementUtil.isMoving() && !mc.options.jumpKey.isPressed()) {
-            startX = mc.player.getX();
-            startY = mc.player.getY();
-            startZ = mc.player.getZ();
-        }
-        BlockPos pos = EntityUtil.getPlayerPos(true);
-
-        double distanceToStart = MathHelper.sqrt((float) mc.player.squaredDistanceTo(startX, startY, startZ));
-
-        if (getBlock() == -1) {
-            NotifyManager.newNotification(this, Vergence.TEXT.get("Module.Modules.Surround.Messages.NoSuchBlocks"));
-            disable();
-            return;
-        }
-        if (!whileEating.getValue() && mc.player.isUsingItem()) {
-            return;
-        }
-
-        if (!inAir.getValue() && !mc.player.isOnGround()) return;
-        for (Direction i : Direction.values()) {
-            if (i == Direction.UP) continue;
-            BlockPos offsetPos = pos.offset(i);
-            if (BlockUtil.getPlaceSide(offsetPos) != null) {
-                tryPlaceBlock(offsetPos);
-            } else if (BlockUtil.canReplace(offsetPos)) {
-                tryPlaceBlock(getHelperPos(offsetPos));
-            }
-            if ((selfIntersectPos(offsetPos) || !onlySelf.getValue() && otherIntersectPos(offsetPos)) && extension.getValue()) {
-                for (Direction i2 : Direction.values()) {
-                    if (i2 == Direction.UP) continue;
-                    BlockPos offsetPos2 = offsetPos.offset(i2);
-                    if (selfIntersectPos(offsetPos2)|| !onlySelf.getValue() && otherIntersectPos(offsetPos2)) {
-                        for (Direction i3 : Direction.values()) {
-                            if (i3 == Direction.UP) continue;
-                            tryPlaceBlock(offsetPos2);
-                            BlockPos offsetPos3 = offsetPos2.offset(i3);
-                            tryPlaceBlock(BlockUtil.getPlaceSide(offsetPos3) != null || !BlockUtil.canReplace(offsetPos3) ? offsetPos3 : getHelperPos(offsetPos3));
-                        }
-                    }
-                    tryPlaceBlock(BlockUtil.getPlaceSide(offsetPos2) != null || !BlockUtil.canReplace(offsetPos2) ? offsetPos2 : getHelperPos(offsetPos2));
-                }
-            }
-        }
-    }
-
-    private void tryPlaceBlock(BlockPos pos) {
-        if (pos == null) return;
-        if (!whileMining.getValue() && Vergence.MINE.isMining(pos)) return;
-        if (!(progress < multiPlace.getValue().intValue())) return;
-        int block = getBlock();
-        if (block == -1) return;
-        Direction side = BlockUtil.getPlaceSide(pos);
-        if (side == null) return;
-        Vec3d directionVec = new Vec3d(pos.getX() + 0.5 + side.getVector().getX() * 0.5, pos.getY() + 0.5 + side.getVector().getY() * 0.5, pos.getZ() + 0.5 + side.getVector().getZ() * 0.5);
-        if (!BlockUtil.canPlace(pos, 6, true)) return;
-        if (doRotate.getValue()) {
-            if (!faceVector(directionVec)) return;
-        }
-        if (antiCrystal.getValue()) {
-            CombatUtil.attackCrystal(pos, doRotate.getValue(), this.getPriority(), ((RotateModes) rotateMode.getValue()), !whileEating.getValue());
-        } else if (BlockUtil.hasEntity(pos, false)) return;
-        int old = mc.player.getInventory().selectedSlot;
-        doSwap(block);
-        BlockUtil.placedPos.add(pos);
-        EntityUtil.clickBlock(pos.offset(side), side.getOpposite(), false, getPriority(), ((RotateModes) rotateMode.getValue()), Hand.MAIN_HAND, packetPlace.getValue());
-        if (inventorySwap.getValue()) {
-            doSwap(block);
-            InventoryUtil.syncInventory();
-        } else {
-            doSwap(old);
-        }
-        if (doRotate.getValue() && !yawStep.getValue() && AntiCheat.INSTANCE.snapBack.getValue()) {
-            Vergence.ROTATE.snapBack();
-        }
-        progress++;
         timer.reset();
     }
 
-    private void doSwap(int slot) {
-        if (inventorySwap.getValue()) {
-            InventoryUtil.inventorySwap(slot, mc.player.getInventory().selectedSlot);
-        } else {
-            InventoryUtil.switchToSlot(slot);
+    @Override
+    public void onLogout() {
+        if (autoDisable.getValue() && disableItems.getValue().contains(DisableItems.Death)) {
+            this.disable();
         }
     }
 
-    private int getBlock() {
-        if (inventorySwap.getValue()) {
-            if (InventoryUtil.findBlockInventorySlot(Blocks.OBSIDIAN) != -1 || !enderChest.getValue()) {
-                return InventoryUtil.findBlockInventorySlot(Blocks.OBSIDIAN);
+    @Override
+    public void onDeathEvent(DeathEvent event, PlayerEntity player) {
+        if (player == mc.player && autoDisable.getValue() && disableItems.getValue().contains(DisableItems.Death)) {
+            this.disable();
+        }
+    }
+
+    @Override
+    public void onPlayerUpdateEvent(PlayerUpdateEvent event) {
+        if (isNull() || mc.player.isUsingItem() && !whileEating.getValue()) {
+            return ;
+        }
+
+        blocksPlaced = 0; // reset
+
+        if (autoDisable.getValue() && disableItems.getValue().contains(DisableItems.Jump) && Math.abs(mc.player.getY() - prevY) > 0.5) {
+            disable();
+            return;
+        }
+        BlockPos pos = EntityUtil.getRoundedBlockPos(mc.player.getX(), mc.player.getY(), mc.player.getZ());
+        if (!timer.passedMs(placeDelay.getValue())) {
+            return;
+        }
+        final int slot = BlockUtil.getDefensiveBlockItem();
+        if (slot == -1) {
+            return;
+        }
+
+        surround = getSurroundPositions(pos);
+        placements = surround.stream().filter(blockPos -> mc.world.getBlockState(blockPos).isReplaceable()).toList();
+        if (placements.isEmpty()) {
+            return;
+        }
+        final int shiftTicks = multiPlace.getValue().intValue();
+        while (blocksPlaced < shiftTicks && !placements.isEmpty()) {
+            if (blocksPlaced >= placements.size()) {
+                break;
             }
-            return InventoryUtil.findBlockInventorySlot(Blocks.ENDER_CHEST);
-        } else {
-            if (InventoryUtil.findBlock(Blocks.OBSIDIAN) != -1 || !enderChest.getValue()) {
-                return InventoryUtil.findBlock(Blocks.OBSIDIAN);
-            }
-            return InventoryUtil.findBlock(Blocks.ENDER_CHEST);
+            BlockPos targetPos = placements.get(blocksPlaced);
+            blocksPlaced++;
+            timer.reset();
+            attackPlace(targetPos, slot);
         }
     }
 
-    public BlockPos getHelperPos(BlockPos pos) {
-        for (Direction i : Direction.values()) {
-            if (!whileMining.getValue() && Vergence.MINE.isMining(pos.offset(i))) continue;
-            if (!BlockUtil.isStrictDirection(pos.offset(i), i.getOpposite())) continue;
-            if (BlockUtil.canPlace(pos.offset(i))) return pos.offset(i);
+    private void attack(Entity entity) {
+        Vergence.NETWORK.sendPacket(PlayerInteractEntityC2SPacket.attack(entity, mc.player.isSneaking()));
+        Vergence.NETWORK.sendPacket(new HandSwingC2SPacket(Hand.MAIN_HAND));
+    }
+
+    private void attackPlace(BlockPos targetPos) {
+        final int slot = BlockUtil.getDefensiveBlockItem();
+        if (slot == -1)
+        {
+            return;
         }
-        return null;
+        attackPlace(targetPos, slot);
     }
 
-    private boolean faceVector(Vec3d directionVec) {
-        if (!yawStep.getValue()) {
-            Vergence.ROTATE.lookAt(directionVec, this.getPriority(), ((RotateModes) rotateMode.getValue()));
-            return true;
-        } else {
-            this.directionVec = directionVec;
-            if (Vergence.ROTATE.inFov(directionVec, fov.getValue().floatValue())) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public static boolean selfIntersectPos(BlockPos pos) {
-        return mc.player.getBoundingBox().intersects(new Box(pos));
-    }
-
-    public static boolean otherIntersectPos(BlockPos pos) {
-        for (PlayerEntity player : mc.world.getPlayers()) {
-            if (player.getBoundingBox().intersects(new Box(pos))) {
-                return true;
+    private void attackPlace(BlockPos targetPos, int slot) {
+        if (antiCrystal.getValue()) {
+            List<Entity> entities = mc.world.getOtherEntities(null, new Box(targetPos)).stream().filter(e -> e instanceof EndCrystalEntity).toList();
+            for (Entity entity : entities) {
+                attack(entity);
             }
         }
-        return false;
+
+        EntityUtil.placeBlock(targetPos, slot, strictDirection.getValue(), false, (state, angles) -> {
+            if (doRotate.getValue()) {
+                if (state) {
+                    Vergence.ROTATE.setRotationSilent(angles[0], angles[1], ((RotateModes) rotateMode.getValue()));
+                } else {
+                    Vergence.ROTATE.setRotationSilentSync(((RotateModes) rotateMode.getValue()));
+                }
+            }
+        });
     }
 
-    public enum BlockModules {
-        Step,
-        Speed,
-        Strafe,
-        SelfTrap
+    public List<BlockPos> getSurroundPositions(BlockPos pos) {
+        List<BlockPos> entities = getSurroundEntities(pos);
+        List<BlockPos> blocks = new CopyOnWriteArrayList<>();
+        for (BlockPos epos : entities) {
+            for (Direction dir2 : Direction.values()) {
+                if (!dir2.getAxis().isHorizontal()) {
+                    continue;
+                }
+                BlockPos pos2 = epos.add(dir2.getVector());
+                if (entities.contains(pos2) || blocks.contains(pos2)) {
+                    continue;
+                }
+                double dist = mc.player.squaredDistanceTo(pos2.toCenterPos());
+                if (dist > placeRange.getValue() * placeRange.getValue()) {
+                    continue;
+                }
+                blocks.add(pos2);
+            }
+        }
+        if (doSupport.getValue()) {
+            for (BlockPos block : blocks) {
+                Direction direction = RotateUtil.getInteractDirection(block, strictDirection.getValue());
+                if (direction == null) {
+                    blocks.add(block.down());
+                }
+            }
+        }
+        for (BlockPos entityPos : entities) {
+            if (entityPos == pos) {
+                continue;
+            }
+            blocks.add(entityPos.down());
+        }
+        Collections.reverse(blocks);
+        return blocks;
+    }
+
+    public List<BlockPos> getSurroundEntities(Entity entity) {
+        List<BlockPos> entities = new LinkedList<>();
+        entities.add(entity.getBlockPos());
+        if (expansion.getValue()) {
+            for (Direction dir : Direction.values()) {
+                if (!dir.getAxis().isHorizontal()) {
+                    continue;
+                }
+                entities.addAll(EntityUtil.getAllInBox(entity.getBoundingBox(), entity.getBlockPos()));
+            }
+        }
+        return entities;
+    }
+
+    public List<BlockPos> getSurroundEntities(BlockPos pos) {
+        List<BlockPos> entities = new LinkedList<>();
+        entities.add(pos);
+        if (expansion.getValue()) {
+            for (Direction dir : Direction.values()) {
+                if (!dir.getAxis().isHorizontal()) {
+                    continue;
+                }
+                BlockPos pos1 = pos.add(dir.getVector());
+                List<Entity> box = mc.world.getOtherEntities(null, new Box(pos1))
+                        .stream().filter(e -> !isEntityBlockingSurround(e)).toList();
+                if (box.isEmpty()) {
+                    continue;
+                }
+                for (Entity entity : box) {
+                    entities.addAll(EntityUtil.getAllInBox(entity.getBoundingBox(), pos));
+                }
+            }
+        }
+        return entities;
+    }
+
+    public List<BlockPos> getEntitySurroundNoSupport(Entity entity) {
+        List<BlockPos> entities = getSurroundEntities(entity);
+        List<BlockPos> blocks = new CopyOnWriteArrayList<>();
+        for (BlockPos epos : entities) {
+            for (Direction dir2 : Direction.values()) {
+                if (!dir2.getAxis().isHorizontal()) {
+                    continue;
+                }
+                BlockPos pos2 = epos.add(dir2.getVector());
+                if (entities.contains(pos2) || blocks.contains(pos2)) {
+                    continue;
+                }
+                double dist = mc.player.squaredDistanceTo(pos2.toCenterPos());
+                if (dist > placeRange.getValue() * placeRange.getValue()) {
+                    continue;
+                }
+                blocks.add(pos2);
+            }
+        }
+        return blocks;
+    }
+
+    private boolean isEntityBlockingSurround(Entity entity) {
+        return entity instanceof ItemEntity || entity instanceof ExperienceOrbEntity
+                || (entity instanceof EndCrystalEntity && antiCrystal.getValue());
+    }
+
+    @Override
+    public void onEntitySpawn(EntitySpawnEvent event, Entity entity) {
+        if (!(event.getEntity() instanceof EndCrystalEntity crystalEntity) || !antiCrystal.getValue()) {
+            return;
+        }
+        for (BlockPos blockPos : surround) {
+            if (crystalEntity.getBlockPos() == blockPos) {
+                Vergence.NETWORK.sendPacket(PlayerInteractEntityC2SPacket.attack(crystalEntity, mc.player.isSneaking()));
+                Vergence.NETWORK.sendPacket(new HandSwingC2SPacket(Hand.MAIN_HAND));
+                break;
+            }
+        }
+    }
+
+    @Override
+    public void onSendPacket(PacketEvent.Send event, Packet<?> packet) {
+        if (mc.player == null) {
+            return;
+        }
+        if (packet instanceof BlockUpdateS2CPacket packet1) {
+            final BlockState state = packet1.getState();
+            final BlockPos targetPos = packet1.getPos();
+            if (surround.contains(targetPos) && state.isReplaceable()) {
+                blocksPlaced++;
+                RenderSystem.recordRenderCall(() -> attackPlace(targetPos));
+            }
+        } else if (packet instanceof PlaySoundS2CPacket packet1
+                && packet1.getCategory() == SoundCategory.BLOCKS
+                && packet1.getSound().value() == SoundEvents.ENTITY_GENERIC_EXPLODE.value()) {
+            BlockPos targetPos = BlockPos.ofFloored(packet1.getX(), packet1.getY(), packet1.getZ());
+            if (surround.contains(targetPos)) {
+                blocksPlaced++;
+                RenderSystem.recordRenderCall(() -> attackPlace(targetPos));
+            }
+        }
     }
 
     public enum DisableItems {
-        Exit,
         Jump,
-        Move,
-        Place,
-        Death
+        Leave,
+        Death,
+        Move
     }
 }

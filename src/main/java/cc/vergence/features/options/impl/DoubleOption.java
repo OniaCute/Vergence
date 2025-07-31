@@ -61,6 +61,10 @@ public class DoubleOption extends Option<Double> {
         return this.value;
     }
 
+    public Double getValueSquared() {
+        return getValue() * getValue();
+    }
+
     @Override
     public void setValue(Double value) {
         if (value > maxValue) {

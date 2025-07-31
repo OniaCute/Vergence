@@ -249,9 +249,6 @@ public class CombatUtil implements Wrapper {
             mc.getNetworkHandler().sendPacket(PlayerInteractEntityC2SPacket.attack(crystal, mc.player.isSneaking()));
             mc.player.resetLastAttackedTicks();
             EntityUtil.swingHand(Hand.MAIN_HAND, (SwingModes) AntiCheat.INSTANCE.swingMode.getValue());
-            if (rotate && AntiCheat.INSTANCE.snapBack.getValue()) {
-                Vergence.ROTATE.snapBack();
-            }
         }
     }
 }

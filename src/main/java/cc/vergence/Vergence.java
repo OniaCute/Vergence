@@ -190,10 +190,10 @@ public class Vergence implements ModInitializer {
     }
 
     public static void save() {
-        CONSOLE.logInfo("Vergence Client config is shutting down ...");
+        CONSOLE.logInfo("Vergence Client is shutting down ...");
         EVENTS.onShutDown();
-        CONSOLE.logInfo("Vergence Client config is saving ...");
+        CONSOLE.logInfo("Vergence Client is saving ...");
         CONFIG.save(CONFIG.getCurrentConfig());
-        CONSOLE.logInfo("Vergence Client config was saved");
+        CONSOLE.logInfo("Vergence Client was saved");
     }
 }

@@ -234,8 +234,7 @@ public class InventoryUtil implements Wrapper {
     }
 
     public static void setClientSlot(final int barSlot) {
-        if (mc.player.getInventory().selectedSlot != barSlot
-                && PlayerInventory.isValidHotbarIndex(barSlot)) {
+        if (mc.player.getInventory().selectedSlot != barSlot && PlayerInventory.isValidHotbarIndex(barSlot)) {
             mc.player.getInventory().selectedSlot = barSlot;
             sendServerSlot(barSlot);
         }

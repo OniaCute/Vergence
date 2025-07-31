@@ -1074,8 +1074,6 @@ public class EnglishLanguage extends Language {
         languageBase.put("Module.Modules.AntiCheat.Options.EnumOption.SwingMode.description", "Swing animation mode used by combat modules");
         languageBase.put("Module.Modules.AntiCheat.Options.EnumOption.PlaceMode.name", "Place Mode");
         languageBase.put("Module.Modules.AntiCheat.Options.EnumOption.PlaceMode.description", "Placement mode used by combat modules");
-        languageBase.put("Module.Modules.AntiCheat.Options.BooleanOption.SnapBack.name", "Rotate Snap Back");
-        languageBase.put("Module.Modules.AntiCheat.Options.BooleanOption.SnapBack.description", "Snap back to the original rotation after rotating");
         languageBase.put("Module.Modules.AntiCheat.Options.BooleanOption.AttackRotate.name", "Attack Rotate");
         languageBase.put("Module.Modules.AntiCheat.Options.BooleanOption.AttackRotate.description", "Rotate towards the target when attacking");
         languageBase.put("Module.Modules.AntiCheat.Options.DoubleOption.AttackDelay.name", "Attack Delay");

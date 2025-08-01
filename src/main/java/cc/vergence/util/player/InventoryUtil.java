@@ -91,7 +91,7 @@ public class InventoryUtil implements Wrapper {
         }
         return count;
     }
-    public static boolean holdingItem(Class clazz) {
+    public static boolean isHoldingItem(Class clazz) {
         boolean result;
         ItemStack stack = mc.player.getMainHandStack();
         result = isInstanceOf(stack, clazz);

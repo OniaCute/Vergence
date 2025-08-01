@@ -1205,8 +1205,8 @@ public class ChineseLanguage extends Language {
         languageBase.put("Module.Modules.FastLatencyCalc.description", "通过发送命令补全请求计算延迟");
         languageBase.put("Module.Modules.FastLatencyCalc.Options.DoubleOption.Delay.name", "延迟");
         languageBase.put("Module.Modules.FastLatencyCalc.Options.DoubleOption.Delay.description", "发送命令补全请求的延迟");
-        languageBase.put("Module.Modules.FastLatencyCalc.Options.BooleanOption.spikeNotify.name", "延迟峰值通知");
-        languageBase.put("Module.Modules.FastLatencyCalc.Options.BooleanOption.spikeNotify.description", "检测到延迟峰值时通知");
+        languageBase.put("Module.Modules.FastLatencyCalc.Options.BooleanOption.SpikeNotify.name", "延迟峰值通知");
+        languageBase.put("Module.Modules.FastLatencyCalc.Options.BooleanOption.SpikeNotify.description", "检测到延迟峰值时通知");
         languageBase.put("Module.Modules.FastLatencyCalc.Options.DoubleOption.Threshold.name", "阈值");
         languageBase.put("Module.Modules.FastLatencyCalc.Options.DoubleOption.Threshold.description", "触发延迟峰值通知所需的最小延迟增加");
         languageBase.put("Module.Modules.FastLatencyCalc.Messages.Spike", "检测到延迟峰值");

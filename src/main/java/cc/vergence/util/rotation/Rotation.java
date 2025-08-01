@@ -9,6 +9,7 @@ public class Rotation {
     private double ticks;
     private double rotateSpeed;
     private RotateModes rotateModes;
+    private boolean snap;
 
     public Rotation(float pitch, double yaw, double rotateSpeed, RotateModes rotateModes, int priority) {
         this.pitch = pitch;
@@ -83,5 +84,13 @@ public class Rotation {
 
     public double getRotateSpeed() {
         return rotateSpeed;
+    }
+
+    public void setSnap(boolean snap) {
+        this.snap = snap;
+    }
+
+    public boolean isSnap() {
+        return snap;
     }
 }

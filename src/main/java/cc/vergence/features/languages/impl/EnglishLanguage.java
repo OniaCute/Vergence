@@ -1377,8 +1377,8 @@ public class EnglishLanguage extends Language {
         languageBase.put("Module.Modules.FastLatencyCalc.description", "Calculates your latency to the server by sending command completion requests");
         languageBase.put("Module.Modules.FastLatencyCalc.Options.DoubleOption.Delay.name", "Delay");
         languageBase.put("Module.Modules.FastLatencyCalc.Options.DoubleOption.Delay.description", "The delay between sending command completion requests");
-        languageBase.put("Module.Modules.FastLatencyCalc.Options.BooleanOption.spikeNotify.name", "Spike Notify");
-        languageBase.put("Module.Modules.FastLatencyCalc.Options.BooleanOption.spikeNotify.description", "Notify when a latency spike is detected");
+        languageBase.put("Module.Modules.FastLatencyCalc.Options.BooleanOption.SpikeNotify.name", "Spike Notify");
+        languageBase.put("Module.Modules.FastLatencyCalc.Options.BooleanOption.SpikeNotify.description", "Notify when a latency spike is detected");
         languageBase.put("Module.Modules.FastLatencyCalc.Options.DoubleOption.Threshold.name", "Threshold");
         languageBase.put("Module.Modules.FastLatencyCalc.Options.DoubleOption.Threshold.description", "The minimum latency increase required to trigger a spike notification");
         languageBase.put("Module.Modules.FastLatencyCalc.Messages.Spike", "Latency spike detected!");

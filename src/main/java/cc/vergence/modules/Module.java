@@ -60,7 +60,7 @@ public abstract class Module implements Wrapper {
         this.category = category;
 
         this.bind = (BindOption) addOption(new BindOption("_BIND_", -1, BindOption.BindType.Click));
-        this.priority = (DoubleOption) addOption(new DoubleOption("_PRIORITY_", -1, 20, 0).addSpecialValue(-1, "HIGHEST").addSpecialValue(20, "LOWEST").addSpecialValue(0, "DEFAULT"));
+        this.priority = (DoubleOption) addOption(new DoubleOption("_PRIORITY_", -1, 10, 0).addSpecialValue(-1, "HIGHEST").addSpecialValue(10, "LOWEST").addSpecialValue(0, "DEFAULT"));
         this.draw = (BooleanOption) addOption(new BooleanOption("_DRAW_", true));
     }
 
@@ -71,7 +71,7 @@ public abstract class Module implements Wrapper {
         this.category = category;
 
         this.bind = (BindOption) addOption(new BindOption("_BIND_", -1, BindOption.BindType.Click));
-        this.priority = (DoubleOption) addOption(new DoubleOption("_PRIORITY_", -1, 20, priority).addSpecialValue(-1, "HIGHEST").addSpecialValue(20, "LOWEST").addSpecialValue(0, "DEFAULT"));
+        this.priority = (DoubleOption) addOption(new DoubleOption("_PRIORITY_", -1, 10, priority).addSpecialValue(-1, "HIGHEST").addSpecialValue(10, "LOWEST").addSpecialValue(0, "DEFAULT"));
         this.draw = (BooleanOption) addOption(new BooleanOption("_DRAW_", true));
     }
 

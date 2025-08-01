@@ -234,7 +234,7 @@ public class Surround extends Module {
     }
 
     public List<BlockPos> getSurroundEntities(BlockPos pos) {
-        List<BlockPos> entities = new LinkedList<>();
+        List<BlockPos>  entities = new LinkedList<>();
         entities.add(pos);
         if (expansion.getValue()) {
             for (Direction dir : Direction.values()) {

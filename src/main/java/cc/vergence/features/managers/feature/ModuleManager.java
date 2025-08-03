@@ -120,6 +120,7 @@ public class ModuleManager {
         registerModule(new DropAll());
         registerModule(new AspectRatio());
         registerModule(new ChestStealer());
+        registerModule(new ToolSaver());
 
         // special module
         registerModule(new SafeMode());

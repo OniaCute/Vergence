@@ -1691,5 +1691,10 @@ public class EnglishLanguage extends Language {
         languageBase.put("Module.Modules.ChestStealer.Options.BooleanOption.Random.description", "Randomly select items to steal");
         languageBase.put("Module.Modules.ChestStealer.Options.BooleanOption.Close.name", "Close");
         languageBase.put("Module.Modules.ChestStealer.Options.BooleanOption.Close.description", "Close the chest after stealing");
+
+        languageBase.put("Module.Modules.ToolSaver.name", "Tool Saver");
+        languageBase.put("Module.Modules.ToolSaver.description", "Prevents tools from breaking by switching to another item when durability is low");
+        languageBase.put("Module.Modules.ToolSaver.Options.DoubleOption.Limit.name", "Limit");
+        languageBase.put("Module.Modules.ToolSaver.Options.DoubleOption.Limit.description", "The percentage of durability remaining before switching items");
     }
 }

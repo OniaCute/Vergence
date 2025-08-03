@@ -2,10 +2,14 @@ package cc.vergence.injections.mixins.player;
 
 import cc.vergence.Vergence;
 import cc.vergence.features.event.events.ClickBlockEvent;
+import cc.vergence.features.event.events.ClickSlotEvent;
+import cc.vergence.modules.Module;
 import cc.vergence.modules.combat.NoCooldown;
 import cc.vergence.modules.player.SaveBreak;
 import net.minecraft.client.network.ClientPlayerInteractionManager;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import org.spongepowered.asm.mixin.Mixin;
@@ -36,6 +40,19 @@ public class MixinClientPlayerInteractionManager {
 		Vergence.EVENTBUS.post(event);
 		if (event.isCancelled()) {
 			cir.setReturnValue(false);
+		}
+	}
+
+	@Inject(method = "clickSlot", at = @At("HEAD"), cancellable = true)
+	public void clickSlotHook(int syncId, int slotId, int button, SlotActionType actionType, PlayerEntity player, CallbackInfo ci) {
+		if (Module.isNull()) {
+			return ;
+		}
+
+		ClickSlotEvent event = new ClickSlotEvent(actionType, slotId, button, syncId);
+		Vergence.EVENTBUS.post(event);
+		if (event.isCancelled()) {
+			ci.cancel();
 		}
 	}
 }

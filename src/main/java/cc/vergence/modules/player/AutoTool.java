@@ -8,7 +8,6 @@ import cc.vergence.modules.Module;
 import cc.vergence.util.player.InventoryUtil;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.*;
-import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 
@@ -54,7 +53,7 @@ public class AutoTool extends Module {
             if (!switched && slotBack.getValue()) {
                 originalSlot = mc.player.getInventory().selectedSlot;
             }
-            InventoryUtil.switchToSlot(slot);
+            InventoryUtil.setSlotBoth(slot);
             switched = true;
         }
     }
@@ -65,7 +64,7 @@ public class AutoTool extends Module {
             return;
         }
         if (mc.crosshairTarget == null || mc.crosshairTarget.getType() != HitResult.Type.BLOCK) {
-            InventoryUtil.switchToSlot(originalSlot);
+            InventoryUtil.setSlotBoth(originalSlot);
             originalSlot = -1;
             switched = false;
         }
@@ -82,7 +81,7 @@ public class AutoTool extends Module {
         Item bestItem = null;
 
         for (int i = 0; i < 9; i++) {
-            ItemStack stack = InventoryUtil.getStackInSlot(i);
+            ItemStack stack = InventoryUtil.getStack(i);
             if (stack.isEmpty()) {
                 continue;
             }

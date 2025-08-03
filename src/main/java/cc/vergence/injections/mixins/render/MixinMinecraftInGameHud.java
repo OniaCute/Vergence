@@ -4,6 +4,7 @@ import cc.vergence.Vergence;
 import cc.vergence.features.screens.ClickGuiScreen;
 import cc.vergence.features.screens.HudEditorScreen;
 import cc.vergence.modules.hud.Scoreboard;
+import cc.vergence.modules.visual.NoRender;
 import cc.vergence.util.interfaces.Wrapper;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
@@ -40,6 +41,13 @@ public class MixinMinecraftInGameHud implements Wrapper {
     @Inject(method = "renderScoreboardSidebar(Lnet/minecraft/client/gui/DrawContext;Lnet/minecraft/scoreboard/ScoreboardObjective;)V", at = @At("HEAD"), cancellable = true)
     private void cancelSidebar(DrawContext drawContext, ScoreboardObjective objective, CallbackInfo ci) {
         if (Scoreboard.INSTANCE != null && Scoreboard.INSTANCE.getStatus()) {
+            ci.cancel();
+        }
+    }
+
+    @Inject(at = @At(value = "HEAD"), method = "renderHeldItemTooltip", cancellable = true)
+    public void renderHeldItemTooltipHook(DrawContext context, CallbackInfo ci) {
+        if (NoRender.INSTANCE.getStatus() && NoRender.INSTANCE.noItemName.getValue()) {
             ci.cancel();
         }
     }

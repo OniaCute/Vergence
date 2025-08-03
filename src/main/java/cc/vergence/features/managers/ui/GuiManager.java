@@ -525,6 +525,8 @@ public class GuiManager implements Wrapper {
             categoryComponents.add(categoryComponent);
         }
 
+        allModuleComponents.sort(Comparator.comparing((GuiComponent c) -> ((ModuleComponent) c).getModule().isAlwaysEnable() ? 0 : 1).thenComparing(c -> ((ModuleComponent) c).getModule().getDisplayName(), String.CASE_INSENSITIVE_ORDER));
+
         // Top bar
         TopbarButton infoButton = new TopbarButton(Pages.Information, "\uF05A");
         TopbarButton themeButton = new TopbarButton(Pages.Themes, "\uF1FC");
@@ -874,7 +876,6 @@ public class GuiManager implements Wrapper {
                 searchModuleComponent.add(moduleComponent);
             }
         }
-        searchModuleComponent.sort(Comparator.comparing((GuiComponent c) -> ((ModuleComponent) c).getModule().isAlwaysEnable() ? 0 : 1).thenComparing(c -> ((ModuleComponent) c).getModule().getDisplayName(), String.CASE_INSENSITIVE_ORDER));
     }
 
     private static void layoutModuleAreaComponent(ModuleComponent moduleComponent) {

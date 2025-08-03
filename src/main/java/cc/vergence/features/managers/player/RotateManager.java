@@ -25,6 +25,9 @@ public class RotateManager implements Wrapper {
 
     private float lastYaw, lastPitch, serverYaw, serverPitch;
     private long lastRenderTime;
+    private long rotationExpireTime = -1;
+    public boolean overrideServerRotation = false;
+
 
     public RotateManager() {
         Vergence.EVENTBUS.subscribe(this);
@@ -32,6 +35,14 @@ public class RotateManager implements Wrapper {
 
     @EventHandler
     public void onSync(SyncEvent event) {
+        if (overrideServerRotation) {
+            if (System.currentTimeMillis() >= rotationExpireTime) {
+                overrideServerRotation = false;
+            } else {
+                return;
+            }
+        }
+
         serverPitch = event.getPitch();
         serverYaw = event.getYaw();
         Vergence.EVENTBUS.post(new RotateEvent(serverYaw, serverPitch));
@@ -73,10 +84,11 @@ public class RotateManager implements Wrapper {
             return;
         }
 
-        if (currentTask == null || rotation.getPriority() > currentTask.rotation().getPriority()) {
+        if (currentTask == null || rotation.getPriority() >= currentTask.rotation().getPriority()) {
+            rotationExpireTime = -1;
+            overrideServerRotation = false;
             lastYaw = mc.player.getYaw();
             lastPitch = mc.player.getPitch();
-
             currentTask = new RotationTask(rotation, onFinish);
             applyCurrent();
         } else {
@@ -112,10 +124,10 @@ public class RotateManager implements Wrapper {
 
         switch (rot.getRotateModes()) {
             case Client -> applyClientRotation(yaw, pitch);
-            case Server -> sendServerRotation(yaw, pitch);
+            case Server -> sendServerRotation(yaw, pitch, rot.isSnap());
             case Both -> {
                 applyClientRotation(yaw, pitch);
-                sendServerRotation(yaw, pitch);
+                sendServerRotation(yaw, pitch, rot.isSnap());
             }
         }
 
@@ -123,11 +135,18 @@ public class RotateManager implements Wrapper {
         lastPitch = pitch;
     }
 
-    private void sendServerRotation(float yaw, float pitch) {
+    private void sendServerRotation(float yaw, float pitch, boolean isSnap) {
         Vergence.NETWORK.sendPacket(new PlayerMoveC2SPacket.Full(
                 mc.player.getX(), mc.player.getY(), mc.player.getZ(), yaw, pitch,
                 mc.player.isOnGround(), false
         ));
+        if (!isSnap) {
+            this.rotationExpireTime = System.currentTimeMillis() + AntiCheat.INSTANCE.rotateTime.getValue().longValue();
+            this.overrideServerRotation = true;
+        } else {
+            this.rotationExpireTime = -1;
+            this.overrideServerRotation = false;
+        }
     }
 
     private void applyClientRotation(float yaw, float pitch) {
@@ -139,11 +158,6 @@ public class RotateManager implements Wrapper {
         float yaw = currentTask != null ? (float) currentTask.rotation().getYaw() : mc.player.getYaw();
         float pitch = currentTask != null ? currentTask.rotation().getPitch() : mc.player.getPitch();
         return new float[] { yaw, pitch };
-    }
-
-    public void lookAt(Vec3d directionVec, int priority, RotateModes mode) {
-        CombatUtil.aimAt(directionVec, priority, mode);
-        snapAt(directionVec);
     }
 
     public float[] getRotation(Vec3d vec) {
@@ -161,24 +175,6 @@ public class RotateManager implements Wrapper {
         return new float[]{MathHelper.wrapDegrees(yaw), MathHelper.wrapDegrees(pitch)};
     }
 
-    public void snapAt(Vec3d directionVec) {
-        float[] angle = getRotation(directionVec);
-        if (AntiCheat.INSTANCE.spamCheck.getValue()) {
-            if (MathHelper.angleBetween(angle[0], lastYaw) < AntiCheat.INSTANCE.fov.getValue() && Math.abs(angle[1] - lastPitch) < AntiCheat.INSTANCE.fov.getValue()) {
-                return;
-            }
-        }
-        snapAt(angle[0], angle[1]);
-    }
-
-    public void snapAt(float yaw, float pitch) {
-        if (AntiCheat.INSTANCE.isGrim()) {
-            mc.getNetworkHandler().sendPacket(new PlayerMoveC2SPacket.Full(mc.player.getX(), mc.player.getY(), mc.player.getZ(), yaw, pitch, mc.player.isOnGround(), false));
-        } else {
-            mc.getNetworkHandler().sendPacket(new PlayerMoveC2SPacket.LookAndOnGround(yaw, pitch, mc.player.isOnGround(), false));
-        }
-    }
-
     public boolean inFov(Vec3d directionVec, float fov) {
         float[] angle = getRotation(new Vec3d(mc.player.getX(), mc.player.getY() + mc.player.getEyeHeight(mc.player.getPose()), mc.player.getZ()), directionVec);
         return inFov(angle[0], angle[1], fov);
@@ -186,26 +182,6 @@ public class RotateManager implements Wrapper {
 
     public boolean inFov(float yaw, float pitch, float fov) {
         return MathHelper.angleBetween(yaw, serverYaw) + Math.abs(pitch - serverPitch) <= fov;
-    }
-
-    public void setRotationSilent(float yaw, float pitch, RotateModes rotateModes) {
-        if (AntiCheat.INSTANCE.isGrim()) {
-            rotate(new Rotation(MAX_VALUE, yaw, pitch, rotateModes));
-            Vergence.NETWORK.sendPacket(new PlayerMoveC2SPacket.Full(mc.player.getX(), mc.player.getY(), mc.player.getZ(), yaw, pitch, mc.player.isOnGround(), false));
-        } else {
-            Vergence.NETWORK.sendPacket(new PlayerMoveC2SPacket.LookAndOnGround(yaw, pitch, mc.player.isOnGround(), false));
-        }
-    }
-
-    public void setRotationSilentSync(RotateModes rotateModes) {
-        float yaw = mc.player.getYaw();
-        float pitch = mc.player.getPitch();
-        if (AntiCheat.INSTANCE.isGrim()) {
-            rotate(new Rotation(MAX_VALUE, yaw, pitch, rotateModes));
-            Vergence.NETWORK.sendPacket(new PlayerMoveC2SPacket.Full(mc.player.getX(), mc.player.getY(), mc.player.getZ(), yaw, pitch, mc.player.isOnGround(), false));
-        } else {
-            Vergence.NETWORK.sendPacket(new PlayerMoveC2SPacket.LookAndOnGround(yaw, pitch, mc.player.isOnGround(), false));
-        }
     }
 
     private record RotationTask(Rotation rotation, Runnable onFinish) implements Comparable<RotationTask> {

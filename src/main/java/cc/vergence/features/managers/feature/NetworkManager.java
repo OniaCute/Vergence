@@ -15,7 +15,7 @@ import java.util.Objects;
 import java.util.Set;
 
 public class NetworkManager implements Wrapper {
-    private static final Set<Packet<?>> PACKETS = new HashSet<>();
+    private static Set<Packet<?>> PACKETS = new HashSet<>();
     private ServerAddress address;
     private ServerInfo info;
 
@@ -36,42 +36,42 @@ public class NetworkManager implements Wrapper {
         Objects.requireNonNull(mc.getNetworkHandler()).sendChatMessage(message);
     }
 
-    public void sendPacket(final Packet<?> p) {
+    public void sendPacket(Packet<?> p) {
         if (mc.getNetworkHandler() != null) {
             mc.getNetworkHandler().sendPacket(p);
         }
     }
 
-    public void sendPacketWithChach(final Packet<?> p) {
+    public void sendPacketWithChach(Packet<?> p) {
         if (mc.getNetworkHandler() != null) {
             PACKETS.add(p);
             mc.getNetworkHandler().sendPacket(p);
         }
     }
 
-    public void sendSilentPacket(final Packet<?> p) {
+    public void sendSilentPacket(Packet<?> p) {
         if (mc.getNetworkHandler() != null) {
             ((IClientPlayNetworkHandler) mc.getNetworkHandler()).sendSilentPacket(p);
         }
     }
 
-    public void sendSilentPacketWithChach(final Packet<?> p) {
+    public void sendSilentPacketWithChach(Packet<?> p) {
         if (mc.getNetworkHandler() != null) {
             PACKETS.add(p);
             ((IClientPlayNetworkHandler) mc.getNetworkHandler()).sendSilentPacket(p);
         }
     }
 
-    public void sendIgnoredPacket(final Packet<?> packet) {
+    public void sendIgnoredPacket(Packet<?> packet) {
         Objects.requireNonNull(mc.getNetworkHandler()).getConnection().send(packet, null, true);
     }
 
-    public void sendIgnoredPacketWithChach(final Packet<?> packet) {
+    public void sendIgnoredPacketWithChach(Packet<?> packet) {
         PACKETS.add(packet);
         Objects.requireNonNull(mc.getNetworkHandler()).getConnection().send(packet, null, true);
     }
 
-    public void sendSequencedPacket(final SequencedPacketCreator p) {
+    public void sendSequencedPacket(SequencedPacketCreator p) {
         if (mc.world != null) {
             PendingUpdateManager updater = ((ClientWorldAccessor) mc.world).invokeGetPendingUpdateManager().incrementSequence();
             try {
@@ -98,7 +98,7 @@ public class NetworkManager implements Wrapper {
 
     public int getClientLatency() {
         if (mc.getNetworkHandler() != null) {
-            final PlayerListEntry playerEntry = mc.getNetworkHandler().getPlayerListEntry(mc.player.getGameProfile().getId());
+            PlayerListEntry playerEntry = mc.getNetworkHandler().getPlayerListEntry(mc.player.getGameProfile().getId());
             if (playerEntry != null) {
                 return playerEntry.getLatency();
             }

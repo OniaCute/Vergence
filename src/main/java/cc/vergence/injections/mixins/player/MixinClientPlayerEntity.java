@@ -53,6 +53,9 @@ public abstract class MixinClientPlayerEntity extends AbstractClientPlayerEntity
 		if (MinecraftClient.getInstance().player != null && MinecraftClient.getInstance().world != null) {
 			Vergence.EVENTBUS.post(new PlayerUpdateEvent());
 		}
+		if (Vergence.ROTATE.overrideServerRotation) {
+			info.cancel();
+		}
 	}
 
 	@Inject(method = "move", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/AbstractClientPlayerEntity;move(Lnet/minecraft/entity/MovementType;Lnet/minecraft/util/math/Vec3d;)V"), cancellable = true)

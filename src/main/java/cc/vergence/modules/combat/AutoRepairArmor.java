@@ -1,6 +1,7 @@
 package cc.vergence.modules.combat;
 
 import cc.vergence.Vergence;
+import cc.vergence.features.managers.player.InventoryManager;
 import cc.vergence.features.managers.ui.NotifyManager;
 import cc.vergence.features.options.Option;
 import cc.vergence.features.options.impl.BooleanOption;
@@ -24,7 +25,6 @@ public class AutoRepairArmor extends Module {
     private boolean repairing = false;
     private boolean lastRepairing = false;
 
-    // Options
     public Option<Boolean> notify = addOption(new BooleanOption("Notify", true));
     public Option<Boolean> withSound = addOption(new BooleanOption("Sounds", true));
     public Option<Boolean> durabilityCheck = addOption(new BooleanOption("DurabilityCheck", true));
@@ -76,13 +76,13 @@ public class AutoRepairArmor extends Module {
         }
 
         int prevSlot = mc.player.getInventory().selectedSlot;
-        InventoryUtil.pickupSlot(expSlot);
+        Vergence.INVENTORY.pickup(expSlot);
 
         if (doRotate.getValue()) {
             mc.player.setPitch(90f);
         }
 
-        mc.getNetworkHandler().sendPacket(new PlayerInteractItemC2SPacket(
+        Vergence.NETWORK.sendPacket(new PlayerInteractItemC2SPacket(
                 Hand.MAIN_HAND,
                 InteractionUtil.getNextSequence(mc.interactionManager),
                 mc.player.getYaw(),
@@ -93,7 +93,7 @@ public class AutoRepairArmor extends Module {
             mc.player.swingHand(Hand.MAIN_HAND);
         }
 
-        InventoryUtil.pickupSlot(prevSlot);
+        Vergence.INVENTORY.pickup(prevSlot);
         repairing = true;
         timer.reset();
 

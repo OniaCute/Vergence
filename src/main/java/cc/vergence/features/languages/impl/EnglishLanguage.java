@@ -662,6 +662,8 @@ public class EnglishLanguage extends Language {
         languageBase.put("Module.Modules.NoRender.Options.BooleanOption.NoArmor.description", "Disable rendering of armor");
         languageBase.put("Module.Modules.NoRender.Options.BooleanOption.NoSignText.name", "No Sign Text");
         languageBase.put("Module.Modules.NoRender.Options.BooleanOption.NoSignText.description", "Disable rendering of sign text");
+        languageBase.put("Module.Modules.NoRender.Options.BooleanOption.NoItemName.name", "No Item Name");
+        languageBase.put("Module.Modules.NoRender.Options.BooleanOption.NoItemName.description", "Disable rendering of item name in hotbar");
 
         languageBase.put("Module.Modules.FreeCamera.name", "Free Camera");
         languageBase.put("Module.Modules.FreeCamera.description", "Allows detached camera movement");
@@ -1669,39 +1671,25 @@ public class EnglishLanguage extends Language {
 
         languageBase.put("Module.Modules.Defender.name", "Defender");
         languageBase.put("Module.Modules.Defender.description", "Auto places obsidian to defend against crystal attacks");
-        languageBase.put("Module.Modules.Defender.Options.DoubleOption.PlaceDelay.name", "Place Delay");
-        languageBase.put("Module.Modules.Defender.Options.DoubleOption.PlaceDelay.description", "Delay between placing blocks");
-        languageBase.put("Module.Modules.Defender.Options.DoubleOption.MultiPlace.name", "Multi Place");
-        languageBase.put("Module.Modules.Defender.Options.DoubleOption.MultiPlace.description", "Number of blocks to place per tick");
-        languageBase.put("Module.Modules.Defender.Options.BooleanOption.DoRotate.name", "Rotate");
-        languageBase.put("Module.Modules.Defender.Options.BooleanOption.DoRotate.description", "Rotate towards the block placement");
-        languageBase.put("Module.Modules.Defender.Options.EnumOption.RotateMode.name", "Rotate Mode");
-        languageBase.put("Module.Modules.Defender.Options.EnumOption.RotateMode.description", "Mode used for rotating");
-        languageBase.put("Module.Modules.Defender.Options.BooleanOption.InventorySwap.name", "Inventory Swap");
-        languageBase.put("Module.Modules.Defender.Options.BooleanOption.InventorySwap.description", "Swap using inventory slots");
-        languageBase.put("Module.Modules.Defender.Options.BooleanOption.AntiCrystal.name", "Anti Crystal");
-        languageBase.put("Module.Modules.Defender.Options.BooleanOption.AntiCrystal.description", "Attack crystals before placing blocks");
-        languageBase.put("Module.Modules.Defender.Options.BooleanOption.WhileEating.name", "While Eating");
-        languageBase.put("Module.Modules.Defender.Options.BooleanOption.WhileEating.description", "Allow placing blocks while eating");
-        languageBase.put("Module.Modules.Defender.Options.BooleanOption.WhileMining.name", "While Mining");
-        languageBase.put("Module.Modules.Defender.Options.BooleanOption.WhileMining.description", "Allow placing blocks while mining");
-        languageBase.put("Module.Modules.Defender.Options.BooleanOption.ForFace.name", "Face");
-        languageBase.put("Module.Modules.Defender.Options.BooleanOption.ForFace.description", "Place blocks on the face of the player");
-        languageBase.put("Module.Modules.Defender.Options.BooleanOption.ForBottom.name", "Bottom");
-        languageBase.put("Module.Modules.Defender.Options.BooleanOption.ForBottom.description", "Place blocks on the bottom layer");
-        languageBase.put("Module.Modules.Defender.Options.BooleanOption.Burrow.name", "Burrow");
-        languageBase.put("Module.Modules.Defender.Options.BooleanOption.Burrow.description", "Place blocks around the player's feet");
-        languageBase.put("Module.Modules.Defender.Options.BooleanOption.InAir.name", "In Air");
-        languageBase.put("Module.Modules.Defender.Options.BooleanOption.InAir.description", "Allow placing blocks while in the air");
-        languageBase.put("Module.Modules.Defender.Options.BooleanOption.OnlySurround.name", "Only Surround");
-        languageBase.put("Module.Modules.Defender.Options.BooleanOption.OnlySurround.description", "Only place blocks if Surround is enabled");
-        languageBase.put("Module.Modules.Defender.Options.BooleanOption.BevelCev.name", "Bevel Cev");
-        languageBase.put("Module.Modules.Defender.Options.BooleanOption.BevelCev.description", "Place blocks in a specific pattern");
 
         languageBase.put("Module.Modules.Xray.name", "X-Ray");
         languageBase.put("Module.Modules.Xray.description", "Show only resource blocks");
 
-        languageBase.put("Module.Modules.NoSlowdown.name", "No Slowdown");
-        languageBase.put("Module.Modules.NoSlowdown.description", "Prevent you from slowing down");
+        languageBase.put("Module.Modules.DropAll.name", "Drop All");
+        languageBase.put("Module.Modules.DropAll.description", "Throw all identical items at once");
+
+        languageBase.put("Module.Modules.AspectRatio.name", "Aspect Ratio");
+        languageBase.put("Module.Modules.AspectRatio.description", "Adjust the Aspect Ratio of the game");
+
+        languageBase.put("Module.Modules.ChestStealer.name", "Chest Stealer");
+        languageBase.put("Module.Modules.ChestStealer.description", "Quickly take the items out of chests");
+        languageBase.put("Module.Modules.ChestStealer.Options.DoubleOption.MaxDelay.name", "Max Delay");
+        languageBase.put("Module.Modules.ChestStealer.Options.DoubleOption.MaxDelay.description", "Maximum delay between stealing actions in milliseconds");
+        languageBase.put("Module.Modules.ChestStealer.Options.DoubleOption.MinDelay.name", "Min Delay");
+        languageBase.put("Module.Modules.ChestStealer.Options.DoubleOption.MinDelay.description", "Minimum delay between stealing actions in milliseconds");
+        languageBase.put("Module.Modules.ChestStealer.Options.BooleanOption.Random.name", "Random");
+        languageBase.put("Module.Modules.ChestStealer.Options.BooleanOption.Random.description", "Randomly select items to steal");
+        languageBase.put("Module.Modules.ChestStealer.Options.BooleanOption.Close.name", "Close");
+        languageBase.put("Module.Modules.ChestStealer.Options.BooleanOption.Close.description", "Close the chest after stealing");
     }
 }

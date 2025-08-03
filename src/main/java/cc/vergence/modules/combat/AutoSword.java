@@ -39,7 +39,7 @@ public class AutoSword extends Module {
         }
         if (switched && CombatUtil.getClosestAnyTarget(distance.getValue(), targets.getValue()) == null && slotBack.getValue() && originalSlot != -1) {
             switched = false;
-            InventoryUtil.switchToSlot(originalSlot);
+            InventoryUtil.setSlotBoth(originalSlot);
             originalSlot = -1;
             return ;
         }
@@ -50,7 +50,7 @@ public class AutoSword extends Module {
                 }
                 int swordSlot = InventoryUtil.findHotbarSlot(stack -> InventoryUtil.isSword(stack.getItem()));
                 if (swordSlot != -1) {
-                    InventoryUtil.switchToSlot(swordSlot);
+                    InventoryUtil.setSlotBoth(swordSlot);
                     switched = true;
                 }
             } else {

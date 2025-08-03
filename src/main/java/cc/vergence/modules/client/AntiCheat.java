@@ -22,6 +22,7 @@ public class AntiCheat extends Module {
     public Option<Double> fov = addOption(new DoubleOption("Fov", 0, 180, 90));
     public Option<Enum<?>> antiCheat = addOption(new EnumOption("AntiCheat", AntiCheats.Legit));
     public Option<Enum<?>> rotateMode = addOption(new EnumOption("RotateMode", RotateModes.Server));
+    public Option<Double> rotateTime = addOption(new DoubleOption("RotateTime", 0, 600, 200).setUnit("ms"));
     public Option<Enum<?>> swingMode = addOption(new EnumOption("SwingMode", SwingModes.Both));
     public Option<Enum<?>> placeMode = addOption(new EnumOption("PlaceMode", PlaceModes.Legit));
     public Option<Boolean> attackRotate = addOption(new BooleanOption("AttackRotate", false));

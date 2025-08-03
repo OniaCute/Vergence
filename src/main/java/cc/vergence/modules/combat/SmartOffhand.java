@@ -41,7 +41,7 @@ public class SmartOffhand extends Module {
 
     @Override
     public String getDetails() {
-        return displayTotemCount.getValue() ? String.valueOf(InventoryUtil.getItemCount(Items.TOTEM_OF_UNDYING)) : "";
+        return displayTotemCount.getValue() ? String.valueOf(InventoryUtil.countItems(Items.TOTEM_OF_UNDYING)) : "";
     }
 
     @Override

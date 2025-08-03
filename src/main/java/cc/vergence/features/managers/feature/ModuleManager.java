@@ -117,6 +117,9 @@ public class ModuleManager {
         registerModule(new Surround());
         registerModule(new Defender());
         registerModule(new Xray());
+        registerModule(new DropAll());
+        registerModule(new AspectRatio());
+        registerModule(new ChestStealer());
 
         // special module
         registerModule(new SafeMode());

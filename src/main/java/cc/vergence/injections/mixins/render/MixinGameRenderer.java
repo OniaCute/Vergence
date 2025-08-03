@@ -3,6 +3,7 @@ package cc.vergence.injections.mixins.render;
 import cc.vergence.Vergence;
 import cc.vergence.modules.player.FreeCamera;
 import cc.vergence.modules.player.NoEntityTrace;
+import cc.vergence.modules.visual.AspectRatio;
 import cc.vergence.modules.visual.FOVModifier;
 import cc.vergence.modules.visual.NoRender;
 import cc.vergence.util.interfaces.Wrapper;
@@ -21,6 +22,7 @@ import net.minecraft.util.profiler.Profilers;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -28,6 +30,18 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(GameRenderer.class)
 public abstract class MixinGameRenderer implements Wrapper {
+    @Shadow
+    private float zoom;
+
+    @Shadow
+    private float zoomX;
+
+    @Shadow
+    private float zoomY;
+
+    @Shadow
+    private float viewDistance;
+
     @Inject(method = "getFov", at = @At("TAIL"), cancellable = true)
     private void getFOV(Camera camera, float tickDelta, boolean changingFov, CallbackInfoReturnable<Float> info) {
         if(FOVModifier.INSTANCE != null && FOVModifier.INSTANCE.getStatus()) {
@@ -74,6 +88,20 @@ public abstract class MixinGameRenderer implements Wrapper {
     private void tiltViewWhenHurt(CallbackInfo info) {
         if (NoRender.INSTANCE.getStatus() && NoRender.INSTANCE.noHurtCamera.getValue()) {
             info.cancel();
+        }
+    }
+
+    @Inject(method = "getBasicProjectionMatrix", at = @At("TAIL"), cancellable = true)
+    public void getBasicProjectionMatrixHook(float fovDegrees, CallbackInfoReturnable<Matrix4f> cir) {
+        if (AspectRatio.INSTANCE.getStatus()) {
+            MatrixStack matrixStack = new MatrixStack();
+            matrixStack.peek().getPositionMatrix().identity();
+            if (zoom != 1.0f) {
+                matrixStack.translate(zoomX, -zoomY, 0.0f);
+                matrixStack.scale(zoom, zoom, 1.0f);
+            }
+            matrixStack.peek().getPositionMatrix().mul(new Matrix4f().setPerspective((float) (fovDegrees * 0.01745329238474369), AspectRatio.INSTANCE.ratio.getValue().floatValue(), 0.05f, viewDistance * 4.0f));
+            cir.setReturnValue(matrixStack.peek().getPositionMatrix());
         }
     }
 }

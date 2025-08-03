@@ -150,7 +150,7 @@ public class Scaffold extends Module {
         if (slot == -1) {
             return;
         }
-        InventoryUtil.switchToSlot(slot);
+        InventoryUtil.setSlotBoth(slot);
 
         Vec3d eyePos = player.getEyePos();
         Vec3d blockCenter = Vec3d.ofCenter(placePos);
@@ -187,78 +187,5 @@ public class Scaffold extends Module {
     }
 
     private void placeBlockLegit() {
-        ClientPlayerEntity player = mc.player;
-        BlockPos playerPos = player.getBlockPos();
-        BlockPos placePos = playerPos.down();
-
-        BlockState blockBelow = mc.world.getBlockState(placePos);
-        if (!blockBelow.isAir()) {
-            return;
-        }
-
-        int slot = InventoryUtil.findBlock();
-        if (slot == -1) {
-            return;
-        }
-        InventoryUtil.switchToSlot(slot);
-
-        if (allowSprint.getValue()) {
-            if (AutoSprint.INSTANCE != null) {
-                AutoSprint.INSTANCE.disable();
-            }
-            mc.player.setSprinting(false);
-        }
-
-        BlockHitResult result = BlockUtil.findPlaceableFace(placePos, placeableRange.getValue().intValue());
-        if (result == null) {
-            return;
-        }
-        if (placeMode.getValue().equals(PlaceModes.Strict) && result.getSide().equals(Direction.DOWN)) {
-            return ;
-        }
-
-        if (doRotate.getValue()) {
-            Vec3d targetPos = result.getPos();
-
-            Rotation rotation = calculateLegitRotation(
-                    targetPos,
-                    mc.player.getEyePos(),
-                    lastRotation == null
-                            ? new Rotation(mc.player.getPitch(), mc.player.getYaw(), rotateSpeed.getValue(), (RotateModes) rotateMode.getValue())
-                            : lastRotation
-            );
-
-            Vergence.ROTATE.rotate(rotation);
-            lastRotation = rotation;
-        }
-
-
-        if (enableSwing.getValue()) {
-            EntityUtil.swingHand((Hands) swingHand.getValue(), (SwingModes) swingMode.getValue());
-        }
-
-        Vergence.NETWORK.sendPacket(new PlayerInteractBlockC2SPacket(Hand.MAIN_HAND, result, InteractionUtil.getNextSequence(mc.interactionManager)));
-        mc.interactionManager.interactBlock(player, Hand.MAIN_HAND, result);
-
-        timer.reset();
     }
-
-    private Rotation calculateLegitRotation(Vec3d target, Vec3d eyePos, Rotation lastRotation) {
-        double targetYaw = Math.toDegrees(Math.atan2(target.z - eyePos.z, target.x - eyePos.x)) - 90f + rotateYawOffset.getValue();
-        double targetPitch = -Math.toDegrees(Math.atan2(target.y - eyePos.y, Math.sqrt(Math.pow(target.x - eyePos.x, 2) + Math.pow(target.z - eyePos.z, 2)))) + rotatePitchOffset.getValue();
-        double yawDiff = MathHelper.wrapDegrees(targetYaw - lastRotation.getYaw());
-        double pitchDiff = targetPitch - lastRotation.getPitch();
-        double clampedYaw = MathHelper.clamp(yawDiff, -rotateSpeed.getValue(), rotateSpeed.getValue());
-        double clampedPitch = MathHelper.clamp(pitchDiff, -rotateSpeed.getValue(), rotateSpeed.getValue());
-        float newPitch = (float) (lastRotation.getPitch() + clampedPitch);
-        float newYaw = (float) (lastRotation.getYaw() + clampedYaw);
-        if (enableRotateRandom.getValue()) {
-            newYaw += (Math.random() - 0.5) * rotateRandomYaw.getValue() * 2;
-            newPitch += (Math.random() - 0.5) * rotateRandomPitch.getValue() * 2;
-        }
-        newPitch = MathHelper.clamp(newPitch, -90, 90);
-
-        return new Rotation(newPitch, newYaw, rotateSpeed.getValue(), (RotateModes) rotateMode.getValue());
-    }
-
 }

@@ -14,6 +14,7 @@ import cc.vergence.features.managers.ui.GuiManager;
 import cc.vergence.features.managers.ui.HudManager;
 import cc.vergence.features.managers.ui.NotifyManager;
 import cc.vergence.util.other.Console;
+import cc.vergence.util.player.InventoryUtil;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.metadata.ModMetadata;
@@ -54,7 +55,7 @@ public class Vergence implements ModInitializer {
     public static ShaderManager SHADER;
     public static GuiManager GUI;
     public static HudManager HUD;
-    public static PositionManager POSITION;
+    public static InventoryManager INVENTORY;
     public static RotateManager ROTATE;
     public static MineManager MINE;
     public static ModuleManager MODULE;
@@ -141,8 +142,8 @@ public class Vergence implements ModInitializer {
         HUD = new HudManager();
         CONSOLE.logInfo("HUD Manager was loaded");
 
-        POSITION = new PositionManager();
-        CONSOLE.logInfo("Position Manager was loaded");
+        INVENTORY = new InventoryManager();
+        CONSOLE.logInfo("Inventory Manager was loaded");
 
         ROTATE = new RotateManager();
         CONSOLE.logInfo("Rotate Manager was loaded");

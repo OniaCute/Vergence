@@ -1,5 +1,6 @@
 package cc.vergence.modules.combat;
 
+import cc.vergence.Vergence;
 import cc.vergence.features.options.Option;
 import cc.vergence.features.options.impl.DoubleOption;
 import cc.vergence.modules.Module;
@@ -50,10 +51,10 @@ public class AutoReplenish extends Module {
                 continue;
             }
             if (total < stack.getMaxCount()) {
-                InventoryUtil.pickupSlot(i);
-                InventoryUtil.pickupSlot(hotbarSlot + 36);
+                Vergence.INVENTORY.pickup(i);
+                Vergence.INVENTORY.pickup(hotbarSlot + 36);
                 if (!mc.player.currentScreenHandler.getCursorStack().isEmpty()) {
-                    InventoryUtil.pickupSlot(i);
+                    Vergence.INVENTORY.pickup(i);
                 }
                 total += stack.getCount();
             }

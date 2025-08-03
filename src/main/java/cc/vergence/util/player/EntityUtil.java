@@ -15,6 +15,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.util.InputUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -54,7 +55,7 @@ public class EntityUtil implements Wrapper {
     }
 
     public static boolean isInsideBlock() {
-        if (BlockUtil.getBlock(EntityUtil.getPlayerPos(true)) == Blocks.ENDER_CHEST) {
+        if (mc.world.getBlockState(EntityUtil.getPlayerPos(true)).getBlock() == Blocks.ENDER_CHEST) {
             return true;
         }
         return mc.world.canCollide(mc.player, mc.player.getBoundingBox());
@@ -201,115 +202,13 @@ public class EntityUtil implements Wrapper {
         return result == null || result.getType() == HitResult.Type.MISS;
     }
 
-    public static void clickBlock(BlockPos pos, Direction side, boolean rotate, int priority, RotateModes mode, Hand hand, boolean packet) {
-        Vec3d directionVec = new Vec3d(pos.getX() + 0.5 + side.getVector().getX() * 0.5, pos.getY() + 0.5 + side.getVector().getY() * 0.5, pos.getZ() + 0.5 + side.getVector().getZ() * 0.5);
-        if (rotate) {
-            Vergence.ROTATE.lookAt(directionVec, priority, mode);
-        }
-        EntityUtil.swingHand(hand, (SwingModes) AntiCheat.INSTANCE.swingMode.getValue());
-        BlockHitResult result = new BlockHitResult(directionVec, side, pos, false);
-        if (packet) {
-            Vergence.NETWORK.sendSequencedPacket(id -> new PlayerInteractBlockC2SPacket(hand, result, id));
-        } else {
-            mc.interactionManager.interactBlock(mc.player, hand, result);
-        }
-    }
-
-    public static void placeBlock(BlockPos pos, boolean rotate, int priority, RotateModes mode) {
-        placeBlock(pos, rotate, priority, mode, AntiCheat.INSTANCE.packetPlace.getValue());
-    }
-
-    public static void placeBlock(BlockPos pos, boolean rotate, int priority, RotateModes mode, boolean packet) {
-        Direction side = BlockUtil.getPlaceSide(pos);
-        if (side == null) return;
-        BlockUtil.placedPos.add(pos);
-        clickBlock(pos.offset(side), side.getOpposite(), rotate, priority, mode, Hand.MAIN_HAND, packet);
-    }
-
-    public static boolean placeBlock(BlockPos pos, int slot, boolean strictDirection, boolean clientSwing, IRotation irotation) {
-        Direction direction = RotateUtil.getInteractDirection(pos, strictDirection);
-        if (direction == null) {
+    public static boolean isKeyPressed(int button) {
+        if (button == -1)
             return false;
-        }
-        BlockPos neighbor = pos.offset(direction.getOpposite());
-        return placeBlock(neighbor, direction, slot, clientSwing, irotation);
-    }
 
-    public static boolean placeBlock(BlockPos pos, Direction direction, int slot, boolean clientSwing, IRotation irotation) {
-        Vec3d hitVec = pos.toCenterPos().add(new Vec3d(direction.getUnitVector()).multiply(0.5));
-        return placeBlock(new BlockHitResult(hitVec, direction, pos, false), slot, clientSwing, irotation);
-    }
+        if (button < 10) // check
+            return false;
 
-    public static boolean placeBlock(BlockHitResult hitResult, int slot, boolean clientSwing, IRotation irotation) {
-//        boolean isSpoofing = slot != InventoryUtil.getServerSlot();
-//        if (isSpoofing) {
-            InventoryUtil.sendServerSlot(slot);
-            // mc.player.getInventory().selectedSlot = slot;
-//        }
-
-        boolean isRotating = irotation != null;
-        if (isRotating) {
-            float[] angles = RotateUtil.getRotationsTo(mc.player.getEyePos(), hitResult.getPos());
-            irotation.handleRotation(true, angles);
-        }
-
-        boolean result = placeBlockImmediately(hitResult, clientSwing);
-        if (isRotating) {
-            float[] angles = RotateUtil.getRotationsTo(mc.player.getEyePos(), hitResult.getPos());
-            irotation.handleRotation(false, angles);
-        }
-
-//        if (isSpoofing)
-//        {
-            InventoryUtil.syncInventory();
-//        }
-
-        return result;
-    }
-
-    public static boolean placeBlockImmediately(BlockHitResult result, boolean clientSwing) {
-        BlockState state = mc.world.getBlockState(result.getBlockPos());
-        ActionResult actionResult = placeBlockInternally(result);
-        if (actionResult.isAccepted()) {
-            if (clientSwing) {
-                mc.player.swingHand(Hand.MAIN_HAND);
-            } else {
-                Vergence.NETWORK.sendPacket(new HandSwingC2SPacket(Hand.MAIN_HAND));
-            }
-        }
-        return actionResult.isAccepted();
-    }
-
-    private static ActionResult placeBlockInternally(BlockHitResult hitResult) {
-        return mc.interactionManager.interactBlock(mc.player, Hand.MAIN_HAND, hitResult);
-    }
-
-    public static BlockPos getRoundedBlockPos(double x, double y, double z) {
-        int flooredX = MathHelper.floor(x);
-        int flooredY = (int) Math.round(y);
-        int flooredZ = MathHelper.floor(z);
-        return new BlockPos(flooredX, flooredY, flooredZ);
-    }
-
-    public static List<BlockPos> getAllInBox(Box box, BlockPos pos) {
-        List<BlockPos> intersections = new ArrayList<>();
-        for (int x = (int) Math.floor(box.minX); x < Math.ceil(box.maxX); x++) {
-            for (int z = (int) Math.floor(box.minZ); z < Math.ceil(box.maxZ); z++) {
-                intersections.add(new BlockPos(x, pos.getY(), z));
-            }
-        }
-        return intersections;
-    }
-
-    public static List<BlockPos> getAllInBox(Box box) {
-        List<BlockPos> intersections = new ArrayList<>();
-        for (int x = (int) Math.floor(box.minX); x < Math.ceil(box.maxX); x++) {
-            for (int y = (int) Math.floor(box.minY); y < Math.ceil(box.maxY); y++) {
-                for (int z = (int) Math.floor(box.minZ); z < Math.ceil(box.maxZ); z++) {
-                    intersections.add(new BlockPos(x, y, z));
-                }
-            }
-        }
-        return intersections;
+        return InputUtil.isKeyPressed(mc.getWindow().getHandle(), button);
     }
 }

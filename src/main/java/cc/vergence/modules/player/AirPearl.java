@@ -37,7 +37,7 @@ public class AirPearl extends Module {
             }
 
             if (InventoryUtil.findItem(Items.ENDER_PEARL) != -1) {
-                InventoryUtil.switchToSlot(InventoryUtil.findItem(Items.ENDER_PEARL));
+                InventoryUtil.setSlotBoth(InventoryUtil.findItem(Items.ENDER_PEARL));
                 switched = true;
             }
         } else {

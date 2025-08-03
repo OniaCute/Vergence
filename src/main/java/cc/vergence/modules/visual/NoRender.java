@@ -27,6 +27,7 @@ public class NoRender extends Module {
     public Option<Boolean> noFog = addOption(new BooleanOption("NoFog", true));
     public Option<Boolean> noArmor = addOption(new BooleanOption("NoArmor", false));
     public Option<Boolean> noSignText = addOption(new BooleanOption("NoSignText", false));
+    public Option<Boolean> noItemName = addOption(new BooleanOption("NoItemName", false));
 
     @Override
     public String getDetails() {

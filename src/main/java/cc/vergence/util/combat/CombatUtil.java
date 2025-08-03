@@ -33,22 +33,6 @@ import java.util.stream.StreamSupport;
 public class CombatUtil implements Wrapper {
     public static final FastTimerUtil breakTimer = new FastTimerUtil();
 
-    public static void aimAt(Entity entity) {
-        aimAt(entity, 0);
-    }
-
-    public static void aimAt(Entity entity, RotateModes rotateModes) {
-        aimAt(entity, 0, rotateModes);
-    }
-
-    public static void aimAt(Entity entity, int priority) {
-        aimAt(entity, priority, () -> {});
-    }
-
-    public static void aimAt(Entity entity, int priority, RotateModes rotateModes) {
-        aimAt(new Vec3d(entity.getX(), entity.getY() + entity.getHeight() / 2.0, entity.getZ()), priority, rotateModes);
-    }
-
     public static void aimAt(Vec3d pos, int priority, RotateModes rotateModes) {
         if (mc.player == null) {
             return;
@@ -65,7 +49,7 @@ public class CombatUtil implements Wrapper {
         Vergence.ROTATE.rotate(new Rotation(pitch, yaw, priority, rotateModes));
     }
 
-    public static void aimAt(Entity entity, int priority, Runnable onFinish) {
+    public static void aimAt(Entity entity, int priority, RotateModes rotateModes, Runnable onFinish) {
         if (entity == null || mc.player == null) {
             return;
         }
@@ -78,7 +62,7 @@ public class CombatUtil implements Wrapper {
         float yaw = (float) Math.toDegrees(Math.atan2(dz, dx)) - 90.0f;
         float pitch = (float) -Math.toDegrees(Math.atan2(dy, distance));
 
-        Vergence.ROTATE.rotate(new Rotation(pitch, yaw, priority, RotateModes.Both), onFinish);
+        Vergence.ROTATE.rotate(new Rotation(pitch, yaw, priority, rotateModes), onFinish);
     }
 
     public static PlayerEntity getClosestTarget(double range) {
@@ -147,68 +131,6 @@ public class CombatUtil implements Wrapper {
         return false;
     }
 
-    public static void attack(Entity entity) {
-        attack(entity, SwingModes.Client, true);
-    }
-
-    public static void attack(Entity entity, SwingModes swingModes, boolean swing) {
-        if (mc.player == null || mc.interactionManager == null || entity == null) {
-            return;
-        }
-        mc.interactionManager.attackEntity(mc.player, entity);
-        if (swing) {
-            EntityUtil.swingHand(Hands.MainHand, swingModes);
-        }
-    }
-
-    public static void aimAndAttack(Entity entity) {
-        aimAndAttack(entity, 0);
-    }
-
-    public static void aimAndAttack(Entity entity, int priority) {
-        aimAt(entity, priority, () -> attack(entity));
-    }
-
-    public static void aimAndAttackClosest(double range, EnumSet<TargetTypes> types) {
-        LivingEntity target = getClosestTarget(range);
-        if (target == null) target = getClosestAnyTarget(range, types);
-        if (target != null) aimAndAttack(target);
-    }
-
-    public static void aimAndAttackClosest(EnumSet<TargetTypes> types) {
-        aimAndAttackClosest(100, types);
-    }
-
-    public static boolean isCrosshairOnEntity(Entity entity, double threshold) {
-        if (mc.player == null || entity == null) {
-            return false;
-        }
-        Vec3d eyes = mc.player.getCameraPosVec(1.0F);
-        Vec3d look = mc.player.getRotationVec(1.0F);
-        Vec3d toTarget = entity.getPos().add(0, entity.getHeight() / 2.0, 0).subtract(eyes).normalize();
-        double dot = look.dotProduct(toTarget);
-        double angle = Math.toDegrees(Math.acos(dot));
-        return angle < threshold;
-    }
-
-
-    public static float getYawTo(Entity entity) {
-        Vec3d target = entity.getPos().add(0, entity.getHeight() / 2.0, 0);
-        Vec3d eyes = mc.player.getEyePos();
-        double dx = target.x - eyes.x;
-        double dz = target.z - eyes.z;
-        return (float) MathHelper.wrapDegrees(Math.toDegrees(Math.atan2(dz, dx)) - 90);
-    }
-
-    public static float getPitchTo(Entity entity) {
-        Vec3d target = entity.getPos().add(0, entity.getHeight() / 2.0, 0);
-        Vec3d eyes = mc.player.getEyePos();
-        double dx = target.x - eyes.x;
-        double dy = target.y - eyes.y;
-        double dz = target.z - eyes.z;
-        return (float) -Math.toDegrees(Math.atan2(dy, Math.sqrt(dx * dx + dz * dz)));
-    }
-
     public static boolean canSee(Entity entity) {
         return mc.player != null && mc.player.canSee(entity);
     }
@@ -219,36 +141,5 @@ public class CombatUtil implements Wrapper {
 
     public static boolean isFriend(PlayerEntity player) {
         return Vergence.FRIEND.isFriend(player.getGameProfile().getName());
-    }
-
-    public static void attackCrystal(BlockPos pos, boolean rotate, int priority, RotateModes rotateModes, boolean eatingPause) {
-        for (EndCrystalEntity entity : BlockUtil.getEndCrystals(new Box(pos))) {
-            attackCrystal(entity, rotate, priority, rotateModes, eatingPause);
-            break;
-        }
-    }
-
-    public static void attackCrystal(Box box, boolean rotate, int priority, RotateModes rotateModes, boolean eatingPause) {
-        for (EndCrystalEntity entity : BlockUtil.getEndCrystals(box)) {
-            attackCrystal(entity, rotate, priority, rotateModes, eatingPause);
-            break;
-        }
-    }
-
-    public static void attackCrystal(Entity crystal, boolean rotate, int priority, RotateModes rotateModes, boolean usingPause) {
-        if (!CombatUtil.breakTimer.passedMs(AntiCheat.INSTANCE.attackDelay.getValue() * 1000)) {
-            return;
-        }
-        if (usingPause && mc.player.isUsingItem())
-            return;
-        if (crystal != null) {
-            CombatUtil.breakTimer.reset();
-            if (rotate && AntiCheat.INSTANCE.attackRotate.getValue()) {
-                aimAt(new Vec3d(crystal.getX(), crystal.getY() + 0.25, crystal.getZ()), priority, rotateModes);
-            }
-            mc.getNetworkHandler().sendPacket(PlayerInteractEntityC2SPacket.attack(crystal, mc.player.isSneaking()));
-            mc.player.resetLastAttackedTicks();
-            EntityUtil.swingHand(Hand.MAIN_HAND, (SwingModes) AntiCheat.INSTANCE.swingMode.getValue());
-        }
     }
 }

@@ -1,5 +1,6 @@
 package cc.vergence.modules.misc;
 
+import cc.vergence.Vergence;
 import cc.vergence.features.event.events.PacketEvent;
 import cc.vergence.features.options.Option;
 import cc.vergence.features.options.impl.DoubleOption;
@@ -8,6 +9,7 @@ import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.c2s.common.KeepAliveC2SPacket;
 import net.minecraft.network.packet.s2c.common.KeepAliveS2CPacket;
 
+import java.util.Objects;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class PingLagSpoof extends Module {
@@ -28,10 +30,24 @@ public class PingLagSpoof extends Module {
 
     @Override
     public void onReceivePacket(PacketEvent.Receive event, Packet<?> packet) {
+        if (isNull()) {
+            return ;
+        }
+
         if (packet instanceof KeepAliveS2CPacket) {
             event.cancel();
             queue.add(new DelayedPacket((KeepAliveS2CPacket) packet, System.currentTimeMillis()));
         }
+    }
+
+    @Override
+    public void onDisable() {
+        queue.clear();
+    }
+
+    @Override
+    public void onLogout() {
+        queue.clear();
     }
 
     @Override
@@ -44,9 +60,8 @@ public class PingLagSpoof extends Module {
         if (packet == null) {
             return;
         }
-
         if (System.currentTimeMillis() - packet.time() >= delay.getValue().intValue()) {
-            mc.getNetworkHandler().sendPacket(new KeepAliveC2SPacket(queue.poll().packet().getId()));
+            Vergence.NETWORK.sendPacket(new KeepAliveC2SPacket(Objects.requireNonNull(queue.poll()).packet().getId()));
         }
     }
 

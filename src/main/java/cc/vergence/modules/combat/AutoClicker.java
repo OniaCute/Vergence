@@ -78,7 +78,7 @@ public class AutoClicker extends Module {
             maxDelay = temp;
         }
         int delay = minDelay + RANDOM.nextInt(maxDelay - minDelay + 1);
-        if (pressing && mc.options.attackKey.isPressed() && passedTicks >= delay || mc.crosshairTarget == null) {
+        if (pressing && mc.options.attackKey.isPressed() || mc.crosshairTarget == null) {
             mc.options.attackKey.setPressed(false);
             pressing = false;
             passedTicks = 0;

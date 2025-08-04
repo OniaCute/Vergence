@@ -125,6 +125,8 @@ public class ModuleManager {
         registerModule(new QuickStop());
         registerModule(new AutoClicker());
         registerModule(new AutoAim());
+        registerModule(new Tracers());
+        registerModule(new Trajectories());
 
         // special module
         registerModule(new SafeMode());

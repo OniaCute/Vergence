@@ -128,6 +128,9 @@ public class CombatUtil implements Wrapper {
         if (entity instanceof MobEntity) {
             return types.contains(TargetTypes.Mobs);
         }
+        if (entity instanceof EndCrystalEntity) {
+            return types.contains(TargetTypes.Crystal);
+        }
         return false;
     }
 

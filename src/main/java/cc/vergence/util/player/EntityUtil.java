@@ -211,4 +211,11 @@ public class EntityUtil implements Wrapper {
 
         return InputUtil.isKeyPressed(mc.getWindow().getHandle(), button);
     }
+
+    public static Vec3d getRenderPos(Entity entity, float tickDelta) {
+        double x = MathHelper.lerp(tickDelta, entity.lastRenderX, entity.getX());
+        double y = MathHelper.lerp(tickDelta, entity.lastRenderY, entity.getY());
+        double z = MathHelper.lerp(tickDelta, entity.lastRenderZ, entity.getZ());
+        return new Vec3d(x, y, z);
+    }
 }

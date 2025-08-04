@@ -209,6 +209,13 @@ public class Render3DUtil implements Wrapper {
         RenderSystem.disableBlend();
     }
 
+    public static void renderLine(MatrixStack matrices, Vec3d from, Vec3d to, Color color) {
+        Matrix4f matrix = matrices.peek().getPositionMatrix();
+        from = cameraTransform(from);
+        to = cameraTransform(to);
+        DEBUG_LINES.add(new VertexCollection(new Vertex(matrix, (float) from.x, (float) from.y, (float) from.z, color), new Vertex(matrix, (float) to.x, (float) to.y, (float) to.z, color)));
+    }
+
     public static boolean isFrustumVisible(Box box) {
         return ((WorldRendererAccessor) mc.worldRenderer).getFrustum().isVisible(box);
     }

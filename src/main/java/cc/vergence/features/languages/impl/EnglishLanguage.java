@@ -1735,5 +1735,36 @@ public class EnglishLanguage extends Language {
         languageBase.put("Module.Modules.AutoClicker.Options.BooleanOption.Always.description", "Always click regardless of the crosshair target");
         languageBase.put("Module.Modules.AutoClicker.Options.BooleanOption.PacketAttack.name", "Packet Attack");
         languageBase.put("Module.Modules.AutoClicker.Options.BooleanOption.PacketAttack.description", "Use packet based attack instead of normal attack");
+
+        languageBase.put("Module.Modules.Trajectories.name", "Trajectories");
+        languageBase.put("Module.Modules.Trajectories.description", "Shows the flight path of projectiles");
+        languageBase.put("Module.Modules.Trajectories.Options.ColorOption.LineColor.name", "Line Color");
+        languageBase.put("Module.Modules.Trajectories.Options.ColorOption.LineColor.description", "Color of the trajectory line");
+        languageBase.put("Module.Modules.Trajectories.Options.ColorOption.EntityFillColor.name", "Entity Fill Color");
+        languageBase.put("Module.Modules.Trajectories.Options.ColorOption.EntityFillColor.description", "Fill color of the entity hitbox");
+        languageBase.put("Module.Modules.Trajectories.Options.ColorOption.EntityOutlineColor.name", "Entity Outline Color");
+        languageBase.put("Module.Modules.Trajectories.Options.ColorOption.EntityOutlineColor.description", "Outline color of the entity hitbox");
+        languageBase.put("Module.Modules.Trajectories.Options.ColorOption.BlockFillColor.name", "Block Fill Color");
+        languageBase.put("Module.Modules.Trajectories.Options.ColorOption.BlockFillColor.description", "Fill color of the block hitbox");
+        languageBase.put("Module.Modules.Trajectories.Options.ColorOption.BlockOutlineColor.name", "Block Outline Color");
+        languageBase.put("Module.Modules.Trajectories.Options.ColorOption.BlockOutlineColor.description", "Outline color of the block hitbox");
+
+        languageBase.put("Module.Modules.Tracers.name", "Tracers");
+        languageBase.put("Module.Modules.Tracers.description", "Draws lines from the player to other players for easy tracking");
+        languageBase.put("Module.Modules.Tracers.Options.BooleanOption.AntiBot.name", "Anti Bot");
+        languageBase.put("Module.Modules.Tracers.Options.BooleanOption.AntiBot.description", "Exclude bot players from tracer lines");
+        languageBase.put("Module.Modules.Tracers.Options.DoubleOption.Range.name", "Range");
+        languageBase.put("Module.Modules.Tracers.Options.DoubleOption.Range.description", "Maximum distance to draw tracer lines");
+        languageBase.put("Module.Modules.Tracers.Options.BooleanOption.CustomColor.name", "Custom Color");
+        languageBase.put("Module.Modules.Tracers.Options.BooleanOption.CustomColor.description", "Use custom colors for tracer lines");
+        languageBase.put("Module.Modules.Tracers.Options.ColorOption.LineColor.name", "Line Color");
+        languageBase.put("Module.Modules.Tracers.Options.ColorOption.LineColor.description", "Default color for tracer lines");
+        languageBase.put("Module.Modules.Tracers.Options.ColorOption.FriendColor.name", "Friend Color");
+        languageBase.put("Module.Modules.Tracers.Options.ColorOption.FriendColor.description", "Color for friends' tracer lines");
+        languageBase.put("Module.Modules.Tracers.Options.ColorOption.EnemyColor.name", "Enemy Color");
+        languageBase.put("Module.Modules.Tracers.Options.ColorOption.EnemyColor.description", "Color for enemies' tracer lines");
+
+        languageBase.put("Module.Modules.AutoAim.name", "Auto Aim");
+        languageBase.put("Module.Modules.AutoAim.description", "Auto aim at targets");
     }
 }

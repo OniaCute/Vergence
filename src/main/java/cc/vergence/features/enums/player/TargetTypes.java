@@ -5,5 +5,6 @@ public enum TargetTypes {
     FriendPlayers,
     Mobs,
     Animals,
-    Invisible
+    Invisible,
+    Crystal
 }

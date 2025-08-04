@@ -78,12 +78,14 @@ public class DoubleOption extends Option<Double> {
         Vergence.EVENTBUS.post(new OptionValueUpdateEvent());
     }
 
-    public void setMinValue(double minValue) {
+    public Option<Double> setMinValue(double minValue) {
         this.minValue = minValue;
+        return this;
     }
 
-    public void setMaxValue(double maxValue) {
+    public Option<Double> setMaxValue(double maxValue) {
         this.maxValue = maxValue;
+        return this;
     }
 
     public DoubleOption setUnit(String unit) {

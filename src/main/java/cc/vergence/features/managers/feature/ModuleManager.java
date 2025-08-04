@@ -121,6 +121,10 @@ public class ModuleManager {
         registerModule(new AspectRatio());
         registerModule(new ChestStealer());
         registerModule(new ToolSaver());
+        registerModule(new AutoWtap());
+        registerModule(new QuickStop());
+        registerModule(new AutoClicker());
+        registerModule(new AutoAim());
 
         // special module
         registerModule(new SafeMode());

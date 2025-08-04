@@ -2,7 +2,7 @@ package cc.vergence.injections.mixins.entity;
 
 import cc.vergence.Vergence;
 import cc.vergence.features.event.events.PlayerJumpEvent;
-import cc.vergence.modules.combat.NoCooldown;
+import cc.vergence.modules.player.NoCooldown;
 import cc.vergence.modules.movement.AntiLevitation;
 import cc.vergence.modules.visual.SwingModifier;
 import cc.vergence.util.interfaces.ILivingEntity;

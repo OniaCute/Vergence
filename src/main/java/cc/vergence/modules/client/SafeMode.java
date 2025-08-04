@@ -7,11 +7,12 @@ import cc.vergence.features.options.Option;
 import cc.vergence.features.options.impl.BooleanOption;
 import cc.vergence.features.options.impl.EnumOption;
 import cc.vergence.modules.Module;
-import cc.vergence.modules.combat.KillAura;
-import cc.vergence.modules.combat.Reach;
+import cc.vergence.modules.combat.*;
 import cc.vergence.modules.exploit.MovementLagSpoof;
 import cc.vergence.modules.misc.Spammer;
 import cc.vergence.modules.movement.*;
+import cc.vergence.modules.player.CarryPro;
+import cc.vergence.modules.player.ChestStealer;
 import cc.vergence.modules.player.FastUse;
 
 import java.util.HashMap;
@@ -45,6 +46,35 @@ public class SafeMode extends Module {
         if (isNull() || !Vergence.LOADED) {
             return ;
         }
+        doBlock();
+    }
+
+    private void addBlocked(Module module) {
+        defaultValue.put(module, module.getStatus());
+        module.block(this);
+    }
+
+    @Override
+    public void onDisable() {
+        release();
+    }
+
+    @Override
+    public void onConfigChange() {
+        release();
+        doBlock();
+    }
+
+    public void release() {
+        if (defaultValue.isEmpty()) {
+            return;
+        }
+        for (Module module : defaultValue.keySet()) {
+            module.unblock(defaultValue.get(module));
+        }
+    }
+
+    public void doBlock() {
         switch ((AntiCheats) antiCheatMode.getValue()) {
             case Legit -> {
                 addBlocked(KillAura.INSTANCE);
@@ -55,6 +85,15 @@ public class SafeMode extends Module {
                 addBlocked(MovementLagSpoof.INSTANCE);
                 addBlocked(AntiLevitation.INSTANCE);
                 addBlocked(TickShift.INSTANCE);
+                addBlocked(CrystalAura.INSTANCE);
+                addBlocked(Surround.INSTANCE);
+                addBlocked(Defender.INSTANCE);
+                addBlocked(AutoReplenish.INSTANCE);
+                addBlocked(CarryPro.INSTANCE);
+                addBlocked(QuickStop.INSTANCE);
+                if (!ChestStealer.INSTANCE.random.getValue() || ChestStealer.INSTANCE.minDelay.getValue() < 60) {
+                    addBlocked(ChestStealer.INSTANCE);
+                }
                 if (FastUse.INSTANCE.delay.getValue() < 1) {
                     addBlocked(FastUse.INSTANCE);
                 }
@@ -82,20 +121,6 @@ public class SafeMode extends Module {
                     addBlocked(AutoSprint.INSTANCE);
                 }
             }
-        }
-    }
-
-    private void addBlocked(Module module) {
-        defaultValue.put(module, module.getStatus());
-        module.block(this);
-    }
-
-    @Override
-    public void onDisable() {
-        if (defaultValue.isEmpty()) {return;}
-
-        for (Module module : defaultValue.keySet()) {
-            module.unblock(defaultValue.get(module));
         }
     }
 }

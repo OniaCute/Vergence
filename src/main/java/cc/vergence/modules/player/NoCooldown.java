@@ -1,4 +1,4 @@
-package cc.vergence.modules.combat;
+package cc.vergence.modules.player;
 
 import cc.vergence.features.options.Option;
 import cc.vergence.features.options.impl.BooleanOption;
@@ -8,7 +8,7 @@ import cc.vergence.modules.Module;
 public class NoCooldown extends Module {
     public static NoCooldown INSTANCE;
     public NoCooldown() {
-        super("NoCooldown", Category.COMBAT);
+        super("NoCooldown", Category.PLAYER);
         INSTANCE = this;
     }
 

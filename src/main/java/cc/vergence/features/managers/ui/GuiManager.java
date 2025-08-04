@@ -640,25 +640,65 @@ public class GuiManager implements Wrapper {
             if (component instanceof HoverEnumChoicesComponent) {
                 if (((EnumChoicesComponent) component.getParentComponent()).isActuallySpread && ((ModuleComponent) component.getParentComponent().getParentComponent().getParentComponent().getParentComponent()).isSpread()) {
                     hoveredDrawingComponent = component;
-                    component.onDraw(context, MOUSE_X, MOUSE_Y, CLICKED_LEFT && inMainPageArea(), CLICKED_RIGHT && inMainPageArea());
+                    Render2DUtil.pushDisplayArea( // topbar cover
+                            context.getMatrices(),
+                            (float) MAIN_PAGE_X,
+                            (float) (GuiManager.MAIN_PAGE_Y + 33),
+                            (float) (MAIN_PAGE_X + MAIN_PAGE_WIDTH),
+                            (float) (GuiManager.MAIN_PAGE_Y + GuiManager.MAIN_PAGE_HEIGHT),
+                            1d
+
+                    );
+                    component.onDraw(context, MOUSE_X, MOUSE_Y, CLICKED_LEFT && inMainPageArea() && notInTopBarChecking(), CLICKED_RIGHT && inMainPageArea() && notInTopBarChecking());
+                    Render2DUtil.popDisplayArea();
                 }
             }
             else if (component instanceof HoverMultipleChoicesComponent) {
                 if (((MultipleChoicesComponent) component.getParentComponent()).isActuallySpread && ((ModuleComponent) component.getParentComponent().getParentComponent().getParentComponent().getParentComponent()).isSpread()) {
                     hoveredDrawingComponent = component;
-                    component.onDraw(context, MOUSE_X, MOUSE_Y, CLICKED_LEFT && inMainPageArea(), CLICKED_RIGHT && inMainPageArea());
+                    Render2DUtil.pushDisplayArea( // topbar cover
+                            context.getMatrices(),
+                            (float) MAIN_PAGE_X,
+                            (float) (GuiManager.MAIN_PAGE_Y + 33),
+                            (float) (MAIN_PAGE_X + MAIN_PAGE_WIDTH),
+                            (float) (GuiManager.MAIN_PAGE_Y + GuiManager.MAIN_PAGE_HEIGHT),
+                            1d
+
+                    );
+                    component.onDraw(context, MOUSE_X, MOUSE_Y, CLICKED_LEFT && inMainPageArea() && notInTopBarChecking(), CLICKED_RIGHT && inMainPageArea() && notInTopBarChecking());
+                    Render2DUtil.popDisplayArea();
                 }
             }
             else if (component instanceof HoverBindChoicesComponent) {
                 if (((BindChoicesComponent) component.getParentComponent()).isActuallySpread && ((ModuleComponent) component.getParentComponent().getParentComponent().getParentComponent().getParentComponent()).isSpread()) {
                     hoveredDrawingComponent = component;
-                    component.onDraw(context, MOUSE_X, MOUSE_Y, CLICKED_LEFT && inMainPageArea(), CLICKED_RIGHT && inMainPageArea());
+                    Render2DUtil.pushDisplayArea( // topbar cover
+                            context.getMatrices(),
+                            (float) MAIN_PAGE_X,
+                            (float) (GuiManager.MAIN_PAGE_Y + 33),
+                            (float) (MAIN_PAGE_X + MAIN_PAGE_WIDTH),
+                            (float) (GuiManager.MAIN_PAGE_Y + GuiManager.MAIN_PAGE_HEIGHT),
+                            1d
+
+                    );
+                    component.onDraw(context, MOUSE_X, MOUSE_Y, CLICKED_LEFT && inMainPageArea() && notInTopBarChecking(), CLICKED_RIGHT && inMainPageArea() && notInTopBarChecking());
+                    Render2DUtil.popDisplayArea();
                 }
             }
             else if (component instanceof ColorPalette) {
                 if (((ColorPreviewer) component.getParentComponent()).isSpread) {
                     hoveredDrawingComponent = component;
+                    Render2DUtil.pushDisplayArea( // topbar cover
+                            context.getMatrices(),
+                            (float) MAIN_PAGE_X,
+                            (float) (GuiManager.MAIN_PAGE_Y + 33),
+                            (float) (MAIN_PAGE_X + MAIN_PAGE_WIDTH),
+                            (float) (GuiManager.MAIN_PAGE_Y + GuiManager.MAIN_PAGE_HEIGHT),
+                            1d
+
+                    );
                     component.onDraw(context, MOUSE_X, MOUSE_Y, CLICKED_LEFT, CLICKED_RIGHT);
+                    Render2DUtil.popDisplayArea();
                 }
             }
         }

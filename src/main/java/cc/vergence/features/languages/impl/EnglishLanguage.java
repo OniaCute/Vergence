@@ -1683,6 +1683,8 @@ public class EnglishLanguage extends Language {
 
         languageBase.put("Module.Modules.ChestStealer.name", "Chest Stealer");
         languageBase.put("Module.Modules.ChestStealer.description", "Quickly take the items out of chests");
+        languageBase.put("Module.Modules.ChestStealer.Options.TextOption.IgnoreText.name", "Ignore Text");
+        languageBase.put("Module.Modules.ChestStealer.Options.TextOption.IgnoreText.description", "stealer will stop when the interface of the box contains these words");
         languageBase.put("Module.Modules.ChestStealer.Options.DoubleOption.MaxDelay.name", "Max Delay");
         languageBase.put("Module.Modules.ChestStealer.Options.DoubleOption.MaxDelay.description", "Maximum delay between stealing actions in milliseconds");
         languageBase.put("Module.Modules.ChestStealer.Options.DoubleOption.MinDelay.name", "Min Delay");
@@ -1696,5 +1698,42 @@ public class EnglishLanguage extends Language {
         languageBase.put("Module.Modules.ToolSaver.description", "Prevents tools from breaking by switching to another item when durability is low");
         languageBase.put("Module.Modules.ToolSaver.Options.DoubleOption.Limit.name", "Limit");
         languageBase.put("Module.Modules.ToolSaver.Options.DoubleOption.Limit.description", "The percentage of durability remaining before switching items");
+
+        languageBase.put("Module.Modules.AutoWtap.name", "Auto Wtap");
+        languageBase.put("Module.Modules.AutoWtap.description", "Auto stops when attacking and resumes after a delay");
+        languageBase.put("Module.Modules.AutoWtap.Options.DoubleOption.MinTime.name", "Min Time");
+        languageBase.put("Module.Modules.AutoWtap.Options.DoubleOption.MinTime.description", "The max delay in milliseconds before resuming sprinting after attacking");
+        languageBase.put("Module.Modules.AutoWtap.Options.DoubleOption.MaxTime.name", "Max Time");
+        languageBase.put("Module.Modules.AutoWtap.Options.DoubleOption.MaxTime.description", "The min delay in milliseconds before resuming sprinting after attacking");
+        languageBase.put("Module.Modules.AutoWtap.Options.BooleanOption.Debug.name", "Debug");
+        languageBase.put("Module.Modules.AutoWtap.Options.BooleanOption.Debug.description", "Enable debug information");
+
+        languageBase.put("Module.Modules.QuickStop.name", "Quick Stop");
+        languageBase.put("Module.Modules.QuickStop.description", "Stop movements when you released the movement key");
+
+        languageBase.put("Module.Modules.AutoClicker.name", "Auto Clicker");
+        languageBase.put("Module.Modules.AutoClicker.description", "Auto clicks on entities based on the selected mode");
+        languageBase.put("Module.Modules.AutoClicker.Options.EnumOption.Mode.name", "Mode");
+        languageBase.put("Module.Modules.AutoClicker.Options.EnumOption.Mode.description", "The mode used for automatic clicking");
+        languageBase.put("Module.Modules.AutoClicker.Options.MultipleOption.Targets.name", "Targets");
+        languageBase.put("Module.Modules.AutoClicker.Options.MultipleOption.Targets.description", "Types of entities to target");
+        languageBase.put("Module.Modules.AutoClicker.Options.EnumOption.Swing.name", "Swing");
+        languageBase.put("Module.Modules.AutoClicker.Options.EnumOption.Swing.description", "The swing mode used when clicking");
+        languageBase.put("Module.Modules.AutoClicker.Options.DoubleOption.MinExtraDelay.name", "Min Extra Delay");
+        languageBase.put("Module.Modules.AutoClicker.Options.DoubleOption.MinExtraDelay.description", "Minimum extra delay in milliseconds");
+        languageBase.put("Module.Modules.AutoClicker.Options.DoubleOption.MaxExtraDelay.name", "Max Extra Delay");
+        languageBase.put("Module.Modules.AutoClicker.Options.DoubleOption.MaxExtraDelay.description", "Maximum extra delay in milliseconds");
+        languageBase.put("Module.Modules.AutoClicker.Options.DoubleOption.MinCPS.name", "Min CPS");
+        languageBase.put("Module.Modules.AutoClicker.Options.DoubleOption.MinCPS.description", "Minimum clicks per second");
+        languageBase.put("Module.Modules.AutoClicker.Options.DoubleOption.MaxCPS.name", "Max CPS");
+        languageBase.put("Module.Modules.AutoClicker.Options.DoubleOption.MaxCPS.description", "Maximum clicks per second");
+        languageBase.put("Module.Modules.AutoClicker.Options.DoubleOption.MinTicks.name", "Min Click Ticks");
+        languageBase.put("Module.Modules.AutoClicker.Options.DoubleOption.MinTicks.description", "Minimum click delay between clicks in milliseconds");
+        languageBase.put("Module.Modules.AutoClicker.Options.DoubleOption.MaxTicks.name", "Max Click Ticks");
+        languageBase.put("Module.Modules.AutoClicker.Options.DoubleOption.MaxTicks.description", "Maximum click delay between clicks in milliseconds");
+        languageBase.put("Module.Modules.AutoClicker.Options.BooleanOption.Always.name", "Always");
+        languageBase.put("Module.Modules.AutoClicker.Options.BooleanOption.Always.description", "Always click regardless of the crosshair target");
+        languageBase.put("Module.Modules.AutoClicker.Options.BooleanOption.PacketAttack.name", "Packet Attack");
+        languageBase.put("Module.Modules.AutoClicker.Options.BooleanOption.PacketAttack.description", "Use packet based attack instead of normal attack");
     }
 }

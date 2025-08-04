@@ -4,6 +4,7 @@ import cc.vergence.features.options.Option;
 import cc.vergence.features.options.impl.BooleanOption;
 import cc.vergence.features.options.impl.DoubleOption;
 import cc.vergence.modules.Module;
+import cc.vergence.modules.combat.AutoWtap;
 import cc.vergence.modules.combat.KillAura;
 
 public class AutoSprint extends Module {
@@ -29,6 +30,10 @@ public class AutoSprint extends Module {
     public void onTick() {
         if (mc.player == null) {
             return;
+        }
+
+        if (AutoWtap.INSTANCE.getStatus() && AutoWtap.INSTANCE.wasAttacked) {
+            return ;
         }
 
         mc.player.setSprinting(

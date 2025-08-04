@@ -635,4 +635,14 @@ public class EventManager implements Wrapper {
             }
         }
     }
+
+    @EventHandler
+    public void onConfigChange(ConfigChangeEvent event) {
+        for (Module module : ModuleManager.modules) {
+            module.onConfigChangeAlways();
+            if (module.getStatus()) {
+                module.onConfigChange();
+            }
+        }
+    }
 }

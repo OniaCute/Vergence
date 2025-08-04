@@ -483,6 +483,12 @@ public abstract class Module implements Wrapper {
     public void onUpdateVelocityAlways(UpdateVelocityEvent event, Vec3d movement, float speed) {
     }
 
+    public void onConfigChange() {
+    }
+
+    public void onConfigChangeAlways() {
+    }
+
     public void setName(String name) {
         this.name = name;
     }

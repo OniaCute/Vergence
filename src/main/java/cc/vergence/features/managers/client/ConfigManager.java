@@ -1,6 +1,7 @@
 package cc.vergence.features.managers.client;
 
 import cc.vergence.Vergence;
+import cc.vergence.features.event.events.ConfigChangeEvent;
 import cc.vergence.features.managers.feature.ModuleManager;
 import cc.vergence.features.options.Option;
 import cc.vergence.features.options.impl.*;
@@ -223,6 +224,9 @@ public class ConfigManager implements Wrapper {
         }
         currentConfig = config;
         currentConfigName = config.getName().replace(".vgc", "");
+        if (Vergence.LOADED) {
+            Vergence.EVENTBUS.post(new ConfigChangeEvent());
+        }
         saveCurrentConfig();
     }
 

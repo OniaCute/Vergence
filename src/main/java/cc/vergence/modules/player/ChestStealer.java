@@ -4,6 +4,7 @@ import cc.vergence.features.event.events.PlayerUpdateEvent;
 import cc.vergence.features.options.Option;
 import cc.vergence.features.options.impl.BooleanOption;
 import cc.vergence.features.options.impl.DoubleOption;
+import cc.vergence.features.options.impl.TextOption;
 import cc.vergence.modules.Module;
 import cc.vergence.util.interfaces.Wrapper;
 import cc.vergence.util.other.FastTimerUtil;
@@ -22,6 +23,7 @@ public class ChestStealer extends Module implements Wrapper {
         INSTANCE = this;
     }
 
+    public Option<String> ignoreText = addOption(new TextOption("IgnoreText", "Shop|Buy|Sell|Game"));
     public Option<Double> maxDelay = addOption(new DoubleOption("MaxDelay", 0, 1400, 500).setUnit("ms"));
     public Option<Double> minDelay = addOption(new DoubleOption("MinDelay", 0, 1400, 200).setUnit("ms"));
     public Option<Boolean> random = addOption(new BooleanOption("Random", true));
@@ -50,6 +52,11 @@ public class ChestStealer extends Module implements Wrapper {
         if (!(mc.player.currentScreenHandler instanceof net.minecraft.screen.GenericContainerScreenHandler container)) {
             return;
         }
+        for (String s: ignoreText.getValue().split("\\|")) {
+            if (mc.currentScreen.getTitle().getString().contains(s)) {
+                return ;
+            }
+        }
         List<Integer> filledSlots = new ArrayList<>();
         for (int i = 0; i < container.getInventory().size(); i++) {
             Slot slot = container.getSlot(i);
@@ -63,7 +70,14 @@ public class ChestStealer extends Module implements Wrapper {
             }
             return;
         }
-        double delay = random.getValue() ? minDelay.getValue() + RANDOM.nextDouble(maxDelay.getValue() - minDelay.getValue() + 1) : maxDelay.getValue();
+        double mind = minDelay.getValue();
+        double maxd = maxDelay.getValue();
+        if (mind > maxd) {
+            double temp = mind;
+            mind = maxd;
+            maxd = temp;
+        }
+        double delay = mind + RANDOM.nextDouble() * (maxd - mind);
         if (!timer.passedMs(delay)) {
             return;
         }

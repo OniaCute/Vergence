@@ -7,6 +7,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gl.ShaderProgramKeys;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.Entity;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.NotNull;
@@ -39,6 +40,15 @@ public class Render3DUtil implements Wrapper {
         SHINE_DEBUG_LINES = new ArrayList<>();
 
         RELOADED = true;
+    }
+
+    public static void enableRender() {
+        RenderSystem.enableBlend();
+        RenderSystem.defaultBlendFunc();
+    }
+
+    public static void disableRender() {
+        RenderSystem.disableBlend();
     }
 
     public static @NotNull Vec3d worldSpaceToScreenSpace(@NotNull Vec3d pos) {
@@ -179,6 +189,7 @@ public class Render3DUtil implements Wrapper {
         if (shine) RenderSystem.blendFunc(770, 32772);
         else RenderSystem.blendFuncSeparate(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SrcFactor.ONE, GlStateManager.DstFactor.ZERO);
         RenderSystem.disableDepthTest();
+        RenderSystem.depthMask(false);
 
         if (!quads.isEmpty()) {
             BufferBuilder buffer = RenderSystem.renderThreadTesselator().begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
@@ -206,6 +217,7 @@ public class Render3DUtil implements Wrapper {
         }
 
         RenderSystem.enableDepthTest();
+        RenderSystem.depthMask(true);
         RenderSystem.disableBlend();
     }
 
@@ -236,6 +248,34 @@ public class Render3DUtil implements Wrapper {
                 buffer.vertex(vertex.matrix, vertex.x, vertex.y, vertex.z).color(vertex.color.getRed(), vertex.color.getGreen(), vertex.color.getBlue(), vertex.color.getAlpha());
             }
         }
+    }
+
+    public static void drawCircle3D(MatrixStack stack, float tickDelta, Entity ent, double radius, int color, int points) {
+        enableRender();
+        RenderSystem.setShader(ShaderProgramKeys.POSITION_COLOR);
+        BufferBuilder bufferBuilder = Tessellator.getInstance().begin(VertexFormat.DrawMode.DEBUG_LINE_STRIP, VertexFormats.POSITION_COLOR);
+        double x = ent.prevX + (ent.getX() - ent.prevX) * tickDelta - mc.getEntityRenderDispatcher().camera.getPos().getX();
+        double y = ent.prevY + (ent.getY() - ent.prevY) * tickDelta - mc.getEntityRenderDispatcher().camera.getPos().getY();
+        double z = ent.prevZ + (ent.getZ() - ent.prevZ) * tickDelta - mc.getEntityRenderDispatcher().camera.getPos().getZ();
+        stack.push();
+        stack.translate(x, y, z);
+
+        Matrix4f matrix = stack.peek().getPositionMatrix();
+        for (int i = 0; i <= points; i++) {
+            bufferBuilder.vertex(matrix, (float) (radius * Math.cos(i * 6.28 / points)), 0f, (float) (radius * Math.sin(i * 6.28 / points))).color(color);
+        }
+
+        BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
+        disableRender();
+        stack.translate(-x, -y, -z);
+        stack.pop();
+    }
+
+    public static Vec3d interpolatePos(float prevposX, float prevposY, float prevposZ, float posX, float posY, float posZ) {
+        double x = prevposX + ((posX - prevposX) * mc.getRenderTickCounter().getTickDelta(true)) - mc.getEntityRenderDispatcher().camera.getPos().getX();
+        double y = prevposY + ((posY - prevposY) * mc.getRenderTickCounter().getTickDelta(true)) - mc.getEntityRenderDispatcher().camera.getPos().getY();
+        double z = prevposZ + ((posZ - prevposZ) * mc.getRenderTickCounter().getTickDelta(true)) - mc.getEntityRenderDispatcher().camera.getPos().getZ();
+        return new Vec3d(x, y, z);
     }
 
     public record Vertex(Matrix4f matrix, float x, float y, float z, Color color) {}

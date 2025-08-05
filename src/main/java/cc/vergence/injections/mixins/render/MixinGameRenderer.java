@@ -6,16 +6,19 @@ import cc.vergence.modules.player.NoEntityTrace;
 import cc.vergence.modules.visual.AspectRatio;
 import cc.vergence.modules.visual.FOVModifier;
 import cc.vergence.modules.visual.NoRender;
+import cc.vergence.modules.visual.TotemAnimation;
 import cc.vergence.util.interfaces.Wrapper;
 import cc.vergence.util.player.EntityUtil;
 import cc.vergence.util.render.utils.Render3DUtil;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.PickaxeItem;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.profiler.Profilers;
@@ -102,6 +105,22 @@ public abstract class MixinGameRenderer implements Wrapper {
             }
             matrixStack.peek().getPositionMatrix().mul(new Matrix4f().setPerspective((float) (fovDegrees * 0.01745329238474369), AspectRatio.INSTANCE.ratio.getValue().floatValue(), 0.05f, viewDistance * 4.0f));
             cir.setReturnValue(matrixStack.peek().getPositionMatrix());
+        }
+    }
+
+    @Inject(method = "showFloatingItem", at = @At("HEAD"), cancellable = true)
+    private void showFloatingItemHook(ItemStack floatingItem, CallbackInfo info) {
+        if (TotemAnimation.INSTANCE.getStatus()) {
+            TotemAnimation.INSTANCE.showFloatingItem(floatingItem);
+            info.cancel();
+        }
+    }
+
+    @Inject(method = "renderFloatingItem", at = @At("HEAD"), cancellable = true)
+    private void renderFloatingItemHook(DrawContext context, float tickDelta, CallbackInfo ci) {
+        if (TotemAnimation.INSTANCE.getStatus()) {
+            TotemAnimation.INSTANCE.renderFloatingItem(tickDelta);
+            ci.cancel();
         }
     }
 }

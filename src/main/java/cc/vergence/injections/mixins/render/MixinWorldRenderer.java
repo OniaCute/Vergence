@@ -18,6 +18,7 @@ import net.minecraft.client.util.ObjectAllocator;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.math.Vec3d;
 import org.joml.Matrix4f;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -69,6 +70,13 @@ public abstract class MixinWorldRenderer implements Wrapper {
     private void render(ObjectAllocator allocator, RenderTickCounter tickCounter, boolean renderBlockOutline, Camera camera, GameRenderer gameRenderer, Matrix4f positionMatrix, Matrix4f projectionMatrix, CallbackInfo info, @Local(argsOnly = true) LocalBooleanRef blockOutline) {
         if (BlockHighlight.INSTANCE != null && BlockHighlight.INSTANCE.getStatus()) {
             blockOutline.set(false);
+        }
+    }
+
+    @Inject(method = "renderWeather", at = @At("HEAD"), cancellable = true)
+    private void renderWeatherHook(FrameGraphBuilder frameGraphBuilder, Vec3d pos, float tickDelta, Fog fog, CallbackInfo ci) {
+        if (NoRender.INSTANCE.getStatus() && NoRender.INSTANCE.noWeather.getValue()) {
+            ci.cancel();
         }
     }
 }

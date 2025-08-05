@@ -74,8 +74,11 @@ public class Tracers extends Module {
             }
         }
 
-        double maxDistance = range.getValue();
-        double distance = MathHelper.clamp(mc.player.distanceTo(player), 0, maxDistance);
-        return new Color((int) ((maxDistance - distance) / maxDistance), (int) (1.0f - (maxDistance - distance) / (float) maxDistance), 0, color.getValue().getAlpha()/255f);
+        float maxDistance = range.getValue().floatValue();
+        float distance = MathHelper.clamp((float) mc.player.distanceTo(player), 0, maxDistance);
+        float factor = 1f - (distance / maxDistance);
+        int red = (int) (255 * factor);
+        int green = (int) (255 * (1f - factor));
+        return new Color(Math.min(red, 255), Math.min(green, 255), 0, 255);
     }
 }

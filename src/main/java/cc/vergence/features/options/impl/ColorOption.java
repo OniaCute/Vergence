@@ -76,6 +76,22 @@ public class ColorOption extends Option<Color> {
         this.time = time;
     }
 
+    public float getGlRed() {
+        return getValue().getRed() / 255f;
+    }
+
+    public float getGlBlue() {
+        return getValue().getBlue() / 255f;
+    }
+
+    public float getGlGreen() {
+        return getValue().getGreen() / 255f;
+    }
+
+    public float getGlAlpha() {
+        return getValue().getAlpha() / 255f;
+    }
+
     public JsonElement getJsonValue() {
         return new JsonPrimitive(ColorUtil.asRGBA(getValue().getRed(), getValue().getGreen(), getValue().getBlue(), getValue().getAlpha()));
     }

@@ -1,8 +1,11 @@
 package cc.vergence.modules.visual;
 
+import cc.vergence.features.event.events.PacketEvent;
 import cc.vergence.features.options.Option;
 import cc.vergence.features.options.impl.BooleanOption;
 import cc.vergence.modules.Module;
+import net.minecraft.network.packet.Packet;
+import net.minecraft.network.packet.s2c.play.TitleS2CPacket;
 
 public class NoRender extends Module {
     public static NoRender INSTANCE;
@@ -28,9 +31,19 @@ public class NoRender extends Module {
     public Option<Boolean> noArmor = addOption(new BooleanOption("NoArmor", false));
     public Option<Boolean> noSignText = addOption(new BooleanOption("NoSignText", false));
     public Option<Boolean> noItemName = addOption(new BooleanOption("NoItemName", false));
+    public Option<Boolean> noBossBar = addOption(new BooleanOption("NoBossBar", false));
+    public Option<Boolean> noTitle = addOption(new BooleanOption("NoTitle", false));
+    public Option<Boolean> noWeather = addOption(new BooleanOption("NoWeather", false));
 
     @Override
     public String getDetails() {
         return "";
+    }
+
+    @Override
+    public void onReceivePacket(PacketEvent.Receive event, Packet<?> packet) {
+        if (packet instanceof TitleS2CPacket && noTitle.getValue()) {
+            event.cancel();
+        }
     }
 }

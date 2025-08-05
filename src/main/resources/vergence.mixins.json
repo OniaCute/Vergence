@@ -65,6 +65,7 @@
   "client": [
     "accessors.render.ItemRendererAccessor",
     "accessors.render.ItemRenderStateAccessor",
-    "accessors.render.LayerRenderStateAccessor"
+    "accessors.render.LayerRenderStateAccessor",
+    "mixins.render.MixinBossBarHud"
   ]
 }

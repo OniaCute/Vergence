@@ -36,6 +36,13 @@ public class Render2DUtil implements Wrapper {
         RenderSystem.disableBlend();
     }
 
+    public static void endBuilding(BufferBuilder bb) {
+        BuiltBuffer builtBuffer = bb.endNullable();
+        if (builtBuffer != null) {
+            BufferRenderer.drawWithGlobalProgram(builtBuffer);
+        }
+    }
+
     public static void drawRect(DrawContext context, double x, double y, double width, double height, Color color) {
         drawRect(context, (x * getScaleFactor()), (y * getScaleFactor()), ((width) * getScaleFactor()), ((height) * getScaleFactor()), color.getRGB());
     }

@@ -664,6 +664,12 @@ public class EnglishLanguage extends Language {
         languageBase.put("Module.Modules.NoRender.Options.BooleanOption.NoSignText.description", "Disable rendering of sign text");
         languageBase.put("Module.Modules.NoRender.Options.BooleanOption.NoItemName.name", "No Item Name");
         languageBase.put("Module.Modules.NoRender.Options.BooleanOption.NoItemName.description", "Disable rendering of item name in hotbar");
+        languageBase.put("Module.Modules.NoRender.Options.BooleanOption.NoBossBar.name", "No Boss Bar");
+        languageBase.put("Module.Modules.NoRender.Options.BooleanOption.NoBossBar.description", "Hide the boss health bar");
+        languageBase.put("Module.Modules.NoRender.Options.BooleanOption.NoTitle.name", "No Title");
+        languageBase.put("Module.Modules.NoRender.Options.BooleanOption.NoTitle.description", "Hide screen titles and subtitles");
+        languageBase.put("Module.Modules.NoRender.Options.BooleanOption.NoWeather.name", "No Weather");
+        languageBase.put("Module.Modules.NoRender.Options.BooleanOption.NoWeather.description", "Hide the weather effects");
 
         languageBase.put("Module.Modules.FreeCamera.name", "Free Camera");
         languageBase.put("Module.Modules.FreeCamera.description", "Allows detached camera movement");
@@ -1766,5 +1772,57 @@ public class EnglishLanguage extends Language {
 
         languageBase.put("Module.Modules.AutoAim.name", "Auto Aim");
         languageBase.put("Module.Modules.AutoAim.description", "Auto aim at targets");
+
+        languageBase.put("Module.Modules.ItemESP.name", "Item ESP");
+        languageBase.put("Module.Modules.ItemESP.description", "Highlights dropped items on the ground");
+        languageBase.put("Module.Modules.ItemESP.Options.EnumOption.Mode.name", "Mode"); 
+        languageBase.put("Module.Modules.ItemESP.Options.EnumOption.Mode.description", "Visual style of the ESP");
+        languageBase.put("Module.Modules.ItemESP.Options.ColorOption.TextColor.name", "Text Color");
+        languageBase.put("Module.Modules.ItemESP.Options.ColorOption.TextColor.description", "Main color used for the text");
+        languageBase.put("Module.Modules.ItemESP.Options.ColorOption.EspColor.name", "ESP Color");
+        languageBase.put("Module.Modules.ItemESP.Options.ColorOption.EspColor.description", "Main color used for the ESP");
+        languageBase.put("Module.Modules.ItemESP.Options.DoubleOption.Radius.name", "Radius");
+        languageBase.put("Module.Modules.ItemESP.Options.DoubleOption.Radius.description", "Radius of the circle when Circle mode is enabled");
+        languageBase.put("Module.Modules.ItemESP.Options.DoubleOption.Points.name", "Points");
+        languageBase.put("Module.Modules.ItemESP.Options.DoubleOption.Points.description", "Number of points used to draw the circle when Circle mode is enabled");
+
+        languageBase.put("Module.Modules.WorldTweaks.name", "World Tweaks");
+        languageBase.put("Module.Modules.WorldTweaks.description", "Allows you to modify the world time and fog settings");
+        languageBase.put("Module.Modules.WorldTweaks.Options.MultipleOption.Items.name", "Items");
+        languageBase.put("Module.Modules.WorldTweaks.Options.MultipleOption.Items.description", "Select which world tweaks to enable");
+        languageBase.put("Module.Modules.WorldTweaks.Options.DoubleOption.Time.name", "Time");
+        languageBase.put("Module.Modules.WorldTweaks.Options.DoubleOption.Time.description", "The world time in hours");
+        languageBase.put("Module.Modules.WorldTweaks.Options.DoubleOption.FogAppear.name", "Fog Appear");
+        languageBase.put("Module.Modules.WorldTweaks.Options.DoubleOption.FogAppear.description", "Distance at which fog starts to appear");
+        languageBase.put("Module.Modules.WorldTweaks.Options.DoubleOption.FogDisappear.name", "Fog Disappear");
+        languageBase.put("Module.Modules.WorldTweaks.Options.DoubleOption.FogDisappear.description", "Distance at which fog disappears");
+        languageBase.put("Module.Modules.WorldTweaks.Options.ColorOption.FogColor.name", "Fog Color");
+        languageBase.put("Module.Modules.WorldTweaks.Options.ColorOption.FogColor.description", "Color of the fog");
+
+        languageBase.put("Module.Modules.TotemAnimation.name", "Totem Animation");
+        languageBase.put("Module.Modules.TotemAnimation.description", "Shows a custom totem animation when using totems");
+        languageBase.put("Module.Modules.TotemAnimation.Options.EnumOption.Mode.name", "Mode");
+        languageBase.put("Module.Modules.TotemAnimation.Options.EnumOption.Mode.description", "Visual style of the totem animation");
+        languageBase.put("Module.Modules.TotemAnimation.Options.DoubleOption.Speed.name", "Speed");
+        languageBase.put("Module.Modules.TotemAnimation.Options.DoubleOption.Speed.description", "Animation speed");
+
+        languageBase.put("Module.Modules.Particles.name", "Particles");
+        languageBase.put("Module.Modules.Particles.description", "Renders customizable particles around the player");
+        languageBase.put("Module.Modules.Particles.Options.EnumOption.Mode.name", "Mode");
+        languageBase.put("Module.Modules.Particles.Options.EnumOption.Mode.description", "Visual style of the particles");
+        languageBase.put("Module.Modules.Particles.Options.EnumOption.Physics.name", "Physics");
+        languageBase.put("Module.Modules.Particles.Options.EnumOption.Physics.description", "Movement behavior of the particles");
+        languageBase.put("Module.Modules.Particles.Options.DoubleOption.Count.name", "Count");
+        languageBase.put("Module.Modules.Particles.Options.DoubleOption.Count.description", "Maximum number of particles to spawn");
+        languageBase.put("Module.Modules.Particles.Options.DoubleOption.Size.name", "Size");
+        languageBase.put("Module.Modules.Particles.Options.DoubleOption.Size.description", "Size of each particle");
+        languageBase.put("Module.Modules.Particles.Options.ColorOption.Color.name", "Color");
+        languageBase.put("Module.Modules.Particles.Options.ColorOption.Color.description", "Main color used for the particles");
+        languageBase.put("Module.Modules.Particles.Options.BooleanOption.ForFireFiles.name", "Fire Files");
+        languageBase.put("Module.Modules.Particles.Options.BooleanOption.ForFireFiles.description", "Enable firefly-style particles");
+        languageBase.put("Module.Modules.Particles.Options.DoubleOption.FireFilesCount.name", "Fire Files Count");
+        languageBase.put("Module.Modules.Particles.Options.DoubleOption.FireFilesCount.description", "Maximum number of fireflies to spawn");
+        languageBase.put("Module.Modules.Particles.Options.DoubleOption.FireFilesSize.name", "Fire Files Size");
+        languageBase.put("Module.Modules.Particles.Options.DoubleOption.FireFilesSize.description", "Size of each firefly");
     }
 }

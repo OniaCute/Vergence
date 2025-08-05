@@ -127,6 +127,10 @@ public class ModuleManager {
         registerModule(new AutoAim());
         registerModule(new Tracers());
         registerModule(new Trajectories());
+        registerModule(new ItemESP());
+        registerModule(new WorldTweaks());
+        registerModule(new TotemAnimation());
+        registerModule(new Particles());
 
         // special module
         registerModule(new SafeMode());

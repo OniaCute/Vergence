@@ -262,13 +262,15 @@ public class Particles extends Module {
                 case Stars -> RenderSystem.setShaderTexture(0, TextureStorage.star);
             }
 
-            Vec3d cam = mc.gameRenderer.getCamera().getPos();
-            Vec3d worldPos = Render3DUtil.interpolatePos(prevposX, prevposY, prevposZ, posX, posY, posZ);
-            Vec3d renderPos = worldPos.subtract(cam);
+            Camera camera = mc.gameRenderer.getCamera();
+            Vec3d pos = Render3DUtil.interpolatePos(prevposX, prevposY, prevposZ, posX, posY, posZ);
+
             MatrixStack matrices = new MatrixStack();
-            matrices.translate(renderPos.x, renderPos.y, renderPos.z);
-            matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-mc.gameRenderer.getCamera().getYaw()));
-            matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(mc.gameRenderer.getCamera().getPitch()));
+            matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(camera.getPitch()));
+            matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(camera.getYaw() + 180.0F));
+            matrices.translate(pos.x, pos.y, pos.z);
+            matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-camera.getYaw()));
+            matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(camera.getPitch()));
 
             Matrix4f matrix = matrices.peek().getPositionMatrix();
 

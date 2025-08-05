@@ -1824,5 +1824,24 @@ public class EnglishLanguage extends Language {
         languageBase.put("Module.Modules.Particles.Options.DoubleOption.FireFilesCount.description", "Maximum number of fireflies to spawn");
         languageBase.put("Module.Modules.Particles.Options.DoubleOption.FireFilesSize.name", "Fire Files Size");
         languageBase.put("Module.Modules.Particles.Options.DoubleOption.FireFilesSize.description", "Size of each firefly");
+
+        languageBase.put("Module.Modules.HitParticles.name", "Hit Particles");
+        languageBase.put("Module.Modules.HitParticles.description", "Spawns particles when players take damage");
+        languageBase.put("Module.Modules.HitParticles.Options.EnumOption.Mode.name", "Mode");
+        languageBase.put("Module.Modules.HitParticles.Options.EnumOption.Mode.description", "Visual style of the hit particles");
+        languageBase.put("Module.Modules.HitParticles.Options.EnumOption.Physics.name", "Physics");
+        languageBase.put("Module.Modules.HitParticles.Options.EnumOption.Physics.description", "Movement behavior of the particles");
+        languageBase.put("Module.Modules.HitParticles.Options.BooleanOption.SelfOnly.name", "Self Only");
+        languageBase.put("Module.Modules.HitParticles.Options.BooleanOption.SelfOnly.description", "Show particles only for the local player");
+        languageBase.put("Module.Modules.HitParticles.Options.ColorOption.Color.name", "Color");
+        languageBase.put("Module.Modules.HitParticles.Options.ColorOption.Color.description", "Main color used for the particles");
+        languageBase.put("Module.Modules.HitParticles.Options.DoubleOption.Amount.name", "Amount");
+        languageBase.put("Module.Modules.HitParticles.Options.DoubleOption.Amount.description", "Number of particles spawned per hit");
+        languageBase.put("Module.Modules.HitParticles.Options.DoubleOption.LifeTime.name", "Life Time");
+        languageBase.put("Module.Modules.HitParticles.Options.DoubleOption.LifeTime.description", "Duration each particle stays visible in seconds");
+        languageBase.put("Module.Modules.HitParticles.Options.DoubleOption.Speed.name", "Speed");
+        languageBase.put("Module.Modules.HitParticles.Options.DoubleOption.Speed.description", "Initial speed of the particles");
+        languageBase.put("Module.Modules.HitParticles.Options.DoubleOption.Scale.name", "Scale");
+        languageBase.put("Module.Modules.HitParticles.Options.DoubleOption.Scale.description", "Size of each particle when Orbiz mode is active");
     }
 }

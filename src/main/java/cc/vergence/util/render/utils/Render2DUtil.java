@@ -4,7 +4,9 @@ import cc.vergence.features.enums.other.Aligns;
 import cc.vergence.modules.client.Client;
 import cc.vergence.util.interfaces.Wrapper;
 import cc.vergence.util.maths.MathUtil;
+import cc.vergence.util.other.TextureStorage;
 import cc.vergence.util.render.other.AlphaOverride;
+import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gl.ShaderProgramKeys;
 import net.minecraft.client.gui.DrawContext;
@@ -12,6 +14,7 @@ import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RotationAxis;
 import org.joml.Math;
 import org.joml.Matrix4f;
 import org.joml.Vector4f;
@@ -578,5 +581,64 @@ public class Render2DUtil implements Wrapper {
         bufferBuilder.vertex(matrix, x + width, y, 0).texture(u2, v).color(red, green, blue, alpha);
 
         BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
+    }
+
+    public static void renderGradientTexture(MatrixStack matrices, double x0, double y0, double width, double height, float u, float v, double regionWidth, double regionHeight, double textureWidth, double textureHeight, Color c1, Color c2, Color c3, Color c4) {
+        RenderSystem.setShader(ShaderProgramKeys.POSITION_TEX_COLOR);
+        BufferBuilder buffer = Tessellator.getInstance().begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE_COLOR);
+        renderGradientTextureInternal(buffer, matrices, x0, y0, width, height, u, v, regionWidth, regionHeight, textureWidth, textureHeight, c1, c2, c3, c4);
+        BufferRenderer.drawWithGlobalProgram(buffer.end());
+    }
+
+    public static void renderGradientTextureInternal(BufferBuilder buff, MatrixStack matrices, double x0, double y0, double width, double height, float u, float v, double regionWidth, double regionHeight, double textureWidth, double textureHeight, Color c1, Color c2, Color c3, Color c4) {
+        double x1 = x0 + width;
+        double y1 = y0 + height;
+        double z = 0;
+        Matrix4f matrix = matrices.peek().getPositionMatrix();
+        buff.vertex(matrix, (float) x0, (float) y1, (float) z).texture((u) / (float) textureWidth, (v + (float) regionHeight) / (float) textureHeight).color(c1.getRGB());
+        buff.vertex(matrix, (float) x1, (float) y1, (float) z).texture((u + (float) regionWidth) / (float) textureWidth, (v + (float) regionHeight) / (float) textureHeight).color(c2.getRGB());
+        buff.vertex(matrix, (float) x1, (float) y0, (float) z).texture((u + (float) regionWidth) / (float) textureWidth, (v) / (float) textureHeight).color(c3.getRGB());
+        buff.vertex(matrix, (float) x0, (float) y0, (float) z).texture((u) / (float) textureWidth, (v + 0.0F) / (float) textureHeight).color(c4.getRGB());
+    }
+
+    public static void drawOrbiz(MatrixStack matrices, float z, final double r, Color c) {
+        Matrix4f matrix = matrices.peek().getPositionMatrix();
+        enableRender();
+        RenderSystem.setShader(ShaderProgramKeys.POSITION_COLOR);
+        BufferBuilder bufferBuilder = Tessellator.getInstance().begin(VertexFormat.DrawMode.TRIANGLE_FAN, VertexFormats.POSITION_COLOR);
+        for (int i = 0; i <= 20; i++) {
+            final float x2 = (float) (java.lang.Math.sin(((i * 56.548656f) / 180f)) * r);
+            final float y2 = (float) (java.lang.Math.cos(((i * 56.548656f) / 180f)) * r);
+            bufferBuilder.vertex(matrix, x2, y2, z).color(c.getRed() / 255f, c.getGreen() / 255f, c.getBlue() / 255f, 0.4f);
+        }
+        BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
+        disableRender();
+    }
+
+    public static void drawStar(MatrixStack matrices, Color c, float scale) {
+        enableRender();
+        RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE);
+        RenderSystem.setShaderTexture(0, TextureStorage.star);
+        RenderSystem.setShaderColor(c.getRed() / 255f, c.getGreen() / 255f, c.getBlue() / 255f, c.getAlpha() / 255f);
+        renderGradientTexture(matrices, 0, 0, scale, scale, 0, 0, 128, 128, 128, 128, c, c, c, c);
+        disableRender();
+    }
+
+    public static void drawHeart(MatrixStack matrices, Color c, float scale) {
+        enableRender();
+        RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE);
+        RenderSystem.setShaderTexture(0, TextureStorage.heart);
+        RenderSystem.setShaderColor(c.getRed() / 255f, c.getGreen() / 255f, c.getBlue() / 255f, c.getAlpha() / 255f);
+        renderGradientTexture(matrices, 0, 0, scale, scale, 0, 0, 128, 128, 128, 128, c, c, c, c);
+        disableRender();
+    }
+
+    public static void drawBloom(MatrixStack matrices, Color c, float scale) {
+        enableRender();
+        RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE);
+        RenderSystem.setShaderTexture(0, TextureStorage.firefly);
+        RenderSystem.setShaderColor(c.getRed() / 255f, c.getGreen() / 255f, c.getBlue() / 255f, c.getAlpha() / 255f);
+        renderGradientTexture(matrices, 0, 0, scale, scale, 0, 0, 128, 128, 128, 128, c, c, c, c);
+        disableRender();
     }
 }

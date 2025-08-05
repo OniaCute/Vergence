@@ -131,6 +131,7 @@ public class ModuleManager {
         registerModule(new WorldTweaks());
         registerModule(new TotemAnimation());
         registerModule(new Particles());
+        registerModule(new HitParticles());
 
         // special module
         registerModule(new SafeMode());

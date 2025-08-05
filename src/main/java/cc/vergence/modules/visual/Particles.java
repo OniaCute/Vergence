@@ -126,12 +126,17 @@ public class Particles extends Module {
         @Override
         public boolean tick() {
 
-            if (mc.player.squaredDistanceTo(posX, posY, posZ) > 100) age -= 4;
-            else if (!mc.world.getBlockState(new BlockPos((int) posX, (int) posY, (int) posZ)).isAir()) age -= 8;
-            else age--;
-
-            if (age < 0)
+            if (mc.player.squaredDistanceTo(posX, posY, posZ) > 100) {
+                age -= 4;
+            }
+            else if (!mc.world.getBlockState(new BlockPos((int) posX, (int) posY, (int) posZ)).isAir()) {
+                age -= 8;
+            } else {
+                age--;
+            }
+            if (age < 0) {
                 return true;
+            }
 
             trails.removeIf(Trail::update);
 
@@ -229,11 +234,15 @@ public class Particles extends Module {
         }
 
         public boolean tick() {
-            if (mc.player.squaredDistanceTo(posX, posY, posZ) > 4096) age -= 8;
-            else age--;
+            if (mc.player.squaredDistanceTo(posX, posY, posZ) > 4096) {
+                age -= 8;
+            } else {
+                age--;
+            }
 
-            if (age < 0)
+            if (age < 0) {
                 return true;
+            }
 
             prevposX = posX;
             prevposY = posY;
@@ -244,12 +253,11 @@ public class Particles extends Module {
             posZ += motionZ;
 
             motionX *= 0.9f;
-            if (physics.getValue() == Physics.Fly)
+            if (physics.getValue() == Physics.Fly) {
                 motionY *= 0.9f;
+            }
             motionZ *= 0.9f;
-
             motionY -= 0.001f;
-
             return false;
         }
 
@@ -264,7 +272,6 @@ public class Particles extends Module {
 
             Camera camera = mc.gameRenderer.getCamera();
             Vec3d pos = Render3DUtil.interpolatePos(prevposX, prevposY, prevposZ, posX, posY, posZ);
-
             MatrixStack matrices = new MatrixStack();
             matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(camera.getPitch()));
             matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(camera.getYaw() + 180.0F));

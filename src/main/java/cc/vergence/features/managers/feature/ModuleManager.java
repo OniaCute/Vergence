@@ -132,6 +132,7 @@ public class ModuleManager {
         registerModule(new TotemAnimation());
         registerModule(new Particles());
         registerModule(new HitParticles());
+        registerModule(new HandShader());
 
         // special module
         registerModule(new SafeMode());

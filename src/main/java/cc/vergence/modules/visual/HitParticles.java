@@ -12,9 +12,12 @@ import net.minecraft.block.AirBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RotationAxis;
+import net.minecraft.util.math.Vec3d;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -45,18 +48,20 @@ public class HitParticles extends Module {
 
     @Override
     public void onTick() {
-        particles.removeIf(Particle::update);
-
         if (isNull()) {
             return ;
         }
+        particles.removeIf(Particle::update);
 
-        for (PlayerEntity player : mc.world.getPlayers()) {
-            if (selfOnly.getValue() && player != mc.player)
-                continue;
-            if (player.hurtTime > 0) {
-                for (int i = 0; i < amount.getValue(); i++) {
-                    particles.add(new Particle((float) player.getX(), RANDOM.nextFloat((float) (player.getY() + player.getHeight()), (float) player.getY()), (float) player.getZ(), color.getValue(), RANDOM.nextInt(0, 180), RANDOM.nextFloat(10f, 60f), 0));
+        for (Entity entity : mc.world.getEntities()) {
+            if (entity instanceof LivingEntity entity1) {
+                if (selfOnly.getValue() && entity != mc.player) {
+                    continue ;
+                }
+                if (entity1.hurtTime > 0) {
+                    for (int i = 0; i < amount.getValue(); i++) {
+                        particles.add(new Particle((float) entity1.getX(), RANDOM.nextFloat((float) entity1.getY(), (float) (entity1.getY() + entity1.getHeight())), (float) entity1.getZ(), color.getValue(), RANDOM.nextFloat(0, 180), RANDOM.nextFloat(10f, 60f), 0));
+                    }
                 }
             }
         }
@@ -65,9 +70,9 @@ public class HitParticles extends Module {
     @Override
     public void onDraw3D(MatrixStack matrixStack, float tickDelta) {
         RenderSystem.disableDepthTest();
-        if (!isNull()) {
+        if (mc.player != null && mc.world != null) {
             for (Particle particle : particles) {
-                particle.render(matrixStack);
+                particle.render(matrixStack, tickDelta);
             }
         }
         RenderSystem.enableDepthTest();
@@ -153,16 +158,16 @@ public class HitParticles extends Module {
             return System.currentTimeMillis() - getTime() > lifeTime.getValue() * 1000;
         }
 
-        public void render(MatrixStack matrixStack) {
+        public void render(MatrixStack matrixStack, float tickDelta) {
             float size = scale.getValue().floatValue();
 
-            final double posX = Render2DUtil.interpolate(px, x, mc.getRenderTickCounter().getTickDelta(true)) - mc.getEntityRenderDispatcher().camera.getPos().getX();
-            final double posY = Render2DUtil.interpolate(py, y, mc.getRenderTickCounter().getTickDelta(true)) + 0.1 - mc.getEntityRenderDispatcher().camera.getPos().getY();
-            final double posZ = Render2DUtil.interpolate(pz, z, mc.getRenderTickCounter().getTickDelta(true)) - mc.getEntityRenderDispatcher().camera.getPos().getZ();
+            Vec3d cam = mc.gameRenderer.getCamera().getPos();
+            double posX = Render2DUtil.interpolate(px, x, tickDelta) - cam.x;
+            double posY = Render2DUtil.interpolate(py, y, tickDelta) - cam.y;
+            double posZ = Render2DUtil.interpolate(pz, z, tickDelta) - cam.z;
 
             matrixStack.push();
             matrixStack.translate(posX, posY, posZ);
-
             matrixStack.scale(0.07f, 0.07f, 0.07f);
             matrixStack.translate(size / 2, size / 2, size / 2);
             matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-mc.gameRenderer.getCamera().getYaw()));

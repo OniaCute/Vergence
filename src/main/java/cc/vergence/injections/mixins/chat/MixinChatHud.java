@@ -17,6 +17,7 @@ import net.minecraft.client.gui.hud.MessageIndicator;
 import net.minecraft.network.message.MessageSignatureData;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -50,21 +51,25 @@ public abstract class MixinChatHud implements IChatHud, Wrapper {
         vergenceNext = 0;
     }
 
-
-
-    @Inject(method = "addMessage(Lnet/minecraft/text/Text;Lnet/minecraft/network/message/MessageSignatureData;Lnet/minecraft/client/gui/hud/MessageIndicator;)V",
-            at = @At(value = "HEAD", ordinal = 0, shift = At.Shift.AFTER))
-    private void onAddMessageAfterNewChatHudLineVisible(Text message, MessageSignatureData signatureData, MessageIndicator indicator, CallbackInfo ci) {
+    @Inject(method = "addVisibleMessage", at = @At(value = "INVOKE", target = "Ljava/util/List;add(ILjava/lang/Object;)V", shift = At.Shift.AFTER))
+    private void onAddMessageAfterNewChatHudLineVisible(ChatHudLine message, CallbackInfo ci) {
         if (!visibleMessages.isEmpty()) {
             ((IChatHudLine) (Object) visibleMessages.get(0)).vergence$setId(vergenceNext);
         }
     }
 
-    @Inject(method = "addMessage(Lnet/minecraft/text/Text;Lnet/minecraft/network/message/MessageSignatureData;Lnet/minecraft/client/gui/hud/MessageIndicator;)V",
-            at = @At(value = "RETURN", ordinal = 0, shift = At.Shift.AFTER))
-    private void onAddMessageAfterNewChatHudLine(Text message, MessageSignatureData signatureData, MessageIndicator indicator, CallbackInfo ci) {
+    @Inject(method = "addVisibleMessage", at = @At(value = "INVOKE", target = "Ljava/util/List;add(ILjava/lang/Object;)V", shift = At.Shift.AFTER))
+    private void onAddMessageAfterNewChatHudLine(ChatHudLine message, CallbackInfo ci) {
         if (!messages.isEmpty()) {
             ((IChatHudLine) (Object) messages.get(0)).vergence$setId(vergenceNext);
+        }
+    }
+
+    @Inject(at = @At("HEAD"), method = "addMessage(Lnet/minecraft/text/Text;Lnet/minecraft/network/message/MessageSignatureData;Lnet/minecraft/client/gui/hud/MessageIndicator;)V")
+    private void onAddMessageWithId(Text message, MessageSignatureData signatureData, MessageIndicator indicator, CallbackInfo ci) {
+        if (vergenceNext != 0) {
+            visibleMessages.removeIf(msg -> msg == null || ((IChatHudLine) (Object) msg).vergence$getId() == vergenceNext);
+            messages.removeIf(msg -> msg == null || ((IChatHudLine) (Object) msg).vergence$getId() == vergenceNext);
         }
     }
 
@@ -149,5 +154,10 @@ public abstract class MixinChatHud implements IChatHud, Wrapper {
         if (map.containsKey(last) && BetterChat.INSTANCE != null && BetterChat.INSTANCE.getStatus()) {
             context.getMatrices().translate(BetterChat.INSTANCE.animationOffset.getValue() * (1 - map.get(last).getQuad((FadeUtil.Quad) BetterChat.INSTANCE.animationQuadType.getValue())), 0.0, 0.0f);
         }
+    }
+
+    @Redirect(method = {"addVisibleMessage"}, at = @At(value = "INVOKE", target = "Ljava/util/List;size()I", ordinal = 2, remap = false))
+    public int chatLinesSize(List<ChatHudLine.Visible> list) {
+        return BetterChat.INSTANCE != null && BetterChat.INSTANCE.getStatus() && BetterChat.INSTANCE.keepHistory.getValue() ? -2147483647 : list.size();
     }
 }

@@ -249,6 +249,8 @@ public class EnglishLanguage extends Language {
         languageBase.put("Module.Modules.BetterChat.Options.EnumOption.Prefix.description", "Choose between Default or Line prefix style for messages");
         languageBase.put("Module.Modules.BetterChat.Options.ColorOption.PrefixColor.name", "Prefix Color");
         languageBase.put("Module.Modules.BetterChat.Options.ColorOption.PrefixColor.description", "Color of the chat prefix");
+        languageBase.put("Module.Modules.BetterChat.Options.BooleanOption.KeepHistory.name", "Keep History");
+        languageBase.put("Module.Modules.BetterChat.Options.BooleanOption.KeepHistory.description", "keep all history of the chat hud");
         languageBase.put("Module.Modules.BetterChat.Options.TextOption.ChatPrefix.name", "Chat Prefix");
         languageBase.put("Module.Modules.BetterChat.Options.TextOption.ChatPrefix.description", "Text placed before every chat message");
         languageBase.put("Module.Modules.BetterChat.Options.TextOption.ChatSuffix.name", "Chat Suffix");
@@ -1843,5 +1845,12 @@ public class EnglishLanguage extends Language {
         languageBase.put("Module.Modules.HitParticles.Options.DoubleOption.Speed.description", "Initial speed of the particles");
         languageBase.put("Module.Modules.HitParticles.Options.DoubleOption.Scale.name", "Scale");
         languageBase.put("Module.Modules.HitParticles.Options.DoubleOption.Scale.description", "Size of each particle when Orbiz mode is active");
+
+        languageBase.put("Module.Modules.HandShader.name", "Hand Shader");
+        languageBase.put("Module.Modules.HandShader.description", "Applies a shader effect to held items");
+        languageBase.put("Module.Modules.HandShader.Options.EnumOption.Mode.name", "Mode");
+        languageBase.put("Module.Modules.HandShader.Options.EnumOption.Mode.description", "Visual shader style applied to held items");
+        languageBase.put("Module.Modules.HandShader.Options.ColorOption.Color.name", "Color");
+        languageBase.put("Module.Modules.HandShader.Options.ColorOption.Color.description", "Tint color used for the Fill shader mode");
     }
 }

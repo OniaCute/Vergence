@@ -1,5 +1,6 @@
 package cc.vergence.modules.visual;
 
+import cc.vergence.features.managers.other.MessageManager;
 import cc.vergence.modules.Module;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -30,6 +31,11 @@ public class Xray extends Module {
     public void onDisable() {
         mc.worldRenderer.reload();
         mc.chunkCullingEnabled = true;
+    }
+
+    @Override
+    public void onTick() {
+        MessageManager.newMessage(this, "Hi This is a Test", -1);
     }
 
     @Override

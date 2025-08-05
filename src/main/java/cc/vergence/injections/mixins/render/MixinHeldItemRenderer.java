@@ -1,5 +1,7 @@
 package cc.vergence.injections.mixins.render;
 
+import cc.vergence.Vergence;
+import cc.vergence.features.event.events.HeldItemRendererEvent;
 import cc.vergence.modules.visual.HandModifier;
 import cc.vergence.modules.visual.SwingModifier;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
@@ -56,6 +58,9 @@ public abstract class MixinHeldItemRenderer {
 
     @Inject(method = "renderFirstPersonItem", at = @At("HEAD"), cancellable = true)
     private void renderFirstPersonItem$HEAD(AbstractClientPlayerEntity player, float tickDelta, float pitch, Hand hand, float swingProgress, ItemStack item, float equipProgress, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, CallbackInfo info) {
+        HeldItemRendererEvent event = new HeldItemRendererEvent(hand, item, equipProgress, matrices);
+        Vergence.EVENTBUS.post(event);
+
         HandModifier module = HandModifier.INSTANCE;
         if (module == null || !module.getStatus()) {
             return;

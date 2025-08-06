@@ -31,6 +31,7 @@ public class KillAura extends Module implements Wrapper {
     public Option<Double> maxCPS = addOption(new DoubleOption("MaxCPS", 1, 18, 7, v -> clickType.getValue().equals(ClickTypes.Old)));
     public Option<Double> delay = addOption(new DoubleOption("Delay", 1, 18, 7, v -> clickType.getValue().equals(ClickTypes.New)).addSpecialValue(1, "INSTANT"));
     public Option<Boolean> crosshairLock = addOption(new BooleanOption("CrosshairLock", true, v -> AntiCheat.INSTANCE.isLegit()));
+    public Option<Boolean> keepSprint = addOption(new BooleanOption("KeepSprint", true, v -> !AntiCheat.INSTANCE.isLegit()));
     public Option<Enum<?>> rotateType = addOption(new EnumOption("RotateType", RotateModes.Server));
     public Option<Double> rotateSpeed = addOption(new DoubleOption("RotateSpeed", 1, 180, 180).addSpecialValue(1, "INSTANT"));
     public Option<Boolean> rotateLock = addOption(new BooleanOption("RotateLock", true, v -> !AntiCheat.INSTANCE.isGrim()));

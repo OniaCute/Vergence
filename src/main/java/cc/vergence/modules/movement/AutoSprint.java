@@ -4,6 +4,7 @@ import cc.vergence.features.options.Option;
 import cc.vergence.features.options.impl.BooleanOption;
 import cc.vergence.features.options.impl.DoubleOption;
 import cc.vergence.modules.Module;
+import cc.vergence.modules.client.AntiCheat;
 import cc.vergence.modules.combat.AutoWtap;
 import cc.vergence.modules.combat.KillAura;
 
@@ -42,7 +43,7 @@ public class AutoSprint extends Module {
                         && mc.player.input.movementForward > 0
                         && (!mc.player.isSneaking())
                         && (!mc.player.isUsingItem() || useItem.getValue())
-                        && (!KillAura.INSTANCE.getStatus())
+                        && (!(KillAura.INSTANCE.getStatus() && KillAura.INSTANCE.keepSprint.getValue()))
         );
     }
 }

@@ -1852,5 +1852,18 @@ public class EnglishLanguage extends Language {
         languageBase.put("Module.Modules.HandShader.Options.EnumOption.Mode.description", "Visual shader style applied to held items");
         languageBase.put("Module.Modules.HandShader.Options.ColorOption.Color.name", "Color");
         languageBase.put("Module.Modules.HandShader.Options.ColorOption.Color.description", "Tint color used for the Fill shader mode");
+
+        languageBase.put("Module.Modules.HitboxESP.name", "Hitbox ESP");
+        languageBase.put("Module.Modules.HitboxESP.description", "Renders expanded hitboxes around entities");
+        languageBase.put("Module.Modules.HitboxESP.Options.BooleanOption.Self.name", "Self");
+        languageBase.put("Module.Modules.HitboxESP.Options.BooleanOption.Self.description", "Also draw the local player's hitbox");
+        languageBase.put("Module.Modules.HitboxESP.Options.BooleanOption.InvisibleOnly.name", "Invisible Only");
+        languageBase.put("Module.Modules.HitboxESP.Options.BooleanOption.InvisibleOnly.description", "Only draw invisible player's hitbox");
+        languageBase.put("Module.Modules.HitboxESP.Options.DoubleOption.Ticks.name", "Ticks");
+        languageBase.put("Module.Modules.HitboxESP.Options.DoubleOption.Ticks.description", "Number of ticks to predict entity movement");
+        languageBase.put("Module.Modules.HitboxESP.Options.ColorOption.FillColor.name", "Fill Color");
+        languageBase.put("Module.Modules.HitboxESP.Options.ColorOption.FillColor.description", "Fill color of the hitbox");
+        languageBase.put("Module.Modules.HitboxESP.Options.ColorOption.OutlineColor.name", "Outline Color");
+        languageBase.put("Module.Modules.HitboxESP.Options.ColorOption.OutlineColor.description", "Outline color of the hitbox");
     }
 }

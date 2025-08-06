@@ -133,6 +133,7 @@ public class ModuleManager {
         registerModule(new Particles());
         registerModule(new HitParticles());
         registerModule(new HandShader());
+        registerModule(new HitboxESP());
 
         // special module
         registerModule(new SafeMode());

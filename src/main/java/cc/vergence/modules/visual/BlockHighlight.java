@@ -62,7 +62,6 @@ public class BlockHighlight extends Module {
             }
         }
         Vec3d offset = MathUtil.getVec(position);
-
         if (animationMode.getValue().equals(AnimationModes.Slide) && renderPosition != null) {
             float easing = Easing.ease(Easing.toDelta(animationStart, (int) (Math.pow(animationSmooth.getValue(), 1.4d) * 1000)), Easing.Method.EASE_OUT_QUART);
             renderPosition = renderPosition.add(MathUtil.getVec(position).subtract(renderPosition).multiply(easing));

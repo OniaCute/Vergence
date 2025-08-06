@@ -36,18 +36,30 @@ public class StorageESP extends Module implements Wrapper {
     }
 
     public Option<Double> range = addOption(new DoubleOption("Range", 0, 100, 100));
-    public Option<Color> chestColor = addOption(new ColorOption("ChestColor", new Color(210, 178, 99, 140)));
-    public Option<Color> trappedChestColor = addOption(new ColorOption("TrappedChestColor", new Color(255, 21, 104, 140)));
-    public Option<Color> enderChestColor = addOption(new ColorOption("EnderChestColor", new Color(119, 29, 119, 140)));
-    public Option<Color> barrelColor = addOption(new ColorOption("BarrelColor", new Color(160, 110, 60, 140)));
-    public Option<Color> shulkerBoxColor = addOption(new ColorOption("ShulkerBoxColor", new Color(200, 100, 200, 140)));
-    public Option<Color> furnaceColor = addOption(new ColorOption("FurnaceColor", new Color(85, 85, 85, 140)));
-    public Option<Color> blastFurnaceColor = addOption(new ColorOption("BlastFurnaceColor", new Color(105, 75, 55, 140)));
-    public Option<Color> smokerColor = addOption(new ColorOption("SmokerColor", new Color(105, 105, 105, 140)));
-    public Option<Color> dispenserColor = addOption(new ColorOption("DispenserColor", new Color(70, 70, 70, 140)));
-    public Option<Color> dropperColor = addOption(new ColorOption("DropperColor", new Color(90, 90, 90, 140)));
-    public Option<Color> hopperColor = addOption(new ColorOption("HopperColor", new Color(75, 75, 75, 140)));
-    public Option<Color> craftingTableColor = addOption(new ColorOption("CraftingTableColor", new Color(150, 120, 80, 140)));
+    public Option<Color> chestFillColor = addOption(new ColorOption("ChestFillColor", new Color(210, 178, 99, 140)));
+    public Option<Color> trappedChestFillColor = addOption(new ColorOption("TrappedChestFillColor", new Color(255, 21, 104, 140)));
+    public Option<Color> enderChestFillColor = addOption(new ColorOption("EnderChestFillColor", new Color(119, 29, 119, 140)));
+    public Option<Color> barrelFillColor = addOption(new ColorOption("BarrelFillColor", new Color(160, 110, 60, 140)));
+    public Option<Color> shulkerBoxFillColor = addOption(new ColorOption("ShulkerBoxFillColor", new Color(200, 100, 200, 140)));
+    public Option<Color> furnaceFillColor = addOption(new ColorOption("FurnaceFillColor", new Color(85, 85, 85, 140)));
+    public Option<Color> blastFurnaceFillColor = addOption(new ColorOption("BlastFurnaceFillColor", new Color(105, 75, 55, 140)));
+    public Option<Color> smokerFillColor = addOption(new ColorOption("SmokerFillColor", new Color(105, 105, 105, 140)));
+    public Option<Color> dispenserFillColor = addOption(new ColorOption("DispenserFillColor", new Color(70, 70, 70, 140)));
+    public Option<Color> dropperFillColor = addOption(new ColorOption("DropperFillColor", new Color(90, 90, 90, 140)));
+    public Option<Color> hopperFillColor = addOption(new ColorOption("HopperFillColor", new Color(75, 75, 75, 140)));
+    public Option<Color> craftingTableFillColor = addOption(new ColorOption("CraftingTableFillColor", new Color(150, 120, 80, 140)));
+    public Option<Color> chestOutlineColor = addOption(new ColorOption("ChestOutlineColor", new Color(210, 178, 99, 140)));
+    public Option<Color> trappedChestOutlineColor = addOption(new ColorOption("TrappedChestOutlineColor", new Color(255, 21, 104, 140)));
+    public Option<Color> enderChestOutlineColor = addOption(new ColorOption("EnderChestOutlineColor", new Color(119, 29, 119, 140)));
+    public Option<Color> barrelOutlineColor = addOption(new ColorOption("BarrelOutlineColor", new Color(160, 110, 60, 140)));
+    public Option<Color> shulkerBoxOutlineColor = addOption(new ColorOption("ShulkerBoxOutlineColor", new Color(200, 100, 200, 140)));
+    public Option<Color> furnaceOutlineColor = addOption(new ColorOption("FurnaceOutlineColor", new Color(85, 85, 85, 140)));
+    public Option<Color> blastFurnaceOutlineColor = addOption(new ColorOption("BlastFurnaceOutlineColor", new Color(105, 75, 55, 140)));
+    public Option<Color> smokerOutlineColor = addOption(new ColorOption("SmokerOutlineColor", new Color(105, 105, 105, 140)));
+    public Option<Color> dispenserOutlineColor = addOption(new ColorOption("DispenserOutlineColor", new Color(70, 70, 70, 140)));
+    public Option<Color> dropperOutlineColor = addOption(new ColorOption("DropperOutlineColor", new Color(90, 90, 90, 140)));
+    public Option<Color> hopperOutlineColor = addOption(new ColorOption("HopperOutlineColor", new Color(75, 75, 75, 140)));
+    public Option<Color> craftingTableOutlineColor = addOption(new ColorOption("CraftingTableOutlineColor", new Color(150, 120, 80, 140)));
     public Option<EnumSet<Modes>> mode = addOption(new MultipleOption<>("Mode", EnumSet.of(Modes.Outline)));
 
     @Override
@@ -111,8 +123,7 @@ public class StorageESP extends Module implements Wrapper {
                     BlockState state = mc.world.getBlockState(pos);
                     if (isContainerBlock(state.getBlock())) {
                         Box box = state.getOutlineShape(mc.world, pos).getBoundingBox().offset(pos);
-                        Color c = getColorForBlock(state.getBlock());
-                        result.add(new SearchBlock(box, c));
+                        result.add(new SearchBlock(box, getFillColorForBlock(state.getBlock()), getOutlineColorForBlock(state.getBlock())));
                         amount++;
                     }
                 }
@@ -158,11 +169,11 @@ public class StorageESP extends Module implements Wrapper {
                 || block == Blocks.CRAFTING_TABLE;
     }
 
-    private Color getColorForBlock(Block block) {
-        if (block == Blocks.CHEST) return chestColor.getValue();
-        if (block == Blocks.TRAPPED_CHEST) return trappedChestColor.getValue();
-        if (block == Blocks.ENDER_CHEST) return enderChestColor.getValue();
-        if (block == Blocks.BARREL) return barrelColor.getValue();
+    private Color getFillColorForBlock(Block block) {
+        if (block == Blocks.CHEST) return chestFillColor.getValue();
+        if (block == Blocks.TRAPPED_CHEST) return trappedChestFillColor.getValue();
+        if (block == Blocks.ENDER_CHEST) return enderChestFillColor.getValue();
+        if (block == Blocks.BARREL) return barrelFillColor.getValue();
         if (block == Blocks.SHULKER_BOX
                 || block == Blocks.WHITE_SHULKER_BOX
                 || block == Blocks.ORANGE_SHULKER_BOX
@@ -178,24 +189,57 @@ public class StorageESP extends Module implements Wrapper {
                 || block == Blocks.BROWN_SHULKER_BOX
                 || block == Blocks.GREEN_SHULKER_BOX
                 || block == Blocks.RED_SHULKER_BOX
-                || block == Blocks.BLACK_SHULKER_BOX) return shulkerBoxColor.getValue();
-        if (block == Blocks.FURNACE) return furnaceColor.getValue();
-        if (block == Blocks.BLAST_FURNACE) return blastFurnaceColor.getValue();
-        if (block == Blocks.SMOKER) return smokerColor.getValue();
-        if (block == Blocks.DISPENSER) return dispenserColor.getValue();
-        if (block == Blocks.DROPPER) return dropperColor.getValue();
-        if (block == Blocks.HOPPER) return hopperColor.getValue();
-        if (block == Blocks.CRAFTING_TABLE) return craftingTableColor.getValue();
+                || block == Blocks.BLACK_SHULKER_BOX) return shulkerBoxFillColor.getValue();
+        if (block == Blocks.FURNACE) return furnaceFillColor.getValue();
+        if (block == Blocks.BLAST_FURNACE) return blastFurnaceFillColor.getValue();
+        if (block == Blocks.SMOKER) return smokerFillColor.getValue();
+        if (block == Blocks.DISPENSER) return dispenserFillColor.getValue();
+        if (block == Blocks.DROPPER) return dropperFillColor.getValue();
+        if (block == Blocks.HOPPER) return hopperFillColor.getValue();
+        if (block == Blocks.CRAFTING_TABLE) return craftingTableFillColor.getValue();
+        return new Color(255, 255, 255, 130);
+    }
+
+    private Color getOutlineColorForBlock(Block block) {
+        if (block == Blocks.CHEST) return chestOutlineColor.getValue();
+        if (block == Blocks.TRAPPED_CHEST) return trappedChestOutlineColor.getValue();
+        if (block == Blocks.ENDER_CHEST) return enderChestOutlineColor.getValue();
+        if (block == Blocks.BARREL) return barrelOutlineColor.getValue();
+        if (block == Blocks.SHULKER_BOX
+                || block == Blocks.WHITE_SHULKER_BOX
+                || block == Blocks.ORANGE_SHULKER_BOX
+                || block == Blocks.MAGENTA_SHULKER_BOX
+                || block == Blocks.LIGHT_BLUE_SHULKER_BOX
+                || block == Blocks.YELLOW_SHULKER_BOX
+                || block == Blocks.LIME_SHULKER_BOX
+                || block == Blocks.PINK_SHULKER_BOX
+                || block == Blocks.GRAY_SHULKER_BOX
+                || block == Blocks.CYAN_SHULKER_BOX
+                || block == Blocks.PURPLE_SHULKER_BOX
+                || block == Blocks.BLUE_SHULKER_BOX
+                || block == Blocks.BROWN_SHULKER_BOX
+                || block == Blocks.GREEN_SHULKER_BOX
+                || block == Blocks.RED_SHULKER_BOX
+                || block == Blocks.BLACK_SHULKER_BOX) return shulkerBoxOutlineColor.getValue();
+        if (block == Blocks.FURNACE) return furnaceOutlineColor.getValue();
+        if (block == Blocks.BLAST_FURNACE) return blastFurnaceOutlineColor.getValue();
+        if (block == Blocks.SMOKER) return smokerOutlineColor.getValue();
+        if (block == Blocks.DISPENSER) return dispenserOutlineColor.getValue();
+        if (block == Blocks.DROPPER) return dropperOutlineColor.getValue();
+        if (block == Blocks.HOPPER) return hopperOutlineColor.getValue();
+        if (block == Blocks.CRAFTING_TABLE) return craftingTableOutlineColor.getValue();
         return new Color(255, 255, 255, 130);
     }
 
     private static class SearchBlock {
         private final Box box;
         private final Color color;
+        private final Color outlineColor;
 
-        public SearchBlock(Box box, Color color) {
+        public SearchBlock(Box box, Color color, Color outlineColor) {
             this.box = box;
             this.color = color;
+            this.outlineColor = outlineColor;
         }
     }
 

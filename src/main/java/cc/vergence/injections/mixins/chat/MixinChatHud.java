@@ -4,6 +4,7 @@ import cc.vergence.Vergence;
 import cc.vergence.features.event.events.ReceiveMessageEvent;
 import cc.vergence.features.managers.other.MessageManager;
 import cc.vergence.modules.client.BetterChat;
+import cc.vergence.modules.misc.ChatFilter;
 import cc.vergence.util.color.ColorUtil;
 import cc.vergence.util.interfaces.IChatHud;
 import cc.vergence.util.interfaces.IChatHudLine;
@@ -28,6 +29,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 

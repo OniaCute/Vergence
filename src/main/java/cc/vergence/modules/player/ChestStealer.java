@@ -52,9 +52,9 @@ public class ChestStealer extends Module implements Wrapper {
         if (!(mc.player.currentScreenHandler instanceof net.minecraft.screen.GenericContainerScreenHandler container)) {
             return;
         }
-        for (String s: ignoreText.getValue().split("\\|")) {
-            if (mc.currentScreen.getTitle().getString().contains(s)) {
-                return ;
+        for (String s : ignoreText.getValue().split("\\|")) {
+            if (mc.currentScreen.getTitle().getString().toLowerCase().contains(s.toLowerCase())) {
+                return;
             }
         }
         List<Integer> filledSlots = new ArrayList<>();

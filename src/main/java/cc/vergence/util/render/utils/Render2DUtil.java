@@ -1,20 +1,26 @@
 package cc.vergence.util.render.utils;
 
 import cc.vergence.features.enums.other.Aligns;
+import cc.vergence.modules.client.ClickGUI;
 import cc.vergence.modules.client.Client;
 import cc.vergence.util.interfaces.Wrapper;
 import cc.vergence.util.maths.MathUtil;
 import cc.vergence.util.other.TextureStorage;
 import cc.vergence.util.render.other.AlphaOverride;
+import cc.vergence.util.render.other.SkiaContext;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
+import io.github.humbleui.skija.ClipMode;
+import io.github.humbleui.skija.Path;
+import io.github.humbleui.types.RRect;
+import io.github.humbleui.types.Rect;
 import net.minecraft.client.gl.ShaderProgramKeys;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.RotationAxis;
+import io.github.humbleui.skija.Canvas;
 import org.joml.Math;
 import org.joml.Matrix4f;
 import org.joml.Vector4f;
@@ -166,10 +172,20 @@ public class Render2DUtil implements Wrapper {
     }
 
     public static void drawRoundedRect(MatrixStack matrices, float x, float y, float width, float height, float radius, int color) {
+        if (ClickGUI.INSTANCE != null && ClickGUI.INSTANCE.advancedRenderer.getValue() && mc.getWindow() != null) {
+            double scaleFactor = mc.getWindow().getScaleFactor();
+            drawRoundedRect(x * scaleFactor, y * scaleFactor, width * scaleFactor, height * scaleFactor, radius * scaleFactor, new Color(color, true));
+            return;
+        }
         renderRounded(matrices, new Color(color), x, y, width + x, height + y, radius, 64);
     }
 
     public static void drawRoundedRect(MatrixStack matrices, float x, float y, float width, float height, float radius, Color color) {
+        if (ClickGUI.INSTANCE != null && ClickGUI.INSTANCE.advancedRenderer.getValue() && mc.getWindow() != null) {
+            double scaleFactor = mc.getWindow().getScaleFactor();
+            drawRoundedRect(x * scaleFactor, y * scaleFactor, width * scaleFactor, height * scaleFactor, radius * scaleFactor, color);
+            return;
+        }
         renderRounded(matrices, color, (x * getScaleFactor()), (y * getScaleFactor()), ((width + x) * getScaleFactor()), ((height + y) * getScaleFactor()), ((radius * getScaleFactor())), 64);
     }
 
@@ -366,26 +382,23 @@ public class Render2DUtil implements Wrapper {
         Vector4f end = new Vector4f(r1.x1, r1.y1, 0, 1);
         coord.mulTranspose(matrix);
         end.mulTranspose(matrix);
-        float x = coord.x();
-        float y = coord.y();
-        float endX = end.x();
-        float endY = end.y();
-        Rectangle r = new Rectangle(x, y, endX, endY);
-        if (clipStack.empty()) {
-            clipStack.push(r);
-            beginScissor(r.x, r.y, r.x1, r.y1);
+        Rectangle r = new Rectangle(coord.x(), coord.y(), end.x(), end.y());
+        clipStack.push(r);
+        if (ClickGUI.INSTANCE != null && ClickGUI.INSTANCE.advancedRenderer.getValue()) {
+            Canvas canvas = SkiaContext.getCanvas();
+            canvas.save();
+            canvas.clipRect(Rect.makeLTRB(r.x, r.y, r.x1, r.y1), ClipMode.INTERSECT);
         } else {
-            Rectangle lastClip = clipStack.peek();
-            float lsx = lastClip.x;
-            float lsy = lastClip.y;
-            float lstx = lastClip.x1;
-            float lsty = lastClip.y1;
-            float nsx = MathHelper.clamp(r.x, lsx, lstx);
-            float nsy = MathHelper.clamp(r.y, lsy, lsty);
-            float nstx = MathHelper.clamp(r.x1, nsx, lstx);
-            float nsty = MathHelper.clamp(r.y1, nsy, lsty);
-            clipStack.push(new Rectangle(nsx, nsy, nstx, nsty));
-            beginScissor(nsx, nsy, nstx, nsty);
+            if (clipStack.size() == 1) {
+                beginScissor(r.x, r.y, r.x1, r.y1);
+            } else {
+                Rectangle last = clipStack.get(clipStack.size() - 2);
+                float nsx = MathHelper.clamp(r.x, last.x, last.x1);
+                float nsy = MathHelper.clamp(r.y, last.y, last.y1);
+                float nstx = MathHelper.clamp(r.x1, nsx, last.x1);
+                float nsty = MathHelper.clamp(r.y1, nsy, last.y1);
+                beginScissor(nsx, nsy, nstx, nsty);
+            }
         }
     }
 
@@ -400,16 +413,24 @@ public class Render2DUtil implements Wrapper {
 
         if (x4 < x3) x4 = x3;
         if (y4 < y3) y4 = y3;
-        pushDisplayArea(stack, new Rectangle(x3, y3, x4, y4));
+        if (ClickGUI.INSTANCE != null && ClickGUI.INSTANCE.advancedRenderer.getValue()) {
+            pushDisplayArea(stack, new Rectangle((float) (x3 * mc.getWindow().getScaleFactor()), (float) (y3 * mc.getWindow().getScaleFactor()), (float) (x4 * mc.getWindow().getScaleFactor()), (float) (y4 * mc.getWindow().getScaleFactor())));
+        } else {
+            pushDisplayArea(stack, new Rectangle(x3, y3, x4, y4));
+        }
     }
 
     public static void popDisplayArea() {
         clipStack.pop();
-        if (clipStack.empty()) {
-            endScissor();
+        if (ClickGUI.INSTANCE != null && ClickGUI.INSTANCE.advancedRenderer.getValue()) {
+            SkiaContext.getCanvas().restore();
         } else {
-            Rectangle r = clipStack.peek();
-            beginScissor(r.x, r.y, r.x1, r.y1);
+            if (clipStack.empty()) {
+                endScissor();
+            } else {
+                Rectangle r = clipStack.peek();
+                beginScissor(r.x, r.y, r.x1, r.y1);
+            }
         }
     }
 
@@ -424,31 +445,36 @@ public class Render2DUtil implements Wrapper {
 
         if (x4 < x3) x4 = x3;
         if (y4 < y3) y4 = y3;
-
         Matrix4f matrix = stack.peek().getPositionMatrix();
         Vector4f coord = new Vector4f(x3, y3, 0, 1);
-        Vector4f end = new Vector4f(x4, y4, 0, 1);
+        Vector4f end   = new Vector4f(x4, y4, 0, 1);
         coord.mulTranspose(matrix);
         end.mulTranspose(matrix);
-
-        float dx = coord.x();
-        float dy = coord.y();
-        float dx1 = end.x();
-        float dy1 = end.y();
-
-        float d = (float) mc.getWindow().getScaleFactor();
-        double width = java.lang.Math.max(0, dx1 - dx);
-        double height = java.lang.Math.max(0, dy1 - dy);
-        int ay = (int) ((mc.getWindow().getScaledHeight() - (dy + height)) * d);
-        RenderSystem.enableScissor((int) (dx * d), ay, (int) (width * d), (int) (height * d));
-        try {
-            renderAction.run();
-        } finally {
-            if (!clipStack.isEmpty()) {
-                Rectangle r = clipStack.peek();
-                beginScissor(r.x, r.y, r.x1, r.y1);
-            } else {
-                endScissor();
+        Rectangle clipRect = new Rectangle(coord.x(), coord.y(), end.x(), end.y());
+        if (ClickGUI.INSTANCE != null && ClickGUI.INSTANCE.advancedRenderer.getValue()) {
+            Canvas canvas = SkiaContext.getCanvas();
+            canvas.save();
+            canvas.clipRect(Rect.makeLTRB(clipRect.x, clipRect.y, clipRect.x1, clipRect.y1), ClipMode.INTERSECT);
+            try {
+                renderAction.run();
+            } finally {
+                canvas.restore();
+            }
+        } else {
+            float d = (float) mc.getWindow().getScaleFactor();
+            int ay = (int) ((mc.getWindow().getScaledHeight() - (clipRect.y + clipRect.y1)) * d);
+            RenderSystem.enableScissor((int) (clipRect.x * d), ay,
+                    (int) ((clipRect.x1 - clipRect.x) * d),
+                    (int) ((clipRect.y1 - clipRect.y) * d));
+            try {
+                renderAction.run();
+            } finally {
+                if (!clipStack.isEmpty()) {
+                    Rectangle r = clipStack.peek();
+                    beginScissor(r.x, r.y, r.x1, r.y1);
+                } else {
+                    endScissor();
+                }
             }
         }
     }
@@ -640,5 +666,64 @@ public class Render2DUtil implements Wrapper {
         RenderSystem.setShaderColor(c.getRed() / 255f, c.getGreen() / 255f, c.getBlue() / 255f, c.getAlpha() / 255f);
         renderGradientTexture(matrices, 0, 0, scale, scale, 0, 0, 128, 128, 128, 128, c, c, c, c);
         disableRender();
+    }
+
+    public static io.github.humbleui.skija.Paint getPaint(Color color) {
+        io.github.humbleui.skija.Paint paint = new io.github.humbleui.skija.Paint();
+        paint.setARGB(color.getAlpha(), color.getRed(), color.getGreen(), color.getBlue());
+        return paint;
+    }
+
+    public static Canvas getCanvas() {
+        return SkiaContext.getCanvas();
+    }
+
+    public static void save() {
+        getCanvas().save();
+    }
+
+    public static void restore() {
+        getCanvas().restore();
+    }
+
+    public static void scale(float scale) {
+        getCanvas().scale(scale, scale);
+    }
+
+    public static void clipPath(Path path, ClipMode mode, boolean arg) {
+        getCanvas().clipPath(path, mode, arg);
+    }
+
+    public static void clipPath(Path path) {
+        getCanvas().clipPath(path, ClipMode.INTERSECT, true);
+    }
+
+    public static void clip(float x, float y, float width, float height, float radius, ClipMode mode) {
+        Path path = new Path();
+        path.addRRect(RRect.makeXYWH(x, y, width, height, radius));
+        clipPath(path, mode, true);
+    }
+
+    public static void clip(float x, float y, float width, float height, float topLeft, float topRight, float bottomRight, float bottomLeft) {
+        float[] corners = new float[] { topLeft, topLeft, topRight, topRight, bottomRight, bottomRight, bottomLeft, bottomLeft };
+        Path path = new Path();
+        path.addRRect(RRect.makeComplexXYWH(x, y, width, height, corners));
+        clipPath(path, ClipMode.INTERSECT, true);
+    }
+
+    public static void clip(float x, float y, float width, float height, float radius) {
+        clip(x, y, width, height, radius, ClipMode.INTERSECT);
+    }
+
+    public static void translate(float x, float y) {
+        getCanvas().translate(x, y);
+    }
+
+    public static void drawRoundedRect(double x, double y, double width, double height, double radius, Color color) {
+        drawRoundedRect((float) x, (float) y, (float) width, (float) height, (float) radius, color);
+    }
+
+    public static void drawRoundedRect(float x, float y, float width, float height, float radius, Color color) {
+        getCanvas().drawRRect(RRect.makeXYWH(x, y, width, height, radius), getPaint(color));
     }
 }

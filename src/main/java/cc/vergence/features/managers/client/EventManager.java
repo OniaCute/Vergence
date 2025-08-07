@@ -4,6 +4,7 @@ import cc.vergence.Vergence;
 import cc.vergence.features.enums.client.MouseButtons;
 import cc.vergence.features.event.eventbus.EventHandler;
 import cc.vergence.features.event.events.*;
+import cc.vergence.features.managers.other.MessageManager;
 import cc.vergence.features.managers.ui.GuiManager;
 import cc.vergence.features.managers.feature.ModuleManager;
 import cc.vergence.features.managers.ui.NotifyManager;
@@ -12,6 +13,7 @@ import cc.vergence.features.options.impl.BindOption;
 import cc.vergence.features.screens.ClickGuiScreen;
 import cc.vergence.modules.Module;
 import cc.vergence.util.interfaces.Wrapper;
+import cc.vergence.util.render.utils.Render2DUtil;
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
@@ -33,6 +35,7 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import org.lwjgl.glfw.GLFW;
 
+import java.awt.*;
 import java.util.UUID;
 
 public class EventManager implements Wrapper {

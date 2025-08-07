@@ -6,6 +6,8 @@ import cc.vergence.features.screens.HudEditorScreen;
 import cc.vergence.modules.hud.Scoreboard;
 import cc.vergence.modules.visual.NoRender;
 import cc.vergence.util.interfaces.Wrapper;
+import cc.vergence.util.render.other.SkiaContext;
+import cc.vergence.util.render.utils.Render2DUtil;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.render.RenderTickCounter;
@@ -19,8 +21,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class MixinMinecraftInGameHud implements Wrapper {
     @Inject(method = "render", at = @At("HEAD"))
     private void onRender(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
-        float tickDelta = tickCounter.getTickDelta(false);
+        float tickDelta = tickCounter.getTickDelta(true);
         Vergence.EVENTS.onDraw2D(context, tickDelta);
+
+        SkiaContext.draw((contexts) -> {
+            Render2DUtil.save();
+            Render2DUtil.scale((float) mc.getWindow().getScaleFactor());
+            Render2DUtil.restore();
+        });
     }
 
     @Inject(method = "renderCrosshair", at = @At("HEAD"), cancellable = true)

@@ -342,7 +342,7 @@ public class GuiManager implements Wrapper {
             JsonObject mainObject = array.get(0).getAsJsonObject();
             JsonArray client = mainObject.getAsJsonArray("Client");
 
-            component.setConfigName(client.get(5).getAsString());
+            component.setConfigName(client.get(6).getAsString());
             component.setVersion(client.get(1).getAsString());
             component.setDate(client.get(4).getAsString());
         } catch (Exception e) {

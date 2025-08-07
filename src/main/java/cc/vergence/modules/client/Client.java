@@ -4,6 +4,7 @@ import cc.vergence.Vergence;
 import cc.vergence.features.enums.font.Fonts;
 import cc.vergence.features.enums.client.Languages;
 import cc.vergence.features.event.events.PacketEvent;
+import cc.vergence.features.event.events.PlayerUpdateEvent;
 import cc.vergence.features.managers.ui.GuiManager;
 import cc.vergence.features.options.Option;
 import cc.vergence.features.options.impl.BooleanOption;
@@ -18,6 +19,8 @@ import cc.vergence.ui.clickgui.option.*;
 import net.minecraft.network.packet.BrandCustomPayload;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.c2s.common.CustomPayloadC2SPacket;
+
+import java.util.Objects;
 
 public class Client extends Module {
     public static Client INSTANCE;
@@ -53,6 +56,14 @@ public class Client extends Module {
             }
             ((CustomPayloadC2SPacketAccessor) (Object) p).setPayload(new BrandCustomPayload(clientBrand.getValue()));
         }
+    }
+
+    @Override
+    public void onPlayerUpdateEvent(PlayerUpdateEvent event) {
+        if (isNull()) {
+            return ;
+        }
+        Vergence.CONFIG.configAuthor = mc.player.getName().getString();
     }
 
     @Override

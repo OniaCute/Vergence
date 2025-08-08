@@ -10,17 +10,14 @@ import cc.vergence.modules.player.MultipleTask;
 import cc.vergence.util.font.FontRenderers;
 import cc.vergence.util.font.FontUtil;
 import cc.vergence.util.interfaces.Wrapper;
-import cc.vergence.util.render.other.SkiaContext;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.RunArgs;
 import net.minecraft.client.gui.screen.DeathScreen;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.util.Window;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.util.thread.ReentrantThreadExecutor;
 import org.jetbrains.annotations.Nullable;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
@@ -34,9 +31,6 @@ public abstract class MixinMinecraftClient extends ReentrantThreadExecutor<Runna
     private boolean worldIsNull = true;
     @Shadow @Nullable public ClientWorld world;
     @Shadow public int attackCooldown;
-    @Shadow
-    @Final
-    private Window window;
 
     public MixinMinecraftClient(String string) {
         super(string);
@@ -122,8 +116,6 @@ public abstract class MixinMinecraftClient extends ReentrantThreadExecutor<Runna
             FontRenderers.ICON_32F = FontRenderers.IconFont(32f);
 
             FontUtil.LOADED = true;
-
-            SkiaContext.createSurface(window.getWidth(), window.getHeight());
         } catch (Exception e) {
             e.printStackTrace();
         }

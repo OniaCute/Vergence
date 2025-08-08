@@ -4,7 +4,6 @@ import cc.vergence.features.enums.other.Aligns;
 import cc.vergence.features.enums.font.FontScales;
 import cc.vergence.features.enums.font.FontSize;
 import cc.vergence.features.enums.font.Fonts;
-import cc.vergence.modules.client.ClickGUI;
 import cc.vergence.modules.client.Client;
 import cc.vergence.util.interfaces.Wrapper;
 import net.minecraft.client.gui.DrawContext;
@@ -893,7 +892,6 @@ public class FontUtil implements Wrapper {
         if (Client.INSTANCE == null || !LOADED) {return ;}
 
         FontScales fontScales = asFontScales((Client.UIScales) Client.INSTANCE.UIScale.getValue(), size, fontType);
-        boolean advancedMode = ClickGUI.INSTANCE != null && ClickGUI.INSTANCE.advancedRenderer.getValue();
         if (fontType.equals(Fonts.Sans)) {
             switch (fontScales) {
                 case SANS_3F -> FontRenderers.SANS_3F.drawString(matrixStack, text, x, y, color, shadow);

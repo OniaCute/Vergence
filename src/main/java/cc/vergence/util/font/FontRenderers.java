@@ -5,11 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class FontRenderers {
-    public static final String SMOOTH = "assets/vergence/font/smooth.otf";
-    public static final String SANS = "assets/vergence/font/sans.ttf";
-    public static final String RHR = "assets/vergence/font/rhr.ttf";
-    public static final String ICON = "assets/vergence/font/icons.otf";
-
     public static FontAdapter SMOOTH_3F;
     public static FontAdapter SMOOTH_4F;
     public static FontAdapter SMOOTH_5F;
@@ -91,25 +86,25 @@ public class FontRenderers {
     }
 
     public static RendererFontAdapter SmoothFont(float size) throws IOException, FontFormatException {
-        InputStream fontStream = FontRenderers.class.getClassLoader().getResourceAsStream(SMOOTH);
+        InputStream fontStream = FontRenderers.class.getClassLoader().getResourceAsStream("assets/vergence/font/smooth.otf");
         Font font = Font.createFont(Font.TRUETYPE_FONT, fontStream).deriveFont(Font.PLAIN, size);
         return new RendererFontAdapter(font, size);
     }
 
     public static RendererFontAdapter SansFont(float size) throws IOException, FontFormatException {
-        InputStream fontStream = FontRenderers.class.getClassLoader().getResourceAsStream(SANS);
+        InputStream fontStream = FontRenderers.class.getClassLoader().getResourceAsStream("assets/vergence/font/sans.ttf");
         Font font = Font.createFont(Font.TRUETYPE_FONT, fontStream).deriveFont(Font.PLAIN, size);
         return new RendererFontAdapter(font, size);
     }
 
     public static RendererFontAdapter RhrFont(float size) throws IOException, FontFormatException {
-        InputStream fontStream = FontRenderers.class.getClassLoader().getResourceAsStream(RHR);
+        InputStream fontStream = FontRenderers.class.getClassLoader().getResourceAsStream("assets/vergence/font/rhr.ttf");
         Font font = Font.createFont(Font.TRUETYPE_FONT, fontStream).deriveFont(Font.PLAIN, size);
         return new RendererFontAdapter(font, size);
     }
 
     public static RendererFontAdapter IconFont(float size) throws IOException, FontFormatException {
-        InputStream fontStream = FontRenderers.class.getClassLoader().getResourceAsStream(ICON);
+        InputStream fontStream = FontRenderers.class.getClassLoader().getResourceAsStream("assets/vergence/font/icons.otf");
         Font font = Font.createFont(Font.TRUETYPE_FONT, fontStream).deriveFont(Font.PLAIN, size);
         return new RendererFontAdapter(font, size);
     }

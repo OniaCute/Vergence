@@ -35,7 +35,6 @@ public class ClickGUI extends Module {
     public Option<Double> scrollAnimationTime = addOption(new DoubleOption("ScrollAnimationTime", 100, 250, 120));
     public Option<Double> scrollScale = addOption(new DoubleOption("ScrollScale", 1, 10, 3));
     public Option<Double> colorAnimationTime = addOption(new DoubleOption("ColorAnimationTime", 40, 250, 130));
-    public Option<Boolean> advancedRenderer = addOption(new BooleanOption("AdvancedRenderer", true));
 
     @Override
     public String getDetails() {

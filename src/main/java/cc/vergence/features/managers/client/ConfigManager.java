@@ -36,7 +36,6 @@ public class ConfigManager implements Wrapper {
     public static final File FONTS_FOLDER = new File(MAIN_FOLDER, "fonts");
     public File currentConfig = null;
     public String currentConfigName = "default";
-    public String configAuthor = "Public";
     public static boolean firstUse = false;
 
     public ConfigManager() {
@@ -212,18 +211,16 @@ public class ConfigManager implements Wrapper {
                     }
                     Vergence.CONSOLE.logInfo("[CONFIG] Config file info \"UI Style Version\" : " + client.get(3).getAsString());
                     Vergence.CONSOLE.logInfo("[CONFIG] Config file info \"Save Date\" : " + client.get(4).getAsString());
-                    Vergence.CONSOLE.logInfo("[CONFIG] Config file info \"Config Author\" : " + client.get(5).getAsString());
-                    currentConfigName = client.get(6).getAsString().length() <= 1 ? "Unknown" : client.get(6).getAsString();
+                    currentConfigName = client.get(3).getAsString().length() <= 1 ? "Unknown" : client.get(5).getAsString();
                 } catch (Exception e) {
                     Vergence.CONSOLE.logWarn("[CONFIG] Client Info incomplete or invalid.");
-//                    e.printStackTrace();
+                    e.printStackTrace();
                 }
             }
 
             Vergence.CONSOLE.logInfo("Loaded Config: " + config.getName(), true);
         } catch (IOException e) {
-            Vergence.CONSOLE.logWarn("[CONFIG] There is a line of content in the config file that is not being read properly.");
-//            e.printStackTrace();
+            e.printStackTrace();
         }
         currentConfig = config;
         currentConfigName = config.getName().replace(".vgc", "");
@@ -418,7 +415,6 @@ public class ConfigManager implements Wrapper {
         array.add(new JsonPrimitive(Vergence.CONFIG_TEMPLATE_VERSION));
         array.add(new JsonPrimitive(Vergence.UI_STYLE_VERSION));
         array.add(new JsonPrimitive(formattedDate));
-        array.add(new JsonPrimitive(configAuthor));
         array.add(new JsonPrimitive(currentConfigName));
         return array;
     }

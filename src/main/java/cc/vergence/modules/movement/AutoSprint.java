@@ -37,17 +37,13 @@ public class AutoSprint extends Module {
             return ;
         }
 
-        if (AntiCheat.INSTANCE.isLegit()) {
-            mc.player.setSprinting(
-                    mc.player.getHungerManager().getFoodLevel() > 6
-                            && !mc.player.horizontalCollision
-                            && mc.player.input.movementForward > 0
-                            && (!mc.player.isSneaking())
-                            && (!mc.player.isUsingItem() || useItem.getValue())
-                            && (!(KillAura.INSTANCE.getStatus() && KillAura.INSTANCE.keepSprint.getValue()))
-            );
-        } else {
-            mc.player.setSprinting(true);
-        }
+        mc.player.setSprinting(
+                mc.player.getHungerManager().getFoodLevel() > 6
+                        && !mc.player.horizontalCollision
+                        && mc.player.input.movementForward > 0
+                        && (!mc.player.isSneaking())
+                        && (!mc.player.isUsingItem() || useItem.getValue())
+                        && (!(KillAura.INSTANCE.getStatus() && KillAura.INSTANCE.keepSprint.getValue()))
+        );
     }
 }

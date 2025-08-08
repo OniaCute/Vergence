@@ -21,10 +21,6 @@ public class Event {
         this.cancel = true;
     }
 
-    public void regret() {
-        this.cancel = false;
-    }
-
     public boolean isCancelled() {
         return cancel;
     }

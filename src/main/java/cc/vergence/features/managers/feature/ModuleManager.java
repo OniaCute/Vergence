@@ -134,8 +134,6 @@ public class ModuleManager {
         registerModule(new HitParticles());
         registerModule(new HandShader());
         registerModule(new HitboxESP());
-        registerModule(new ChatFilter());
-        registerModule(new FastParty());
 
         // special module
         registerModule(new SafeMode());

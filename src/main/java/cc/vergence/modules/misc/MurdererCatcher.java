@@ -6,18 +6,14 @@ import cc.vergence.features.managers.other.MessageManager;
 import cc.vergence.features.managers.ui.NotifyManager;
 import cc.vergence.features.options.Option;
 import cc.vergence.features.options.impl.BooleanOption;
-import cc.vergence.features.options.impl.ColorOption;
 import cc.vergence.modules.Module;
 import cc.vergence.util.interfaces.Wrapper;
 import cc.vergence.util.player.EntityUtil;
 import cc.vergence.util.player.InventoryUtil;
-import cc.vergence.util.render.other.ModelRenderer;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Objects;
@@ -27,8 +23,8 @@ public class MurdererCatcher extends Module implements Wrapper {
     public static MurdererCatcher INSTANCE;
     private final HashSet<String> notifiedMurderers = new HashSet<>();
     private final HashSet<String> notifiedBowmen = new HashSet<>();
-    public final ArrayList<String> murderers = new ArrayList<>();
-    public final ArrayList<String> bowmen = new ArrayList<>();
+    private final ArrayList<String> murderers = new ArrayList<>();
+    private final ArrayList<String> bowmen = new ArrayList<>();
 
 
     public MurdererCatcher() {
@@ -36,13 +32,7 @@ public class MurdererCatcher extends Module implements Wrapper {
         INSTANCE = this;
     }
 
-    public Option<Boolean> markMurderer = addOption(new BooleanOption("MarkMurderer", true));
-    public Option<Boolean> markBowmer = addOption(new BooleanOption("MarkBowmer", true));
-    public Option<Boolean> markShine = addOption(new BooleanOption("MarkShine", true, v -> markMurderer.getValue() || markBowmer.getValue()));
-    public Option<Color> bowmenFillColor = addOption(new ColorOption("BowmenFillColor", new Color(44, 116, 255, 0), v -> markBowmer.getValue()));
-    public Option<Color> bowmenOutlineColor = addOption(new ColorOption("BowmenOutlineColor", new Color(0, 128, 255, 228), v -> markBowmer.getValue()));
-    public Option<Color> murdererFillColor = addOption(new ColorOption("MurdererFillColor", new Color(255, 16, 16, 0), v -> markMurderer.getValue()));
-    public Option<Color> murdererOutlineColor = addOption(new ColorOption("MurdererOutlineColor", new Color(255, 22, 22, 228), v -> markMurderer.getValue()));
+    public Option<Boolean> markEnemy = addOption(new BooleanOption("MarkEnemy", true));
     public Option<Boolean> withSound = addOption(new BooleanOption("Sound", true));
 
 
@@ -91,7 +81,8 @@ public class MurdererCatcher extends Module implements Wrapper {
                 }
             }
 
-            if (markMurderer.getValue()) {
+            if (markEnemy.getValue()) {
+                Vergence.ENEMY.addEnemy(nearestPlayer.getName().getString());
                 murderers.add(nearestPlayer.getName().getString());
             }
         }
@@ -129,10 +120,8 @@ public class MurdererCatcher extends Module implements Wrapper {
                     } catch (Exception ignored) {}
                 }
 
-                if (markMurderer.getValue()) {
-                    if (bowmen.contains(playerName)) {
-                        bowmen.remove(playerName);
-                    }
+                if (markEnemy.getValue()) {
+                    Vergence.ENEMY.addEnemy(playerName);
                     murderers.add(playerName);
                 }
 
@@ -163,38 +152,24 @@ public class MurdererCatcher extends Module implements Wrapper {
                     } catch (Exception ignored) {}
                 }
 
-                if (!murderers.contains(playerName) && markBowmer.getValue()) {
-                    bowmen.add(playerName);
-                }
+                Vergence.FRIEND.addFriend(playerName);
+                bowmen.add(playerName);
                 notifiedBowmen.add(playerName);
             }
         }
     }
 
-    @Override
-    public void onDraw3D(MatrixStack matrixStack, float tickDelta) {
-        if (isNull()) {
-            reset();
-            return;
-        }
-
-        for (PlayerEntity player : mc.world.getPlayers()) {
-            for (String s : murderers) {
-                if (player.getName().getString().equals(s)) {
-                    ModelRenderer.renderModel(player, 1.0f, tickDelta, new ModelRenderer.Render(true, murdererFillColor.getValue(), true, murdererOutlineColor.getValue(), markShine.getValue()));
-                }
-            }
-            for (String s : bowmen) {
-                if (player.getName().getString().equals(s)) {
-                    ModelRenderer.renderModel(player, 1.0f, tickDelta, new ModelRenderer.Render(true, bowmenFillColor.getValue(), true, bowmenOutlineColor.getValue(), markShine.getValue()));
-                }
-            }
-        }
-    }
 
     private void reset() {
+        for (String name : murderers) {
+            Vergence.ENEMY.removeEnemy(name);
+        }
         murderers.clear();
         notifiedMurderers.clear();
+
+        for (String name : bowmen) {
+            Vergence.FRIEND.removeFriend(name);
+        }
         bowmen.clear();
         notifiedBowmen.clear();
     }
@@ -217,11 +192,6 @@ public class MurdererCatcher extends Module implements Wrapper {
 
     @Override
     public void onShutDown() {
-        reset();
-    }
-
-    @Override
-    public void onConfigChange() {
         reset();
     }
 }

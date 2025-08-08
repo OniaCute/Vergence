@@ -37,10 +37,9 @@ public class HitboxESP extends Module {
     public void onDraw3D(MatrixStack matrixStack, float tickDelta) {
         for (Entity player : mc.world.getPlayers()) {
             if (invisibleOnly.getValue() && !player.isInvisible()) {
-                return ;
-            }
-            if (player != mc.player || self.getValue()) {
-                Render3DUtil.draw3DBox(matrixStack, ((EntityAccessor) player).getDimensions().getBoxAt(new Vec3d(interpolate(player.lastRenderX, player.getX(), tickDelta), interpolate(player.lastRenderY, player.getY(), tickDelta), interpolate(player.lastRenderZ, player.getZ(), tickDelta)).add(EntityUtil.getMotionVec(player, ticks.getValue().intValue(), true))), fillColor.getValue(), true, outlineColor.getValue(), true);
+                if (player != mc.player || self.getValue()) {
+                    Render3DUtil.draw3DBox(matrixStack, ((EntityAccessor) player).getDimensions().getBoxAt(new Vec3d(interpolate(player.lastRenderX, player.getX(), tickDelta), interpolate(player.lastRenderY, player.getY(), tickDelta), interpolate(player.lastRenderZ, player.getZ(), tickDelta)).add(EntityUtil.getMotionVec(player, ticks.getValue().intValue(), true))), fillColor.getValue(), true, outlineColor.getValue(), true);
+                }
             }
         }
     }

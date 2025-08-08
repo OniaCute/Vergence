@@ -21,7 +21,6 @@ public class TextOption extends Option<String> implements Wrapper {
     public TextOption(String name, String defaultValue, int sizeLimit) {
         super(name, "", defaultValue, v -> true);
         this.sizeLimit = sizeLimit;
-
     }
     public TextOption(String name, String defaultValue, Predicate<?> invisibility) {
         super(name, "", defaultValue, invisibility);
@@ -58,9 +57,7 @@ public class TextOption extends Option<String> implements Wrapper {
                     .replaceAll("\\{player}", mc.player.getName().getString())
                     .replaceAll("\\{hp}", String.valueOf((int) mc.player.getHealth()))
                     .replaceAll("\\{max_hp}", String.valueOf((int) mc.player.getMaxHealth()))
-                    .replaceAll("\\{armor}", String.valueOf((int) mc.player.getArmor()))
-                    .replaceAll("\\{speed}", String.valueOf(mc.player.speed))
-                    .replaceAll("\\{speed_km}", String.format("%.2f", mc.player.speed * 3.6));
+                    .replaceAll("\\{armor}", String.valueOf((int) mc.player.getArmor()));
         }
         if (mc.world != null) {
             Dimensions dim = WorldUtil.getDimension();

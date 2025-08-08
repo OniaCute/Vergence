@@ -15,7 +15,7 @@ import java.util.Objects;
 import java.util.Set;
 
 public class NetworkManager implements Wrapper {
-    private static final Set<Packet<?>> PACKETS = new HashSet<>();
+    private static Set<Packet<?>> PACKETS = new HashSet<>();
     private ServerAddress address;
     private ServerInfo info;
 
@@ -25,19 +25,15 @@ public class NetworkManager implements Wrapper {
 
     @EventHandler
     public void onDisconnect(DisconnectEvent event) {
-        clearChach();
-    }
-
-    public void clearChach() {
         PACKETS.clear();
     }
 
     public void sendCommand(String cmd) {
-        Objects.requireNonNull(mc.getNetworkHandler()).sendCommand(cmd.replaceAll("§", "&"));
+        Objects.requireNonNull(mc.getNetworkHandler()).sendCommand(cmd);
     }
 
     public void sendChatMessage(String message) {
-        Objects.requireNonNull(mc.getNetworkHandler()).sendChatMessage(message.replaceAll("§", "&"));
+        Objects.requireNonNull(mc.getNetworkHandler()).sendChatMessage(message);
     }
 
     public void sendPacket(Packet<?> p) {

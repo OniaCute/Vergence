@@ -76,10 +76,8 @@ public class Hotkeys extends Module {
         double totalHeight = FontUtil.getHeight(size);
 
         for (Module module : hotkeyModeles) {
-            maxWidth = Math.max(maxWidth, (padding.getValue() + FontUtil.getWidth(size, module.getDisplayName()) + FontUtil.getWidth(size, module.getBind().getBindChar()) + 8));
-        }
-        for (Module module : hotkeyModeles) {
             totalHeight += padding.getValue();
+            maxWidth = Math.max(maxWidth, (padding.getValue() + FontUtil.getWidth(size, module.getDisplayName()) + FontUtil.getWidth(size, module.getBind().getBindChar()) + 8));
             if (rounded.getValue()) {
                 Pair<Double, Double> pos = Render2DUtil.drawRoundedRectWithAlign(
                         context.getMatrices(),

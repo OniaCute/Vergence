@@ -489,12 +489,6 @@ public abstract class Module implements Wrapper {
     public void onConfigChangeAlways() {
     }
 
-    public void onReceivedMessage(ReceiveMessageEvent event, String message) {
-    }
-
-    public void onReceivedMessageAlways(ReceiveMessageEvent event, String message) {
-    }
-
     public void setName(String name) {
         this.name = name;
     }

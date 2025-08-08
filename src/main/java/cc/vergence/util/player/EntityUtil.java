@@ -2,10 +2,16 @@ package cc.vergence.util.player;
 
 import cc.vergence.Vergence;
 import cc.vergence.features.enums.player.Hands;
+import cc.vergence.features.enums.player.RotateModes;
 import cc.vergence.features.enums.units.SpeedUnit;
 import cc.vergence.features.enums.player.SwingModes;
+import cc.vergence.modules.client.AntiCheat;
+import cc.vergence.util.blocks.BlockUtil;
 import cc.vergence.util.blocks.FixedBlockPos;
+import cc.vergence.util.interfaces.IRotation;
 import cc.vergence.util.interfaces.Wrapper;
+import cc.vergence.util.rotation.RotateUtil;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.client.option.KeyBinding;
@@ -15,12 +21,18 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.network.packet.c2s.play.HandSwingC2SPacket;
+import net.minecraft.network.packet.c2s.play.PlayerInteractBlockC2SPacket;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.*;
 import net.minecraft.world.GameMode;
 import net.minecraft.world.RaycastContext;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class EntityUtil implements Wrapper {
     public static float[] getLegitRotations(Vec3d vec) {
@@ -132,7 +144,7 @@ public class EntityUtil implements Wrapper {
     public static double getSpeed(Entity entity, SpeedUnit unit) {
         double speed = Math.sqrt(MathHelper.square(Math.abs(entity.getX() - entity.lastRenderX)) + MathHelper.square(Math.abs(entity.getZ() - entity.lastRenderZ)));
 
-        if (unit == SpeedUnit.Kilometers) {
+        if (unit == SpeedUnit.KILOMETERS) {
             return (speed * 3.6 * Vergence.TIMER.get()) * 20;
         } else {
             return speed / 0.05 * Vergence.TIMER.get();

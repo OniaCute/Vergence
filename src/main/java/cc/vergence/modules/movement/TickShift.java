@@ -59,7 +59,7 @@ public class TickShift extends Module {
             return;
         }
 
-        if ((mc.player.sidewaysSpeed == 0.0f && mc.player.forwardSpeed == 0.0f && mc.player.fallDistance == 0.0f) || EntityUtil.getSpeed(mc.player, SpeedUnit.Kilometers) <= 5) {
+        if ((mc.player.sidewaysSpeed == 0.0f && mc.player.forwardSpeed == 0.0f && mc.player.fallDistance == 0.0f) || EntityUtil.getSpeed(mc.player, SpeedUnit.KILOMETERS) <= 5) {
             Vergence.TIMER.set(1);
             if(waiting >= delay.getValue().intValue()) {
                 if(ticks < maxTicks.getValue().intValue()) {

@@ -7,7 +7,6 @@ import cc.vergence.features.options.impl.BooleanOption;
 import cc.vergence.features.options.impl.ColorOption;
 import cc.vergence.features.options.impl.MultipleOption;
 import cc.vergence.modules.Module;
-import cc.vergence.modules.misc.MurdererCatcher;
 import cc.vergence.util.interfaces.Wrapper;
 import cc.vergence.util.render.other.ModelRenderer;
 import cc.vergence.util.render.utils.Render3DUtil;
@@ -109,10 +108,6 @@ public class Chams extends Module implements Wrapper {
                 } else {
                     fill = defaultFillColor.getValue();
                     outline = defaultOutlineColor.getValue();
-                }
-
-                if (MurdererCatcher.INSTANCE.getStatus() && (MurdererCatcher.INSTANCE.bowmen.contains(living.getName().getString()) || MurdererCatcher.INSTANCE.murderers.contains(living.getName().getString()))) {
-                    return ;
                 }
 
                 ModelRenderer.renderModel(living, 1.0f, tickDelta, new ModelRenderer.Render(true, fill, true, outline, shine.getValue()));

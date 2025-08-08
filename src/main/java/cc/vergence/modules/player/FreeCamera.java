@@ -48,7 +48,7 @@ public class FreeCamera extends Module {
 
     @Override
     public void onKeyboardInputTick() {
-        if (isNull()) {
+        if (mc.player == null) {
             return;
         }
 

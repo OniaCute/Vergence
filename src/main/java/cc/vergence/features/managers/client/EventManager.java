@@ -606,17 +606,6 @@ public class EventManager implements Wrapper {
         }
     }
 
-    @EventHandler
-    public void onReceivedMessage(ReceiveMessageEvent event) {
-        String message = event.message;
-        for (Module module : ModuleManager.modules) {
-            module.onReceivedMessageAlways(event, message);
-            if (module.getStatus()) {
-                module.onReceivedMessage(event, message);
-            }
-        }
-    }
-
     public void onRenderClickGui(DrawContext context, int mouseX, int mouseY, float partialTicks) {
         for (Module module : ModuleManager.modules) {
             module.onRenderClickGuiAlways(context, mouseX, mouseY, partialTicks);

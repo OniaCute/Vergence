@@ -9,7 +9,7 @@ import net.minecraft.client.util.math.MatrixStack;
 
 /**
  * &#064;author: Voury_, OniaCute
- * &#064;version: vergence_1_0_ui_gird
+ * &#064;version: vergence_1_1_ui_gird
  */
 public class HoverMultipleChoicesComponent extends GuiComponent {
     public HoverMultipleChoicesComponent(MultipleChoicesComponent multipleChoicesComponent) {
@@ -22,7 +22,7 @@ public class HoverMultipleChoicesComponent extends GuiComponent {
     }
 
     @Override
-    public void onDraw(DrawContext context, double mouseX, double mouseY, boolean clickLeft, boolean clickRight) {
+    public void onDraw(double mouseX, double mouseY, boolean clickLeft, boolean clickRight) {
         if (!isHovered(mouseX, mouseY)) {
             if (clickLeft || clickRight) {
                 ((MultipleChoicesComponent) this.parentComponent).fold();
@@ -30,39 +30,25 @@ public class HoverMultipleChoicesComponent extends GuiComponent {
         }
 
         Render2DUtil.drawRoundedRect(
-                context.getMatrices(),
                 this.getX(),
                 this.getY(),
                 this.getWidth(),
                 this.getHeight(),
-                3 * Render2DUtil.getScaleFactor(),
+                3,
                 Vergence.THEME.getTheme().getChoicesAreaBackgroundColor()
         );
 
         if (((MultipleChoicesComponent) getParentComponent()).isSpread() || (((MultipleChoicesComponent) getParentComponent()).animationProgress > 0.001f && ((MultipleChoicesComponent) getParentComponent()).animationProgress != 1f)) {
-            MatrixStack matrices = context.getMatrices();
-            matrices.push();
-
             Render2DUtil.pushDisplayArea(
-                    context.getMatrices(),
                     (float) getX(),
                     (float) getY(),
                     (float) (getX() + getWidth()),
-                    (float) (getY() + getHeight()),
-                    1f
+                    (float) (getY() + getHeight())
             );
 
-            double baseY = getY();
-
-            matrices.translate(getX(), baseY, 0);
-            matrices.scale(1f, ((MultipleChoicesComponent) getParentComponent()).animationProgress, 1f);
-            matrices.translate(-getX(), -(baseY), 0);
-
             for (GuiComponent component : getSubComponents()) {
-                component.onDraw(context, mouseX, mouseY, clickLeft, clickRight);
+                component.onDraw(mouseX, mouseY, clickLeft, clickRight);
             }
-
-            matrices.pop();
             Render2DUtil.popDisplayArea();
         }
     }

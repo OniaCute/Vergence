@@ -32,7 +32,7 @@ public class NormalNotification extends Notification {
     }
 
     @Override
-    public void onDraw2D(DrawContext context, float tickDelta) {
+    public void onDraw2D() {
         double x = getX();
         double y = getY();
         double width = getWidth();
@@ -40,7 +40,6 @@ public class NormalNotification extends Notification {
         double barHeight = Notify.INSTANCE.aliveTimeWidth.getValue();
         if (Notify.INSTANCE.rounded.getValue()) {
             Render2DUtil.drawRoundedRect(
-                    context.getMatrices(),
                     x,
                     y,
                     width,
@@ -50,7 +49,6 @@ public class NormalNotification extends Notification {
             );
         } else {
             Render2DUtil.drawRect(
-                    context,
                     x,
                     y,
                     width,
@@ -60,28 +58,26 @@ public class NormalNotification extends Notification {
         }
 
         FontUtil.drawTextWithAlign(
-                context,
                 text,
                 x + 2,
                 y - 4,
                 x + width,
                 y + height,
-                Aligns.LEFT,
                 Notify.INSTANCE.titleColor.getValue(),
-                FontSize.MEDIUM
+                FontSize.MEDIUM,
+                Aligns.LEFT
         );
 
         double titleHeight = FontUtil.getHeight(FontSize.MEDIUM);
         FontUtil.drawTextWithAlign(
-                context,
                 description,
                 x + 2,
                 y + titleHeight + 1,
                 x + width,
                 y + height,
-                Aligns.LEFT,
                 Notify.INSTANCE.textColor.getValue(),
-                FontSize.SMALL
+                FontSize.SMALL,
+                Aligns.LEFT
         );
 
         double progress = aliveTime / fullAliveTime;
@@ -90,7 +86,6 @@ public class NormalNotification extends Notification {
         boolean alignRight = Notify.INSTANCE.align.getValue().equals(Notify.Aligns.Right);
         double barX = alignRight ? x + width - barWidth : x;
         Render2DUtil.drawRoundedRect(
-                context.getMatrices(),
                 barX,
                 y + height - barHeight,
                 barWidth,

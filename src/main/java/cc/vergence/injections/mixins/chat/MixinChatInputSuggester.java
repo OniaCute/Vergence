@@ -59,16 +59,16 @@ public abstract class MixinChatInputSuggester {
 			int x = textField.getX() - 3;
 			int y = textField.getY() - 3;
 			//Up
-			Render2DUtil.drawRect(context, x, y, textField.getWidth() + 1, 1, Vergence.THEME.getTheme().getMainColor());
+			Render2DUtil.drawRect(x, y, textField.getWidth() + 1, 1, Vergence.THEME.getTheme().getMainColor());
 
 			//Down
-			Render2DUtil.drawRect(context, x, y + textField.getHeight() + 1, textField.getWidth() + 1, 1, Vergence.THEME.getTheme().getMainColor());
+			Render2DUtil.drawRect(x, y + textField.getHeight() + 1, textField.getWidth() + 1, 1, Vergence.THEME.getTheme().getMainColor());
 
 			//Left
-			Render2DUtil.drawRect(context, x, y, 1, textField.getHeight() + 1, Vergence.THEME.getTheme().getMainColor());
+			Render2DUtil.drawRect(x, y, 1, textField.getHeight() + 1, Vergence.THEME.getTheme().getMainColor());
 
 			//Right
-			Render2DUtil.drawRect(context, x + textField.getWidth() + 1, y, 1, textField.getHeight() + 2, Vergence.THEME.getTheme().getMainColor());
+			Render2DUtil.drawRect(x + textField.getWidth() + 1, y, 1, textField.getHeight() + 2, Vergence.THEME.getTheme().getMainColor());
 		}
 	}
 

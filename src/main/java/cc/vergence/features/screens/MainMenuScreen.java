@@ -54,19 +54,18 @@ public class MainMenuScreen extends Screen implements Wrapper {
 
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         // background
-        Render2DUtil.drawRect(context, 0, 0, width, height, ColorUtil.setAlpha(MainMenu.INSTANCE.backgroundColor.getValue(), 255));
+        Render2DUtil.drawRect(0, 0, width, height, ColorUtil.setAlpha(MainMenu.INSTANCE.backgroundColor.getValue(), 255));
 
         // Title
         FontUtil.drawTextWithAlign(
-                context,
                 MainMenu.INSTANCE.title.getValue(),
                 0,
                 0,
                 width,
                 height / 3.00,
-                Aligns.CENTER,
                 MainMenu.INSTANCE.titleColor.getValue(),
                 FontSize.LARGEST,
+                Aligns.CENTER,
                 true
         );
 
@@ -78,57 +77,51 @@ public class MainMenuScreen extends Screen implements Wrapper {
 
         // Client Info
         FontUtil.drawTextWithAlign(
-                context,
                 Vergence.NAME + " " + Vergence.VERSION + " / Minecraft 1.21.4",
                 3, // padding
                 0,
                 width,
                 height,
-                Aligns.LEFT_BOTTOM,
                 MainMenu.INSTANCE.textColor.getValue(),
-                FontSize.SMALLEST
+                FontSize.SMALLEST,
+                Aligns.LEFT_BOTTOM
         );
 
         // Date
         String date = new SimpleDateFormat("yyyy/MM/dd").format(new Date()) + " " + new SimpleDateFormat("hh:mm:ss aa").format(new Date());
         FontUtil.drawTextWithAlign(
-                context,
                 date,
                 0, // padding
                 0,
                 width - 3,
                 height,
-                Aligns.RIGHT_BOTTOM,
                 MainMenu.INSTANCE.textColor.getValue(),
-                FontSize.SMALLEST
+                FontSize.SMALLEST,
+                Aligns.RIGHT_BOTTOM
         );
 
         // Out of date alert
         FontUtil.drawTextWithAlign(
-                context,
                 Vergence.OUT_OF_DATE ? "This version of client is out of the date\nGet the latest version in https://www.vergence.cc" : "",
                 0,
                 0,
                 width,
                 height,
-                Aligns.BOTTOM,
                 new Color(236, 8, 8),
-                FontSize.SMALL
+                FontSize.SMALL,
+                Aligns.BOTTOM
         );
         buttonOffset = 0;
     }
 
     private void drawButton(DrawContext context, int mouseX, int mouseY, String name) {
-        Pair<Double, Double> pos = Render2DUtil.drawRoundedRectWithAlign(
-                context.getMatrices(),
+        Pair<Double, Double> pos = Render2DUtil.getAlignPositionAsPair(
                 0,
                 buttonOffset,
                 width,
                 height / 1.5,
                 100,
                 18,
-                4,
-                new Color(0, 0, 0, 0),
                 Aligns.CENTER
         );
 
@@ -145,7 +138,6 @@ public class MainMenuScreen extends Screen implements Wrapper {
         }
 
         Render2DUtil.drawRoundedRect(
-                context.getMatrices(),
                 pos.getA(),
                 pos.getB(),
                 100,
@@ -154,15 +146,14 @@ public class MainMenuScreen extends Screen implements Wrapper {
                 hovered ? MainMenu.INSTANCE.buttonHoveredBackgroundColor.getValue() : MainMenu.INSTANCE.buttonBackgroundColor.getValue()
         );
         FontUtil.drawTextWithAlign(
-                context,
                 Vergence.TEXT.get("SCREEN.MainMenu.Buttons." + name),
                 pos.getA(),
                 pos.getB(),
                 pos.getA() + 100,
                 pos.getB() + 18,
-                Aligns.CENTER,
                 hovered ? MainMenu.INSTANCE.buttonHoveredTextColor.getValue() : MainMenu.INSTANCE.buttonTextColor.getValue(),
-                FontSize.SMALL
+                FontSize.SMALL,
+                Aligns.CENTER
         );
 
         buttonOffset += 50;

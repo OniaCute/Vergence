@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 /**
  * &#064;author: Voury_, OniaCute
- * &#064;version: vergence_1_0_ui_gird
+ * &#064;version: vergence_1_1_ui_gird
  */
 public abstract class GuiComponent {
     protected int id;
@@ -43,7 +43,7 @@ public abstract class GuiComponent {
     public void onMouseRelease(double mouseX, double mouseY, Screen screen, MouseButtons button) {
     }
 
-    public abstract void onDraw(DrawContext context, double mouseX, double mouseY, boolean clickLeft, boolean clickRight);
+    public abstract void onDraw(double mouseX, double mouseY, boolean clickLeft, boolean clickRight);
 
     public void setDisplayName(String displayName) {
         this.displayName = displayName;

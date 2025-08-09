@@ -87,7 +87,7 @@ public class NotifyManager implements Wrapper {
         }
     }
 
-    public static void onDraw2D(DrawContext context, float tickDelta) {
+    public static void onDraw2D() {
         if (Notify.INSTANCE == null || !Notify.INSTANCE.getStatus()) {
             return;
         }
@@ -117,7 +117,7 @@ public class NotifyManager implements Wrapper {
                 accumulatedY = popUp
                         ? accumulatedY + notification.getHeight() + padding
                         : accumulatedY - notification.getHeight() - padding;
-                notification.onDraw2D(context, tickDelta);
+                notification.onDraw2D();
             }
         }
     }

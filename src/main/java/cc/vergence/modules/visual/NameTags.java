@@ -172,7 +172,6 @@ public class NameTags extends Module {
                 float radiusF = radius.getValue().floatValue();
                 float outline = mode.getValue().contains(Modes.Outline) ? outlineWidth.getValue().floatValue() : 0.0f;
                 Render2DUtil.drawRoundedRectWithOutline(
-                        matrixStack,
                         left, top,
                         right - left, pad - top,
                         rounded.getValue() ? radiusF : 0.0f,
@@ -183,7 +182,6 @@ public class NameTags extends Module {
             }
 
             FontUtil.drawText(
-                    matrixStack,
                     displayString,
                     -fontWidth / 2,
                     -FontUtil.getHeight((FontSize) fontSize.getValue()) + 2,
@@ -268,7 +266,6 @@ public class NameTags extends Module {
                         matrixStack.push();
                         matrixStack.translate(stackX + 10 - FontUtil.getWidth(((FontSize) fontSize.getValue()), count), stackY + 9, 0);
                         FontUtil.drawText(
-                                matrixStack,
                                 count,
                                 0,
                                 0,
@@ -287,7 +284,6 @@ public class NameTags extends Module {
                     matrixStack.translate(stackX, stackY - FontUtil.getHeight((FontSize) fontSize.getValue()) / 2f - 1, 0);
                     matrixStack.scale(0.72f, 0.72f, 1);
                     FontUtil.drawText(
-                            matrixStack,
                             Math.round(((stack.getMaxDamage() - stack.getDamage()) * 100.0f) / stack.getMaxDamage()) + "%",
                             0,
                             0,
@@ -314,7 +310,6 @@ public class NameTags extends Module {
                         matrixStack.translate(stackX, stackY + height, 0);
                         matrixStack.scale(0.5f, 0.5f, 1);
                         FontUtil.drawText(
-                                matrixStack,
                                 str,
                                 0,
                                 0,
@@ -335,7 +330,6 @@ public class NameTags extends Module {
                 matrixStack.translate(-FontUtil.getWidth(((FontSize) fontSize.getValue()), itemText) / 2f / 2f, -FontUtil.getHeight(((FontSize) fontSize.getValue())) - 1 - FontUtil.getHeight(((FontSize) fontSize.getValue())) / 2f - 1 - (renderedItems ? (withItems.getValue() ? 18 + maxEnchants : 1) + (withDurability.getValue() && renderedDurability ? FontUtil.getHeight(((FontSize) fontSize.getValue())) / 2.0f + 1 : 0) : 0), 0);
                 matrixStack.scale(0.72f, 0.72f, 1);
                 FontUtil.drawText(
-                        matrixStack,
                         itemText,
                         0,
                         0,

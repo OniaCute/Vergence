@@ -65,7 +65,7 @@ public class Watermark extends Module {
     }
 
     @Override
-    public void onDraw2D(DrawContext context, float tickDelta) {
+    public void onDraw2D() {
         String separator = split.getValue() ? "  " : " | ";
         ArrayList<String> parts = new ArrayList<>();
         parts.add(customTitle.getValue() ? title.getValue() : "Vergence");
@@ -109,7 +109,6 @@ public class Watermark extends Module {
         } else {
             if (rounded.getValue()) {
                 Render2DUtil.drawRoundedRectWithOutline(
-                        context.getMatrices(),
                         this.getX(),
                         this.getY(),
                         this.getWidth(),
@@ -121,7 +120,6 @@ public class Watermark extends Module {
                 );
             } else {
                 Render2DUtil.drawRectWithOutline(
-                        context,
                         this.getX(),
                         this.getY(),
                         this.getWidth(),
@@ -133,15 +131,14 @@ public class Watermark extends Module {
             }
 
             FontUtil.drawTextWithAlign(
-                    context,
                     displayString,
                     this.getX(),
                     this.getY() + 2,
                     this.getX() + this.getWidth(),
                     this.getY() + this.getHeight(),
-                    Aligns.CENTER,
                     textColor.getValue(),
-                    FontSize.SMALL
+                    FontSize.SMALL,
+                    Aligns.CENTER
             );
         }
     }

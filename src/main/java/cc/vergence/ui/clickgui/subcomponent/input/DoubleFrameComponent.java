@@ -17,7 +17,7 @@ import org.lwjgl.glfw.GLFW;
 
 /**
  * &#064;author: Voury_, OniaCute
- * &#064;version: vergence_1_0_ui_gird
+ * &#064;version: vergence_1_1_ui_gird
  */
 public class DoubleFrameComponent extends GuiComponent implements Wrapper {
     private final DoubleOption option;
@@ -99,7 +99,7 @@ public class DoubleFrameComponent extends GuiComponent implements Wrapper {
     }
 
     @Override
-    public void onDraw(DrawContext context, double mouseX, double mouseY, boolean clickLeft, boolean clickRight) {
+    public void onDraw(double mouseX, double mouseY, boolean clickLeft, boolean clickRight) {
         if (cursorTimer.passedMs(520)) {
             cursorVisible = !cursorVisible;
             cursorTimer.reset();
@@ -123,14 +123,13 @@ public class DoubleFrameComponent extends GuiComponent implements Wrapper {
         }
 
         Render2DUtil.drawRoundedRectWithAlign(
-                context.getMatrices(),
                 this.getX(),
                 this.getY(),
                 this.getX() + this.getParentComponent().getWidth(),
                 this.getY() + this.getParentComponent().getHeight(),
                 this.getWidth(),
                 this.getHeight(),
-                4 * Render2DUtil.getScaleFactor(),
+                4,
                 isHovered(mouseX, mouseY)
                         ? Vergence.THEME.getTheme().getInputFrameHoveredBackgroundColor()
                         : Vergence.THEME.getTheme().getInputFrameBackgroundColor(),
@@ -142,21 +141,20 @@ public class DoubleFrameComponent extends GuiComponent implements Wrapper {
                 : String.valueOf(option.getValueAsText());
 
         FontUtil.drawTextWithAlign(
-                context,
                 displayText,
                 this.getX() + 2,
                 this.getY() + 4,
                 this.getX() + this.getWidth() - 4,
                 this.getY() + this.getHeight(),
-                Aligns.CENTER,
                 isHovered(mouseX, mouseY)
                         ? Vergence.THEME.getTheme().getInputFrameHoveredTextColor()
                         : Vergence.THEME.getTheme().getInputFrameTextColor(),
-                FontSize.SMALLEST
+                FontSize.SMALLEST,
+                Aligns.CENTER
         );
 
         for (GuiComponent component : getSubComponents()) {
-            component.onDraw(context, mouseX, mouseY, clickLeft, clickRight);
+            component.onDraw(mouseX, mouseY, clickLeft, clickRight);
         }
     }
 }

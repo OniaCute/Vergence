@@ -68,7 +68,7 @@ public class ModuleList extends Module {
     }
 
     @Override
-    public void onDraw2D(DrawContext context, float tickDelta) {
+    public void onDraw2D() {
         Aligns aligns = (Aligns) align.getValue();
         FontSize size = (FontSize) fontSize.getValue();
         double pad = padding.getValue();
@@ -134,9 +134,9 @@ public class ModuleList extends Module {
             if (background.getValue()) {
                 Color bg = alphaColor(backgroundColor.getValue(), alpha);
                 if (rounded.getValue()) {
-                    Render2DUtil.drawRoundedRect(context.getMatrices(), bgX, bgY, bgWidth, bgHeight, radius.getValue() * alpha, bg);
+                    Render2DUtil.drawRoundedRect(bgX, bgY, bgWidth, bgHeight, radius.getValue() * alpha, bg);
                 } else {
-                    Render2DUtil.drawRect(context, bgX, bgY, bgWidth, bgHeight, bg);
+                    Render2DUtil.drawRect(bgX, bgY, bgWidth, bgHeight, bg);
                 }
             }
 
@@ -148,16 +148,16 @@ public class ModuleList extends Module {
 
                 Color animatedRectColor = alphaColor(rectColor.getValue(), alpha);
                 if (roundedRect.getValue()) {
-                    Render2DUtil.drawRoundedRect(context.getMatrices(), rectX, y, rectWidth.getValue(), FontUtil.getHeight(size), radiusRect.getValue(), animatedRectColor);
+                    Render2DUtil.drawRoundedRect(rectX, y, rectWidth.getValue(), FontUtil.getHeight(size), radiusRect.getValue(), animatedRectColor);
                 } else {
-                    Render2DUtil.drawRect(context, rectX, y, rectWidth.getValue(), FontUtil.getHeight(size), animatedRectColor);
+                    Render2DUtil.drawRect(rectX, y, rectWidth.getValue(), FontUtil.getHeight(size), animatedRectColor);
                 }
             }
 
-            FontUtil.drawText(context, module.getDisplayName(), drawX, drawY, animatedTextColor, size);
+            FontUtil.drawText(module.getDisplayName(), drawX, drawY, animatedTextColor, size);
             if (drawDetails.getValue() && !module.getDetails().isEmpty()) {
                 double moduleNameWidth = FontUtil.getWidth(size, module.getDisplayName());
-                FontUtil.drawText(context, " [" + module.getDetails() + "]", drawX + moduleNameWidth, drawY, animatedDetailsColor, size);
+                FontUtil.drawText(" [" + module.getDetails() + "]", drawX + moduleNameWidth, drawY, animatedDetailsColor, size);
             }
 
             y += lineHeight * (animEnabled ? alpha : 1);

@@ -8,7 +8,7 @@ import net.minecraft.client.gui.DrawContext;
 
 /**
  * &#064;author: Voury_, OniaCute
- * &#064;version: vergence_1_0_ui_gird
+ * &#064;version: vergence_1_1_ui_gird
  */
 public class ModuleAreaComponent extends GuiComponent {
     public ModuleAreaComponent(ModuleComponent moduleComponent) {
@@ -16,7 +16,7 @@ public class ModuleAreaComponent extends GuiComponent {
     }
 
     @Override
-    public void onDraw(DrawContext context, double mouseX, double mouseY, boolean clickLeft, boolean clickRight) {
+    public void onDraw(double mouseX, double mouseY, boolean clickLeft, boolean clickRight) {
         if (isHovered(mouseX, mouseY)) {
             GuiManager.setCurrentComponent(this);
             if (clickLeft) {
@@ -29,7 +29,6 @@ public class ModuleAreaComponent extends GuiComponent {
         }
 
         Render2DUtil.drawRoundedRect(
-                context.getMatrices(),
                 this.getX(),
                 this.getY(),
                 this.getWidth(),
@@ -40,7 +39,7 @@ public class ModuleAreaComponent extends GuiComponent {
 
         for (GuiComponent component : this.getSubComponents()) {
             if (GuiManager.shouldDisplayOptionComponent(component)) {
-                component.onDraw(context, mouseX, mouseY, clickLeft, clickRight);
+                component.onDraw(mouseX, mouseY, clickLeft, clickRight);
             }
         }
     }

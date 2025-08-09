@@ -1,18 +1,25 @@
 package cc.vergence.injections.mixins.render;
 
 import cc.vergence.Vergence;
+import cc.vergence.features.managers.other.MessageManager;
+import cc.vergence.modules.client.ClickGUI;
 import cc.vergence.modules.player.FreeCamera;
 import cc.vergence.modules.player.NoEntityTrace;
 import cc.vergence.modules.visual.AspectRatio;
 import cc.vergence.modules.visual.FOVModifier;
 import cc.vergence.modules.visual.NoRender;
 import cc.vergence.modules.visual.TotemAnimation;
+import cc.vergence.util.font.FontUtil;
 import cc.vergence.util.interfaces.Wrapper;
 import cc.vergence.util.player.EntityUtil;
+import cc.vergence.util.render.other.SkiaContext;
+import cc.vergence.util.render.utils.Render2DUtil;
 import cc.vergence.util.render.utils.Render3DUtil;
+import cc.vergence.util.render.utils.blur.KawaseBlur;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.GameRenderer;
@@ -66,7 +73,6 @@ public abstract class MixinGameRenderer implements Wrapper {
         Vergence.EVENTS.onDraw3D(matrixStack, tickDelta);
         Render3DUtil.draw(Render3DUtil.QUADS, Render3DUtil.DEBUG_LINES, false);
         Render3DUtil.draw(Render3DUtil.SHINE_QUADS, Render3DUtil.SHINE_DEBUG_LINES, true);
-        Vergence.EVENTS.onDraw3D(matrixStack, tickDelta);
         RenderSystem.getModelViewStack().popMatrix();
     }
 
@@ -121,6 +127,18 @@ public abstract class MixinGameRenderer implements Wrapper {
         if (TotemAnimation.INSTANCE.getStatus()) {
             TotemAnimation.INSTANCE.renderFloatingItem(tickDelta);
             ci.cancel();
+        }
+    }
+
+//    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;render(Lnet/minecraft/client/gui/DrawContext;Lnet/minecraft/client/render/RenderTickCounter;)V", shift = At.Shift.BEFORE))
+//    public void render(RenderTickCounter tickCounter, boolean tick, CallbackInfo ci) {
+//
+//    }
+
+    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;render(Lnet/minecraft/client/gui/DrawContext;Lnet/minecraft/client/render/RenderTickCounter;)V", shift = At.Shift.AFTER))
+    public void renderGuiBlur(RenderTickCounter tickCounter, boolean tick, CallbackInfo ci) {
+        if (ClickGUI.INSTANCE != null && ClickGUI.INSTANCE.blurBackground.getValue()) {
+            KawaseBlur.GUI_BLUR.draw((int) 16);
         }
     }
 }

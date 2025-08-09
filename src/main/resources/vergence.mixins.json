@@ -63,9 +63,11 @@
     "defaultRequire": 1
   },
   "client": [
+    "accessors.render.BufferRendererAccessor",
     "accessors.render.ItemRendererAccessor",
     "accessors.render.ItemRenderStateAccessor",
     "accessors.render.LayerRenderStateAccessor",
-    "mixins.render.MixinBossBarHud"
+    "mixins.render.MixinBossBarHud",
+    "mixins.screen.MixinWindow"
   ]
 }

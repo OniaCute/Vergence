@@ -2,8 +2,11 @@ package cc.vergence.features.managers.client;
 
 import cc.vergence.Vergence;
 import cc.vergence.features.enums.client.MouseButtons;
+import cc.vergence.features.enums.font.FontSize;
+import cc.vergence.features.enums.other.Aligns;
 import cc.vergence.features.event.eventbus.EventHandler;
 import cc.vergence.features.event.events.*;
+import cc.vergence.features.managers.other.MessageManager;
 import cc.vergence.features.managers.ui.GuiManager;
 import cc.vergence.features.managers.feature.ModuleManager;
 import cc.vergence.features.managers.ui.NotifyManager;
@@ -11,7 +14,9 @@ import cc.vergence.features.options.Option;
 import cc.vergence.features.options.impl.BindOption;
 import cc.vergence.features.screens.ClickGuiScreen;
 import cc.vergence.modules.Module;
+import cc.vergence.util.font.FontUtil;
 import cc.vergence.util.interfaces.Wrapper;
+import cc.vergence.util.render.utils.Render2DUtil;
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
@@ -33,6 +38,7 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import org.lwjgl.glfw.GLFW;
 
+import java.awt.*;
 import java.util.UUID;
 
 public class EventManager implements Wrapper {
@@ -549,13 +555,15 @@ public class EventManager implements Wrapper {
         NotifyManager.onTick();
     }
 
-    public void onDraw2D(DrawContext context, float tickDelta) {
+    public void onDraw2D() {
         for (Module module : ModuleManager.modules) {
             if (module.getStatus()) {
-                module.onDraw2D(context, tickDelta);
+                module.onDraw2D();
             }
         }
-        NotifyManager.onDraw2D(context, tickDelta);
+        GuiManager.onDraw2D();
+        NotifyManager.onDraw2D();
+        GuiManager.debugDraw();
     }
 
     public void onDraw3D(MatrixStack matrixStack,  float tickDelta) {

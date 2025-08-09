@@ -2,6 +2,7 @@ package cc.vergence.util.render.utils;
 
 import cc.vergence.injections.accessors.render.WorldRendererAccessor;
 import cc.vergence.util.interfaces.Wrapper;
+import cc.vergence.util.other.TextureStorage;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gl.ShaderProgramKeys;

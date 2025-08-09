@@ -63,20 +63,18 @@ public class HudManager implements Wrapper {
 
     private void drawHudEditor(DrawContext context, double tickDelta) {
         FontUtil.drawTextWithAlign(
-                context,
                 "LEFT - Move Position",
                 0,
                 0,
                 mc.currentScreen.width,
                 mc.currentScreen.height,
-                Aligns.LEFT_BOTTOM,
                 Vergence.THEME.getTheme().getHudEditorTipsTextColor(),
-                FontSize.SMALL
+                FontSize.SMALL,
+                Aligns.LEFT_BOTTOM
         );
 
         if (currentHud != null && (HudEditor.INSTANCE != null ? HudEditor.INSTANCE.outline.getValue() : false)) {
             Render2DUtil.drawRectOutline(
-                    context,
                     currentHud.getX(),
                     currentHud.getY(),
                     currentHud.getWidth(),
@@ -85,7 +83,6 @@ public class HudManager implements Wrapper {
                     (HudEditor.INSTANCE != null ? HudEditor.INSTANCE.outlineColor.getValue() : new Color(0, 0, 0))
             );
             FontUtil.drawText(
-                    context,
                     currentHud.getDisplayName(),
                     currentHud.getX(),
                     currentHud.getY() + currentHud.getHeight() + 3,

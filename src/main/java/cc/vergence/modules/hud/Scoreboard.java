@@ -57,7 +57,7 @@ public class Scoreboard extends Module {
     }
 
     @Override
-    public void onDraw2D(DrawContext context, float tickDelta) {
+    public void onDraw2D() {
         if (mc.world == null || mc.player == null || mc.getNetworkHandler() == null || hide.getValue()) {
             return;
         }
@@ -72,7 +72,6 @@ public class Scoreboard extends Module {
         // background
         if (rounded.getValue()) {
             Render2DUtil.drawRoundedRect(
-                    context.getMatrices(),
                     getX(),
                     getY(),
                     width,
@@ -82,7 +81,6 @@ public class Scoreboard extends Module {
             );
         } else {
             Render2DUtil.drawRect(
-                    context,
                     getX(),
                     getY(),
                     width,
@@ -94,7 +92,6 @@ public class Scoreboard extends Module {
         // title
         if (rounded.getValue()) {
             Render2DUtil.drawRoundedRect(
-                    context.getMatrices(),
                     x - 2 + padding.getValue(),
                     y + padding.getValue(),
                     FontUtil.getWidth(FontSize.SMALL, this.getDisplayName()) + 4,
@@ -104,7 +101,6 @@ public class Scoreboard extends Module {
             );
         } else {
             Render2DUtil.drawRect(
-                    context,
                     x - 2 + padding.getValue(),
                     y + padding.getValue(),
                     FontUtil.getWidth(FontSize.SMALL, this.getDisplayName()) + 4,
@@ -113,15 +109,14 @@ public class Scoreboard extends Module {
             );
         }
         FontUtil.drawTextWithAlign(
-                context,
                 getDisplayName(),
                 x - 2 + padding.getValue(),
                 y + padding.getValue() + 3,
                 x + FontUtil.getWidth(FontSize.SMALL, this.getDisplayName()) + 4,
                 y + FontUtil.getHeight(FontSize.SMALL),
-                Aligns.CENTER,
                 titleColor.getValue(),
-                FontSize.SMALL
+                FontSize.SMALL,
+                Aligns.CENTER
         );
 
         setWidth(width);

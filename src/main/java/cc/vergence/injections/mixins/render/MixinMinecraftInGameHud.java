@@ -1,11 +1,18 @@
 package cc.vergence.injections.mixins.render;
 
 import cc.vergence.Vergence;
+import cc.vergence.features.managers.other.MessageManager;
 import cc.vergence.features.screens.ClickGuiScreen;
 import cc.vergence.features.screens.HudEditorScreen;
+import cc.vergence.modules.client.ClickGUI;
 import cc.vergence.modules.hud.Scoreboard;
 import cc.vergence.modules.visual.NoRender;
+import cc.vergence.util.font.FontUtil;
 import cc.vergence.util.interfaces.Wrapper;
+import cc.vergence.util.render.other.SkiaContext;
+import cc.vergence.util.render.utils.Render2DUtil;
+import cc.vergence.util.render.utils.blur.KawaseBlur;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.render.RenderTickCounter;
@@ -19,8 +26,29 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class MixinMinecraftInGameHud implements Wrapper {
     @Inject(method = "render", at = @At("HEAD"))
     private void onRender(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
-        float tickDelta = tickCounter.getTickDelta(false);
-        Vergence.EVENTS.onDraw2D(context, tickDelta);
+//        float tickDelta = tickCounter.getTickDelta(true);
+//        if (FontUtil.LOADED) {
+//            SkiaContext.draw(canvas -> {
+//                Vergence.EVENTS.onDraw2D(context, tickDelta);
+//            });
+//        }
+        if (ClickGUI.INSTANCE != null && ClickGUI.INSTANCE.blurBackground.getValue()) {
+            KawaseBlur.INGAME_BLUR.draw((int) 5);
+        }
+
+        if (FontUtil.LOADED) {
+            MessageManager.newMessage( "UI",
+                    "Scaled: " + mc.getWindow().getScaledWidth() + "x" + mc.getWindow().getScaledHeight() +
+                            " | Window: " + mc.getWindow().getWidth() + "x" + mc.getWindow().getHeight(), -1
+            );
+
+            SkiaContext.draw(canvas -> {
+                Render2DUtil.save();
+                Render2DUtil.scale((float) mc.getWindow().getScaleFactor());
+                Vergence.EVENTS.onDraw2D();
+                Render2DUtil.restore();
+            });
+        }
     }
 
     @Inject(method = "renderCrosshair", at = @At("HEAD"), cancellable = true)

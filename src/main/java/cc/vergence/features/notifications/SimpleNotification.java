@@ -17,7 +17,7 @@ public class SimpleNotification extends Notification {
     }
 
     @Override
-    public void onDraw2D(DrawContext context, float tickDelta) {
+    public void onDraw2D() {
         double x = getX();
         double y = getY();
         double width = getWidth();
@@ -25,7 +25,6 @@ public class SimpleNotification extends Notification {
         double barHeight = Notify.INSTANCE.aliveTimeWidth.getValue();
         if (Notify.INSTANCE.rounded.getValue()) {
             Render2DUtil.drawRoundedRect(
-                    context.getMatrices(),
                     x,
                     y,
                     width,
@@ -35,7 +34,6 @@ public class SimpleNotification extends Notification {
             );
         } else {
             Render2DUtil.drawRect(
-                    context,
                     x,
                     y,
                     width,
@@ -51,7 +49,6 @@ public class SimpleNotification extends Notification {
                 ? x + width - barWidth
                 : x;
         Render2DUtil.drawRoundedRect(
-                context.getMatrices(),
                 barX,
                 y + height - barHeight,
                 barWidth,
@@ -60,15 +57,14 @@ public class SimpleNotification extends Notification {
                 Notify.INSTANCE.aliveTimeColor.getValue()
         );
         FontUtil.drawTextWithAlign(
-                context,
                 text,
                 x + 1,
                 y + 2,
                 x + width,
                 y + height,
-                Aligns.LEFT,
                 Notify.INSTANCE.textColor.getValue(),
-                FontSize.MEDIUM
+                FontSize.MEDIUM,
+                Aligns.LEFT
         );
     }
 }

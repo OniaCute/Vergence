@@ -37,6 +37,11 @@ public class AutoSprint extends Module {
             return ;
         }
 
+        if (AntiCheat.INSTANCE.isLegit()) {
+            mc.options.sprintKey.setPressed(true);
+            return ;
+        }
+
         mc.player.setSprinting(
                 mc.player.getHungerManager().getFoodLevel() > 6
                         && !mc.player.horizontalCollision

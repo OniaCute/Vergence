@@ -16,7 +16,7 @@ import java.awt.*;
 
 /**
  * &#064;author: Voury_, OniaCute
- * &#064;version: vergence_1_0_ui_gird
+ * &#064;version: vergence_1_1_ui_gird
  */
 public class ThemeComponent extends GuiComponent {
     private Theme theme;
@@ -44,7 +44,7 @@ public class ThemeComponent extends GuiComponent {
     }
 
     @Override
-    public void onDraw(DrawContext context, double mouseX, double mouseY, boolean clickLeft, boolean clickRight) {
+    public void onDraw(double mouseX, double mouseY, boolean clickLeft, boolean clickRight) {
         if (isHovered(mouseX, mouseY)) {
             if (clickLeft) {
                 Vergence.THEME.loadTheme(theme);
@@ -70,7 +70,6 @@ public class ThemeComponent extends GuiComponent {
         backgroundColorAnimation.reset(backgroundColorAnimation.getCurrent(), targetColor);
 
         Render2DUtil.drawRoundedRect(
-                context.getMatrices(),
                 getX(),
                 getY(),
                 getWidth(),
@@ -95,7 +94,6 @@ public class ThemeComponent extends GuiComponent {
 
         textColorAnimation.reset(textColorAnimation.getCurrent(), targetColor1);
         FontUtil.drawText(
-                context,
                 theme.getDisplayName() + " (" + theme.getName() + ")",
                 getX() + 3,
                 getY() + 2,
@@ -103,7 +101,6 @@ public class ThemeComponent extends GuiComponent {
                 FontSize.MEDIUM
         );
         FontUtil.drawText(
-                context,
                 theme.getDescription(),
                 getX() + 3,
                 getY() + FontUtil.getHeight(FontSize.MEDIUM) + 3,
@@ -127,15 +124,14 @@ public class ThemeComponent extends GuiComponent {
 
         authorsColorAnimation.reset(authorsColorAnimation.getCurrent(), targetColor2);
         FontUtil.drawTextWithAlign(
-                context,
                 String.join(", ", theme.getAuthors()),
                 getX(),
-                getY() + 3,
-                getX() + getWidth() - 3,
+                getY(),
+                getX() + getWidth(),
                 getY() + getHeight(),
-                Aligns.RIGHT_TOP,
                 targetColor2,
-                FontSize.SMALL
+                FontSize.SMALL,
+                Aligns.RIGHT_TOP
         );
     }
 }

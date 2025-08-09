@@ -7,6 +7,7 @@ import cc.vergence.features.enums.font.FontSize;
 import cc.vergence.features.enums.client.MouseButtons;
 import cc.vergence.features.managers.client.ConfigManager;
 import cc.vergence.features.managers.feature.ModuleManager;
+import cc.vergence.features.managers.other.MessageManager;
 import cc.vergence.features.options.Option;
 import cc.vergence.features.options.impl.*;
 import cc.vergence.features.screens.ClickGuiScreen;
@@ -54,7 +55,7 @@ import java.util.Comparator;
 
 /**
  * &#064;author: Voury_, OniaCute
- * &#064;version: vergence_1_0_ui_gird
+ * &#064;version: vergence_1_1_ui_gird
  */
 public class GuiManager implements Wrapper {
     public static Pages PAGE = Pages.Empty;
@@ -124,14 +125,17 @@ public class GuiManager implements Wrapper {
     }
 
     public void onRenderClickGui(DrawContext context, int mouseX, int mouseY, float partialTicks) {
+        MOUSE_X = mouseX;
+        MOUSE_Y = mouseY;
+    }
+
+    public static void onDraw2D() {
         if (!ClickGUI.INSTANCE.getStatus() || !(mc.currentScreen instanceof ClickGuiScreen)) {
             return ;
         }
-        MOUSE_X = mouseX;
-        MOUSE_Y = mouseY;
         if (isClickGuiInited) {
             updateClickGui();
-            drawClickGui(context, partialTicks);
+            drawClickGui();
         }
     }
 
@@ -260,10 +264,6 @@ public class GuiManager implements Wrapper {
         MAIN_PAGE_Y = Render2DUtil.getAlignPosition(0, 0, mc.getWindow().getScaledWidth(), mc.getWindow().getScaledHeight(), MAIN_PAGE_WIDTH, MAIN_PAGE_HEIGHT, Aligns.CENTER)[1];
         MAIN_PAGE_X += MAIN_PAGE_X_OFFSET;
         MAIN_PAGE_Y += MAIN_PAGE_Y_OFFSET;
-        MAIN_PAGE_X *= Render2DUtil.getScaleFactor();
-        MAIN_PAGE_Y *= Render2DUtil.getScaleFactor();
-        MAIN_PAGE_WIDTH *= Render2DUtil.getScaleFactor();
-        MAIN_PAGE_HEIGHT *= Render2DUtil.getScaleFactor();
         latestCategoryComponentPosition = new Pair<>(MAIN_PAGE_X, MAIN_PAGE_Y + 50);
 
         // Search
@@ -285,7 +285,7 @@ public class GuiManager implements Wrapper {
                     moduleComponent.setX(MAIN_PAGE_X + 111);
                     moduleComponent.setY(latestModuleComponentPosition.getB());
                     moduleComponent.setWidth((400 - 114));
-                    moduleComponent.setHeight(FontUtil.getHeight(FontSize.MEDIUM) + FontUtil.getHeight(FontSize.SMALL) + 2);
+                    moduleComponent.setHeight(FontUtil.getHeight(FontSize.MEDIUM) + FontUtil.getHeight(FontSize.SMALLEST) + 3 * 5);
                     latestModuleComponentPosition = new Pair<>(moduleComponent.getX(), moduleComponent.getY() + moduleComponent.getHeight() + 2);
 
                     if (((ModuleComponent) moduleComponent).isActuallySpread) {
@@ -537,28 +537,29 @@ public class GuiManager implements Wrapper {
         topbarComponents.add(SEARCH);
     }
 
-    public void drawClickGui(DrawContext context, float tickDelta) {
+    public static void drawClickGui() {
         double centerX = MAIN_PAGE_X + MAIN_PAGE_WIDTH / 2.0;
         double centerY = MAIN_PAGE_Y + MAIN_PAGE_HEIGHT / 2.0;
         float progress = (float) ENTRY_ANIMATION.getProgress();
-        MatrixStack matrices = context.getMatrices();
 
-        matrices.push();
+        if (ClickGUI.INSTANCE != null && ClickGUI.INSTANCE.blurBackground.getValue()) {
+            Render2DUtil.drawRoundedBlur(
+                    GuiManager.MAIN_PAGE_X,
+                    GuiManager.MAIN_PAGE_Y,
+                    GuiManager.MAIN_PAGE_WIDTH,
+                    GuiManager.MAIN_PAGE_HEIGHT,
+                    6
+            );
+        }
 
-        matrices.translate(centerX, centerY, 0);
-        matrices.scale(progress, progress, 1f);
-        matrices.translate(-centerX, -centerY, 0);
         Render2DUtil.pushDisplayArea(
-                context.getMatrices(),
                 (float) MAIN_PAGE_X,
                 (float) MAIN_PAGE_Y,
                 (float) (MAIN_PAGE_X + MAIN_PAGE_WIDTH),
-                (float) (MAIN_PAGE_Y + MAIN_PAGE_HEIGHT),
-                1d
+                (float) (MAIN_PAGE_Y + MAIN_PAGE_HEIGHT)
         );
 
         Render2DUtil.drawRoundedRect(
-                context.getMatrices(),
                 MAIN_PAGE_X,
                 MAIN_PAGE_Y,
                 MAIN_PAGE_WIDTH,
@@ -568,7 +569,6 @@ public class GuiManager implements Wrapper {
         );
 
         Render2DUtil.drawRoundedRect(
-                context.getMatrices(),
                 MAIN_PAGE_X + 106,
                 MAIN_PAGE_Y,
                 MAIN_PAGE_WIDTH - 105,
@@ -578,7 +578,6 @@ public class GuiManager implements Wrapper {
         );
 
         Render2DUtil.drawRect(
-                context,
                 MAIN_PAGE_X + 106,
                 MAIN_PAGE_Y,
                 2,
@@ -587,7 +586,6 @@ public class GuiManager implements Wrapper {
         );
 
         Render2DUtil.drawRect(
-                context,
                 MAIN_PAGE_X + 108,
                 MAIN_PAGE_Y + 30,
                 MAIN_PAGE_WIDTH - 108,
@@ -596,15 +594,14 @@ public class GuiManager implements Wrapper {
         );
 
         FontUtil.drawTextWithAlign(
-                context,
                 ClickGUI.INSTANCE.title.getValue(),
                 MAIN_PAGE_X,
                 MAIN_PAGE_Y,
                 MAIN_PAGE_X + 106,
                 MAIN_PAGE_Y + 50,
-                Aligns.CENTER,
                 Vergence.THEME.getTheme().getMainColor(),
                 FontSize.LARGEST,
+                Aligns.CENTER,
                 true
         );
 
@@ -630,10 +627,10 @@ public class GuiManager implements Wrapper {
             }
         }
 
-        handlePages(context); // pages
+        handlePages(); // pages
 
         for (GuiComponent component : topbarComponents) {
-            component.onDraw(context, MOUSE_X, MOUSE_Y, CLICKED_LEFT && inMainPageArea() && !hoverComponentDrawing && !isDragging, CLICKED_RIGHT && inMainPageArea() && !hoverComponentDrawing && !isDragging);
+            component.onDraw(MOUSE_X, MOUSE_Y, CLICKED_LEFT && inMainPageArea() && !hoverComponentDrawing && !isDragging, CLICKED_RIGHT && inMainPageArea() && !hoverComponentDrawing && !isDragging);
         }
 
         for (GuiComponent component : hoveredComponents) {
@@ -641,15 +638,11 @@ public class GuiManager implements Wrapper {
                 if (((EnumChoicesComponent) component.getParentComponent()).isActuallySpread && ((ModuleComponent) component.getParentComponent().getParentComponent().getParentComponent().getParentComponent()).isSpread()) {
                     hoveredDrawingComponent = component;
                     Render2DUtil.pushDisplayArea( // topbar cover
-                            context.getMatrices(),
                             (float) MAIN_PAGE_X,
                             (float) (GuiManager.MAIN_PAGE_Y + 33),
                             (float) (MAIN_PAGE_X + MAIN_PAGE_WIDTH),
-                            (float) (GuiManager.MAIN_PAGE_Y + GuiManager.MAIN_PAGE_HEIGHT),
-                            1d
-
-                    );
-                    component.onDraw(context, MOUSE_X, MOUSE_Y, CLICKED_LEFT && inMainPageArea() && notInTopBarChecking(), CLICKED_RIGHT && inMainPageArea() && notInTopBarChecking());
+                            (float) (GuiManager.MAIN_PAGE_Y + GuiManager.MAIN_PAGE_HEIGHT));
+                    component.onDraw(MOUSE_X, MOUSE_Y, CLICKED_LEFT && inMainPageArea() && notInTopBarChecking(), CLICKED_RIGHT && inMainPageArea() && notInTopBarChecking());
                     Render2DUtil.popDisplayArea();
                 }
             }
@@ -657,15 +650,12 @@ public class GuiManager implements Wrapper {
                 if (((MultipleChoicesComponent) component.getParentComponent()).isActuallySpread && ((ModuleComponent) component.getParentComponent().getParentComponent().getParentComponent().getParentComponent()).isSpread()) {
                     hoveredDrawingComponent = component;
                     Render2DUtil.pushDisplayArea( // topbar cover
-                            context.getMatrices(),
                             (float) MAIN_PAGE_X,
                             (float) (GuiManager.MAIN_PAGE_Y + 33),
                             (float) (MAIN_PAGE_X + MAIN_PAGE_WIDTH),
-                            (float) (GuiManager.MAIN_PAGE_Y + GuiManager.MAIN_PAGE_HEIGHT),
-                            1d
-
+                            (float) (GuiManager.MAIN_PAGE_Y + GuiManager.MAIN_PAGE_HEIGHT)
                     );
-                    component.onDraw(context, MOUSE_X, MOUSE_Y, CLICKED_LEFT && inMainPageArea() && notInTopBarChecking(), CLICKED_RIGHT && inMainPageArea() && notInTopBarChecking());
+                    component.onDraw(MOUSE_X, MOUSE_Y, CLICKED_LEFT && inMainPageArea() && notInTopBarChecking(), CLICKED_RIGHT && inMainPageArea() && notInTopBarChecking());
                     Render2DUtil.popDisplayArea();
                 }
             }
@@ -673,15 +663,12 @@ public class GuiManager implements Wrapper {
                 if (((BindChoicesComponent) component.getParentComponent()).isActuallySpread && ((ModuleComponent) component.getParentComponent().getParentComponent().getParentComponent().getParentComponent()).isSpread()) {
                     hoveredDrawingComponent = component;
                     Render2DUtil.pushDisplayArea( // topbar cover
-                            context.getMatrices(),
                             (float) MAIN_PAGE_X,
                             (float) (GuiManager.MAIN_PAGE_Y + 33),
                             (float) (MAIN_PAGE_X + MAIN_PAGE_WIDTH),
-                            (float) (GuiManager.MAIN_PAGE_Y + GuiManager.MAIN_PAGE_HEIGHT),
-                            1d
-
+                            (float) (GuiManager.MAIN_PAGE_Y + GuiManager.MAIN_PAGE_HEIGHT)
                     );
-                    component.onDraw(context, MOUSE_X, MOUSE_Y, CLICKED_LEFT && inMainPageArea() && notInTopBarChecking(), CLICKED_RIGHT && inMainPageArea() && notInTopBarChecking());
+                    component.onDraw(MOUSE_X, MOUSE_Y, CLICKED_LEFT && inMainPageArea() && notInTopBarChecking(), CLICKED_RIGHT && inMainPageArea() && notInTopBarChecking());
                     Render2DUtil.popDisplayArea();
                 }
             }
@@ -689,15 +676,12 @@ public class GuiManager implements Wrapper {
                 if (((ColorPreviewer) component.getParentComponent()).isSpread) {
                     hoveredDrawingComponent = component;
                     Render2DUtil.pushDisplayArea( // topbar cover
-                            context.getMatrices(),
                             (float) MAIN_PAGE_X,
                             (float) (GuiManager.MAIN_PAGE_Y + 33),
                             (float) (MAIN_PAGE_X + MAIN_PAGE_WIDTH),
-                            (float) (GuiManager.MAIN_PAGE_Y + GuiManager.MAIN_PAGE_HEIGHT),
-                            1d
-
+                            (float) (GuiManager.MAIN_PAGE_Y + GuiManager.MAIN_PAGE_HEIGHT)
                     );
-                    component.onDraw(context, MOUSE_X, MOUSE_Y, CLICKED_LEFT, CLICKED_RIGHT);
+                    component.onDraw(MOUSE_X, MOUSE_Y, CLICKED_LEFT, CLICKED_RIGHT);
                     Render2DUtil.popDisplayArea();
                 }
             }
@@ -718,8 +702,6 @@ public class GuiManager implements Wrapper {
                 lastMouseY = MOUSE_Y;
             }
         }
-
-        matrices.pop();
     }
 
     private static boolean inMainPageArea() {
@@ -730,103 +712,91 @@ public class GuiManager implements Wrapper {
         return !((MOUSE_X >= MAIN_PAGE_X + 106) && (MOUSE_X <= MAIN_PAGE_X + MAIN_PAGE_WIDTH) && (MOUSE_Y >= MAIN_PAGE_Y) && (MOUSE_Y <= MAIN_PAGE_Y + 37));
     }
 
-    private static void handlePages(DrawContext context) {
+    private static void handlePages() {
         for (GuiComponent component : categoryComponents) {
-            component.onDraw(context, MOUSE_X, MOUSE_Y, CLICKED_LEFT && inMainPageArea() && !hoverComponentDrawing && !isDragging && notInTopBarChecking(), CLICKED_RIGHT && inMainPageArea() && !hoverComponentDrawing && !isDragging && notInTopBarChecking());
+            component.onDraw(MOUSE_X, MOUSE_Y, CLICKED_LEFT && inMainPageArea() && !hoverComponentDrawing && !isDragging && notInTopBarChecking(), CLICKED_RIGHT && inMainPageArea() && !hoverComponentDrawing && !isDragging && notInTopBarChecking());
         }
         switch (PAGE) {
             case Search  -> {
                 for (GuiComponent component : searchModuleComponent) {
                     Render2DUtil.pushDisplayArea( // topbar cover
-                            context.getMatrices(),
                             (float) component.getX(),
                             (float) (GuiManager.MAIN_PAGE_Y + 33),
                             (float) (component.getX() + component.getWidth()),
-                            (float) (GuiManager.MAIN_PAGE_Y + GuiManager.MAIN_PAGE_HEIGHT),
-                            1d
-
+                            (float) (GuiManager.MAIN_PAGE_Y + GuiManager.MAIN_PAGE_HEIGHT)
                     );
-
-                    component.onDraw(context, MOUSE_X, MOUSE_Y, CLICKED_LEFT && inMainPageArea() && !hoverComponentDrawing && !isDragging && notInTopBarChecking(), CLICKED_RIGHT && inMainPageArea() && !hoverComponentDrawing && !isDragging && notInTopBarChecking());
+                    component.onDraw(MOUSE_X, MOUSE_Y, CLICKED_LEFT && inMainPageArea() && !hoverComponentDrawing && !isDragging && notInTopBarChecking(), CLICKED_RIGHT && inMainPageArea() && !hoverComponentDrawing && !isDragging && notInTopBarChecking());
 
                     Render2DUtil.popDisplayArea();
                 }
             }
             case Information -> {
-                drawInformationPage(context);
+                drawInformationPage();
             }
             case Themes -> {
-                drawThemesPage(context);
+                drawThemesPage();
             }
             case Configs -> {
-                drawConfigsPage(context);
+                drawConfigsPage();
             }
         }
     }
 
-    private static void drawThemesPage(DrawContext context) {
+    private static void drawThemesPage() {
         for (GuiComponent themeComponent : themeComponents) {
             Render2DUtil.pushDisplayArea( // topbar cover
-                    context.getMatrices(),
                     (float) themeComponent.getX(),
                     (float) (GuiManager.MAIN_PAGE_Y + 33),
                     (float) (themeComponent.getX() + themeComponent.getWidth()),
-                    (float) (GuiManager.MAIN_PAGE_Y + GuiManager.MAIN_PAGE_HEIGHT),
-                    1d
-
+                    (float) (GuiManager.MAIN_PAGE_Y + GuiManager.MAIN_PAGE_HEIGHT)
             );
 
-            themeComponent.onDraw(context, MOUSE_X, MOUSE_Y, CLICKED_LEFT && inMainPageArea() && !hoverComponentDrawing && !isDragging && notInTopBarChecking(), CLICKED_RIGHT && inMainPageArea() && !hoverComponentDrawing && !isDragging && notInTopBarChecking());
+            themeComponent.onDraw(MOUSE_X, MOUSE_Y, CLICKED_LEFT && inMainPageArea() && !hoverComponentDrawing && !isDragging && notInTopBarChecking(), CLICKED_RIGHT && inMainPageArea() && !hoverComponentDrawing && !isDragging && notInTopBarChecking());
 
             Render2DUtil.popDisplayArea();
         }
     }
 
-    private static void drawConfigsPage(DrawContext context) {
+    private static void drawConfigsPage() {
         for (GuiComponent configComponent : configComponents) {
             Render2DUtil.pushDisplayArea( // topbar cover
-                    context.getMatrices(),
                     (float) configComponent.getX(),
                     (float) (GuiManager.MAIN_PAGE_Y + 33),
                     (float) (configComponent.getX() + configComponent.getWidth()),
-                    (float) (GuiManager.MAIN_PAGE_Y + GuiManager.MAIN_PAGE_HEIGHT),
-                    1d
-
+                    (float) (GuiManager.MAIN_PAGE_Y + GuiManager.MAIN_PAGE_HEIGHT)
             );
 
-            configComponent.onDraw(context, MOUSE_X, MOUSE_Y, CLICKED_LEFT && inMainPageArea() && !hoverComponentDrawing && !isDragging && notInTopBarChecking(), CLICKED_RIGHT && inMainPageArea() && !hoverComponentDrawing && !isDragging && notInTopBarChecking());
+            configComponent.onDraw(MOUSE_X, MOUSE_Y, CLICKED_LEFT && inMainPageArea() && !hoverComponentDrawing && !isDragging && notInTopBarChecking(), CLICKED_RIGHT && inMainPageArea() && !hoverComponentDrawing && !isDragging && notInTopBarChecking());
 
             Render2DUtil.popDisplayArea();
         }
     }
 
-    private static void drawInformationPage(DrawContext context) {
+    private static void drawInformationPage() {
         double PAGE_X = MAIN_PAGE_X + 106;
         double PAGE_Y = MAIN_PAGE_Y + 30;
         double PAGE_WIDTH = MAIN_PAGE_WIDTH - 106;
         double PAGE_HEIGHT = MAIN_PAGE_HEIGHT - 30;
 
         FontUtil.drawTextWithAlign(
-                context,
                 Vergence.NAME + "  Client",
                 PAGE_X,
                 PAGE_Y,
                 PAGE_X + PAGE_WIDTH,
                 PAGE_Y + (PAGE_HEIGHT / 3) * 2,
-                Aligns.CENTER,
                 Vergence.THEME.getTheme().getMainColor(),
-                FontSize.LARGEST
+                FontSize.LARGEST,
+                Aligns.CENTER
         );
         FontUtil.drawTextWithAlign(
-                context,
                 Vergence.MOD_ID + " " + Vergence.VERSION,
                 PAGE_X,
                 PAGE_Y,
                 PAGE_X + PAGE_WIDTH,
                 PAGE_Y + (PAGE_HEIGHT / 3) * 2 + 6 + FontUtil.getHeight(FontSize.LARGEST),
-                Aligns.CENTER,
                 new Color(42, 42, 42, 231),
-                FontSize.SMALLEST
+                FontSize.SMALLEST,
+                Aligns.CENTER
         );
     }
 
@@ -874,7 +844,7 @@ public class GuiManager implements Wrapper {
             component.setX(MAIN_PAGE_X + 111);
             component.setY(latestThemeComponentPosition.getB());
             component.setWidth((400 - 114));
-            component.setHeight(FontUtil.getHeight(FontSize.MEDIUM) + FontUtil.getHeight(FontSize.SMALL) + 2);
+            component.setHeight(FontUtil.getHeight(FontSize.MEDIUM) + FontUtil.getHeight(FontSize.SMALLEST) + 3 * 5);
             latestThemeComponentPosition = new Pair<>(component.getX(), component.getY() + component.getHeight() + 2);
         }
     }
@@ -885,7 +855,7 @@ public class GuiManager implements Wrapper {
             component.setX(MAIN_PAGE_X + 111);
             component.setY(latestConfigComponentPosition.getB());
             component.setWidth((400 - 114));
-            component.setHeight(FontUtil.getHeight(FontSize.MEDIUM) + FontUtil.getHeight(FontSize.SMALL) + 2);
+            component.setHeight(FontUtil.getHeight(FontSize.MEDIUM) + FontUtil.getHeight(FontSize.SMALLEST) + 3 * 5);
             latestConfigComponentPosition = new Pair<>(component.getX(), component.getY() + component.getHeight() + 2);
         }
     }
@@ -907,7 +877,7 @@ public class GuiManager implements Wrapper {
                 moduleComponent.setX(MAIN_PAGE_X + 111);
                 moduleComponent.setY(latestModuleComponentPosition.getB());
                 moduleComponent.setWidth((400 - 114));
-                moduleComponent.setHeight(FontUtil.getHeight(FontSize.MEDIUM) + FontUtil.getHeight(FontSize.SMALL) + 2);
+                moduleComponent.setHeight(FontUtil.getHeight(FontSize.MEDIUM) + FontUtil.getHeight(FontSize.SMALLEST) + 3 * 5);
                 latestModuleComponentPosition = new Pair<>(moduleComponent.getX(), moduleComponent.getY() + moduleComponent.getHeight() + 2);
 
                 if (((ModuleComponent) moduleComponent).isActuallySpread) {
@@ -961,7 +931,7 @@ public class GuiManager implements Wrapper {
                 }
             }
             moduleAreaComponent.setHeight(moduleAreaComponent.getHeight() + 3);
-            moduleComponent.setHeight(moduleComponent.getHeight() + moduleAreaComponent.getHeight() + 2);
+            moduleComponent.setHeight(FontUtil.getHeight(FontSize.MEDIUM) + FontUtil.getHeight(FontSize.SMALLEST) + 3 * 5);
             latestModuleComponentPosition = new Pair<>(moduleComponent.getX(), moduleComponent.getY() + moduleComponent.getHeight() + 2);
         }
     }
@@ -1192,8 +1162,37 @@ public class GuiManager implements Wrapper {
         GuiManager.scrollAnimation.reset();
         GuiManager.scrollAnimation.to(0.00);
         GuiManager.mouseScrolledOffset = 0;
-        GuiManager.latestModuleComponentPosition = new Pair<>(GuiManager.MAIN_PAGE_X, GuiManager.MAIN_PAGE_Y + 34 * Render2DUtil.getScaleFactor() + (GuiManager.mouseScrolledOffset * 8));
-        GuiManager.latestThemeComponentPosition = new Pair<>(GuiManager.MAIN_PAGE_X, GuiManager.MAIN_PAGE_Y + 34 * Render2DUtil.getScaleFactor() + (GuiManager.mouseScrolledOffset * 8));
-        GuiManager.latestConfigComponentPosition = new Pair<>(GuiManager.MAIN_PAGE_X, GuiManager.MAIN_PAGE_Y + 34 * Render2DUtil.getScaleFactor() + (GuiManager.mouseScrolledOffset * 8));
+        GuiManager.latestModuleComponentPosition = new Pair<>(GuiManager.MAIN_PAGE_X, GuiManager.MAIN_PAGE_Y + 34 + (GuiManager.mouseScrolledOffset * 8));
+        GuiManager.latestThemeComponentPosition = new Pair<>(GuiManager.MAIN_PAGE_X, GuiManager.MAIN_PAGE_Y + 34 + (GuiManager.mouseScrolledOffset * 8));
+        GuiManager.latestConfigComponentPosition = new Pair<>(GuiManager.MAIN_PAGE_X, GuiManager.MAIN_PAGE_Y + 34 + (GuiManager.mouseScrolledOffset * 8));
+    }
+
+    public static void debugDraw() {
+        Render2DUtil.drawRoundedRect(
+                5,
+                5,
+                50,
+                50,
+                10,
+                new Color(255, 255, 255, 61)
+        );
+        Render2DUtil.drawRoundedBlur(
+                5,
+                5,
+                50,
+                50,
+                10
+        );
+        FontUtil.drawTextWithAlign(
+                "CENTER",
+                5,
+                5,
+                55,
+                55,
+                new Color(0, 0, 0),
+                FontSize.MEDIUM,
+                Aligns.CENTER
+        );
+        MessageManager.newMessage("UI", "width: " + FontUtil.getWidth("CENTER", FontSize.MEDIUM) + " | height: " + FontUtil.getHeight(FontSize.MEDIUM), -2);
     }
 }

@@ -6,6 +6,7 @@ import cc.vergence.features.managers.ui.GuiManager;
 import cc.vergence.modules.client.ClickGUI;
 import cc.vergence.ui.GuiComponent;
 import cc.vergence.ui.clickgui.subcomponent.input.*;
+import cc.vergence.util.render.utils.Render2DUtil;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
@@ -94,9 +95,6 @@ public class ClickGuiScreen extends Screen {
 
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float partialTicks) {
-        if (ClickGUI.INSTANCE != null && ClickGUI.INSTANCE.blurBackground.getValue()) {
-            applyBlur();
-        }
         Vergence.EVENTS.onRenderClickGui(context, mouseX, mouseY, partialTicks);
         Vergence.EVENTS.onMouseMoveInClickGuiScreen(context, mouseX, mouseY);
     }

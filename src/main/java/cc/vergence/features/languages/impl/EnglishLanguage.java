@@ -250,7 +250,9 @@ public class EnglishLanguage extends Language {
         languageBase.put("Module.Modules.BetterChat.Options.ColorOption.PrefixColor.name", "Prefix Color");
         languageBase.put("Module.Modules.BetterChat.Options.ColorOption.PrefixColor.description", "Color of the chat prefix");
         languageBase.put("Module.Modules.BetterChat.Options.BooleanOption.KeepHistory.name", "Keep History");
-        languageBase.put("Module.Modules.BetterChat.Options.BooleanOption.KeepHistory.description", "keep all history of the chat hud");
+        languageBase.put("Module.Modules.BetterChat.Options.BooleanOption.KeepHistory.description", "Keep all history of the chat hud");
+        languageBase.put("Module.Modules.BetterChat.Options.BooleanOption.InCommand.name", "In Commands");
+        languageBase.put("Module.Modules.BetterChat.Options.BooleanOption.InCommand.description", "Allow prefix and suffix in commands");
         languageBase.put("Module.Modules.BetterChat.Options.TextOption.ChatPrefix.name", "Chat Prefix");
         languageBase.put("Module.Modules.BetterChat.Options.TextOption.ChatPrefix.description", "Text placed before every chat message");
         languageBase.put("Module.Modules.BetterChat.Options.TextOption.ChatSuffix.name", "Chat Suffix");

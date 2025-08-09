@@ -12,7 +12,7 @@ import net.minecraft.client.gui.DrawContext;
 
 /**
  * &#064;author: Voury_, OniaCute
- * &#064;version: vergence_1_0_ui_gird
+ * &#064;version: vergence_1_1_ui_gird
  */
 public class TopbarButton extends GuiComponent {
     private Pages targetPage;
@@ -24,7 +24,7 @@ public class TopbarButton extends GuiComponent {
     }
 
     @Override
-    public void onDraw(DrawContext context, double mouseX, double mouseY, boolean clickLeft, boolean clickRight) {
+    public void onDraw(double mouseX, double mouseY, boolean clickLeft, boolean clickRight) {
         if (clickLeft && isHovered(mouseX, mouseY)) {
             GuiManager.SEARCH.searchText = "";
             GuiManager.SEARCH.setListening(false);
@@ -35,7 +35,6 @@ public class TopbarButton extends GuiComponent {
         }
 
         Render2DUtil.drawRoundedRect(
-                context.getMatrices(),
                 getX(),
                 getY(),
                 getWidth(),
@@ -45,15 +44,14 @@ public class TopbarButton extends GuiComponent {
         );
 
         FontUtil.drawIconWithAlign(
-                context,
                 iconString,
                 getX(),
                 getY() + 4.5,
                 getX() + getWidth(),
                 getY() + getHeight(),
-                Aligns.CENTER,
                 isHovered(mouseX, mouseY) ? Vergence.THEME.getTheme().getTopbarHoveredButtonIconColor(): Vergence.THEME.getTheme().getTopbarButtonIconColor(),
-                FontSize.MEDIUM
+                FontSize.MEDIUM,
+                Aligns.CENTER
         );
     }
 }

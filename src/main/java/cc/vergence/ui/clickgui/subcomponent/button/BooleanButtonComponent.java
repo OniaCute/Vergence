@@ -11,7 +11,7 @@ import oshi.util.tuples.Pair;
 
 /**
  * &#064;author: Voury_, OniaCute
- * &#064;version: vergence_1_0_ui_gird
+ * &#064;version: vergence_1_1_ui_gird
  */
 public class BooleanButtonComponent extends GuiComponent {
     private BooleanOption option;
@@ -21,7 +21,7 @@ public class BooleanButtonComponent extends GuiComponent {
     }
 
     @Override
-    public void onDraw(DrawContext context, double mouseX, double mouseY, boolean clickLeft, boolean clickRight) {
+    public void onDraw(double mouseX, double mouseY, boolean clickLeft, boolean clickRight) {
         if (!GuiManager.hoverComponentDrawing && isHovered(mouseX, mouseY)) {
             GuiManager.setCurrentComponent(this);
             if (clickLeft) {
@@ -34,48 +34,50 @@ public class BooleanButtonComponent extends GuiComponent {
             GuiManager.setCurrentComponent(null);
         }
 
-        Pair<Double, Double> rectPosition = Render2DUtil.drawRoundedRectWithAlign(
-                context.getMatrices(),
+        Pair<Double, Double> rectPosition = Render2DUtil.getAlignPositionAsPair(
                 this.getX(),
                 this.getY(),
                 this.getX() + this.getWidth(),
                 this.getY() + this.getHeight(),
-                this.getWidth() - 6 * Render2DUtil.getScaleFactor(),
+                this.getWidth() - 6,
                 this.getHeight() / 2,
-                4 * Render2DUtil.getScaleFactor(),
-                isHovered(mouseX, mouseY) ? (this.option.getValue() ? Vergence.THEME.getTheme().getButtonEnabledBackgroundColor() : Vergence.THEME.getTheme().getButtonHoveredBackgroundColor()) : (this.option.getValue() ? Vergence.THEME.getTheme().getButtonEnabledBackgroundColor() : Vergence.THEME.getTheme().getButtonBackgroundColor()),
                 Aligns.CENTER
+        );
+
+        Render2DUtil.drawRoundedRect(
+            rectPosition.getA(),
+            rectPosition.getB(),
+            this.getWidth() - 6,
+            this.getHeight() / 2,
+            4,
+            isHovered(mouseX, mouseY) ? (this.option.getValue() ? Vergence.THEME.getTheme().getButtonEnabledBackgroundColor() : Vergence.THEME.getTheme().getButtonHoveredBackgroundColor()) : (this.option.getValue() ? Vergence.THEME.getTheme().getButtonEnabledBackgroundColor() : Vergence.THEME.getTheme().getButtonBackgroundColor())
         );
 
         if (option.getValue()) {
             Render2DUtil.drawCircleWithInlineWithAlign(
-                    context.getMatrices(),
+                    rectPosition.getA(),
+                    rectPosition.getB(),
+                    rectPosition.getA() + this.getWidth(),
+                    rectPosition.getB() + this.getHeight(),
+                    4,
+                    1,
+                    1,
                     Vergence.THEME.getTheme().getButtonEnabledCircleColor(),
                     Vergence.THEME.getTheme().getButtonEnabledInlineColor(),
-                    rectPosition.getA() + 3 * Render2DUtil.getScaleFactor(),
-                    rectPosition.getB(),
-                    rectPosition.getA() + this.getWidth() - 9 * Render2DUtil.getScaleFactor(),
-                    rectPosition.getB() + this.getHeight() / 2,
-                    4 * Render2DUtil.getScaleFactor(),
-                    1 * Render2DUtil.getScaleFactor(),
-                    1 * Render2DUtil.getScaleFactor(),
-                    360,
                     Aligns.RIGHT
             );
         } else {
             Render2DUtil.drawCircleWithInlineWithAlign(
-                    context.getMatrices(),
-                    isHovered(mouseX, mouseY) ? Vergence.THEME.getTheme().getButtonHoveredCircleColor(): Vergence.THEME.getTheme().getButtonCircleColor(),
-                    isHovered(mouseX, mouseY) ? Vergence.THEME.getTheme().getButtonHoveredInlineColor(): Vergence.THEME.getTheme().getButtonInlineColor(),
-                    rectPosition.getA() + 3 * Render2DUtil.getScaleFactor(),
-                    rectPosition.getB(),
-                    rectPosition.getA() + this.getWidth() - 9 * Render2DUtil.getScaleFactor(),
-                    rectPosition.getB() + this.getHeight() / 2,
-                    4 * Render2DUtil.getScaleFactor(),
-                    1 * Render2DUtil.getScaleFactor(),
-                    1 * Render2DUtil.getScaleFactor(),
-                    360,
-                    Aligns.LEFT
+                rectPosition.getA(),
+                rectPosition.getB(),
+                rectPosition.getA() + this.getWidth(),
+                rectPosition.getB() + this.getHeight(),
+                4,
+                1,
+                1,
+                isHovered(mouseX, mouseY) ? Vergence.THEME.getTheme().getButtonHoveredCircleColor(): Vergence.THEME.getTheme().getButtonCircleColor(),
+                isHovered(mouseX, mouseY) ? Vergence.THEME.getTheme().getButtonHoveredInlineColor(): Vergence.THEME.getTheme().getButtonInlineColor(),
+                Aligns.RIGHT
             );
         }
     }

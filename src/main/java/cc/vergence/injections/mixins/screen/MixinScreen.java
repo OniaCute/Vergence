@@ -19,7 +19,7 @@ public class MixinScreen implements Wrapper {
     @Inject(method = "renderBackground", at = @At("HEAD"))
     private void renderBackground(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
         if (MainMenu.INSTANCE != null && MainMenu.INSTANCE.getStatus() && MainMenu.INSTANCE.background.getValue()) {
-            Render2DUtil.drawRect(context, 0, 0, width, height, MainMenu.INSTANCE.backgroundColor.getValue());
+            Render2DUtil.drawRect(0, 0, width, height, MainMenu.INSTANCE.backgroundColor.getValue());
         }
     }
 }

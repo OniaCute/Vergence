@@ -18,7 +18,9 @@ import net.minecraft.client.gl.ShaderProgramKeys;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.Window;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.util.math.MathHelper;
 import org.joml.Matrix4f;
+import org.joml.Vector4f;
 import oshi.util.tuples.Pair;
 
 import java.awt.*;
@@ -219,8 +221,24 @@ public class Render2DUtil implements Wrapper {
     }
 
     public static void pushDisplayArea(Rectangle r) {
-        clipStack.push(r);
-        clip(r.x, r.y, r.x1 - r.x, r.y1 - r.y);
+        float x = r.x;
+        float y = r.y;
+        float endX = r.x1;
+        float endY = r.y1;
+
+        if (clipStack.isEmpty()) {
+            clipStack.push(new Rectangle(x, y, endX, endY));
+            getCanvas().clipRect(Rect.makeLTRB(x, y, endX, endY), ClipMode.INTERSECT);
+        } else {
+            Rectangle lastClip = clipStack.peek();
+            float nsx = MathHelper.clamp(x, lastClip.x, lastClip.x1);
+            float nsy = MathHelper.clamp(y, lastClip.y, lastClip.y1);
+            float nstx = MathHelper.clamp(endX, nsx, lastClip.x1);
+            float nsty = MathHelper.clamp(endY, nsy, lastClip.y1);
+
+            clipStack.push(new Rectangle(nsx, nsy, nstx, nsty));
+            getCanvas().clipRect(Rect.makeLTRB(nsx, nsy, nstx, nsty), ClipMode.INTERSECT);
+        }
     }
 
     public static void pushDisplayArea(double x, double y, double ex, double ey) {
@@ -231,14 +249,19 @@ public class Render2DUtil implements Wrapper {
         clipStack.pop();
         if (!clipStack.isEmpty()) {
             Rectangle r = clipStack.peek();
-            clip(r.x, r.y, r.x1 - r.x, r.y1 - r.y);
+            getCanvas().clipRect(Rect.makeLTRB(r.x, r.y, r.x1, r.y1), ClipMode.INTERSECT);
+        } else {
+            getCanvas().restore();
         }
     }
 
-    public static void insertDisplayArea(float x, float y, float ex, float ey, Runnable run) {
-        clip(x, y, ex - x, ey - y);
-        run.run();
-        popDisplayArea();
+    public static void insertDisplayArea(float x, float y, float x1, float y1, Runnable renderAction) {
+        pushDisplayArea(new Rectangle(x, y, x1, y1));
+        try {
+            renderAction.run();
+        } finally {
+            popDisplayArea();
+        }
     }
 
     public static void verticalGradient(float x, float y, float w, float h, Color top, Color bottom) {

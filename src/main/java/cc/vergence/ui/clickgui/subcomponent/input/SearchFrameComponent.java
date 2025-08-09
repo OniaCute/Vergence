@@ -70,12 +70,12 @@ public class SearchFrameComponent extends GuiComponent implements Wrapper {
 
     @Override
     public void onDraw(double mouseX, double mouseY, boolean clickLeft, boolean clickRight) {
-        Render2DUtil.pushDisplayArea(
-                (float) getX(),
-                (float) getY(),
-                (float) (getX() + getWidth()),
-                (float) (getY() + getHeight())
-        );
+//        Render2DUtil.pushDisplayArea(
+//                (float) getX(),
+//                (float) getY(),
+//                (float) (getX() + getWidth()),
+//                (float) (getY() + getHeight())
+//        );
 
         if (isListening()) {
             GuiManager.currentCategory = null;
@@ -130,6 +130,6 @@ public class SearchFrameComponent extends GuiComponent implements Wrapper {
                 Aligns.LEFT
         );
 
-        Render2DUtil.popDisplayArea();
+//        Render2DUtil.popDisplayArea();
     }
 }

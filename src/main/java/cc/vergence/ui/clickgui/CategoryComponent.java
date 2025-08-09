@@ -110,15 +110,15 @@ public class CategoryComponent extends GuiComponent {
         );
         if (!(GuiManager.currentCategory == null) && GuiManager.currentCategory.equals(this.category) && GuiManager.PAGE.equals(Pages.Modules)) {
             for (GuiComponent component : this.subComponents) {
-                Render2DUtil.pushDisplayArea(
-                        (float) component.getX(),
-                        (float) (GuiManager.MAIN_PAGE_Y + 33),
-                        (float) (component.getX() + component.getWidth()),
-                        (float) (GuiManager.MAIN_PAGE_Y + GuiManager.MAIN_PAGE_HEIGHT)
-                );
+//                Render2DUtil.pushDisplayArea(
+//                        (float) component.getX(),
+//                        (float) (GuiManager.MAIN_PAGE_Y + 33),
+//                        (float) (component.getX() + component.getWidth()),
+//                        (float) (GuiManager.MAIN_PAGE_Y + GuiManager.MAIN_PAGE_HEIGHT)
+//                );
                 component.onDraw(mouseX, mouseY, clickLeft, clickRight);
 
-                Render2DUtil.popDisplayArea();
+//                Render2DUtil.popDisplayArea();
             }
         }
     }

@@ -637,52 +637,53 @@ public class GuiManager implements Wrapper {
             if (component instanceof HoverEnumChoicesComponent) {
                 if (((EnumChoicesComponent) component.getParentComponent()).isActuallySpread && ((ModuleComponent) component.getParentComponent().getParentComponent().getParentComponent().getParentComponent()).isSpread()) {
                     hoveredDrawingComponent = component;
-                    Render2DUtil.pushDisplayArea( // topbar cover
-                            (float) MAIN_PAGE_X,
-                            (float) (GuiManager.MAIN_PAGE_Y + 33),
-                            (float) (MAIN_PAGE_X + MAIN_PAGE_WIDTH),
-                            (float) (GuiManager.MAIN_PAGE_Y + GuiManager.MAIN_PAGE_HEIGHT));
+//                    Render2DUtil.pushDisplayArea( // topbar cover
+//                            (float) MAIN_PAGE_X,
+//                            (float) (GuiManager.MAIN_PAGE_Y + 33),
+//                            (float) (MAIN_PAGE_X + MAIN_PAGE_WIDTH),
+//                            (float) (GuiManager.MAIN_PAGE_Y + GuiManager.MAIN_PAGE_HEIGHT)
+//                    );
                     component.onDraw(MOUSE_X, MOUSE_Y, CLICKED_LEFT && inMainPageArea() && notInTopBarChecking(), CLICKED_RIGHT && inMainPageArea() && notInTopBarChecking());
-                    Render2DUtil.popDisplayArea();
+//                    Render2DUtil.popDisplayArea();
                 }
             }
             else if (component instanceof HoverMultipleChoicesComponent) {
                 if (((MultipleChoicesComponent) component.getParentComponent()).isActuallySpread && ((ModuleComponent) component.getParentComponent().getParentComponent().getParentComponent().getParentComponent()).isSpread()) {
                     hoveredDrawingComponent = component;
-                    Render2DUtil.pushDisplayArea( // topbar cover
-                            (float) MAIN_PAGE_X,
-                            (float) (GuiManager.MAIN_PAGE_Y + 33),
-                            (float) (MAIN_PAGE_X + MAIN_PAGE_WIDTH),
-                            (float) (GuiManager.MAIN_PAGE_Y + GuiManager.MAIN_PAGE_HEIGHT)
-                    );
+                    //                    Render2DUtil.pushDisplayArea( // topbar cover
+//                            (float) MAIN_PAGE_X,
+//                            (float) (GuiManager.MAIN_PAGE_Y + 33),
+//                            (float) (MAIN_PAGE_X + MAIN_PAGE_WIDTH),
+//                            (float) (GuiManager.MAIN_PAGE_Y + GuiManager.MAIN_PAGE_HEIGHT)
+//                    );
                     component.onDraw(MOUSE_X, MOUSE_Y, CLICKED_LEFT && inMainPageArea() && notInTopBarChecking(), CLICKED_RIGHT && inMainPageArea() && notInTopBarChecking());
-                    Render2DUtil.popDisplayArea();
+//                    Render2DUtil.popDisplayArea();
                 }
             }
             else if (component instanceof HoverBindChoicesComponent) {
                 if (((BindChoicesComponent) component.getParentComponent()).isActuallySpread && ((ModuleComponent) component.getParentComponent().getParentComponent().getParentComponent().getParentComponent()).isSpread()) {
                     hoveredDrawingComponent = component;
-                    Render2DUtil.pushDisplayArea( // topbar cover
-                            (float) MAIN_PAGE_X,
-                            (float) (GuiManager.MAIN_PAGE_Y + 33),
-                            (float) (MAIN_PAGE_X + MAIN_PAGE_WIDTH),
-                            (float) (GuiManager.MAIN_PAGE_Y + GuiManager.MAIN_PAGE_HEIGHT)
-                    );
+                    //                    Render2DUtil.pushDisplayArea( // topbar cover
+//                            (float) MAIN_PAGE_X,
+//                            (float) (GuiManager.MAIN_PAGE_Y + 33),
+//                            (float) (MAIN_PAGE_X + MAIN_PAGE_WIDTH),
+//                            (float) (GuiManager.MAIN_PAGE_Y + GuiManager.MAIN_PAGE_HEIGHT)
+//                    );
                     component.onDraw(MOUSE_X, MOUSE_Y, CLICKED_LEFT && inMainPageArea() && notInTopBarChecking(), CLICKED_RIGHT && inMainPageArea() && notInTopBarChecking());
-                    Render2DUtil.popDisplayArea();
+//                    Render2DUtil.popDisplayArea();
                 }
             }
             else if (component instanceof ColorPalette) {
                 if (((ColorPreviewer) component.getParentComponent()).isSpread) {
                     hoveredDrawingComponent = component;
-                    Render2DUtil.pushDisplayArea( // topbar cover
-                            (float) MAIN_PAGE_X,
-                            (float) (GuiManager.MAIN_PAGE_Y + 33),
-                            (float) (MAIN_PAGE_X + MAIN_PAGE_WIDTH),
-                            (float) (GuiManager.MAIN_PAGE_Y + GuiManager.MAIN_PAGE_HEIGHT)
-                    );
+                    //                    Render2DUtil.pushDisplayArea( // topbar cover
+//                            (float) MAIN_PAGE_X,
+//                            (float) (GuiManager.MAIN_PAGE_Y + 33),
+//                            (float) (MAIN_PAGE_X + MAIN_PAGE_WIDTH),
+//                            (float) (GuiManager.MAIN_PAGE_Y + GuiManager.MAIN_PAGE_HEIGHT)
+//                    );
                     component.onDraw(MOUSE_X, MOUSE_Y, CLICKED_LEFT, CLICKED_RIGHT);
-                    Render2DUtil.popDisplayArea();
+//                    Render2DUtil.popDisplayArea();
                 }
             }
         }
@@ -744,31 +745,31 @@ public class GuiManager implements Wrapper {
 
     private static void drawThemesPage() {
         for (GuiComponent themeComponent : themeComponents) {
-            Render2DUtil.pushDisplayArea( // topbar cover
-                    (float) themeComponent.getX(),
-                    (float) (GuiManager.MAIN_PAGE_Y + 33),
-                    (float) (themeComponent.getX() + themeComponent.getWidth()),
-                    (float) (GuiManager.MAIN_PAGE_Y + GuiManager.MAIN_PAGE_HEIGHT)
-            );
+//            Render2DUtil.pushDisplayArea( // topbar cover
+//                    (float) themeComponent.getX(),
+//                    (float) (GuiManager.MAIN_PAGE_Y + 33),
+//                    (float) (themeComponent.getX() + themeComponent.getWidth()),
+//                    (float) (GuiManager.MAIN_PAGE_Y + GuiManager.MAIN_PAGE_HEIGHT)
+//            );
 
             themeComponent.onDraw(MOUSE_X, MOUSE_Y, CLICKED_LEFT && inMainPageArea() && !hoverComponentDrawing && !isDragging && notInTopBarChecking(), CLICKED_RIGHT && inMainPageArea() && !hoverComponentDrawing && !isDragging && notInTopBarChecking());
 
-            Render2DUtil.popDisplayArea();
+//            Render2DUtil.popDisplayArea();
         }
     }
 
     private static void drawConfigsPage() {
         for (GuiComponent configComponent : configComponents) {
-            Render2DUtil.pushDisplayArea( // topbar cover
-                    (float) configComponent.getX(),
-                    (float) (GuiManager.MAIN_PAGE_Y + 33),
-                    (float) (configComponent.getX() + configComponent.getWidth()),
-                    (float) (GuiManager.MAIN_PAGE_Y + GuiManager.MAIN_PAGE_HEIGHT)
-            );
+//            Render2DUtil.pushDisplayArea( // topbar cover
+//                    (float) configComponent.getX(),
+//                    (float) (GuiManager.MAIN_PAGE_Y + 33),
+//                    (float) (configComponent.getX() + configComponent.getWidth()),
+//                    (float) (GuiManager.MAIN_PAGE_Y + GuiManager.MAIN_PAGE_HEIGHT)
+//            );
 
             configComponent.onDraw(MOUSE_X, MOUSE_Y, CLICKED_LEFT && inMainPageArea() && !hoverComponentDrawing && !isDragging && notInTopBarChecking(), CLICKED_RIGHT && inMainPageArea() && !hoverComponentDrawing && !isDragging && notInTopBarChecking());
 
-            Render2DUtil.popDisplayArea();
+//            Render2DUtil.popDisplayArea();
         }
     }
 
@@ -1168,6 +1169,13 @@ public class GuiManager implements Wrapper {
     }
 
     public static void debugDraw() {
+        Render2DUtil.drawRoundedBlur(
+                5,
+                5,
+                50,
+                50,
+                10
+        );
         Render2DUtil.drawRoundedRect(
                 5,
                 5,
@@ -1175,13 +1183,6 @@ public class GuiManager implements Wrapper {
                 50,
                 10,
                 new Color(255, 255, 255, 61)
-        );
-        Render2DUtil.drawRoundedBlur(
-                5,
-                5,
-                50,
-                50,
-                10
         );
         FontUtil.drawTextWithAlign(
                 "CENTER",
@@ -1193,6 +1194,5 @@ public class GuiManager implements Wrapper {
                 FontSize.MEDIUM,
                 Aligns.CENTER
         );
-        MessageManager.newMessage("UI", "width: " + FontUtil.getWidth("CENTER", FontSize.MEDIUM) + " | height: " + FontUtil.getHeight(FontSize.MEDIUM), -2);
     }
 }

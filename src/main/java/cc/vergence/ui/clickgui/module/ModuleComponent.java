@@ -146,18 +146,18 @@ public class ModuleComponent extends GuiComponent {
         animationProgress = animation.getProgress();
 
         if (isSpread() || (animationProgress > 0.001f && animationProgress != 1f)) {
-            Render2DUtil.pushDisplayArea(
-                    (float) getX(),
-                    (float) getY(),
-                    (float) (getX() + getWidth()),
-                    (float) (getY() + getHeight())
-            );
+//            Render2DUtil.pushDisplayArea(
+//                    (float) getX(),
+//                    (float) getY(),
+//                    (float) (getX() + getWidth()),
+//                    (float) (getY() + getHeight())
+//            );
 
             for (GuiComponent component : getSubComponents()) {
                 component.onDraw(mouseX, mouseY, clickLeft, clickRight);
             }
 
-            Render2DUtil.popDisplayArea();
+//            Render2DUtil.popDisplayArea();
         }
         if (!isSpread && !animation.isRunning() && animationProgress < 0.001f) {
             isActuallySpread = false;

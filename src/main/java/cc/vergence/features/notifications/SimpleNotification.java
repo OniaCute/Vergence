@@ -2,8 +2,10 @@ package cc.vergence.features.notifications;
 
 import cc.vergence.features.enums.other.Aligns;
 import cc.vergence.features.enums.font.FontSize;
+import cc.vergence.modules.client.ClickGUI;
 import cc.vergence.modules.client.Notify;
 import cc.vergence.util.font.FontUtil;
+import cc.vergence.util.render.utils.NewRender2DUtil;
 import cc.vergence.util.render.utils.Render2DUtil;
 import net.minecraft.client.gui.DrawContext;
 
@@ -17,7 +19,29 @@ public class SimpleNotification extends Notification {
     }
 
     @Override
-    public void onDraw2D() {
+    public void onDrawSkia(DrawContext context, float tickDelta) {
+        if (Notify.INSTANCE.blur.getValue()) {
+            if (Notify.INSTANCE.rounded.getValue()) {
+                NewRender2DUtil.drawRoundedBlur(
+                        x,
+                        y,
+                        width,
+                        height,
+                        Notify.INSTANCE.radius.getValue()
+                );
+            } else {
+                NewRender2DUtil.drawBlur(
+                        x,
+                        y,
+                        width,
+                        height
+                );
+            }
+        }
+    }
+
+    @Override
+    public void onDraw2D(DrawContext context, float tickDelta) {
         double x = getX();
         double y = getY();
         double width = getWidth();
@@ -25,6 +49,7 @@ public class SimpleNotification extends Notification {
         double barHeight = Notify.INSTANCE.aliveTimeWidth.getValue();
         if (Notify.INSTANCE.rounded.getValue()) {
             Render2DUtil.drawRoundedRect(
+                    context.getMatrices(),
                     x,
                     y,
                     width,
@@ -34,6 +59,7 @@ public class SimpleNotification extends Notification {
             );
         } else {
             Render2DUtil.drawRect(
+                    context,
                     x,
                     y,
                     width,
@@ -49,6 +75,7 @@ public class SimpleNotification extends Notification {
                 ? x + width - barWidth
                 : x;
         Render2DUtil.drawRoundedRect(
+                context.getMatrices(),
                 barX,
                 y + height - barHeight,
                 barWidth,
@@ -57,14 +84,15 @@ public class SimpleNotification extends Notification {
                 Notify.INSTANCE.aliveTimeColor.getValue()
         );
         FontUtil.drawTextWithAlign(
+                context,
                 text,
                 x + 1,
                 y + 2,
                 x + width,
                 y + height,
+                Aligns.LEFT,
                 Notify.INSTANCE.textColor.getValue(),
-                FontSize.MEDIUM,
-                Aligns.LEFT
+                FontSize.MEDIUM
         );
     }
 }

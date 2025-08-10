@@ -28,6 +28,7 @@ public class Notify extends Module {
     public Option<Double> notificationAliveTime = addOption(new DoubleOption("NotificationAliveTime", 40, 1200, 300));
     public Option<Double> animationTime = addOption(new DoubleOption("AnimationTime", 400, 1000, 600));
     public Option<Double> aliveTimeRadius = addOption(new DoubleOption("AliveTimeRadius", 0, 3, 1));
+    public Option<Boolean> blur = addOption(new BooleanOption("Blur", false));
     public Option<Color> backgroundColor = addOption(new ColorOption("BackgroundColor", new Color(241, 241, 241, 240)));
     public Option<Color> titleColor = addOption(new ColorOption("TitleColor", new Color(209, 46, 255)));
     public Option<Color> textColor = addOption(new ColorOption("TextColor", new Color(26, 26, 26)));

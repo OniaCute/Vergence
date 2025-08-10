@@ -14,7 +14,6 @@ import cc.vergence.features.managers.ui.GuiManager;
 import cc.vergence.features.managers.ui.HudManager;
 import cc.vergence.features.managers.ui.NotifyManager;
 import cc.vergence.util.other.Console;
-import cc.vergence.util.player.InventoryUtil;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.metadata.ModMetadata;
@@ -46,6 +45,7 @@ public class Vergence implements ModInitializer {
     public static TextManager TEXT;
     public static ThemeManager THEME;
     public static MessageManager MESSAGE;
+    public static InfoManager INFO;
     public static FriendManager FRIEND;
     public static EnemyManager ENEMY;
     public static EventManager EVENTS;
@@ -109,11 +109,14 @@ public class Vergence implements ModInitializer {
         TEXT = new TextManager();
         CONSOLE.logInfo("Text Manager was loaded");
 
+        THEME = new ThemeManager();
+        CONSOLE.logInfo("Theme Manager was loaded");
+
         MESSAGE = new MessageManager();
         CONSOLE.logInfo("Message Manager was loaded");
 
-        THEME = new ThemeManager();
-        CONSOLE.logInfo("Theme Manager was loaded");
+        INFO = new InfoManager();
+        CONSOLE.logInfo("Info Manager was loaded");
 
         FRIEND = new FriendManager();
         CONSOLE.logInfo("Friend Manager was loaded");

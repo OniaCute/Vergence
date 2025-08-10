@@ -134,6 +134,16 @@ public class ModuleManager {
         registerModule(new HitParticles());
         registerModule(new HandShader());
         registerModule(new HitboxESP());
+        registerModule(new ChatFilter());
+        registerModule(new FastParty());
+        registerModule(new SpeedIndicator());
+        registerModule(new FPSIndicator());
+        registerModule(new MemoryIndicator());
+        registerModule(new PingIndicator());
+        registerModule(new ComboIndicator());
+        registerModule(new PositionIndicator());
+        registerModule(new CPSIndicator());
+        registerModule(new KeyStrokes());
 
         // special module
         registerModule(new SafeMode());

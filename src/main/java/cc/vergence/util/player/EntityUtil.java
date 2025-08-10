@@ -144,7 +144,7 @@ public class EntityUtil implements Wrapper {
     public static double getSpeed(Entity entity, SpeedUnit unit) {
         double speed = Math.sqrt(MathHelper.square(Math.abs(entity.getX() - entity.lastRenderX)) + MathHelper.square(Math.abs(entity.getZ() - entity.lastRenderZ)));
 
-        if (unit == SpeedUnit.KILOMETERS) {
+        if (unit == SpeedUnit.Kilometers) {
             return (speed * 3.6 * Vergence.TIMER.get()) * 20;
         } else {
             return speed / 0.05 * Vergence.TIMER.get();

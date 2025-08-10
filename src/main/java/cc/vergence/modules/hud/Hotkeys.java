@@ -19,7 +19,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class Hotkeys extends Module {
-    private ArrayList<Module> hotkeyModeles = new ArrayList<>();
+    private final ArrayList<Module> hotkeyModeles = new ArrayList<>();
     private boolean lastMouseStatus = false;
     private double lastMouseX = -1;
     private double lastMouseY = -1;
@@ -58,7 +58,7 @@ public class Hotkeys extends Module {
     }
 
     @Override
-    public void onDraw2D() {
+    public void onDraw2D(DrawContext context, float tickDelta) {
         hotkeyModeles.clear();
         FontSize size = ((FontSize) fontSize.getValue());
 
@@ -76,125 +76,108 @@ public class Hotkeys extends Module {
         double totalHeight = FontUtil.getHeight(size);
 
         for (Module module : hotkeyModeles) {
-            totalHeight += padding.getValue();
             maxWidth = Math.max(maxWidth, (padding.getValue() + FontUtil.getWidth(size, module.getDisplayName()) + FontUtil.getWidth(size, module.getBind().getBindChar()) + 8));
+        }
+
+        for (Module module : hotkeyModeles) {
+            totalHeight += padding.getValue();
+            boolean isEnabled = module.getStatus();
+            Color bgColor = isEnabled ? backgroundEnabledColor.getValue() : backgroundColor.getValue();
+            Color textColorValue = isEnabled ? textEnabledColor.getValue() : textColor.getValue();
+
             if (rounded.getValue()) {
-                Pair<Double, Double> pos = Render2DUtil.getAlignPositionAsPair(
+                Pair<Double, Double> pos = Render2DUtil.drawRoundedRectWithAlign(
+                        context.getMatrices(),
                         getX(),
                         getY() + totalHeight,
                         getX() + maxWidth,
                         getY() + totalHeight + FontUtil.getHeight(size),
                         FontUtil.getWidth(size, module.getDisplayName()) + 4,
                         FontUtil.getHeight(size),
+                        radius.getValue(),
+                        bgColor,
                         Aligns.LEFT
                 );
-
-                Render2DUtil.drawRoundedRect(
-                        pos.getA(),
-                        pos.getB(),
-                        FontUtil.getWidth(size, module.getDisplayName()) + 4,
-                        FontUtil.getHeight(size),
-                        radius.getValue(),
-                        module.getStatus() ? backgroundEnabledColor.getValue() : backgroundColor.getValue()
-                );
-
                 FontUtil.drawTextWithAlign(
+                        context,
                         module.getDisplayName(),
                         pos.getA() + 2,
                         pos.getB() + 1,
                         pos.getA() + FontUtil.getWidth(size, module.getDisplayName()),
                         pos.getB() + FontUtil.getHeight(size),
-                        module.getStatus() ? textEnabledColor.getValue() : textColor.getValue(),
-                        size,
-                        Aligns.CENTER
+                        Aligns.CENTER,
+                        textColorValue,
+                        size
                 );
 
-                Pair<Double, Double> pos1 = Render2DUtil.getAlignPositionAsPair(
+                Pair<Double, Double> pos1 = Render2DUtil.drawRoundedRectWithAlign(
+                        context.getMatrices(),
                         getX(),
                         getY() + totalHeight,
                         getX() + maxWidth,
                         getY() + totalHeight + FontUtil.getHeight(size),
                         FontUtil.getWidth(size, module.getBind().getBindChar()) + 4,
                         FontUtil.getHeight(size),
+                        radius.getValue(),
+                        bgColor,
                         Aligns.RIGHT
                 );
-
-                Render2DUtil.drawRoundedRect(
-                        pos1.getA(),
-                        pos1.getB(),
-                        FontUtil.getWidth(size, module.getBind().getBindChar()) + 4,
-                        FontUtil.getHeight(size),
-                        radius.getValue(),
-                        module.getStatus() ? backgroundEnabledColor.getValue() : backgroundColor.getValue()
-                );
-
                 FontUtil.drawTextWithAlign(
+                        context,
                         module.getBind().getBindChar(),
                         pos1.getA() + 2,
                         pos1.getB() + 1,
                         pos1.getA() + FontUtil.getWidth(size, module.getBind().getBindChar()) + 2,
                         pos1.getB() + FontUtil.getHeight(size),
-                        module.getStatus() ? textEnabledColor.getValue() : textColor.getValue(),
-                        size,
-                        Aligns.CENTER
+                        Aligns.CENTER,
+                        textColorValue,
+                        size
                 );
             } else {
-                Pair<Double, Double> pos = Render2DUtil.getAlignPositionAsPair(
+                Pair<Double, Double> pos = Render2DUtil.drawRectWithAlign(
+                        context,
                         getX(),
                         getY() + totalHeight,
                         getX() + maxWidth,
                         getY() + totalHeight + FontUtil.getHeight(size),
                         FontUtil.getWidth(size, module.getDisplayName()) + 4,
                         FontUtil.getHeight(size),
+                        bgColor,
                         Aligns.LEFT
                 );
-
-                Render2DUtil.drawRect(
-                        pos.getA(),
-                        pos.getB(),
-                        FontUtil.getWidth(size, module.getDisplayName()) + 4,
-                        FontUtil.getHeight(size),
-                        module.getStatus() ? backgroundEnabledColor.getValue() : backgroundColor.getValue()
-                );
-
                 FontUtil.drawTextWithAlign(
+                        context,
                         module.getDisplayName(),
                         pos.getA() + 2,
                         pos.getB() + 1,
                         pos.getA() + FontUtil.getWidth(size, module.getDisplayName()),
                         pos.getB() + FontUtil.getHeight(size),
-                        module.getStatus() ? textEnabledColor.getValue() : textColor.getValue(),
-                        size,
-                        Aligns.CENTER
+                        Aligns.CENTER,
+                        textColorValue,
+                        size
                 );
 
-                Pair<Double, Double> pos1 = Render2DUtil.getAlignPositionAsPair(
+                Pair<Double, Double> pos1 = Render2DUtil.drawRectWithAlign(
+                        context,
                         getX(),
                         getY() + totalHeight,
                         getX() + maxWidth,
                         getY() + totalHeight + FontUtil.getHeight(size),
                         FontUtil.getWidth(size, module.getBind().getBindChar()) + 4,
                         FontUtil.getHeight(size),
+                        bgColor,
                         Aligns.RIGHT
                 );
-
-                Render2DUtil.drawRect(
-                        pos1.getA(),
-                        pos1.getB(),
-                        FontUtil.getWidth(size, module.getBind().getBindChar()) + 4,
-                        FontUtil.getHeight(size),
-                        module.getStatus() ? backgroundEnabledColor.getValue() : backgroundColor.getValue()
-                );
-
                 FontUtil.drawTextWithAlign(
+                        context,
                         module.getBind().getBindChar(),
                         pos1.getA() + 2,
                         pos1.getB() + 1,
                         pos1.getA() + FontUtil.getWidth(size, module.getBind().getBindChar()) + 2,
                         pos1.getB() + FontUtil.getHeight(size),
-                        module.getStatus() ? textEnabledColor.getValue() : textColor.getValue(),
-                        size,
-                        Aligns.CENTER
+                        Aligns.CENTER,
+                        textColorValue,
+                        size
                 );
             }
 
@@ -203,6 +186,7 @@ public class Hotkeys extends Module {
 
         if (rounded.getValue()) {
             Render2DUtil.drawRoundedRect(
+                    context.getMatrices(),
                     getX(),
                     getY(),
                     maxWidth,
@@ -211,17 +195,19 @@ public class Hotkeys extends Module {
                     backgroundTopColor.getValue()
             );
             FontUtil.drawTextWithAlign(
+                    context,
                     getDisplayName(),
                     getX(),
                     getY() + 1,
                     getX() + maxWidth,
                     getY() + FontUtil.getHeight(size),
+                    Aligns.CENTER,
                     textTopColor.getValue(),
-                    size,
-                    Aligns.CENTER
+                    size
             );
         } else {
             Render2DUtil.drawRect(
+                    context,
                     getX(),
                     getY(),
                     maxWidth,
@@ -229,14 +215,15 @@ public class Hotkeys extends Module {
                     backgroundTopColor.getValue()
             );
             FontUtil.drawTextWithAlign(
+                    context,
                     getDisplayName(),
                     getX(),
                     getY() + 1,
                     getX() + maxWidth,
                     getY() + FontUtil.getHeight(size),
+                    Aligns.CENTER,
                     textTopColor.getValue(),
-                    size,
-                    Aligns.CENTER
+                    size
             );
         }
 

@@ -21,6 +21,7 @@ public class TextOption extends Option<String> implements Wrapper {
     public TextOption(String name, String defaultValue, int sizeLimit) {
         super(name, "", defaultValue, v -> true);
         this.sizeLimit = sizeLimit;
+
     }
     public TextOption(String name, String defaultValue, Predicate<?> invisibility) {
         super(name, "", defaultValue, invisibility);
@@ -57,7 +58,20 @@ public class TextOption extends Option<String> implements Wrapper {
                     .replaceAll("\\{player}", mc.player.getName().getString())
                     .replaceAll("\\{hp}", String.valueOf((int) mc.player.getHealth()))
                     .replaceAll("\\{max_hp}", String.valueOf((int) mc.player.getMaxHealth()))
-                    .replaceAll("\\{armor}", String.valueOf((int) mc.player.getArmor()));
+                    .replaceAll("\\{armor}", String.valueOf((int) mc.player.getArmor()))
+                    .replaceAll("\\{speed}", String.format("%.2f", Vergence.INFO.getSpeedPerS()))
+                    .replaceAll("\\{speed_km}", String.format("%.2f", Vergence.INFO.getSpeed()))
+                    .replaceAll("\\{fps}", String.valueOf(Vergence.INFO.getCurrentFPS()))
+                    .replaceAll("\\{memory}", String.valueOf(Vergence.INFO.getSpentMemory()))
+                    .replaceAll("\\{memory_max}", String.valueOf(Vergence.INFO.getMaxMemory()))
+                    .replaceAll("\\{ping}", String.valueOf(Vergence.INFO.getPing()))
+                    .replaceAll("\\{combo}", String.valueOf(Vergence.INFO.getCombo()))
+                    .replaceAll("\\{x}", String.format("%.2f", mc.player.getPos().x))
+                    .replaceAll("\\{y}", String.format("%.2f", mc.player.getPos().y))
+                    .replaceAll("\\{z}", String.format("%.2f", mc.player.getPos().z))
+                    .replaceAll("\\{cps}", String.valueOf(Vergence.INFO.getLeftClicks()))
+                    .replaceAll("\\{right_cps}", String.valueOf(Vergence.INFO.getRightClicks()));
+
         }
         if (mc.world != null) {
             Dimensions dim = WorldUtil.getDimension();

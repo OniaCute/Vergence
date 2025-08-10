@@ -111,5 +111,7 @@ public abstract class Notification {
         return targetY;
     }
 
-    public abstract void onDraw2D();
+    public abstract void onDraw2D(DrawContext context, float tickDelta);
+
+    public abstract void onDrawSkia(DrawContext context, float tickDelta);
 }

@@ -6,14 +6,12 @@ import cc.vergence.features.enums.font.FontSize;
 import cc.vergence.features.enums.client.MouseButtons;
 import cc.vergence.features.managers.ui.HudManager;
 import cc.vergence.features.options.Option;
-import cc.vergence.features.options.impl.BooleanOption;
-import cc.vergence.features.options.impl.ColorOption;
-import cc.vergence.features.options.impl.DoubleOption;
-import cc.vergence.features.options.impl.TextOption;
+import cc.vergence.features.options.impl.*;
 import cc.vergence.features.screens.HudEditorScreen;
 import cc.vergence.modules.Module;
 import cc.vergence.modules.misc.NameProtect;
 import cc.vergence.util.font.FontUtil;
+import cc.vergence.util.render.utils.NewRender2DUtil;
 import cc.vergence.util.render.utils.Render2DUtil;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
@@ -38,6 +36,7 @@ public class Watermark extends Module {
 
     public Option<Boolean> customTitle = addOption(new BooleanOption("CustomTitle"));
     public Option<String> title = addOption(new TextOption("Title", "{full_name} {version}", v -> customTitle.getValue()));
+    public Option<Boolean> blur = addOption(new BooleanOption("Blur", true));
     public Option<Boolean> outline = addOption(new BooleanOption("Outline"));
     public Option<Double> outlineWidth = addOption(new DoubleOption("OutlineWidth", 1, 3, 1, v -> outline.getValue()));
     public Option<Boolean> rounded = addOption(new BooleanOption("Rounded"));
@@ -65,7 +64,35 @@ public class Watermark extends Module {
     }
 
     @Override
-    public void onDraw2D() {
+    public void onDrawSkia(DrawContext context, float tickDelta) {
+        if (!blur.getValue()) {
+            return;
+        }
+
+        if (split.getValue()) {
+            // Split
+        } else {
+            if (rounded.getValue()) {
+                NewRender2DUtil.drawRoundedBlur(
+                        getX(),
+                        getY(),
+                        getWidth(),
+                        getHeight(),
+                        radius.getValue()
+                );
+            } else {
+                NewRender2DUtil.drawBlur(
+                        getX(),
+                        getY(),
+                        getWidth(),
+                        getHeight()
+                );
+            }
+        }
+    }
+
+    @Override
+    public void onDraw2D(DrawContext context, float tickDelta) {
         String separator = split.getValue() ? "  " : " | ";
         ArrayList<String> parts = new ArrayList<>();
         parts.add(customTitle.getValue() ? title.getValue() : "Vergence");
@@ -74,7 +101,7 @@ public class Watermark extends Module {
             parts.add(timeString);
         }
         if (includedFps.getValue()) {
-            parts.add(mc.getCurrentFps() + " FPS");
+            parts.add(Vergence.INFO.getCurrentFPS() + " FPS");
         }
         if (includedUser.getValue()) {
             parts.add(mc.player != null && NameProtect.INSTANCE != null ? (NameProtect.INSTANCE.getStatus() ? NameProtect.INSTANCE.nickname.getValue() : mc.player.getName().getString()) : "Unknown");
@@ -105,10 +132,11 @@ public class Watermark extends Module {
         }
 
         if (split.getValue()) {
-            //
+            // split
         } else {
             if (rounded.getValue()) {
                 Render2DUtil.drawRoundedRectWithOutline(
+                        context.getMatrices(),
                         this.getX(),
                         this.getY(),
                         this.getWidth(),
@@ -120,6 +148,7 @@ public class Watermark extends Module {
                 );
             } else {
                 Render2DUtil.drawRectWithOutline(
+                        context,
                         this.getX(),
                         this.getY(),
                         this.getWidth(),
@@ -131,14 +160,15 @@ public class Watermark extends Module {
             }
 
             FontUtil.drawTextWithAlign(
+                    context,
                     displayString,
                     this.getX(),
                     this.getY() + 2,
                     this.getX() + this.getWidth(),
                     this.getY() + this.getHeight(),
+                    Aligns.CENTER,
                     textColor.getValue(),
-                    FontSize.SMALL,
-                    Aligns.CENTER
+                    FontSize.SMALL
             );
         }
     }

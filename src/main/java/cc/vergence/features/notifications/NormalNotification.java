@@ -2,8 +2,10 @@ package cc.vergence.features.notifications;
 
 import cc.vergence.features.enums.other.Aligns;
 import cc.vergence.features.enums.font.FontSize;
+import cc.vergence.modules.client.ClickGUI;
 import cc.vergence.modules.client.Notify;
 import cc.vergence.util.font.FontUtil;
+import cc.vergence.util.render.utils.NewRender2DUtil;
 import cc.vergence.util.render.utils.Render2DUtil;
 import net.minecraft.client.gui.DrawContext;
 
@@ -32,7 +34,29 @@ public class NormalNotification extends Notification {
     }
 
     @Override
-    public void onDraw2D() {
+    public void onDrawSkia(DrawContext context, float tickDelta) {
+        if (Notify.INSTANCE.blur.getValue()) {
+            if (Notify.INSTANCE.rounded.getValue()) {
+                NewRender2DUtil.drawRoundedBlur(
+                        x,
+                        y,
+                        width,
+                        height,
+                        Notify.INSTANCE.radius.getValue()
+                );
+            } else {
+                NewRender2DUtil.drawBlur(
+                        x,
+                        y,
+                        width,
+                        height
+                );
+            }
+        }
+    }
+
+    @Override
+    public void onDraw2D(DrawContext context, float tickDelta) {
         double x = getX();
         double y = getY();
         double width = getWidth();
@@ -40,6 +64,7 @@ public class NormalNotification extends Notification {
         double barHeight = Notify.INSTANCE.aliveTimeWidth.getValue();
         if (Notify.INSTANCE.rounded.getValue()) {
             Render2DUtil.drawRoundedRect(
+                    context.getMatrices(),
                     x,
                     y,
                     width,
@@ -49,6 +74,7 @@ public class NormalNotification extends Notification {
             );
         } else {
             Render2DUtil.drawRect(
+                    context,
                     x,
                     y,
                     width,
@@ -58,26 +84,28 @@ public class NormalNotification extends Notification {
         }
 
         FontUtil.drawTextWithAlign(
+                context,
                 text,
                 x + 2,
                 y - 4,
                 x + width,
                 y + height,
+                Aligns.LEFT,
                 Notify.INSTANCE.titleColor.getValue(),
-                FontSize.MEDIUM,
-                Aligns.LEFT
+                FontSize.MEDIUM
         );
 
         double titleHeight = FontUtil.getHeight(FontSize.MEDIUM);
         FontUtil.drawTextWithAlign(
+                context,
                 description,
                 x + 2,
                 y + titleHeight + 1,
                 x + width,
                 y + height,
+                Aligns.LEFT,
                 Notify.INSTANCE.textColor.getValue(),
-                FontSize.SMALL,
-                Aligns.LEFT
+                FontSize.SMALL
         );
 
         double progress = aliveTime / fullAliveTime;
@@ -86,6 +114,7 @@ public class NormalNotification extends Notification {
         boolean alignRight = Notify.INSTANCE.align.getValue().equals(Notify.Aligns.Right);
         double barX = alignRight ? x + width - barWidth : x;
         Render2DUtil.drawRoundedRect(
+                context.getMatrices(),
                 barX,
                 y + height - barHeight,
                 barWidth,

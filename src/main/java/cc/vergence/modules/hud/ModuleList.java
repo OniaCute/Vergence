@@ -11,11 +11,13 @@ import cc.vergence.features.screens.HudEditorScreen;
 import cc.vergence.modules.Module;
 import cc.vergence.util.animations.SimpleAnimation;
 import cc.vergence.util.font.FontUtil;
+import cc.vergence.util.render.utils.NewRender2DUtil;
 import cc.vergence.util.render.utils.Render2DUtil;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -27,6 +29,7 @@ public class ModuleList extends Module {
     private double lastMouseY = -1;
 
     private final ConcurrentHashMap<Module, SimpleAnimation> simpleAnimations = new ConcurrentHashMap<>();
+    private final ArrayList<Module> modulesToDraw = new ArrayList<>();
 
     public ModuleList() {
         super("ModuleList", Category.HUD);
@@ -38,6 +41,7 @@ public class ModuleList extends Module {
 
     public Option<Enum<?>> align = addOption(new EnumOption("Align", Aligns.RIGHT_TOP));
     public Option<Enum<?>> fontSize = addOption(new EnumOption("FontSize", FontSize.SMALL));
+    public Option<Boolean> blur = addOption(new BooleanOption("Blur", true));
     public Option<Boolean> drawDetails = addOption(new BooleanOption("Details", true));
     public Option<Color> detailsColor = addOption(new ColorOption("DetailsColor", new Color(21, 21, 21, 232), v -> drawDetails.getValue()));
     public Option<Double> padding = addOption(new DoubleOption("Padding", -2, 6, 2).setUnit("px"));
@@ -68,7 +72,77 @@ public class ModuleList extends Module {
     }
 
     @Override
-    public void onDraw2D() {
+    public void onDrawSkia(DrawContext context, float tickDelta) {
+        if (!blur.getValue()) {
+            return ;
+        }
+
+        Aligns aligns = (Aligns) align.getValue();
+        FontSize size = (FontSize) fontSize.getValue();
+        double pad = padding.getValue();
+        boolean animEnabled = applyAnimation.getValue();
+
+        double lineHeight = FontUtil.getHeight(size) + pad;
+        double baseX = getX();
+        double baseY = getY();
+
+        double maxWidth = modulesToDraw.stream()
+                .mapToDouble(m -> FontUtil.getWidth(size, buildModuleText(m)) * simpleAnimations.get(m).get())
+                .max().orElse(0);
+
+        double y = baseY;
+
+        for (Module module : modulesToDraw) {
+            double alpha = 0;
+            if (simpleAnimations.get(module) == null) {
+                alpha = 1;
+            } else {
+                alpha = simpleAnimations.get(module).get();
+            }
+            if (alpha < 0.01) continue;
+
+            String display = buildModuleText(module);
+            double fullWidth = FontUtil.getWidth(size, display);
+            double animWidth = fullWidth * alpha;
+
+            double drawX = switch (aligns) {
+                case RIGHT, RIGHT_TOP, RIGHT_BOTTOM -> baseX + maxWidth - animWidth;
+                case CENTER, TOP, BOTTOM -> baseX + (maxWidth - animWidth) / 2;
+                default -> baseX;
+            };
+
+            double bgX = drawX - 1;
+            double bgY = y;
+            double bgWidth = animWidth + 2;
+            double bgHeight = FontUtil.getHeight(size);
+            if (background.getValue()) {
+                if (rounded.getValue()) {
+                    NewRender2DUtil.drawRoundedBlur(bgX, bgY, bgWidth, bgHeight, radius.getValue() * alpha);
+                } else {
+                    NewRender2DUtil.drawBlur(bgX, bgY, bgWidth, bgHeight);
+                }
+            }
+
+            if (rect.getValue()) {
+                double rectX = switch (aligns) {
+                    case RIGHT, RIGHT_TOP, RIGHT_BOTTOM -> drawX + animWidth + pad;
+                    default -> drawX - pad - rectWidth.getValue();
+                };
+                if (roundedRect.getValue()) {
+                    NewRender2DUtil.drawRoundedBlur(rectX, y, rectWidth.getValue(), FontUtil.getHeight(size), radiusRect.getValue());
+                } else {
+                    NewRender2DUtil.drawBlur(rectX, y, rectWidth.getValue(), FontUtil.getHeight(size));
+                }
+            }
+
+            y += lineHeight * (animEnabled ? alpha : 1);
+        }
+    }
+
+    @Override
+    public void onDraw2D(DrawContext context, float tickDelta) {
+        modulesToDraw.clear();
+
         Aligns aligns = (Aligns) align.getValue();
         FontSize size = (FontSize) fontSize.getValue();
         double pad = padding.getValue();
@@ -88,7 +162,7 @@ public class ModuleList extends Module {
             }
         }
 
-        List<Module> modulesToDraw = allModules.stream()
+        modulesToDraw.addAll(allModules.stream()
                 .filter(m -> simpleAnimations.get(m).get() > 0.001)
                 .sorted((a, b) -> {
                     double wa = FontUtil.getWidth(size, buildModuleText(a));
@@ -96,7 +170,7 @@ public class ModuleList extends Module {
                     boolean bottom = aligns.name().contains("BOTTOM");
                     return bottom ? Double.compare(wa, wb) : Double.compare(wb, wa);
                 })
-                .toList();
+                .toList());
 
         double lineHeight = FontUtil.getHeight(size) + pad;
         double baseX = getX();
@@ -134,9 +208,9 @@ public class ModuleList extends Module {
             if (background.getValue()) {
                 Color bg = alphaColor(backgroundColor.getValue(), alpha);
                 if (rounded.getValue()) {
-                    Render2DUtil.drawRoundedRect(bgX, bgY, bgWidth, bgHeight, radius.getValue() * alpha, bg);
+                    Render2DUtil.drawRoundedRect(context.getMatrices(), bgX, bgY, bgWidth, bgHeight, radius.getValue() * alpha, bg);
                 } else {
-                    Render2DUtil.drawRect(bgX, bgY, bgWidth, bgHeight, bg);
+                    Render2DUtil.drawRect(context, bgX, bgY, bgWidth, bgHeight, bg);
                 }
             }
 
@@ -148,16 +222,16 @@ public class ModuleList extends Module {
 
                 Color animatedRectColor = alphaColor(rectColor.getValue(), alpha);
                 if (roundedRect.getValue()) {
-                    Render2DUtil.drawRoundedRect(rectX, y, rectWidth.getValue(), FontUtil.getHeight(size), radiusRect.getValue(), animatedRectColor);
+                    Render2DUtil.drawRoundedRect(context.getMatrices(), rectX, y, rectWidth.getValue(), FontUtil.getHeight(size), radiusRect.getValue(), animatedRectColor);
                 } else {
-                    Render2DUtil.drawRect(rectX, y, rectWidth.getValue(), FontUtil.getHeight(size), animatedRectColor);
+                    Render2DUtil.drawRect(context, rectX, y, rectWidth.getValue(), FontUtil.getHeight(size), animatedRectColor);
                 }
             }
 
-            FontUtil.drawText(module.getDisplayName(), drawX, drawY, animatedTextColor, size);
+            FontUtil.drawText(context, module.getDisplayName(), drawX, drawY, animatedTextColor, size);
             if (drawDetails.getValue() && !module.getDetails().isEmpty()) {
                 double moduleNameWidth = FontUtil.getWidth(size, module.getDisplayName());
-                FontUtil.drawText(" [" + module.getDetails() + "]", drawX + moduleNameWidth, drawY, animatedDetailsColor, size);
+                FontUtil.drawText(context, " [" + module.getDetails() + "]", drawX + moduleNameWidth, drawY, animatedDetailsColor, size);
             }
 
             y += lineHeight * (animEnabled ? alpha : 1);

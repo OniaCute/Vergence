@@ -2,8 +2,6 @@ package cc.vergence.features.managers.client;
 
 import cc.vergence.Vergence;
 import cc.vergence.features.enums.client.MouseButtons;
-import cc.vergence.features.enums.font.FontSize;
-import cc.vergence.features.enums.other.Aligns;
 import cc.vergence.features.event.eventbus.EventHandler;
 import cc.vergence.features.event.events.*;
 import cc.vergence.features.managers.other.MessageManager;
@@ -14,7 +12,6 @@ import cc.vergence.features.options.Option;
 import cc.vergence.features.options.impl.BindOption;
 import cc.vergence.features.screens.ClickGuiScreen;
 import cc.vergence.modules.Module;
-import cc.vergence.util.font.FontUtil;
 import cc.vergence.util.interfaces.Wrapper;
 import cc.vergence.util.render.utils.Render2DUtil;
 import net.minecraft.block.Block;
@@ -427,6 +424,13 @@ public class EventManager implements Wrapper {
     }
 
     public void onMouseActive(int button, int action) {
+        if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT && action == 1) {
+            Vergence.INFO.onLeftClick();
+        }
+        else if (button == GLFW.GLFW_MOUSE_BUTTON_RIGHT && action == 1) {
+            Vergence.INFO.onRightClick();
+        }
+
         int bindCode = -100 - button;
         boolean shiftPressed = InputUtil.isKeyPressed(mc.getWindow().getHandle(), GLFW.GLFW_KEY_LEFT_SHIFT) || InputUtil.isKeyPressed(mc.getWindow().getHandle(), GLFW.GLFW_KEY_RIGHT_SHIFT);
         for (Module module : ModuleManager.modules) {
@@ -537,6 +541,7 @@ public class EventManager implements Wrapper {
 
 
     public void onTick() {
+        Vergence.INFO.onTick();
         for (Module module : ModuleManager.modules) {
             module.onTickAlways();
             if (module.getStatus()) {
@@ -555,15 +560,24 @@ public class EventManager implements Wrapper {
         NotifyManager.onTick();
     }
 
-    public void onDraw2D() {
+    public void onDraw2D(DrawContext context, float tickDelta) {
+        Vergence.INFO.onDraw2D();
         for (Module module : ModuleManager.modules) {
             if (module.getStatus()) {
-                module.onDraw2D();
+                module.onDraw2D(context, tickDelta);
             }
         }
-        GuiManager.onDraw2D();
-        NotifyManager.onDraw2D();
-        GuiManager.debugDraw();
+        NotifyManager.onDraw2D(context, tickDelta);
+    }
+
+    public void onDrawSkia(DrawContext context, float tickDelta) {
+        for (Module module : ModuleManager.modules) {
+            if (module.getStatus()) {
+                module.onDrawSkia(context, tickDelta);
+            }
+        }
+        NotifyManager.onDrawSkia(context, tickDelta);
+        GuiManager.onDrawSkia(context, tickDelta);
     }
 
     public void onDraw3D(MatrixStack matrixStack,  float tickDelta) {
@@ -607,6 +621,17 @@ public class EventManager implements Wrapper {
             module.onUpdateVelocityAlways(event, movement, speed);
             if (module.getStatus()) {
                 module.onUpdateVelocity(event, movement, speed);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onReceivedMessage(ReceiveMessageEvent event) {
+        String message = event.message;
+        for (Module module : ModuleManager.modules) {
+            module.onReceivedMessageAlways(event, message);
+            if (module.getStatus()) {
+                module.onReceivedMessage(event, message);
             }
         }
     }

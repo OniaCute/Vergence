@@ -6,7 +6,7 @@ import cc.vergence.features.managers.ui.GuiManager;
 import cc.vergence.modules.client.ClickGUI;
 import cc.vergence.ui.GuiComponent;
 import cc.vergence.ui.clickgui.subcomponent.input.*;
-import cc.vergence.util.render.utils.Render2DUtil;
+import cc.vergence.util.render.utils.NewRender2DUtil;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;

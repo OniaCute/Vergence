@@ -20,6 +20,18 @@ public class Placeholder extends Module {
     public Option<String> placeholder_player_HP = addOption(new TextOption("Placeholder_HP", "Blank").setEditable(false));
     public Option<String> placeholder_player_max_HP = addOption(new TextOption("Placeholder_Max_HP", "Blank").setEditable(false));
     public Option<String> placeholder_player_armor = addOption(new TextOption("Placeholder_Armor", "Blank").setEditable(false));
+    public Option<String> placeholder_player_speed = addOption(new TextOption("Placeholder_Speed", "Blank").setEditable(false));
+    public Option<String> placeholder_player_speed_km = addOption(new TextOption("Placeholder_Speeds_Km", "Blank").setEditable(false));
+    public Option<String> placeholder_player_fps = addOption(new TextOption("Placeholder_Fps", "0").setEditable(false));
+    public Option<String> placeholder_player_memory = addOption(new TextOption("Placeholder_Memory", "0").setEditable(false));
+    public Option<String> placeholder_player_memory_max = addOption(new TextOption("Placeholder_Memory_Max", "0").setEditable(false));
+    public Option<String> placeholder_player_ping = addOption(new TextOption("Placeholder_Ping", "-1").setEditable(false));
+    public Option<String> placeholder_player_combo = addOption(new TextOption("Placeholder_Combo", "0").setEditable(false));
+    public Option<String> placeholder_player_cps = addOption(new TextOption("Placeholder_CPS", "0").setEditable(false));
+    public Option<String> placeholder_player_right_cps = addOption(new TextOption("Placeholder_Right_CPS", "0").setEditable(false));
+    public Option<String> placeholder_player_position_x = addOption(new TextOption("Placeholder_Position_X", "Blank").setEditable(false));
+    public Option<String> placeholder_player_position_y = addOption(new TextOption("Placeholder_Position_Y", "Blank").setEditable(false));
+    public Option<String> placeholder_player_position_z = addOption(new TextOption("Placeholder_Position_Z", "Blank").setEditable(false));
     public Option<String> placeholder_world_overworld = addOption(new TextOption("Placeholder_OverWorld", "OverWorld").setEditable(true));
     public Option<String> placeholder_world_nether = addOption(new TextOption("Placeholder_Nether", "Nether").setEditable(true));
     public Option<String> placeholder_world_the_end = addOption(new TextOption("Placeholder_TheEnd", "TheEnd").setEditable(true));
@@ -41,6 +53,18 @@ public class Placeholder extends Module {
             placeholder_player_HP.setValue(String.valueOf((int) mc.player.getHealth()));
             placeholder_player_max_HP.setValue(String.valueOf((int) mc.player.getMaxHealth()));
             placeholder_player_armor.setValue(String.valueOf((int) mc.player.getArmor()));
+            placeholder_player_speed.setValue(String.format("%.2f", Vergence.INFO.getSpeedPerS()));
+            placeholder_player_speed_km.setValue(String.format("%.2f", Vergence.INFO.getSpeed()));
+            placeholder_player_fps.setValue(String.valueOf(Vergence.INFO.getCurrentFPS()));
+            placeholder_player_memory.setValue(String.valueOf(Vergence.INFO.getSpentMemory()));
+            placeholder_player_memory_max.setValue(String.valueOf(Vergence.INFO.getMaxMemory()));
+            placeholder_player_ping.setValue(String.valueOf(Vergence.INFO.getPing()));
+            placeholder_player_combo.setValue(String.valueOf(Vergence.INFO.getCombo()));
+            placeholder_player_position_x.setValue(String.format("%.2f", mc.player.getPos().x));
+            placeholder_player_position_y.setValue(String.format("%.2f", mc.player.getPos().y));
+            placeholder_player_position_z.setValue(String.format("%.2f", mc.player.getPos().z));
+            placeholder_player_cps.setValue(String.valueOf(Vergence.INFO.getLeftClicks()));
+            placeholder_player_right_cps.setValue(String.valueOf(Vergence.INFO.getLeftClicks()));
         }
     }
 }

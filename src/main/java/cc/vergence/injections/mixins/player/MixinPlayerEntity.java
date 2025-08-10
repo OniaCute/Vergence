@@ -6,10 +6,12 @@ import cc.vergence.modules.combat.Reach;
 import cc.vergence.modules.movement.AutoSprint;
 import cc.vergence.modules.movement.SafeWalk;
 import cc.vergence.util.interfaces.Wrapper;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -58,6 +60,27 @@ public abstract class MixinPlayerEntity extends LivingEntity implements Wrapper 
         if ((Object) this instanceof PlayerEntity player && !player.isSpectator() && !player.isCreative()) {
             Vergence.EVENTBUS.post(new DeathEvent(player));
             Vergence.POP.onDeath(player);
+            if (player == mc.player) {
+                Vergence.INFO.onHurt();
+            }
+        }
+    }
+
+    @Inject(method = "attack", at = @At("HEAD"))
+    private void onAttack(Entity target, CallbackInfo ci) {
+        if (target != null) {
+            if (target instanceof LivingEntity entity && entity.hurtTime == 0) {
+                Vergence.INFO.onAttack(entity);
+            }
+        }
+    }
+
+    @Inject(method = "damage", at = @At("HEAD"))
+    private void onHurt(ServerWorld world, DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
+        if ((Object) this instanceof PlayerEntity player && !player.isSpectator() && !player.isCreative()) {
+            if (player == mc.player) {
+                Vergence.INFO.onHurt();
+            }
         }
     }
 }

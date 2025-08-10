@@ -1,0 +1,193 @@
+package cc.vergence.features.managers.player;
+
+import cc.vergence.Vergence;
+import cc.vergence.modules.exploit.FastLatencyCalc;
+import cc.vergence.util.interfaces.Wrapper;
+import net.minecraft.client.network.ClientPlayNetworkHandler;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.util.math.Vec3d;
+
+import java.util.UUID;
+
+
+public class InfoManager implements Wrapper {
+    private float speed, speedPerS;
+    private int currentFPS = 0;
+    private int spentMemory = 0, maxMemory = 0;
+    private Vec3d lastPosition;
+    private int combo = 0;
+    private long lastAttackTime = 0;
+    private UUID lastTargetId = null;
+    private int leftClicks = 0;
+    private int rightClicks = 0;
+    private long lastSecondTime = 0;
+
+    public InfoManager() {
+        Vergence.EVENTBUS.subscribe(this);
+    }
+
+    public void onTick() {
+        if (mc.player == null || mc.world == null) {
+            return;
+        }
+        updateSpeed();
+        updateMemory();
+        updateCombo();
+    }
+
+    public void onDraw2D() {
+        if (mc.player == null || mc.world == null) {
+            return;
+        }
+        updateFps();
+        updateCPS();
+    }
+
+    private void updateSpeed() {
+        Vec3d currentPosition = mc.player.getPos();
+        if (lastPosition == null) {
+            lastPosition = currentPosition;
+        }
+
+        double deltaX = currentPosition.x - lastPosition.x;
+        double deltaY = currentPosition.y - lastPosition.y;
+        double deltaZ = currentPosition.z - lastPosition.z;
+
+        double totalDistance = Math.sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
+        double speedMetersPerSecond = totalDistance / 0.05;
+        speedPerS = (float) speedMetersPerSecond;
+        speed = (float) (speedMetersPerSecond * 3.6);
+
+        lastPosition = currentPosition;
+    }
+
+    private void updateFps() {
+        float targetFPS = mc.getCurrentFps();
+        if (currentFPS < targetFPS) {
+            currentFPS += (int) ((targetFPS - currentFPS) / 3);
+        } else if (currentFPS > targetFPS) {
+            currentFPS -= (int) ((currentFPS - targetFPS) / 3);
+        }
+    }
+
+    private void updateMemory() {
+        int targetSpentMemoryBytes = (int) (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory());
+        int targetMaxMemoryBytes = (int) Runtime.getRuntime().totalMemory();
+        int targetSpentMemoryMB = targetSpentMemoryBytes / (1024 * 1024);
+        int targetMaxMemoryMB = targetMaxMemoryBytes / (1024 * 1024);
+        if (spentMemory < targetSpentMemoryMB) {
+            spentMemory += (targetSpentMemoryMB - spentMemory) / 4;
+        } else if (spentMemory > targetSpentMemoryMB) {
+            spentMemory -= (spentMemory - targetSpentMemoryMB) / 4;
+        }
+        if (maxMemory < targetMaxMemoryMB) {
+            maxMemory += (targetMaxMemoryMB - maxMemory) / 4;
+        } else if (maxMemory > targetMaxMemoryMB) {
+            maxMemory -= (maxMemory - targetMaxMemoryMB) / 4;
+        }
+    }
+
+    public int getPing() {
+        if (mc.player == null || mc.world == null) {
+            return 0;
+        }
+
+        ClientPlayNetworkHandler networkHandler = mc.player.networkHandler;
+        if (networkHandler == null) {
+            return 0;
+        }
+
+        return FastLatencyCalc.INSTANCE != null && FastLatencyCalc.INSTANCE.getStatus() ? FastLatencyCalc.INSTANCE.getLatency() : networkHandler.getPlayerListEntry(mc.player.getUuid()).getLatency();
+    }
+
+    private void updateCombo() {
+        long currentTime = System.currentTimeMillis();
+        if (currentTime - lastAttackTime > 7000) { // 7s
+            combo = 0;
+            lastTargetId = null;
+        }
+    }
+
+    private void updateCPS() {
+        long currentTime = System.currentTimeMillis();
+        if (currentTime - lastSecondTime >= 1000) {
+            leftClicks = 0;
+            rightClicks = 0;
+            lastSecondTime = currentTime;
+        }
+    }
+
+    public void onLeftClick() {
+        if (mc.player == null || mc.world == null) {
+            return;
+        }
+        leftClicks++;
+    }
+
+    public void onRightClick() {
+        if (mc.player == null || mc.world == null) {
+            return;
+        }
+        rightClicks++;
+    }
+
+    public void onAttack(LivingEntity target) {
+        if (mc.player == null || mc.world == null) {
+            return;
+        }
+
+        long currentTime = System.currentTimeMillis();
+        UUID targetId = target.getUuid();
+        if (lastTargetId == null || !lastTargetId.equals(targetId)) {
+            combo = 1;
+        } else {
+            if (currentTime - lastAttackTime > 40) { // 2 ticks check
+                combo++;
+            }
+        }
+
+        lastAttackTime = currentTime;
+        lastTargetId = targetId;
+    }
+
+    public void onHurt() {
+        if (mc.player == null || mc.world == null) {
+            return;
+        }
+        combo = 0;
+        lastTargetId = null;
+    }
+
+    public int getMaxMemory() {
+        return maxMemory;
+    }
+
+    public int getSpentMemory() {
+        return spentMemory;
+    }
+
+    public int getCurrentFPS() {
+        return currentFPS;
+    }
+
+    public float getSpeed() {
+        return speed;
+    }
+
+    public float getSpeedPerS() {
+        return speedPerS;
+    }
+
+    public int getCombo() {
+        return combo;
+    }
+
+    public int getLeftClicks() {
+        return leftClicks;
+    }
+
+    public int getRightClicks() {
+        return rightClicks;
+    }
+}

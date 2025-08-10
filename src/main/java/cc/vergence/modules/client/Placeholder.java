@@ -29,6 +29,9 @@ public class Placeholder extends Module {
     public Option<String> placeholder_player_combo = addOption(new TextOption("Placeholder_Combo", "0").setEditable(false));
     public Option<String> placeholder_player_cps = addOption(new TextOption("Placeholder_CPS", "0").setEditable(false));
     public Option<String> placeholder_player_right_cps = addOption(new TextOption("Placeholder_Right_CPS", "0").setEditable(false));
+    public Option<String> placeholder_player_gametime = addOption(new TextOption("Placeholder_GameTime", "0").setEditable(false));
+    public Option<String> placeholder_player_gametime_formatted = addOption(new TextOption("Placeholder_GameTime_Formatted", "0").setEditable(false));
+    public Option<String> placeholder_player_server = addOption(new TextOption("Placeholder_Server", "0").setEditable(false));
     public Option<String> placeholder_player_position_x = addOption(new TextOption("Placeholder_Position_X", "Blank").setEditable(false));
     public Option<String> placeholder_player_position_y = addOption(new TextOption("Placeholder_Position_Y", "Blank").setEditable(false));
     public Option<String> placeholder_player_position_z = addOption(new TextOption("Placeholder_Position_Z", "Blank").setEditable(false));
@@ -65,6 +68,8 @@ public class Placeholder extends Module {
             placeholder_player_position_z.setValue(String.format("%.2f", mc.player.getPos().z));
             placeholder_player_cps.setValue(String.valueOf(Vergence.INFO.getLeftClicks()));
             placeholder_player_right_cps.setValue(String.valueOf(Vergence.INFO.getLeftClicks()));
+            placeholder_player_gametime.setValue(String.valueOf(Vergence.INFO.getGameTime()));
+            placeholder_player_gametime_formatted.setValue(String.valueOf(Vergence.INFO.getGameTimeFormatted()));
         }
     }
 }

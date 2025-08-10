@@ -10,12 +10,14 @@ import cc.vergence.features.options.impl.EnumOption;
 import cc.vergence.features.options.impl.TextOption;
 import cc.vergence.modules.Module;
 import cc.vergence.util.other.FastTimerUtil;
+import net.minecraft.client.network.PlayerListEntry;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
@@ -34,7 +36,7 @@ public class Advertiser extends Module {
 
     public Option<Double> cooldown = addOption(new DoubleOption("Cooldown", 0, 600, 30).setUnit("s"));
     public Option<String> command = addOption(new TextOption("Command", "/tell"));
-    public Option<Enum<?>> listOrder = addOption(new EnumOption("ListOrder", Spammer.ListOrder.Random));
+    public Option<Enum<?>> listOrder = addOption(new EnumOption("ListOrder", ListOrder.Random));
     public Option<String> fileName = addOption(new TextOption("FileName", "default.txt"));
 
     @Override
@@ -58,7 +60,7 @@ public class Advertiser extends Module {
                 index = (index + 1) % messages.size();
             }
             if (!msg.trim().isEmpty()) {
-                Vergence.NETWORK.sendCommand(command.getValue() + " " + msg);
+                sendRandomPlayerMessage(command.getValue() + " " + msg);
             }
             timer.reset();
         }
@@ -68,6 +70,27 @@ public class Advertiser extends Module {
     public void onEnable() {
         loadMessages();
         timer.reset();
+    }
+
+    private void sendRandomPlayerMessage(String msg) {
+        if (mc.player == null || mc.world == null) {
+            return;
+        }
+
+        List<PlayerListEntry> playerList = mc.player.networkHandler.getPlayerList().stream().toList();
+        if (playerList.isEmpty() || playerList.size() == 1) {
+            disable();
+            return;
+        }
+
+        PlayerListEntry randomPlayer = playerList.get(random.nextInt(playerList.size()));
+        String playerName = randomPlayer.getProfile().getName();
+
+        if (!playerName.equals(mc.player.getGameProfile().getName())) {
+            Vergence.NETWORK.sendCommand(command.getValue() + " " + playerName + " " + msg);
+        } else {
+            sendRandomPlayerMessage(msg);
+        }
     }
 
     private void loadMessages() {

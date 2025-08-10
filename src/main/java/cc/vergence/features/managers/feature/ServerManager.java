@@ -27,6 +27,7 @@ import java.util.UUID;
 public class ServerManager implements Wrapper {
     private final FastTimerUtil setbackTimer = new FastTimerUtil();
     private final FastTimerUtil responseTimer = new FastTimerUtil();
+    private String serverIp = "";
 
     private final float[] tickRates = new float[20];
     private int nextIndex = 0;
@@ -120,7 +121,14 @@ public class ServerManager implements Wrapper {
     }
 
     public String getServer() {
-        return mc.isInSingleplayer() ? "SinglePlayer" : ServerAddress.parse(mc.getCurrentServerEntry().address).getAddress();
+        if (mc.getCurrentServerEntry() == null) {
+            return "127.0.0.1";
+        }
+        return mc.isInSingleplayer() ? "127.0.0.1" : ServerAddress.parse(mc.getCurrentServerEntry().address).getAddress();
+    }
+
+    public String getChachServer() {
+        return mc.isInSingleplayer() ? "127.0.0.1" : serverIp;
     }
 
     public FastTimerUtil getResponseTimer() {
@@ -129,5 +137,17 @@ public class ServerManager implements Wrapper {
 
     public FastTimerUtil getSetbackTimer() {
         return setbackTimer;
+    }
+
+    public void onLogin() {
+        if (lastConnection == null) {
+            serverIp = "";
+            return ;
+        }
+        serverIp = lastConnection.first().getAddress().endsWith(".") ? lastConnection.first().getAddress().substring(0, lastConnection.first().getAddress().length()-1) : lastConnection.first().getAddress();
+    }
+
+    public void onLogout() {
+        serverIp = "";
     }
 }

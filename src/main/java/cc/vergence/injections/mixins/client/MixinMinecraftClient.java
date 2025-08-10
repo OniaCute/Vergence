@@ -150,6 +150,8 @@ public abstract class MixinMinecraftClient extends ReentrantThreadExecutor<Runna
         }
         if (worldIsNull && mc.world != null) {
             worldIsNull = false;
+            Vergence.INFO.startGameTime();
+            Vergence.SERVER.onLogin();
             for (Module module : ModuleManager.modules) {
                 if (module.getStatus()) {
                     module.onLogin();
@@ -157,6 +159,8 @@ public abstract class MixinMinecraftClient extends ReentrantThreadExecutor<Runna
             }
         } else if (!worldIsNull && mc.world == null) {
             worldIsNull = true;
+            Vergence.INFO.resetGameTime();
+            Vergence.SERVER.onLogout();
             for (Module module : ModuleManager.modules) {
                 if (module.getStatus()) {
                     module.onLogout();

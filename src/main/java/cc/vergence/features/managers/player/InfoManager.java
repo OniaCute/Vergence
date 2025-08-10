@@ -22,6 +22,8 @@ public class InfoManager implements Wrapper {
     private int leftClicks = 0;
     private int rightClicks = 0;
     private long lastSecondTime = 0;
+    private long gameTime = 0;
+    private long startTime = 0;
 
     public InfoManager() {
         Vergence.EVENTBUS.subscribe(this);
@@ -34,6 +36,7 @@ public class InfoManager implements Wrapper {
         updateSpeed();
         updateMemory();
         updateCombo();
+        updateGameTime();
     }
 
     public void onDraw2D() {
@@ -89,16 +92,14 @@ public class InfoManager implements Wrapper {
     }
 
     public int getPing() {
-        if (mc.player == null || mc.world == null) {
+        if (mc.player == null || mc.world == null || mc.player.getUuid() == null || mc.player.networkHandler == null || mc.player.networkHandler.getPlayerListEntry(mc.player.getUuid()) == null) {
             return 0;
         }
 
         ClientPlayNetworkHandler networkHandler = mc.player.networkHandler;
-        if (networkHandler == null) {
-            return 0;
-        }
-
-        return FastLatencyCalc.INSTANCE != null && FastLatencyCalc.INSTANCE.getStatus() ? FastLatencyCalc.INSTANCE.getLatency() : networkHandler.getPlayerListEntry(mc.player.getUuid()).getLatency();
+        return FastLatencyCalc.INSTANCE != null && FastLatencyCalc.INSTANCE.getStatus() ?
+                FastLatencyCalc.INSTANCE.getLatency() :
+                networkHandler.getPlayerListEntry(mc.player.getUuid()).getLatency();
     }
 
     private void updateCombo() {
@@ -116,6 +117,21 @@ public class InfoManager implements Wrapper {
             rightClicks = 0;
             lastSecondTime = currentTime;
         }
+    }
+
+    public void startGameTime() {
+        if (startTime == 0) {
+            startTime = System.currentTimeMillis();
+        }
+    }
+
+    private void updateGameTime() {
+        gameTime = System.currentTimeMillis() - startTime;
+    }
+
+    public void resetGameTime() {
+        startTime = 0;
+        gameTime = 0;
     }
 
     public void onLeftClick() {
@@ -189,5 +205,16 @@ public class InfoManager implements Wrapper {
 
     public int getRightClicks() {
         return rightClicks;
+    }
+
+    public long getGameTime() {
+        return gameTime;
+    }
+
+    public String getGameTimeFormatted() {
+        long hours = (gameTime / 1000) / 3600;
+        long minutes = ((gameTime / 1000) % 3600) / 60;
+        long seconds = (gameTime / 1000) % 60;
+        return String.format("%02d:%02d:%02d", hours, minutes, seconds);
     }
 }

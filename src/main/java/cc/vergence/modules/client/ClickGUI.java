@@ -61,7 +61,9 @@ public class ClickGUI extends Module {
 
         // Animation duration value sync
         for (ColorAnimation animation : AnimationManager.colorAnimations) {
-            animation.setDuration(colorAnimationTime.getValue().intValue());
+            if(animation.isGlobal()) {
+                animation.setDuration(colorAnimationTime.getValue().intValue());
+            }
         }
 
         for (GuiAnimation animation : AnimationManager.descriptionAnimations) {

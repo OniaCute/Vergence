@@ -2,6 +2,7 @@ package cc.vergence.injections.mixins.player;
 
 import cc.vergence.Vergence;
 import cc.vergence.features.event.events.DeathEvent;
+import cc.vergence.features.event.events.HurtEvent;
 import cc.vergence.modules.combat.Reach;
 import cc.vergence.modules.movement.AutoSprint;
 import cc.vergence.modules.movement.SafeWalk;
@@ -77,9 +78,12 @@ public abstract class MixinPlayerEntity extends LivingEntity implements Wrapper 
 
     @Inject(method = "damage", at = @At("HEAD"))
     private void onHurt(ServerWorld world, DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
-        if ((Object) this instanceof PlayerEntity player && !player.isSpectator() && !player.isCreative()) {
-            if (player == mc.player) {
-                Vergence.INFO.onHurt();
+        if ((Object) this instanceof LivingEntity entity) {
+            Vergence.EVENTBUS.post(new HurtEvent(entity));
+            if (entity instanceof PlayerEntity player && !player.isSpectator() && !player.isCreative()) {
+                if (player == mc.player) {
+                    Vergence.INFO.onHurt();
+                }
             }
         }
     }

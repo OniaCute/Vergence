@@ -143,6 +143,8 @@ public class ModuleManager {
         registerModule(new ComboIndicator());
         registerModule(new PositionIndicator());
         registerModule(new CPSIndicator());
+        registerModule(new ServerIndicator());
+        registerModule(new GameTimeIndicator());
         registerModule(new KeyStrokes());
 
         // special module

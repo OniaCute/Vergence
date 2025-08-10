@@ -70,7 +70,10 @@ public class TextOption extends Option<String> implements Wrapper {
                     .replaceAll("\\{y}", String.format("%.2f", mc.player.getPos().y))
                     .replaceAll("\\{z}", String.format("%.2f", mc.player.getPos().z))
                     .replaceAll("\\{cps}", String.valueOf(Vergence.INFO.getLeftClicks()))
-                    .replaceAll("\\{right_cps}", String.valueOf(Vergence.INFO.getRightClicks()));
+                    .replaceAll("\\{right_cps}", String.valueOf(Vergence.INFO.getRightClicks()))
+                    .replaceAll("\\{gametime}", String.valueOf(Vergence.INFO.getGameTime()))
+                    .replaceAll("\\{gametime_formatted}", String.valueOf(Vergence.INFO.getGameTimeFormatted()))
+                    .replaceAll("\\{server}", String.valueOf(Vergence.SERVER.getChachServer()));
 
         }
         if (mc.world != null) {

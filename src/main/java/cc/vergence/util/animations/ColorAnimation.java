@@ -9,6 +9,7 @@ public class ColorAnimation {
     private Color to;
     private long startTime;
     private long duration;
+    private boolean global = true;
 
     public ColorAnimation(Color from, Color to, long duration) {
         this.from = from;
@@ -52,5 +53,18 @@ public class ColorAnimation {
 
     public void setTo(Color to) {
         this.to = to;
+    }
+
+    public ColorAnimation setGlobal(boolean global) {
+        this.global = global;
+        return this;
+    }
+
+    public boolean isGlobal() {
+        return global;
+    }
+
+    public void setStartTime(long startTime) {
+        this.startTime = startTime;
     }
 }

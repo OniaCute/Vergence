@@ -20,7 +20,6 @@ public class BetterChat extends Module {
     public Option<Enum<?>> prefix = addOption(new EnumOption("Prefix", MessagePrefixTypes.Default));
     public Option<Color> prefixColor = addOption(new ColorOption("PrefixColor", Vergence.THEME.getTheme().getMainColor()));
     public Option<Boolean> keepHistory = addOption(new BooleanOption("KeepHistory", true));
-    public Option<Boolean> inCommand = addOption(new BooleanOption("InCommand", false));
     public Option<String> chatPrefix = addOption(new TextOption("ChatPrefix", ""));
     public Option<String> chatSuffix = addOption(new TextOption("ChatSuffix", " | Vergence"));
     public Option<Boolean> customNameColor = addOption(new BooleanOption("CustomNameColor", true));
@@ -41,7 +40,7 @@ public class BetterChat extends Module {
         if (isNull() || event.isCancel()) {
             return;
         }
-        if (message.startsWith("/") || message.startsWith(Vergence.PREFIX) && !inCommand.getValue()) {
+        if (message.startsWith("/") || message.startsWith(Vergence.PREFIX)) {
             return;
         }
 

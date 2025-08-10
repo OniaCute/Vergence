@@ -16,7 +16,7 @@ import org.lwjgl.glfw.GLFW;
 
 /**
  * &#064;author: Voury_, OniaCute
- * &#064;version: vergence_1_1_ui_gird
+ * &#064;version: vergence_1_0_ui_gird
  */
 public class BindFrameComponent extends GuiComponent implements Wrapper {
     private BindOption option;
@@ -72,7 +72,7 @@ public class BindFrameComponent extends GuiComponent implements Wrapper {
     }
 
     @Override
-    public void onDraw(double mouseX, double mouseY, boolean clickLeft, boolean clickRight) {
+    public void onDraw(DrawContext context, double mouseX, double mouseY, boolean clickLeft, boolean clickRight) {
         if (animationTimer.passedMs(520)) { // suffix animation
             animationTimer.reset();
             showSuffixChar = !showSuffixChar;
@@ -95,23 +95,25 @@ public class BindFrameComponent extends GuiComponent implements Wrapper {
         }
 
         Render2DUtil.drawRoundedRect(
+                context.getMatrices(),
                 this.getX(),
                 this.getY(),
                 this.getWidth(),
                 this.getHeight(),
-                4,
+                4 * Render2DUtil.getScaleFactor(),
                 isHovered(mouseX, mouseY) ? Vergence.THEME.getTheme().getInputFrameHoveredBackgroundColor() : Vergence.THEME.getTheme().getInputFrameBackgroundColor()
         );
 
         FontUtil.drawTextWithAlign(
+                context,
                 (option.isNeedShift() ? "Shift+" : "") + option.getBindChar() + (this.showSuffixChar && this.isListening() ? "_" : ""),
                 this.getX() + 2,
                 this.getY() + 4,
                 this.getX() + this.getWidth() - 4,
                 this.getY() + this.getHeight(),
+                Aligns.CENTER,
                 isHovered(mouseX, mouseY) ? Vergence.THEME.getTheme().getInputFrameHoveredTextColor() : Vergence.THEME.getTheme().getInputFrameTextColor(),
-                FontSize.SMALLEST,
-                Aligns.CENTER
+                FontSize.SMALLEST
         );
     }
 }

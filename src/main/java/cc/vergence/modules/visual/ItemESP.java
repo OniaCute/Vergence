@@ -52,7 +52,7 @@ public class ItemESP extends Module {
     }
 
     @Override
-    public void onDraw2D() {
+    public void onDraw2D(DrawContext context, float tickDelta) {
 //        for (Entity ent : mc.world.getEntities()) {
 //            if (!(ent instanceof ItemEntity)) {
 //                continue;
@@ -78,7 +78,7 @@ public class ItemESP extends Module {
 //                float endPosX = (float) position.z;
 //                float diff = (endPosX - posX) / 2f;
 //                double textWidth = (FontUtil.getWidth(FontSize.SMALL, ent.getName().getString()));
-//                double tagX = (posX + diff - textWidth / 2f);
+//                double tagX = (posX + diff - textWidth / 2f) * 1;
 //                FontUtil.drawText(
 //                        context,
 //                        ent.getDisplayName().getString(),

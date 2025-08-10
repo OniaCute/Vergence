@@ -16,7 +16,7 @@ import java.util.EnumSet;
 
 /**
  * &#064;author: Voury_, OniaCute
- * &#064;version: vergence_1_1_ui_gird
+ * &#064;version: vergence_1_0_ui_gird
  */
 public class MultipleChoiceComponent extends GuiComponent {
     private Enum<?> value;
@@ -37,7 +37,7 @@ public class MultipleChoiceComponent extends GuiComponent {
     }
 
     @Override
-    public void onDraw(double mouseX, double mouseY, boolean clickLeft, boolean clickRight) {
+    public void onDraw(DrawContext context, double mouseX, double mouseY, boolean clickLeft, boolean clickRight) {
         GuiManager.setCurrentComponent(this);
         if (isHovered(mouseX, mouseY)) {
             if (clickLeft) {
@@ -78,11 +78,12 @@ public class MultipleChoiceComponent extends GuiComponent {
         }
 
         Render2DUtil.drawRoundedRect(
+                context.getMatrices(),
                 this.getX(),
                 this.getY(),
                 this.getWidth(),
                 this.getHeight(),
-                2,
+                2 * Render2DUtil.getScaleFactor(),
                 backgroundColorAnimation.getCurrent()
         );
 
@@ -101,26 +102,28 @@ public class MultipleChoiceComponent extends GuiComponent {
         }
 
         FontUtil.drawTextWithAlign(
+                context,
                 value.name(),
                 this.getX(),
                 this.getY(),
-                this.getX() + this.getWidth() - 3,
+                this.getX() + this.getWidth() - 3 * Render2DUtil.getScaleFactor(),
                 this.getY() + this.getHeight(),
+                Aligns.RIGHT,
                 textColorAnimation.getCurrent(),
-                FontSize.SMALLEST,
-                Aligns.RIGHT
+                FontSize.SMALLEST
         );
 
         if (chosen) {
             FontUtil.drawTextWithAlign(
+                    context,
                     " ✓ ",
-                    this.getX() + 3,
-                    this.getY() + 1,
+                    this.getX() + 3 * Render2DUtil.getScaleFactor(),
+                    this.getY() + 1 * Render2DUtil.getScaleFactor(),
                     this.getX() + this.getWidth(),
                     this.getY() + this.getHeight(),
+                    Aligns.LEFT,
                     textColorAnimation.getCurrent(),
-                    FontSize.SMALLEST,
-                    Aligns.LEFT
+                    FontSize.SMALLEST
             );
         }
     }

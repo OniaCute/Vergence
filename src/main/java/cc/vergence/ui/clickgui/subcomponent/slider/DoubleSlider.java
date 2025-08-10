@@ -14,7 +14,7 @@ import oshi.util.tuples.Pair;
 
 /**
  * &#064;author: Voury_, OniaCute
- * &#064;version: vergence_1_1_ui_gird
+ * &#064;version: vergence_1_0_ui_gird
  */
 public class DoubleSlider extends GuiComponent {
     private DoubleOption option;
@@ -34,7 +34,7 @@ public class DoubleSlider extends GuiComponent {
     }
 
     @Override
-    public void onDraw(double mouseX, double mouseY, boolean clickLeft, boolean clickRight) {
+    public void onDraw(DrawContext context, double mouseX, double mouseY, boolean clickLeft, boolean clickRight) {
         double maxValue = option.getMaxValue();
         double minValue = option.getMinValue();
         if (clickLeft && this.isHovered(mouseX, mouseY)) {
@@ -50,25 +50,19 @@ public class DoubleSlider extends GuiComponent {
         double currentValue = option.getValue();
         double percent = (currentValue - minValue) / (maxValue - minValue);
 
-        Pair<Double, Double> rectPos = Render2DUtil.getAlignPositionAsPair(
+        Pair<Double, Double> rectPos = Render2DUtil.drawRoundedRectWithAlign(
+                context.getMatrices(),
                 this.getX(),
                 this.getY(),
                 this.getX() + this.getWidth(),
                 this.getY() + this.getHeight(),
                 this.getWidth(),
                 2,
-                Aligns.CENTER
-        );
-
-        Render2DUtil.drawRoundedRect(
-                rectPos.getA(),
-                rectPos.getB(),
-                this.getWidth(),
-                2,
                 1,
                 isHovered(mouseX, mouseY)
                         ? Vergence.THEME.getTheme().getSliderHoveredBackgroundColor()
-                        : Vergence.THEME.getTheme().getSliderBackgroundColor()
+                        : Vergence.THEME.getTheme().getSliderBackgroundColor(),
+                Aligns.CENTER
         );
 
         double sliderStartX = rectPos.getA();
@@ -78,6 +72,7 @@ public class DoubleSlider extends GuiComponent {
         double circleRadius = 4;
 
         Render2DUtil.drawRoundedRect(
+                context.getMatrices(),
                 (float) sliderStartX,
                 (float) (sliderY - 1),
                 (float) fillWidth,
@@ -87,10 +82,11 @@ public class DoubleSlider extends GuiComponent {
         );
 
         Render2DUtil.drawCircleWithInline(
-                circleX, sliderY, circleRadius,
-                1.2f, 0.8f,
+                context.getMatrices(),
                 isHovered(mouseX, mouseY) ? (dragging ? Vergence.THEME.getTheme().getSliderClickedCircleColor() : Vergence.THEME.getTheme().getSliderHoveredCircleColor()) : (dragging ? Vergence.THEME.getTheme().getSliderClickedCircleColor() : Vergence.THEME.getTheme().getSliderCircleColor()),
-                isHovered(mouseX, mouseY) ? (dragging ? Vergence.THEME.getTheme().getSliderClickedInlineColor() : Vergence.THEME.getTheme().getSliderHoveredInlineColor()) : (dragging ? Vergence.THEME.getTheme().getSliderClickedInlineColor() : Vergence.THEME.getTheme().getSliderInlineColor())
+                isHovered(mouseX, mouseY) ? (dragging ? Vergence.THEME.getTheme().getSliderClickedInlineColor() : Vergence.THEME.getTheme().getSliderHoveredInlineColor()) : (dragging ? Vergence.THEME.getTheme().getSliderClickedInlineColor() : Vergence.THEME.getTheme().getSliderInlineColor()),
+                circleX, sliderY, circleRadius,
+                1.2f, 0.8f, 360
         );
     }
 }

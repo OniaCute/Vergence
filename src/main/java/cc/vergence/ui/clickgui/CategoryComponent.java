@@ -17,7 +17,7 @@ import java.awt.*;
 
 /**
  * &#064;author: Voury_, OniaCute
- * &#064;version: vergence_1_1_ui_gird
+ * &#064;version: vergence_1_0_ui_gird
  */
 public class CategoryComponent extends GuiComponent {
     public Module.Category category;
@@ -41,7 +41,7 @@ public class CategoryComponent extends GuiComponent {
     }
 
     @Override
-    public void onDraw(double mouseX, double mouseY, boolean clickLeft, boolean clickRight) {
+    public void onDraw(DrawContext context, double mouseX, double mouseY, boolean clickLeft, boolean clickRight) {
         if (isHovered(mouseX, mouseY)) {
             GuiManager.setCurrentComponent(this);
             if (clickLeft) {
@@ -50,7 +50,7 @@ public class CategoryComponent extends GuiComponent {
                 GuiManager.SEARCH.searchText = "";
                 GuiManager.SEARCH.setListening(false);
                 GuiManager.resetScroll();
-                GuiManager.latestModuleComponentPosition = new Pair<>(GuiManager.MAIN_PAGE_X, GuiManager.MAIN_PAGE_Y + 34 + (GuiManager.mouseScrolledOffset * 8));
+                GuiManager.latestModuleComponentPosition = new Pair<>(GuiManager.MAIN_PAGE_X, GuiManager.MAIN_PAGE_Y + 34 * Render2DUtil.getScaleFactor() + (GuiManager.mouseScrolledOffset * 8));
                 GuiManager.CLICKED_LEFT = false;
             }
         } else {
@@ -74,11 +74,12 @@ public class CategoryComponent extends GuiComponent {
         backgroundColorAnimation.reset(backgroundColorAnimation.getCurrent(), targetColor);
 
         Render2DUtil.drawRoundedRect(
+                context.getMatrices(),
                 this.getX(),
                 this.getY(),
                 this.getWidth(),
                 this.getHeight(),
-                4,
+                4 * Render2DUtil.getScaleFactor(),
                 backgroundColorAnimation.getCurrent()
         );
 
@@ -99,26 +100,31 @@ public class CategoryComponent extends GuiComponent {
         textColorAnimation.resetTo(targetTextColor);
 
         FontUtil.drawTextWithAlign(
+                context,
                 this.getDisplayName(),
                 this.getX(),
                 this.getY(),
                 this.getX() + this.getWidth(),
                 this.getY() + this.getHeight(),
+                Aligns.CENTER,
                 textColorAnimation.getCurrent(),
-                FontSize.LARGE,
-                Aligns.CENTER
+                FontSize.LARGE
         );
         if (!(GuiManager.currentCategory == null) && GuiManager.currentCategory.equals(this.category) && GuiManager.PAGE.equals(Pages.Modules)) {
             for (GuiComponent component : this.subComponents) {
-//                Render2DUtil.pushDisplayArea(
-//                        (float) component.getX(),
-//                        (float) (GuiManager.MAIN_PAGE_Y + 33),
-//                        (float) (component.getX() + component.getWidth()),
-//                        (float) (GuiManager.MAIN_PAGE_Y + GuiManager.MAIN_PAGE_HEIGHT)
-//                );
-                component.onDraw(mouseX, mouseY, clickLeft, clickRight);
+                Render2DUtil.pushDisplayArea(
+                        context.getMatrices(),
+                        (float) component.getX(),
+                        (float) (GuiManager.MAIN_PAGE_Y + 33),
+                        (float) (component.getX() + component.getWidth()),
+                        (float) (GuiManager.MAIN_PAGE_Y + GuiManager.MAIN_PAGE_HEIGHT),
+                        1d
 
-//                Render2DUtil.popDisplayArea();
+                );
+
+                component.onDraw(context, mouseX, mouseY, clickLeft, clickRight);
+
+                Render2DUtil.popDisplayArea();
             }
         }
     }

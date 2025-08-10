@@ -9,7 +9,7 @@ import net.minecraft.client.util.math.MatrixStack;
 
 /**
  * &#064;author: Voury_, OniaCute
- * &#064;version: vergence_1_1_ui_gird
+ * &#064;version: vergence_1_0_ui_gird
  */
 public class HoverEnumChoicesComponent extends GuiComponent {
     public HoverEnumChoicesComponent(EnumChoicesComponent enumChoicesComponent) {
@@ -22,7 +22,7 @@ public class HoverEnumChoicesComponent extends GuiComponent {
     }
 
     @Override
-    public void onDraw(double mouseX, double mouseY, boolean clickLeft, boolean clickRight) {
+    public void onDraw(DrawContext context, double mouseX, double mouseY, boolean clickLeft, boolean clickRight) {
         if (!isHovered(mouseX, mouseY)) {
             if (clickLeft || clickRight) {
                 ((EnumChoicesComponent) this.parentComponent).fold();
@@ -30,25 +30,39 @@ public class HoverEnumChoicesComponent extends GuiComponent {
         }
 
         Render2DUtil.drawRoundedRect(
+                context.getMatrices(),
                 this.getX(),
                 this.getY(),
                 this.getWidth(),
                 this.getHeight(),
-                3,
+                3 * Render2DUtil.getScaleFactor(),
                 Vergence.THEME.getTheme().getChoicesAreaBackgroundColor()
         );
 
         if (((EnumChoicesComponent) getParentComponent()).isActuallySpread || (((EnumChoicesComponent) getParentComponent()).animationProgress > 0.001f && ((EnumChoicesComponent) getParentComponent()).animationProgress != 1f)) {
+            MatrixStack matrices = context.getMatrices();
+            matrices.push();
+
             Render2DUtil.pushDisplayArea(
+                    context.getMatrices(),
                     (float) getX(),
                     (float) getY(),
                     (float) (getX() + getWidth()),
-                    (float) (getY() + getHeight())
+                    (float) (getY() + getHeight()),
+                    1f
             );
 
+            double baseY = getY();
+
+            matrices.translate(getX(), baseY, 0);
+            matrices.scale(1f, ((EnumChoicesComponent) getParentComponent()).animationProgress, 1f);
+            matrices.translate(-getX(), -(baseY), 0);
+
             for (GuiComponent component : getSubComponents()) {
-                component.onDraw(mouseX, mouseY, clickLeft, clickRight);
+                component.onDraw(context, mouseX, mouseY, clickLeft, clickRight);
             }
+
+            matrices.pop();
             Render2DUtil.popDisplayArea();
         }
     }

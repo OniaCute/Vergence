@@ -20,7 +20,7 @@ import java.awt.*;
 
 /**
  * &#064;author: Voury_, OniaCute
- * &#064;version: vergence_1_1_ui_gird
+ * &#064;version: vergence_1_0_ui_gird
  */
 public class ColorFrameComponent extends GuiComponent implements Wrapper {
     private ColorOption option;
@@ -102,7 +102,7 @@ public class ColorFrameComponent extends GuiComponent implements Wrapper {
     }
 
     @Override
-    public void onDraw(double mouseX, double mouseY, boolean clickLeft, boolean clickRight) {
+    public void onDraw(DrawContext context, double mouseX, double mouseY, boolean clickLeft, boolean clickRight) {
         if (option.isRainbow()) {
             this.setListening(false);
         }
@@ -134,27 +134,29 @@ public class ColorFrameComponent extends GuiComponent implements Wrapper {
         }
 
         Render2DUtil.drawRoundedRectWithAlign(
+                context.getMatrices(),
                 this.getX(),
                 this.getY(),
                 this.getX() + this.getParentComponent().getWidth(),
                 this.getY() + this.getParentComponent().getHeight(),
                 this.getWidth(),
                 this.getHeight(),
-                4,
+                4 * Render2DUtil.getScaleFactor(),
                 isHovered(mouseX, mouseY) ? Vergence.THEME.getTheme().getInputFrameHoveredBackgroundColor() : Vergence.THEME.getTheme().getInputFrameBackgroundColor(),
                 Aligns.LEFT
         );
 
         String display = isListening ? inputCache + (showSuffixChar ? "_" : "") : new HexColor(option.getValue()).getValue();
         FontUtil.drawTextWithAlign(
+                context,
                 display,
                 this.getX() + 2,
                 this.getY() + 4,
                 this.getX() + this.getWidth() - 4,
                 this.getY() + this.getHeight(),
+                Aligns.LEFT,
                 isHovered(mouseX, mouseY) ? Vergence.THEME.getTheme().getInputFrameHoveredTextColor() : Vergence.THEME.getTheme().getInputFrameTextColor(),
-                FontSize.SMALLEST,
-                Aligns.LEFT
+                FontSize.SMALLEST
         );
     }
 }

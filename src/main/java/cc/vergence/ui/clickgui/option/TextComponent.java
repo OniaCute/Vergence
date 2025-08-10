@@ -10,7 +10,7 @@ import net.minecraft.client.gui.DrawContext;
 
 /**
  * &#064;author: Voury_, OniaCute
- * &#064;version: vergence_1_1_ui_gird
+ * &#064;version: vergence_1_0_ui_gird
  */
 public class TextComponent extends GuiComponent {
     private TextOption option;
@@ -28,20 +28,21 @@ public class TextComponent extends GuiComponent {
     }
 
     @Override
-    public void onDraw(double mouseX, double mouseY, boolean clickLeft, boolean clickRight) {
+    public void onDraw(DrawContext context, double mouseX, double mouseY, boolean clickLeft, boolean clickRight) {
         FontUtil.drawTextWithAlign(
+                context,
                 option.getDisplayName(),
                 this.getX() + 2,
                 this.getY() + 2,
                 getX() + this.getWidth() - 4,
                 getY() + this.getHeight() + 1,
+                Aligns.LEFT,
                 Vergence.THEME.getTheme().getOptionsTextColor(),
-                FontSize.SMALL,
-                Aligns.LEFT
+                FontSize.SMALL
         );
 
         for (GuiComponent component : getSubComponents()) {
-            component.onDraw(mouseX, mouseY, clickLeft, clickRight);
+            component.onDraw(context, mouseX, mouseY, clickLeft, clickRight);
         }
     }
 }

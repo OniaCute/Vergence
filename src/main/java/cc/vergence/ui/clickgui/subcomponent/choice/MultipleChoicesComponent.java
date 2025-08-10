@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 /**
  * &#064;author: Voury_, OniaCute
- * &#064;version: vergence_1_1_ui_gird
+ * &#064;version: vergence_1_0_ui_gird
  */
 public class MultipleChoicesComponent extends GuiComponent {
     private MultipleOption<?> option;
@@ -51,7 +51,7 @@ public class MultipleChoicesComponent extends GuiComponent {
     }
 
     @Override
-    public void onDraw(double mouseX, double mouseY, boolean clickLeft, boolean clickRight) {
+    public void onDraw(DrawContext context, double mouseX, double mouseY, boolean clickLeft, boolean clickRight) {
         animation.setDuration(ClickGUI.INSTANCE.optionsSpreadAnimationTime.getValue().intValue());
         if (isHovered(mouseX, mouseY)) {
             GuiManager.setCurrentComponent(this);
@@ -88,6 +88,7 @@ public class MultipleChoicesComponent extends GuiComponent {
         }
 
         Render2DUtil.drawRoundedRect(
+                context.getMatrices(),
                 this.getX(),
                 this.getY(),
                 this.getWidth(),
@@ -102,25 +103,27 @@ public class MultipleChoicesComponent extends GuiComponent {
         }
 
         FontUtil.drawTextWithAlign(
+                context,
                 option.getValue().isEmpty() ? Vergence.TEXT.get("Module.Special.Options.MultipleOptions.Empty") : String.join(", ", valueString),
                 this.getX(),
                 this.getY() + 4,
                 this.getX() + this.getWidth() - 4,
                 this.getY() + this.getHeight(),
+                Aligns.CENTER,
                 isHovered(mouseX, mouseY) ? Vergence.THEME.getTheme().getChoicesHoveredTextColor() : Vergence.THEME.getTheme().getChoicesTextColor(),
-                FontSize.SMALLEST,
-                Aligns.CENTER
+                FontSize.SMALLEST
         );
 
         FontUtil.drawTextWithAlign(
+                context,
                 isActuallySpread ? "-" : "+",
                 this.getX(),
                 this.getY() + 4 + (this.isActuallySpread ? -2 : 2),
                 this.getX() + this.getWidth() - 6,
                 this.getY() + this.getHeight(),
+                Aligns.RIGHT,
                 isHovered(mouseX, mouseY) ? Vergence.THEME.getTheme().getChoicesHoveredTextColor() : Vergence.THEME.getTheme().getChoicesTextColor(),
-                FontSize.SMALL,
-                Aligns.RIGHT
+                FontSize.SMALL
         );
 
         animationProgress = animation.getProgress();
@@ -132,7 +135,7 @@ public class MultipleChoicesComponent extends GuiComponent {
         // Use "Hover Component Renderer"
 //        if (isSpread()) {
 //            for (GuiComponent component : this.getSubComponents()) {
-//                component.onDraw(mouseX, mouseY, clickLeft, clickRight);
+//                component.onDraw(context, mouseX, mouseY, clickLeft, clickRight);
 //            }
 //        }
     }

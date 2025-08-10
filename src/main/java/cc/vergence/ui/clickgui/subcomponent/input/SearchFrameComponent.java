@@ -18,7 +18,7 @@ import oshi.util.tuples.Pair;
 
 /**
  * &#064;author: Voury_, OniaCute
- * &#064;version: vergence_1_1_ui_gird
+ * &#064;version: vergence_1_0_ui_gird
  */
 public class SearchFrameComponent extends GuiComponent implements Wrapper {
     public String searchText = "";
@@ -69,13 +69,15 @@ public class SearchFrameComponent extends GuiComponent implements Wrapper {
     }
 
     @Override
-    public void onDraw(double mouseX, double mouseY, boolean clickLeft, boolean clickRight) {
-//        Render2DUtil.pushDisplayArea(
-//                (float) getX(),
-//                (float) getY(),
-//                (float) (getX() + getWidth()),
-//                (float) (getY() + getHeight())
-//        );
+    public void onDraw(DrawContext context, double mouseX, double mouseY, boolean clickLeft, boolean clickRight) {
+        Render2DUtil.pushDisplayArea(
+                context.getMatrices(),
+                (float) getX(),
+                (float) getY(),
+                (float) (getX() + getWidth()),
+                (float) (getY() + getHeight()),
+                1d
+        );
 
         if (isListening()) {
             GuiManager.currentCategory = null;
@@ -108,28 +110,30 @@ public class SearchFrameComponent extends GuiComponent implements Wrapper {
         }
 
         Render2DUtil.drawRoundedRectWithAlign(
+                context.getMatrices(),
                 getX(),
                 getY(),
                 getX() + getWidth(),
                 getY() + getHeight(),
                 getWidth(),
                 getHeight(),
-                4,
+                4 * Render2DUtil.getScaleFactor(),
                 isHovered(mouseX, mouseY) ? Vergence.THEME.getTheme().getInputFrameHoveredBackgroundColor() : Vergence.THEME.getTheme().getInputFrameBackgroundColor(),
                 Aligns.LEFT
         );
 
         FontUtil.drawTextWithAlign(
+                context,
                 searchText.isEmpty() && !isListening ? "Type to search module" : searchText + (showSuffixChar && isListening ? "_" : ""),
                 getX() + 2,
                 getY() + 4,
                 getX() + getWidth() - 4,
                 getY() + getHeight(),
+                Aligns.LEFT,
                 isHovered(mouseX, mouseY) ? Vergence.THEME.getTheme().getInputFrameHoveredTextColor() : Vergence.THEME.getTheme().getInputFrameTextColor(),
-                FontSize.SMALL,
-                Aligns.LEFT
+                FontSize.SMALL
         );
 
-//        Render2DUtil.popDisplayArea();
+        Render2DUtil.popDisplayArea();
     }
 }

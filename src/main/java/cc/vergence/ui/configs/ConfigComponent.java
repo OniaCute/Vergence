@@ -16,7 +16,7 @@ import java.awt.*;
 
 /**
  * &#064;author: Voury_, OniaCute
- * &#064;version: vergence_1_1_ui_gird
+ * &#064;version: vergence_1_0_ui_gird
  */
 public class ConfigComponent extends GuiComponent {
     private String configName;
@@ -48,7 +48,7 @@ public class ConfigComponent extends GuiComponent {
     }
 
     @Override
-    public void onDraw(double mouseX, double mouseY, boolean clickLeft, boolean clickRight) {
+    public void onDraw(DrawContext context, double mouseX, double mouseY, boolean clickLeft, boolean clickRight) {
         if (isHovered(mouseX, mouseY)) {
             if (clickLeft) {
                 Vergence.CONFIG.saveCurrentConfig();
@@ -78,6 +78,7 @@ public class ConfigComponent extends GuiComponent {
         backgroundColorAnimation.reset(backgroundColorAnimation.getCurrent(), targetColor);
 
         Render2DUtil.drawRoundedRect(
+                context.getMatrices(),
                 getX(),
                 getY(),
                 getWidth(),
@@ -102,6 +103,7 @@ public class ConfigComponent extends GuiComponent {
 
         textColorAnimation.reset(textColorAnimation.getCurrent(), targetColor1);
         FontUtil.drawText(
+                context,
                 configName,
                 getX() + 3,
                 getY() + 2,
@@ -109,6 +111,7 @@ public class ConfigComponent extends GuiComponent {
                 FontSize.MEDIUM
         );
         FontUtil.drawText(
+                context,
                 version,
                 getX() + 3,
                 getY() + FontUtil.getHeight(FontSize.MEDIUM) + 3,
@@ -132,14 +135,15 @@ public class ConfigComponent extends GuiComponent {
 
         dateColorAnimation.reset(dateColorAnimation.getCurrent(), targetColor2);
         FontUtil.drawTextWithAlign(
+                context,
                 date,
                 getX(),
-                getY(),
-                getX() + getWidth(),
+                getY() + 3,
+                getX() + getWidth() - 3,
                 getY() + getHeight(),
+                Aligns.RIGHT_TOP,
                 targetColor2,
-                FontSize.SMALLEST,
-                Aligns.RIGHT_TOP
+                FontSize.SMALLEST
         );
     }
 

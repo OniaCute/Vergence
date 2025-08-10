@@ -15,7 +15,7 @@ import net.minecraft.client.gui.DrawContext;
 
 /**
  * &#064;author: Voury_, OniaCute
- * &#064;version: vergence_1_1_ui_gird
+ * &#064;version: vergence_1_0_ui_gird
  */
 public class HoverTextComponent extends GuiComponent {
     private final GuiAnimation animation = new GuiAnimation(200);
@@ -28,7 +28,7 @@ public class HoverTextComponent extends GuiComponent {
     }
 
     @Override
-    public void onDraw(double mouseX, double mouseY, boolean clickLeft, boolean clickRight) {
+    public void onDraw(DrawContext context, double mouseX, double mouseY, boolean clickLeft, boolean clickRight) {
         if (ClickGUI.INSTANCE != null && !ClickGUI.INSTANCE.showOptionDescription.getValue()) {
             return ;
         }
@@ -52,12 +52,15 @@ public class HoverTextComponent extends GuiComponent {
         double progress = animation.getProgress();
         if (progress > 0.001) {
             Render2DUtil.insertDisplayArea(
+                    context.getMatrices(),
                     (float) getX(),
                     (float) GuiManager.MAIN_PAGE_Y + 33,
                     (float) (getX() + getWidth() * progress),
                     (float) (GuiManager.MAIN_PAGE_Y + GuiManager.MAIN_PAGE_HEIGHT),
+                    1.0,
                     () -> {
                         Render2DUtil.drawRoundedRectWithAlign(
+                                context.getMatrices(),
                                 getX(),
                                 getY(),
                                 getX() + getWidth(),
@@ -70,14 +73,15 @@ public class HoverTextComponent extends GuiComponent {
                         );
 
                         FontUtil.drawTextWithAlign(
+                                context,
                                 getDescription(getParentComponent()),
                                 getX(),
                                 getY() + 2,
                                 getX() + getWidth(),
                                 getY() + getHeight(),
+                                Aligns.CENTER,
                                 Vergence.THEME.getTheme().getDescriptionTextColor(),
-                                FontSize.SMALLEST,
-                                Aligns.CENTER
+                                FontSize.SMALLEST
                         );
                     }
             );

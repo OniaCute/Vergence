@@ -18,7 +18,7 @@ import java.awt.*;
 
 /**
  * &#064;author: Voury_, OniaCute
- * &#064;version: vergence_1_1_ui_gird
+ * &#064;version: vergence_1_0_ui_gird
  */
 public class ModuleComponent extends GuiComponent {
     private Module module;
@@ -76,9 +76,9 @@ public class ModuleComponent extends GuiComponent {
 
 
     @Override
-    public void onDraw(double mouseX, double mouseY, boolean clickLeft, boolean clickRight) {
+    public void onDraw(DrawContext context, double mouseX, double mouseY, boolean clickLeft, boolean clickRight) {
         animation.setDuration(ClickGUI.INSTANCE.moduleSpreadAnimationTime.getValue().intValue());
-        if (isHovered(this.x, this.y, this.width, FontUtil.getHeight(FontSize.MEDIUM) + FontUtil.getHeight(FontSize.SMALLEST) + 3 * 5, mouseX, mouseY)) {
+        if (isHovered(this.x, this.y, this.width, (FontUtil.getHeight(FontSize.MEDIUM) + FontUtil.getHeight(FontSize.SMALL)), mouseX, mouseY)) {
             GuiManager.setCurrentComponent(this);
             if (clickLeft) {
                 this.module.toggle();
@@ -100,9 +100,8 @@ public class ModuleComponent extends GuiComponent {
             GuiManager.setCurrentComponent(null);
         }
 
-        float padding = 3;
-
         Render2DUtil.drawRoundedRect(
+                context.getMatrices(),
                 this.getX(),
                 this.getY(),
                 this.getWidth(),
@@ -112,9 +111,10 @@ public class ModuleComponent extends GuiComponent {
         );
 
         FontUtil.drawText(
+                context,
                 this.getModule().getDisplayName(),
-                this.getX() + padding,
-                this.getY() + padding,
+                this.getX() + 3,
+                this.getY() + 2,
                 isHovered(mouseX, mouseY) ? (this.module.getStatus() ? Vergence.THEME.getTheme().getModuleEnabledTextColor() : Vergence.THEME.getTheme().getModuleHoveredTextColor()) : (this.module.getStatus() ? Vergence.THEME.getTheme().getModuleEnabledTextColor() : Vergence.THEME.getTheme().getModuleTextColor()),
                 FontSize.MEDIUM
         );
@@ -125,39 +125,68 @@ public class ModuleComponent extends GuiComponent {
         }
 
         FontUtil.drawText(
+                context,
                 this.module.getDescription(),
-                this.getX() + padding,
-                this.getY() + FontUtil.getHeight(FontSize.MEDIUM) + padding * 3,
+                this.getX() + 3,
+                this.getY() + FontUtil.getHeight(FontSize.MEDIUM) + 3,
                 isHovered(mouseX, mouseY) ? (this.module.getStatus() ? Vergence.THEME.getTheme().getModuleEnabledTextColor() : Vergence.THEME.getTheme().getModuleHoveredTextColor()) : (this.module.getStatus() ? Vergence.THEME.getTheme().getModuleEnabledTextColor() : Vergence.THEME.getTheme().getModuleTextColor()),
                 FontSize.SMALLEST
         );
 
-        FontUtil.drawTextWithAlign(
-                isActuallySpread ? "-" : "+",
-                getX(),
-                getY(),
-                getX() + getWidth() - padding * 2,
-                getY() + FontUtil.getHeight(FontSize.MEDIUM) + FontUtil.getHeight(FontSize.SMALLEST) + 3 * 5,
-                isHovered(mouseX, mouseY) ? (this.module.getStatus() ? Vergence.THEME.getTheme().getModuleEnabledGearTextColor() : Vergence.THEME.getTheme().getModuleHoveredGearTextColor()) : (this.module.getStatus() ? Vergence.THEME.getTheme().getModuleEnabledGearTextColor() : Vergence.THEME.getTheme().getModuleGearTextColor()),
-                FontSize.LARGEST,
+        Pair<Double, Double> GearComponentPosition = Render2DUtil.drawRoundedRectWithAlign(
+                context.getMatrices(),
+                this.x,
+                this.y,
+                this.x + this.width - ((FontUtil.getHeight(FontSize.MEDIUM) + FontUtil.getHeight(FontSize.SMALL)) / 3),
+                this.y + FontUtil.getHeight(FontSize.MEDIUM) + FontUtil.getHeight(FontSize.SMALL) + 2 + (this.isActuallySpread ? 2 : 0),
+                (FontUtil.getHeight(FontSize.MEDIUM) + FontUtil.getHeight(FontSize.SMALL)) / 2,
+                (FontUtil.getHeight(FontSize.MEDIUM) + FontUtil.getHeight(FontSize.SMALL)) / 2,
+                1,
+                new Color(0, 0, 0, 0),
                 Aligns.RIGHT
+        );
+
+        FontUtil.drawTextWithAlign(
+                context,
+                isActuallySpread ? "-" : "+",
+                GearComponentPosition.getA(),
+                GearComponentPosition.getB(),
+                GearComponentPosition.getA() + (FontUtil.getHeight(FontSize.MEDIUM) + FontUtil.getHeight(FontSize.SMALL)) / 2,
+                GearComponentPosition.getB() + (FontUtil.getHeight(FontSize.MEDIUM) + FontUtil.getHeight(FontSize.SMALL)) / 2,
+                Aligns.CENTER,
+                isHovered(mouseX, mouseY) ? (this.module.getStatus() ? Vergence.THEME.getTheme().getModuleEnabledGearTextColor() : Vergence.THEME.getTheme().getModuleHoveredGearTextColor()) : (this.module.getStatus() ? Vergence.THEME.getTheme().getModuleEnabledGearTextColor() : Vergence.THEME.getTheme().getModuleGearTextColor()),
+                FontSize.LARGEST
         );
 
         animationProgress = animation.getProgress();
 
         if (isSpread() || (animationProgress > 0.001f && animationProgress != 1f)) {
-//            Render2DUtil.pushDisplayArea(
-//                    (float) getX(),
-//                    (float) getY(),
-//                    (float) (getX() + getWidth()),
-//                    (float) (getY() + getHeight())
-//            );
+            MatrixStack matrices = context.getMatrices();
+            matrices.push();
+
+            Render2DUtil.pushDisplayArea(
+                    context.getMatrices(),
+                    (float) getX(),
+                    (float) getY(),
+                    (float) (getX() + getWidth()),
+                    (float) (getY() + getHeight()),
+                    1f
+            );
+
+            double baseY = getY() + FontUtil.getHeight(FontSize.MEDIUM)
+                    + FontUtil.getHeight(FontSize.SMALL)
+                    + 2;
+
+            matrices.translate(getX(), baseY, 0);
+            matrices.scale(1f, animationProgress, 1f);
+            matrices.translate(-getX(), -(baseY), 0);
 
             for (GuiComponent component : getSubComponents()) {
-                component.onDraw(mouseX, mouseY, clickLeft, clickRight);
+                component.onDraw(context, mouseX, mouseY, clickLeft, clickRight);
             }
 
-//            Render2DUtil.popDisplayArea();
+            matrices.pop();
+            Render2DUtil.popDisplayArea();
         }
         if (!isSpread && !animation.isRunning() && animationProgress < 0.001f) {
             isActuallySpread = false;

@@ -197,7 +197,7 @@ public abstract class Module implements Wrapper {
     public void onTickAlways() {
     }
 
-    public void onDraw2D() {
+    public void onDraw2D(DrawContext context,  float tickDelta) {
     }
 
     public void onDrawSkia(DrawContext context,  float tickDelta) {

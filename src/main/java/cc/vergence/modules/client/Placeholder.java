@@ -4,6 +4,7 @@ import cc.vergence.Vergence;
 import cc.vergence.features.options.Option;
 import cc.vergence.features.options.impl.TextOption;
 import cc.vergence.modules.Module;
+import cc.vergence.modules.movement.TickShift;
 
 public class Placeholder extends Module {
     public static Placeholder INSTANCE;
@@ -35,6 +36,9 @@ public class Placeholder extends Module {
     public Option<String> placeholder_player_position_x = addOption(new TextOption("Placeholder_Position_X", "Blank").setEditable(false));
     public Option<String> placeholder_player_position_y = addOption(new TextOption("Placeholder_Position_Y", "Blank").setEditable(false));
     public Option<String> placeholder_player_position_z = addOption(new TextOption("Placeholder_Position_Z", "Blank").setEditable(false));
+    public Option<String> placeholder_player_tickshift_used = addOption(new TextOption("Placeholder_TickShift_Used", "Blank").setEditable(false));
+    public Option<String> placeholder_player_tickshift_saved = addOption(new TextOption("Placeholder_TickShift_Saved", "Blank").setEditable(false));
+    public Option<String> placeholder_player_tickshift_max = addOption(new TextOption("Placeholder_TickShift_Max", "Blank").setEditable(false));
     public Option<String> placeholder_world_overworld = addOption(new TextOption("Placeholder_OverWorld", "OverWorld").setEditable(true));
     public Option<String> placeholder_world_nether = addOption(new TextOption("Placeholder_Nether", "Nether").setEditable(true));
     public Option<String> placeholder_world_the_end = addOption(new TextOption("Placeholder_TheEnd", "TheEnd").setEditable(true));
@@ -70,6 +74,10 @@ public class Placeholder extends Module {
             placeholder_player_right_cps.setValue(String.valueOf(Vergence.INFO.getLeftClicks()));
             placeholder_player_gametime.setValue(String.valueOf(Vergence.INFO.getGameTime()));
             placeholder_player_gametime_formatted.setValue(String.valueOf(Vergence.INFO.getGameTimeFormatted()));
+            placeholder_player_server.setValue(Vergence.SERVER.getChachServer());
+            placeholder_player_tickshift_used.setValue(String.valueOf(TickShift.INSTANCE != null ? TickShift.INSTANCE.getUsed() : "0%"));
+            placeholder_player_tickshift_saved.setValue(String.valueOf(TickShift.INSTANCE != null ? TickShift.INSTANCE.getTicks() : "0"));
+            placeholder_player_tickshift_max.setValue(String.valueOf(TickShift.INSTANCE != null ? TickShift.INSTANCE.maxTicks.getValue().intValue() : "0"));
         }
     }
 }

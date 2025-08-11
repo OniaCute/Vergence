@@ -49,6 +49,14 @@ public class TickShift extends Module {
         waiting = 0;
     }
 
+    public String getUsed() {
+        return String.format("%.2f", (ticks / maxTicks.getValue()) * 100);
+    }
+
+    public int getTicks() {
+        return ticks;
+    }
+
     @Override
     public void onTick() {
         if (isNull()) {

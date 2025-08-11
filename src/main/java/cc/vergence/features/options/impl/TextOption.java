@@ -5,6 +5,7 @@ import cc.vergence.features.enums.world.Dimensions;
 import cc.vergence.features.event.events.OptionValueUpdateEvent;
 import cc.vergence.features.options.Option;
 import cc.vergence.modules.client.Placeholder;
+import cc.vergence.modules.movement.TickShift;
 import cc.vergence.util.interfaces.Wrapper;
 import cc.vergence.util.other.WorldUtil;
 import com.google.gson.JsonElement;
@@ -73,7 +74,10 @@ public class TextOption extends Option<String> implements Wrapper {
                     .replaceAll("\\{right_cps}", String.valueOf(Vergence.INFO.getRightClicks()))
                     .replaceAll("\\{gametime}", String.valueOf(Vergence.INFO.getGameTime()))
                     .replaceAll("\\{gametime_formatted}", String.valueOf(Vergence.INFO.getGameTimeFormatted()))
-                    .replaceAll("\\{server}", String.valueOf(Vergence.SERVER.getChachServer()));
+                    .replaceAll("\\{server}", String.valueOf(Vergence.SERVER.getChachServer()))
+                    .replaceAll("\\{tickshift_used}", String.valueOf(TickShift.INSTANCE != null ? TickShift.INSTANCE.getUsed() : "0%"))
+                    .replaceAll("\\{tickshift_saved}", String.valueOf(TickShift.INSTANCE != null ? TickShift.INSTANCE.getTicks() : "0"))
+                    .replaceAll("\\{tickshift_max}", String.valueOf(TickShift.INSTANCE != null ? TickShift.INSTANCE.maxTicks.getValue().intValue() : "0"));
 
         }
         if (mc.world != null) {

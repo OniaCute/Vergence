@@ -145,6 +145,7 @@ public class ModuleManager {
         registerModule(new CPSIndicator());
         registerModule(new ServerIndicator());
         registerModule(new GameTimeIndicator());
+        registerModule(new TickShiftIndicator());
         registerModule(new KeyStrokes());
 
         // special module

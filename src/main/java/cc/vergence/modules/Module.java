@@ -505,6 +505,12 @@ public abstract class Module implements Wrapper {
     public void onHurtAlways(HurtEvent event, LivingEntity entity) {
     }
 
+    public void onAttack(AttackEvent event, LivingEntity entity) {
+    }
+
+    public void onAttackAlways(AttackEvent event, LivingEntity entity) {
+    }
+
     public void setName(String name) {
         this.name = name;
     }

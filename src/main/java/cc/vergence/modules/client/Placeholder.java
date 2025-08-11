@@ -39,6 +39,7 @@ public class Placeholder extends Module {
     public Option<String> placeholder_player_tickshift_used = addOption(new TextOption("Placeholder_TickShift_Used", "Blank").setEditable(false));
     public Option<String> placeholder_player_tickshift_saved = addOption(new TextOption("Placeholder_TickShift_Saved", "Blank").setEditable(false));
     public Option<String> placeholder_player_tickshift_max = addOption(new TextOption("Placeholder_TickShift_Max", "Blank").setEditable(false));
+    public Option<String> placeholder_player_combat_distance = addOption(new TextOption("Placeholder_Combat_Distance", "0").setEditable(false));
     public Option<String> placeholder_world_overworld = addOption(new TextOption("Placeholder_OverWorld", "OverWorld").setEditable(true));
     public Option<String> placeholder_world_nether = addOption(new TextOption("Placeholder_Nether", "Nether").setEditable(true));
     public Option<String> placeholder_world_the_end = addOption(new TextOption("Placeholder_TheEnd", "TheEnd").setEditable(true));
@@ -78,6 +79,7 @@ public class Placeholder extends Module {
             placeholder_player_tickshift_used.setValue(String.valueOf(TickShift.INSTANCE != null ? TickShift.INSTANCE.getUsed() : "0%"));
             placeholder_player_tickshift_saved.setValue(String.valueOf(TickShift.INSTANCE != null ? TickShift.INSTANCE.getTicks() : "0"));
             placeholder_player_tickshift_max.setValue(String.valueOf(TickShift.INSTANCE != null ? TickShift.INSTANCE.maxTicks.getValue().intValue() : "0"));
+            placeholder_player_combat_distance.setValue(String.format("%.2f", Vergence.INFO.getCombatDistance()));
         }
     }
 }

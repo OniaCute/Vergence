@@ -146,7 +146,10 @@ public class ModuleManager {
         registerModule(new ServerIndicator());
         registerModule(new GameTimeIndicator());
         registerModule(new TickShiftIndicator());
+        registerModule(new DistanceIndicator());
         registerModule(new KeyStrokes());
+        registerModule(new ArmorHud());
+        registerModule(new TargetHud());
 
         // special module
         registerModule(new SafeMode());

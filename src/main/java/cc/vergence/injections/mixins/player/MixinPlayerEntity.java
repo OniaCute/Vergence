@@ -1,6 +1,7 @@
 package cc.vergence.injections.mixins.player;
 
 import cc.vergence.Vergence;
+import cc.vergence.features.event.events.AttackEvent;
 import cc.vergence.features.event.events.DeathEvent;
 import cc.vergence.features.event.events.HurtEvent;
 import cc.vergence.modules.combat.Reach;
@@ -71,7 +72,8 @@ public abstract class MixinPlayerEntity extends LivingEntity implements Wrapper 
     private void onAttack(Entity target, CallbackInfo ci) {
         if (target != null) {
             if (target instanceof LivingEntity entity && entity.hurtTime == 0) {
-                Vergence.INFO.onAttack(entity);
+                Vergence.EVENTBUS.post(new AttackEvent(entity));
+                Vergence.INFO.onAttack(entity, ci.isCancelled());
             }
         }
     }

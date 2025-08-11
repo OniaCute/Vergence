@@ -77,8 +77,8 @@ public class TextOption extends Option<String> implements Wrapper {
                     .replaceAll("\\{server}", String.valueOf(Vergence.SERVER.getChachServer()))
                     .replaceAll("\\{tickshift_used}", String.valueOf(TickShift.INSTANCE != null ? TickShift.INSTANCE.getUsed() : "0%"))
                     .replaceAll("\\{tickshift_saved}", String.valueOf(TickShift.INSTANCE != null ? TickShift.INSTANCE.getTicks() : "0"))
-                    .replaceAll("\\{tickshift_max}", String.valueOf(TickShift.INSTANCE != null ? TickShift.INSTANCE.maxTicks.getValue().intValue() : "0"));
-
+                    .replaceAll("\\{tickshift_max}", String.valueOf(TickShift.INSTANCE != null ? TickShift.INSTANCE.maxTicks.getValue().intValue() : "0"))
+                    .replaceAll("\\{combat_distance}", String.format("%.2f", Vergence.INFO.getCombatDistance()));
         }
         if (mc.world != null) {
             Dimensions dim = WorldUtil.getDimension();

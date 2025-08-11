@@ -648,6 +648,17 @@ public class EventManager implements Wrapper {
         }
     }
 
+    @EventHandler
+    public void onAttack(AttackEvent event) {
+        LivingEntity entity = event.getEntity();
+        for (Module module : ModuleManager.modules) {
+            module.onAttackAlways(event, entity);
+            if (module.getStatus()) {
+                module.onAttack(event, entity);
+            }
+        }
+    }
+
     public void onRenderClickGui(DrawContext context, int mouseX, int mouseY, float partialTicks) {
         for (Module module : ModuleManager.modules) {
             module.onRenderClickGuiAlways(context, mouseX, mouseY, partialTicks);

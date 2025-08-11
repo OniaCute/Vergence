@@ -2,7 +2,9 @@ package cc.vergence.features.managers.player;
 
 import cc.vergence.Vergence;
 import cc.vergence.modules.exploit.FastLatencyCalc;
+import cc.vergence.modules.hud.TargetHud;
 import cc.vergence.util.interfaces.Wrapper;
+import cc.vergence.util.player.EntityUtil;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -24,6 +26,7 @@ public class InfoManager implements Wrapper {
     private long lastSecondTime = 0;
     private long gameTime = 0;
     private long startTime = 0;
+    private float combat_distance = 0;
 
     public InfoManager() {
         Vergence.EVENTBUS.subscribe(this);
@@ -108,6 +111,9 @@ public class InfoManager implements Wrapper {
             combo = 0;
             lastTargetId = null;
         }
+        if (currentTime - lastAttackTime > 12000) { // 12s
+            combat_distance = 0;
+        }
     }
 
     private void updateCPS() {
@@ -148,8 +154,8 @@ public class InfoManager implements Wrapper {
         rightClicks++;
     }
 
-    public void onAttack(LivingEntity target) {
-        if (mc.player == null || mc.world == null) {
+    public void onAttack(LivingEntity target, boolean cancelled) {
+        if (mc.player == null || mc.world == null || target == null) {
             return;
         }
 
@@ -163,8 +169,14 @@ public class InfoManager implements Wrapper {
             }
         }
 
+        if (!target.canHit() || !target.canTakeDamage() || cancelled) {
+            combo = 0;
+            combat_distance = 0;
+        }
+
         lastAttackTime = currentTime;
         lastTargetId = targetId;
+        combat_distance = EntityUtil.getDistance(target);
     }
 
     public void onHurt() {
@@ -216,5 +228,9 @@ public class InfoManager implements Wrapper {
         long minutes = ((gameTime / 1000) % 3600) / 60;
         long seconds = (gameTime / 1000) % 60;
         return String.format("%02d:%02d:%02d", hours, minutes, seconds);
+    }
+
+    public float getCombatDistance() {
+        return combat_distance;
     }
 }

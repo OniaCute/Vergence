@@ -2,6 +2,7 @@ package cc.vergence.util.render.utils;
 
 import cc.vergence.features.enums.other.Aligns;
 import cc.vergence.modules.client.ClickGUI;
+import cc.vergence.modules.client.Client;
 import cc.vergence.util.interfaces.Wrapper;
 import cc.vergence.util.other.TextureStorage;
 import cc.vergence.util.render.other.AlphaOverride;
@@ -291,54 +292,6 @@ public class NewRender2DUtil implements Wrapper {
         buff.vertex(matrix, (float) x1, (float) y1, (float) z).texture((u + (float) regionWidth) / (float) textureWidth, (v + (float) regionHeight) / (float) textureHeight).color(c2.getRGB());
         buff.vertex(matrix, (float) x1, (float) y0, (float) z).texture((u + (float) regionWidth) / (float) textureWidth, (v) / (float) textureHeight).color(c3.getRGB());
         buff.vertex(matrix, (float) x0, (float) y0, (float) z).texture((u) / (float) textureWidth, (v + 0.0F) / (float) textureHeight).color(c4.getRGB());
-    }
-
-    public static void drawOrbiz(MatrixStack matrices, float z, final double r, Color c) {
-        Matrix4f matrix = matrices.peek().getPositionMatrix();
-        enableRender();
-        RenderSystem.setShader(ShaderProgramKeys.POSITION_COLOR);
-        BufferBuilder bufferBuilder = Tessellator.getInstance().begin(VertexFormat.DrawMode.TRIANGLE_FAN, VertexFormats.POSITION_COLOR);
-        for (int i = 0; i <= 20; i++) {
-            final float x2 = (float) (Math.sin(((i * 56.548656f) / 180f)) * r);
-            final float y2 = (float) (Math.cos(((i * 56.548656f) / 180f)) * r);
-            bufferBuilder.vertex(matrix, x2, y2, z).color(c.getRed() / 255f, c.getGreen() / 255f, c.getBlue() / 255f, 0.4f);
-        }
-        BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
-        disableRender();
-    }
-
-    public static void drawStar(MatrixStack matrices, Color c, float scale) {
-        enableRender();
-        RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE);
-        RenderSystem.setShaderTexture(0, TextureStorage.star);
-        RenderSystem.setShaderColor(c.getRed() / 255f, c.getGreen() / 255f, c.getBlue() / 255f, c.getAlpha() / 255f);
-        renderGradientTexture(matrices, 0, 0, scale, scale, 0, 0, 128, 128, 128, 128, c, c, c, c);
-        disableRender();
-    }
-
-    public static void drawHeart(MatrixStack matrices, Color c, float scale) {
-        enableRender();
-        RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE);
-        RenderSystem.setShaderTexture(0, TextureStorage.heart);
-        RenderSystem.setShaderColor(c.getRed() / 255f, c.getGreen() / 255f, c.getBlue() / 255f, c.getAlpha() / 255f);
-        renderGradientTexture(matrices, 0, 0, scale, scale, 0, 0, 128, 128, 128, 128, c, c, c, c);
-        disableRender();
-    }
-
-    public static void drawBloom(MatrixStack matrices, Color c, float scale) {
-        enableRender();
-        RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE);
-        RenderSystem.setShaderTexture(0, TextureStorage.firefly);
-        RenderSystem.setShaderColor(c.getRed() / 255f, c.getGreen() / 255f, c.getBlue() / 255f, c.getAlpha() / 255f);
-        renderGradientTexture(matrices, 0, 0, scale, scale, 0, 0, 128, 128, 128, 128, c, c, c, c);
-        disableRender();
-    }
-
-    public static void setRectPoints(BufferBuilder bufferBuilder, Matrix4f matrix, float x, float y, float x1, float y1, Color c1, Color c2, Color c3, Color c4) {
-        bufferBuilder.vertex(matrix, x, y1, 0.0F).color(c1.getRGB());
-        bufferBuilder.vertex(matrix, x1, y1, 0.0F).color(c2.getRGB());
-        bufferBuilder.vertex(matrix, x1, y, 0.0F).color(c3.getRGB());
-        bufferBuilder.vertex(matrix, x, y, 0.0F).color(c4.getRGB());
     }
 
     public static ImageHelper getImageHelper() {

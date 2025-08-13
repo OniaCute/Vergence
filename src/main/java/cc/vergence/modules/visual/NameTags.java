@@ -8,6 +8,7 @@ import cc.vergence.injections.accessors.render.ItemRenderStateAccessor;
 import cc.vergence.injections.accessors.render.ItemRendererAccessor;
 import cc.vergence.injections.accessors.render.LayerRenderStateAccessor;
 import cc.vergence.modules.Module;
+import cc.vergence.modules.client.Client;
 import cc.vergence.modules.misc.NameProtect;
 import cc.vergence.util.color.ColorUtil;
 import cc.vergence.util.font.FontUtil;
@@ -226,8 +227,11 @@ public class NameTags extends Module {
 
                     RenderSystem.enableBlend();
                     RenderSystem.defaultBlendFunc();
-                    GL11.glDepthFunc(GL11.GL_ALWAYS);
-
+                    if (Client.INSTANCE != null && Client.INSTANCE.ignoreWallRender.getValue()) {
+                        RenderSystem.disableDepthTest();
+                        RenderSystem.depthMask(false);
+                        GL11.glDepthFunc(GL11.GL_ALWAYS);
+                    }
                     for (int j = 0; j < ((ItemRenderStateAccessor) itemRenderState).getLayerCount(); j++) {
                         ItemRenderState.LayerRenderState layer = ((ItemRenderStateAccessor) itemRenderState).getLayers()[j];
 
@@ -258,7 +262,11 @@ public class NameTags extends Module {
 
                     vertexConsumers.draw();
 
-                    GL11.glDepthFunc(GL11.GL_LEQUAL);
+                    if (Client.INSTANCE != null && Client.INSTANCE.ignoreWallRender.getValue()) {
+                        RenderSystem.enableDepthTest();
+                        RenderSystem.depthMask(true);
+                        GL11.glDepthFunc(GL11.GL_LEQUAL);
+                    }
                     RenderSystem.disableBlend();
 
                     matrixStack.pop();

@@ -47,10 +47,8 @@ public class SkiaContext {
 			renderTarget = null;
 		}
 
-		renderTarget = BackendRenderTarget.makeGL(width, height, 0, 8,
-				MinecraftClient.getInstance().getFramebuffer().fbo, GL11.GL_RGBA8);
-		surface = Surface.wrapBackendRenderTarget(context, renderTarget, SurfaceOrigin.BOTTOM_LEFT,
-				SurfaceColorFormat.RGBA_8888, ColorSpace.getSRGB());
+		renderTarget = BackendRenderTarget.makeGL(width, height, 0, 8, MinecraftClient.getInstance().getFramebuffer().fbo, GL11.GL_RGBA8);
+		surface = Surface.wrapBackendRenderTarget(context, renderTarget, SurfaceOrigin.BOTTOM_LEFT, SurfaceColorFormat.RGBA_8888, ColorSpace.getSRGB());
 
 	}
 

@@ -35,13 +35,18 @@ public class Render2DUtil implements Wrapper {
 
     public static void enableRender() {
         RenderSystem.enableBlend();
-        RenderSystem.disableDepthTest();
-        RenderSystem.depthMask(false);
+        if (Client.INSTANCE != null && Client.INSTANCE.ignoreWallRender.getValue()) {
+            RenderSystem.disableDepthTest();
+            RenderSystem.depthMask(false);
+        }
+        RenderSystem.defaultBlendFunc();
         RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
     }
     public static void disableRender() {
-        RenderSystem.enableDepthTest();
-        RenderSystem.depthMask(true);
+        if (Client.INSTANCE != null && Client.INSTANCE.ignoreWallRender.getValue()) {
+            RenderSystem.enableDepthTest();
+            RenderSystem.depthMask(true);
+        }
         RenderSystem.disableBlend();
     }
 

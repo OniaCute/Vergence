@@ -1,5 +1,6 @@
 package cc.vergence.util.render.other;
 
+import cc.vergence.modules.client.Client;
 import cc.vergence.modules.visual.NoBacktrack;
 import cc.vergence.util.interfaces.ILivingEntityRenderer;
 import cc.vergence.util.interfaces.IMultiPhase;
@@ -50,7 +51,10 @@ public class ModelRenderer implements Wrapper {
         EntityRenderer<?, ?> renderer = mc.getEntityRenderDispatcher().getRenderer(entity);
         EntityRenderState renderState = ((EntityRenderer<Entity, ?>) renderer).getAndUpdateRenderState(entity, tickDelta);
 
-        RenderSystem.enableDepthTest();
+        if (Client.INSTANCE != null && Client.INSTANCE.ignoreWallRender.getValue()) {
+            RenderSystem.disableDepthTest();
+            RenderSystem.depthMask(false);
+        }
 
         MatrixStack matrices = new MatrixStack();
         ModelRenderer.matrix4f = matrices.peek().getPositionMatrix();
@@ -66,7 +70,10 @@ public class ModelRenderer implements Wrapper {
             crystalRenderer.render(state, matrices, CustomVertexConsumerProvider.INSTANCE, 15);
         }
 
-        RenderSystem.disableDepthTest();
+        if (Client.INSTANCE != null && Client.INSTANCE.ignoreWallRender.getValue()) {
+            RenderSystem.enableDepthTest();
+            RenderSystem.depthMask(true);
+        }
         matrices.push();
     }
 

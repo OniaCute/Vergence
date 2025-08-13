@@ -34,8 +34,9 @@ public class Client extends Module {
         INSTANCE = this;
     }
 
-    public Option<Boolean> sync = addOption(new BooleanOption("Sync"));
+    public Option<Boolean> sync = addOption(new BooleanOption("Sync", false));
     public Option<Double> blurIntensity = addOption(new DoubleOption("BlurIntensity", 1.11, 19.9, 5));
+    public Option<Boolean> ignoreWallRender = addOption(new BooleanOption("IgnoreWallRender", true));
     public Option<String> clientBrand = addOption(new TextOption("Brand", "{full_name}"));
     public Option<Enum<?>> UIScale = addOption(new EnumOption("UIScale", UIScales.X100));
     public Option<Enum<?>> language = addOption(new EnumOption("Language", Languages.English));

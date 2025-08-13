@@ -34,6 +34,7 @@ public class NoRender extends Module {
     public Option<Boolean> noBossBar = addOption(new BooleanOption("NoBossBar", false));
     public Option<Boolean> noTitle = addOption(new BooleanOption("NoTitle", false));
     public Option<Boolean> noWeather = addOption(new BooleanOption("NoWeather", false));
+    public Option<Boolean> noPotionHud = addOption(new BooleanOption("NoPotionHud", false));
 
     @Override
     public String getDetails() {

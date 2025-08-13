@@ -2389,5 +2389,32 @@ public class EnglishLanguage extends Language {
         languageBase.put("Module.Modules.TargetHud.Options.BooleanOption.Rounded.description", "Use rounded corners for the background");
         languageBase.put("Module.Modules.TargetHud.Options.DoubleOption.Radius.name", "Radius");
         languageBase.put("Module.Modules.TargetHud.Options.DoubleOption.Radius.description", "Radius of the rounded corners for the background");
+
+        languageBase.put("Module.Modules.HotbarHud.name", "Hotbar Hud");
+        languageBase.put("Module.Modules.HotbarHud.description", "Customizes the appearance of the hotbar");
+        languageBase.put("Module.Modules.HotbarHud.Options.EnumOption.XPFontSize.name", "XP Font Size");
+        languageBase.put("Module.Modules.HotbarHud.Options.EnumOption.XPFontSize.description", "Size of the text for the experience bar");
+        languageBase.put("Module.Modules.HotbarHud.Options.EnumOption.CountFontSize.name", "Count Font Size");
+        languageBase.put("Module.Modules.HotbarHud.Options.EnumOption.CountFontSize.description", "Size of the text for item counts");
+        languageBase.put("Module.Modules.HotbarHud.Options.EnumOption.CountAligns.name", "Count Align");
+        languageBase.put("Module.Modules.HotbarHud.Options.EnumOption.CountAligns.description", "Alignment of the item count text");
+        languageBase.put("Module.Modules.HotbarHud.Options.BooleanOption.Blur.name", "Blur");
+        languageBase.put("Module.Modules.HotbarHud.Options.BooleanOption.Blur.description", "Apply blur effect to the hotbar background");
+        languageBase.put("Module.Modules.HotbarHud.Options.BooleanOption.ItemFloat.name", "Item Float");
+        languageBase.put("Module.Modules.HotbarHud.Options.BooleanOption.ItemFloat.description", "Enable floating effect for items");
+        languageBase.put("Module.Modules.HotbarHud.Options.DoubleOption.Radius.name", "Radius");
+        languageBase.put("Module.Modules.HotbarHud.Options.DoubleOption.Radius.description", "Radius of the rounded corners for the hotbar");
+        languageBase.put("Module.Modules.HotbarHud.Options.ColorOption.XPColor.name", "XP Color");
+        languageBase.put("Module.Modules.HotbarHud.Options.ColorOption.XPColor.description", "Color of the experience bar text");
+        languageBase.put("Module.Modules.HotbarHud.Options.ColorOption.CountColor.name", "Count Color");
+        languageBase.put("Module.Modules.HotbarHud.Options.ColorOption.CountColor.description", "Color of the item count text");
+        languageBase.put("Module.Modules.HotbarHud.Options.ColorOption.SelectColor.name", "Select Color");
+        languageBase.put("Module.Modules.HotbarHud.Options.ColorOption.SelectColor.description", "Color of the selected slot indicator");
+        languageBase.put("Module.Modules.HotbarHud.Options.ColorOption.BackgroundColor.name", "Background Color");
+        languageBase.put("Module.Modules.HotbarHud.Options.ColorOption.BackgroundColor.description", "Background color of the hotbar");
+        languageBase.put("Module.Modules.HotbarHud.Options.DoubleOption.OffsetX.name", "Offset X");
+        languageBase.put("Module.Modules.HotbarHud.Options.DoubleOption.OffsetX.description", "The offset of count text's X axis");
+        languageBase.put("Module.Modules.HotbarHud.Options.DoubleOption.OffsetY.name", "Offset Y");
+        languageBase.put("Module.Modules.HotbarHud.Options.DoubleOption.OffsetY.description", "The offset of count text's Y axis");
     }
 }

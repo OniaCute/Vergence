@@ -853,11 +853,15 @@ public class FontUtil implements Wrapper {
     }
 
     public static void drawText(MatrixStack matrixStack, String text, double x, double y, Color color, FontSize size) {
+        drawText(matrixStack, text, x, y, color, size, false);
+    }
+
+    public static void drawText(MatrixStack matrixStack, String text, double x, double y, Color color, FontSize size, boolean shadow) {
         Fonts fontType = Fonts.Sans;
         if (Client.INSTANCE != null) {
             fontType = (Fonts) Client.INSTANCE.font.getValue();
         }
-        drawText(matrixStack, text, x, y, color.getRGB(), size, fontType, false);
+        drawText(matrixStack, text, x, y, color.getRGB(), size, fontType, shadow);
     }
 
     public static void drawText(DrawContext context, String text, double x, double y, int color, FontSize size) {
@@ -1068,6 +1072,72 @@ public class FontUtil implements Wrapper {
             drawIcon(context, text, startX, startY, color, size);
         } else {
             drawText(context, text, startX, startY, color, size, shadow);
+        }
+    }
+
+    public static void drawTextWithAlign(MatrixStack matrixStack, String text, double originalX, double originalY, double originalEx, double originalEy, Aligns align, Color color, FontSize size) {
+        Fonts fontType = Fonts.Sans;
+        if (Client.INSTANCE != null) {
+            fontType = (Fonts) Client.INSTANCE.font.getValue();
+        }
+        drawTextWithAlign(matrixStack, text, originalX, originalY, originalEx, originalEy, align, color, size, fontType, false);
+    }
+
+    public static void drawTextWithAlign(MatrixStack matrixStack, String text, double originalX, double originalY, double originalEx, double originalEy, Aligns align, Color color, FontSize size, Fonts fontType, boolean shadow) {
+        if (Client.INSTANCE == null || !LOADED) {
+            return;
+        }
+        double textWidth = getWidth(size, fontType, text) * getScaleFactor();
+        double textHeight = getHeight(size, fontType, text) * getScaleFactor();
+
+        double scaleFactor = getScaleFactor();
+        double startX = originalX * scaleFactor;
+        double startY = originalY * scaleFactor;
+        switch (align) {
+            case CENTER:
+                startX = ((originalX + originalEx) / 2 - textWidth / 2) * scaleFactor;
+                startY = ((originalY + originalEy) / 2 - textHeight / 2) * scaleFactor;
+                break;
+
+            case RIGHT:
+                startX = (originalEx - textWidth) * scaleFactor;
+                startY = ((originalY + originalEy) / 2 - textHeight / 2) * scaleFactor;
+                break;
+
+            case LEFT:
+                startX = originalX * scaleFactor;
+                startY = ((originalY + originalEy) / 2 - textHeight / 2) * scaleFactor;
+                break;
+
+            case TOP:
+                startX = ((originalX + originalEx) / 2 - textWidth / 2) * scaleFactor;
+                startY = originalY * scaleFactor;
+                break;
+            case BOTTOM:
+                startX = ((originalX + originalEx) / 2 - textWidth / 2) * scaleFactor;
+                startY = (originalEy - textHeight) * scaleFactor;
+                break;
+            case LEFT_TOP:
+                startX = originalX * scaleFactor;
+                startY = originalY * scaleFactor;
+                break;
+            case LEFT_BOTTOM:
+                startX = originalX * scaleFactor;
+                startY = (originalEy - textHeight) * scaleFactor;
+                break;
+            case RIGHT_TOP:
+                startX = (originalEx - textWidth) * scaleFactor;
+                startY = originalY * scaleFactor;
+                break;
+            case RIGHT_BOTTOM:
+                startX = (originalEx - textWidth) * scaleFactor;
+                startY = (originalEy - textHeight) * scaleFactor;
+                break;
+        }
+        if (fontType.equals(Fonts.Icon)) {
+            drawIcon(matrixStack, text, startX, startY, color, size);
+        } else {
+            drawText(matrixStack, text, startX, startY, color, size, shadow);
         }
     }
 

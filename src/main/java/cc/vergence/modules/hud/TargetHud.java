@@ -11,6 +11,7 @@ import cc.vergence.features.screens.HudEditorScreen;
 import cc.vergence.modules.Module;
 import cc.vergence.util.font.FontUtil;
 import cc.vergence.util.other.FastTimerUtil;
+import cc.vergence.util.render.utils.NewRender2DUtil;
 import cc.vergence.util.render.utils.Render2DUtil;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gl.ShaderProgramKeys;
@@ -98,7 +99,26 @@ public class TargetHud extends Module {
 
     @Override
     public void onDrawSkia(DrawContext context, float tickDelta) {
+        if (!blur.getValue() || !background.getValue() || (target == null && !(mc.currentScreen instanceof HudEditorScreen))) {
+            return ;
+        }
 
+        if (rounded.getValue()) {
+            NewRender2DUtil.drawRoundedBlur(
+                    getX(),
+                    getY(),
+                    getWidth(),
+                    getHeight(),
+                    radius.getValue()
+            );
+        } else {
+            NewRender2DUtil.drawBlur(
+                    getX(),
+                    getY(),
+                    getWidth(),
+                    getHeight()
+            );
+        }
     }
 
     @Override

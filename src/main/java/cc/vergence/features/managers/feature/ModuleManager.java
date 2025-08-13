@@ -150,6 +150,8 @@ public class ModuleManager {
         registerModule(new KeyStrokes());
         registerModule(new ArmorHud());
         registerModule(new TargetHud());
+        registerModule(new HotbarHud());
+        registerModule(new PotionHud());
 
         // special module
         registerModule(new SafeMode());

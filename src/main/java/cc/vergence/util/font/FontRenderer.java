@@ -1,5 +1,6 @@
 package cc.vergence.util.font;
 
+import cc.vergence.modules.client.Client;
 import cc.vergence.util.interfaces.Wrapper;
 import com.google.common.base.Preconditions;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -129,8 +130,10 @@ public class FontRenderer implements Closeable, Wrapper {
         stack.push();
         stack.translate(x, y, 0);
         stack.scale(1f / this.scaleMul, 1f / this.scaleMul, 1f);
-        RenderSystem.disableDepthTest();
-        RenderSystem.depthMask(false);
+        if (Client.INSTANCE != null && Client.INSTANCE.ignoreWallRender.getValue()) {
+            RenderSystem.disableDepthTest();
+            RenderSystem.depthMask(false);
+        }
 
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
@@ -217,8 +220,10 @@ public class FontRenderer implements Closeable, Wrapper {
         }
 
         stack.pop();
-        RenderSystem.enableDepthTest();
-        RenderSystem.depthMask(true);
+        if (Client.INSTANCE != null && Client.INSTANCE.ignoreWallRender.getValue()) {
+            RenderSystem.enableDepthTest();
+            RenderSystem.depthMask(true);
+        }
         GLYPH_PAGE_CACHE.clear();
     }
 

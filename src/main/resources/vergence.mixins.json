@@ -45,7 +45,6 @@
     "mixins.render.MixinInGameOverlayRenderer",
     "mixins.render.MixinLightmapTextureManager",
     "mixins.render.MixinLivingEntityRenderer",
-    "mixins.render.MixinMinecraftInGameHud",
     "mixins.render.MixinPlayerListHud",
     "mixins.render.MixinRenderTickCounter",
     "mixins.render.MixinTextVisitFactory",

@@ -1,6 +1,7 @@
 package cc.vergence.util.render.utils;
 
 import cc.vergence.injections.accessors.render.WorldRendererAccessor;
+import cc.vergence.modules.client.Client;
 import cc.vergence.util.interfaces.Wrapper;
 import cc.vergence.util.other.TextureStorage;
 import com.mojang.blaze3d.platform.GlStateManager;
@@ -46,10 +47,19 @@ public class Render3DUtil implements Wrapper {
     public static void enableRender() {
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
+        if (Client.INSTANCE != null && Client.INSTANCE.ignoreWallRender.getValue()) {
+            RenderSystem.disableDepthTest();
+            RenderSystem.depthMask(false);
+        }
+        RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
     }
 
     public static void disableRender() {
         RenderSystem.disableBlend();
+        if (Client.INSTANCE != null && Client.INSTANCE.ignoreWallRender.getValue()) {
+            RenderSystem.enableDepthTest();
+            RenderSystem.depthMask(true);
+        }
     }
 
     public static @NotNull Vec3d worldSpaceToScreenSpace(@NotNull Vec3d pos) {
@@ -80,8 +90,7 @@ public class Render3DUtil implements Wrapper {
 
     public static void draw3DBox(MatrixStack matrixStack, Box box, Color color, boolean fill, Color outlineColor, boolean outline) {
         box = box.offset(mc.gameRenderer.getCamera().getPos().negate());
-        RenderSystem.enableBlend();
-        GL11.glDisable(GL11.GL_DEPTH_TEST);
+        enableRender();
 
         Matrix4f matrix = matrixStack.peek().getPositionMatrix();
         Tessellator tessellator = RenderSystem.renderThreadTesselator();
@@ -131,13 +140,8 @@ public class Render3DUtil implements Wrapper {
             BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
         }
 
-        RenderSystem.setShaderColor(1, 1, 1, 1);
-
-        GL11.glEnable(GL11.GL_DEPTH_TEST);
-        RenderSystem.disableBlend();
-
-        RenderSystem.enableBlend();
-        GL11.glDisable(GL11.GL_DEPTH_TEST);
+        disableRender();
+        enableRender();
 
         matrix = matrixStack.peek().getPositionMatrix();
         tessellator = RenderSystem.renderThreadTesselator();
@@ -179,18 +183,13 @@ public class Render3DUtil implements Wrapper {
 
             BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
         }
-        RenderSystem.setShaderColor(1, 1, 1, 1);
-
-        GL11.glEnable(GL11.GL_DEPTH_TEST);
-        RenderSystem.disableBlend();
+        disableRender();
     }
 
     public static void draw(java.util.List<VertexCollection> quads, List<VertexCollection> debugLines, boolean shine) {
-        RenderSystem.enableBlend();
+        enableRender();
         if (shine) RenderSystem.blendFunc(770, 32772);
         else RenderSystem.blendFuncSeparate(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SrcFactor.ONE, GlStateManager.DstFactor.ZERO);
-        RenderSystem.disableDepthTest();
-        RenderSystem.depthMask(false);
 
         if (!quads.isEmpty()) {
             BufferBuilder buffer = RenderSystem.renderThreadTesselator().begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
@@ -217,9 +216,7 @@ public class Render3DUtil implements Wrapper {
             GL11.glDisable(GL11.GL_LINE_SMOOTH);
         }
 
-        RenderSystem.enableDepthTest();
-        RenderSystem.depthMask(true);
-        RenderSystem.disableBlend();
+        disableRender();
     }
 
     public static void renderLine(MatrixStack matrices, Vec3d from, Vec3d to, Color color) {

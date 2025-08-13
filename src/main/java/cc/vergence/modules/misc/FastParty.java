@@ -28,7 +28,7 @@ public class FastParty extends Module {
     @Override
     public void onEnable() {
         for (PlayerEntity player : mc.world.getPlayers()) {
-            if (player != null && !Vergence.FRIEND.isFriend(player.getName().getString()) && !Vergence.ENEMY.isEnemy(player.getName().getString()) && EntityUtil.getDistance(player) <= range.getValue()) {
+            if (player != null && player != mc.player && !Vergence.FRIEND.isFriend(player.getName().getString()) && !Vergence.ENEMY.isEnemy(player.getName().getString()) && EntityUtil.getDistance(player) <= range.getValue()) {
                 players.add(player.getName().getString());
                 Vergence.FRIEND.addFriend(player.getName().getString());
             }
@@ -46,10 +46,11 @@ public class FastParty extends Module {
 
     @Override
     public void onShutDown() {
-        for (String s : players) {
-            if (Vergence.FRIEND.isFriend(s)) {
-                Vergence.FRIEND.removeFriend(s);
-            }
-        }
+        disable();
+    }
+
+    @Override
+    public void onLogout() {
+        disable();
     }
 }

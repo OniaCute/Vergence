@@ -5,6 +5,7 @@ import cc.vergence.features.screens.ClickGuiScreen;
 import cc.vergence.features.screens.HudEditorScreen;
 import cc.vergence.modules.client.Client;
 import cc.vergence.modules.hud.HotbarHud;
+import cc.vergence.modules.hud.PotionHud;
 import cc.vergence.modules.hud.Scoreboard;
 import cc.vergence.modules.visual.NoRender;
 import cc.vergence.util.interfaces.Wrapper;
@@ -100,7 +101,7 @@ public class MixinInGameHud implements Wrapper {
 
     @Inject(at = @At(value = "HEAD"), method = "renderStatusEffectOverlay", cancellable = true)
     public void renderStatusEffectOverlayHook(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
-        if (NoRender.INSTANCE.getStatus() && NoRender.INSTANCE.noPotionHud.getValue()) {
+        if (NoRender.INSTANCE.getStatus() && NoRender.INSTANCE.noPotionHud.getValue() || PotionHud.INSTANCE.getStatus()) {
             ci.cancel();
         }
     }

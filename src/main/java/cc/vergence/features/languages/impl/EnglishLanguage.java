@@ -2416,5 +2416,42 @@ public class EnglishLanguage extends Language {
         languageBase.put("Module.Modules.HotbarHud.Options.DoubleOption.OffsetX.description", "The offset of count text's X axis");
         languageBase.put("Module.Modules.HotbarHud.Options.DoubleOption.OffsetY.name", "Offset Y");
         languageBase.put("Module.Modules.HotbarHud.Options.DoubleOption.OffsetY.description", "The offset of count text's Y axis");
+
+        languageBase.put("Module.Modules.PotionHud.name", "Potion Hud");
+        languageBase.put("Module.Modules.PotionHud.description", "Displays active potion effects on the HUD");
+        languageBase.put("Module.Modules.PotionHud.Options.TextOption.Title.name", "Title");
+        languageBase.put("Module.Modules.PotionHud.Options.TextOption.Title.description", "Title text for the potion effects");
+        languageBase.put("Module.Modules.PotionHud.Options.EnumOption.TitleAlign.name", "Title Align");
+        languageBase.put("Module.Modules.PotionHud.Options.EnumOption.TitleAlign.description", "Alignment of the title text");
+        languageBase.put("Module.Modules.PotionHud.Options.TextOption.InfinityTime.name", "Infinity Time");
+        languageBase.put("Module.Modules.PotionHud.Options.TextOption.InfinityTime.description", "Text to display for infinite potion effects");
+        languageBase.put("Module.Modules.PotionHud.Options.ColorOption.TitleColor.name", "Title Color");
+        languageBase.put("Module.Modules.PotionHud.Options.ColorOption.TitleColor.description", "Color of the title text");
+        languageBase.put("Module.Modules.PotionHud.Options.BooleanOption.CustomPotionColor.name", "Custom Potion Color");
+        languageBase.put("Module.Modules.PotionHud.Options.BooleanOption.CustomPotionColor.description", "Use custom color for potion names");
+        languageBase.put("Module.Modules.PotionHud.Options.ColorOption.PotionColor.name", "Potion Color");
+        languageBase.put("Module.Modules.PotionHud.Options.ColorOption.PotionColor.description", "Custom color for potion names");
+        languageBase.put("Module.Modules.PotionHud.Options.ColorOption.PotionTimeColor.name", "PotionTimeColor");
+        languageBase.put("Module.Modules.PotionHud.Options.ColorOption.PotionTimeColor.description", "Color of the potion duration text");
+        languageBase.put("Module.Modules.PotionHud.Options.DoubleOption.WarnTime.name", "Warn Time");
+        languageBase.put("Module.Modules.PotionHud.Options.DoubleOption.WarnTime.description", "Time in seconds to warn about expiring potions");
+        languageBase.put("Module.Modules.PotionHud.Options.ColorOption.WarnTimeColor.name", "Warn Time Color");
+        languageBase.put("Module.Modules.PotionHud.Options.ColorOption.WarnTimeColor.description", "Color of the warning text for expiring potions");
+        languageBase.put("Module.Modules.PotionHud.Options.ColorOption.SplitLineColor.name", "Split Line Color");
+        languageBase.put("Module.Modules.PotionHud.Options.ColorOption.SplitLineColor.description", "Color of the line separating title and potions");
+        languageBase.put("Module.Modules.PotionHud.Options.BooleanOption.Icon.name", "Icon");
+        languageBase.put("Module.Modules.PotionHud.Options.BooleanOption.Icon.description", "Show icons for potion effects");
+        languageBase.put("Module.Modules.PotionHud.Options.BooleanOption.Background.name", "Background");
+        languageBase.put("Module.Modules.PotionHud.Options.BooleanOption.Background.description", "Enable background behind potion effects");
+        languageBase.put("Module.Modules.PotionHud.Options.BooleanOption.Blur.name", "Blur");
+        languageBase.put("Module.Modules.PotionHud.Options.BooleanOption.Blur.description", "Apply blur effect to the background");
+        languageBase.put("Module.Modules.PotionHud.Options.ColorOption.BackgroundColor.name", "Background Color");
+        languageBase.put("Module.Modules.PotionHud.Options.ColorOption.BackgroundColor.description", "Color of the background");
+        languageBase.put("Module.Modules.PotionHud.Options.BooleanOption.Rounded.name", "Rounded");
+        languageBase.put("Module.Modules.PotionHud.Options.BooleanOption.Rounded.description", "Use rounded corners for the background");
+        languageBase.put("Module.Modules.PotionHud.Options.DoubleOption.Radius.name", "Radius");
+        languageBase.put("Module.Modules.PotionHud.Options.DoubleOption.Radius.description", "Radius of the rounded corners");
+        languageBase.put("Module.Modules.PotionHud.Options.DoubleOption.TitleOffset.name", "Title Offset");
+        languageBase.put("Module.Modules.PotionHud.Options.DoubleOption.TitleOffset.description", "Vertical offset of the title text");
     }
 }

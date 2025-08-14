@@ -10,7 +10,7 @@ import cc.vergence.util.player.MovementUtil;
 import net.minecraft.util.PlayerInput;
 import org.joml.Vector2d;
 
-public class FreeCamera extends Module {
+public class  FreeCamera extends Module {
     public static FreeCamera INSTANCE;
     private float freeYaw, freePitch;
     private float prevFreeYaw, prevFreePitch;

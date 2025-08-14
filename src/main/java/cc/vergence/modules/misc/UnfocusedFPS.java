@@ -12,7 +12,7 @@ public class UnfocusedFPS extends Module {
         INSTANCE = this;
     }
 
-    public Option<Double> fpsLimit = addOption(new DoubleOption("FPSLimit", 15, 200, 30));
+    public Option<Double> fpsLimit = addOption(new DoubleOption("FPSLimit", 5, 200, 30));
 
     @Override
     public String getDetails() {

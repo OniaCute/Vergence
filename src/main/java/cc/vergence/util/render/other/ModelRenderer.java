@@ -194,5 +194,5 @@ public class ModelRenderer implements Wrapper {
         }
     }
 
-    public record Render(boolean fill, Color fillColor, boolean outline, Color outlineColor, boolean shine) { }
+    public record Render(boolean fill, Color fillColor, boolean outline, Color outlineColor, boolean shine) {}
 }

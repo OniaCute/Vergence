@@ -6,6 +6,7 @@ import cc.vergence.features.event.events.UpdateVelocityEvent;
 import cc.vergence.modules.movement.Velocity;
 import cc.vergence.util.interfaces.Wrapper;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.Vec3d;
 import org.spongepowered.asm.mixin.Mixin;
@@ -57,5 +58,18 @@ public abstract class MixinEntity implements Wrapper {
                 setVelocity(new Vec3d((double) mc.player.getVelocity().x / 8000.0, (double) mc.player.getVelocity().y / 8000.0, (double) mc.player.getVelocity().z / 8000.0));
             }
         }
+    }
+
+    /**
+     * @author Witty-Sense2595
+     * @reason mc.player.fallDistance (without fix) is 0 all the time
+     * @see <a href="https://www.reddit.com/r/fabricmc/comments/1ivk42f/issue_with_falldistance_always_is_zero/">Reddit Comment</a>
+     */
+    @ModifyExpressionValue(method = "move", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;isControlledByPlayer()Z"))
+    private boolean fixFallDistanceCalculation(boolean original) {
+        if ((Object) this == MinecraftClient.getInstance().player) {
+            return false;
+        }
+        return original;
     }
 }

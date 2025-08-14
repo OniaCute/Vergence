@@ -23,7 +23,7 @@ public class ChestStealer extends Module implements Wrapper {
         INSTANCE = this;
     }
 
-    public Option<String> ignoreText = addOption(new TextOption("IgnoreText", "Shop|Buy|Sell|Game"));
+    public Option<String> ignoreText = addOption(new TextOption("IgnoreText", "Shop|Buy|Sell|Game|Select|Click|Join"));
     public Option<Double> maxDelay = addOption(new DoubleOption("MaxDelay", 0, 1400, 500).setUnit("ms"));
     public Option<Double> minDelay = addOption(new DoubleOption("MinDelay", 0, 1400, 200).setUnit("ms"));
     public Option<Boolean> random = addOption(new BooleanOption("Random", true));
@@ -46,15 +46,18 @@ public class ChestStealer extends Module implements Wrapper {
 
     @Override
     public void onPlayerUpdateEvent(PlayerUpdateEvent event) {
+        if (isNull()) {
+            return ;
+        }
         if (!(mc.currentScreen instanceof GenericContainerScreen)) {
-            return;
+            return ;
         }
         if (!(mc.player.currentScreenHandler instanceof net.minecraft.screen.GenericContainerScreenHandler container)) {
-            return;
+            return ;
         }
         for (String s : ignoreText.getValue().split("\\|")) {
             if (mc.currentScreen.getTitle().getString().toLowerCase().contains(s.toLowerCase())) {
-                return;
+                return ;
             }
         }
         List<Integer> filledSlots = new ArrayList<>();

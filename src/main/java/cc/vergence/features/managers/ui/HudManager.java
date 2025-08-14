@@ -12,9 +12,11 @@ import cc.vergence.util.interfaces.Wrapper;
 import cc.vergence.util.render.utils.Render2DUtil;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
+import oshi.util.tuples.Pair;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class HudManager implements Wrapper {
     public static final HudEditorScreen HUD_EDITOR_SCREEN = new HudEditorScreen();

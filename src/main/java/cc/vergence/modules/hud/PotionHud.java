@@ -32,13 +32,14 @@ public class PotionHud extends Module {
         setHeight(0);
     }
 
-    public Option<String> title = addOption(new TextOption("title", "Potions"));
+    public Option<String> title = addOption(new TextOption("Title", "Potions"));
     public Option<Enum<?>> titleAlign = addOption(new EnumOption("TitleAlign", Aligns.Center));
     public Option<String> infinityTime = addOption(new TextOption("InfinityTime", "**:**"));
     public Option<Color> titleColor = addOption(new ColorOption("TitleColor", new Color(241, 137, 255)));
     public Option<Boolean> customPotionColor = addOption(new BooleanOption("CustomPotionColor", false));
     public Option<Color> potionColor = addOption(new ColorOption("PotionColor", new Color(0, 0, 0), v -> customPotionColor.getValue()));
     public Option<Color> potionTimeColor = addOption(new ColorOption("PotionTimeColor", new Color(38, 38, 38)));
+    public Option<Color> infiniteColor = addOption(new ColorOption("InfiniteColor", new Color(251, 201, 255)));
     public Option<Double> warnTime = addOption(new DoubleOption("WarnTime", 0, 20, 5).setUnit("s").addSpecialValue(0, "DISABLE"));
     public Option<Color> warnTimeColor = addOption(new ColorOption("WarnTimeColor", new Color(238, 30, 30)));
     public Option<Color> splitLineColor = addOption(new ColorOption("SplitLineColor", new Color(215, 215, 215)));
@@ -172,7 +173,7 @@ public class PotionHud extends Module {
                     getX() + getWidth() - 2,
                     getY() + getHeight(),
                     cc.vergence.features.enums.other.Aligns.RIGHT_TOP,
-                    warnTime.getValue().intValue() != 0 ? (potionEffect.getDuration() < warnTime.getValue() * 20 ? warnTimeColor.getValue() : potionTimeColor.getValue()) : potionTimeColor.getValue(),
+                    potionEffect.isInfinite() ? infiniteColor.getValue() : warnTime.getValue().intValue() != 0 ? (potionEffect.getDuration() < warnTime.getValue() * 20 ? warnTimeColor.getValue() : potionTimeColor.getValue()) : potionTimeColor.getValue(),
                     FontSize.SMALLEST
             );
             counter ++;
@@ -216,7 +217,6 @@ public class PotionHud extends Module {
                 return cc.vergence.features.enums.other.Aligns.RIGHT;
             }
         }
-
     }
 
     private enum Aligns {

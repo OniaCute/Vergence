@@ -50,6 +50,10 @@ public class EntityUtil implements Wrapper {
         return mc.player.fallDistance > mc.player.getSafeFallDistance() && !mc.player.isOnGround() && !mc.player.isGliding();
     }
 
+    public static boolean isFalling(boolean ignoreGround) {
+        return mc.player.fallDistance > mc.player.getSafeFallDistance() && (ignoreGround || !mc.player.isOnGround()) && !mc.player.isGliding();
+    }
+
     public static boolean isFalling(double distance) {
         return mc.player.fallDistance > distance && !mc.player.isOnGround() && !mc.player.isGliding();
     }

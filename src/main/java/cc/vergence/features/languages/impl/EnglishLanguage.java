@@ -441,8 +441,6 @@ public class EnglishLanguage extends Language {
         languageBase.put("Module.Modules.NoFall.description", "Prevent fall damage");
         languageBase.put("Module.Modules.NoFall.Options.EnumOption.AntiCheat.name", "Anti Cheat");
         languageBase.put("Module.Modules.NoFall.Options.EnumOption.AntiCheat.description", "Determine which functions need to be blocked by anti cheat mode");
-        languageBase.put("Module.Modules.NoFall.Options.BooleanOption.HorizontalCollision.name", "HorizontalCollision");
-        languageBase.put("Module.Modules.NoFall.Options.BooleanOption.HorizontalCollision.description", "Enable horizontal collision check for Grim");
         languageBase.put("Module.Modules.NoFall.Options.BooleanOption.AlwaysActive.name", "AlwaysActive");
         languageBase.put("Module.Modules.NoFall.Options.BooleanOption.AlwaysActive.description", "Always active regardless of falling state");
 
@@ -2431,8 +2429,10 @@ public class EnglishLanguage extends Language {
         languageBase.put("Module.Modules.PotionHud.Options.BooleanOption.CustomPotionColor.description", "Use custom color for potion names");
         languageBase.put("Module.Modules.PotionHud.Options.ColorOption.PotionColor.name", "Potion Color");
         languageBase.put("Module.Modules.PotionHud.Options.ColorOption.PotionColor.description", "Custom color for potion names");
-        languageBase.put("Module.Modules.PotionHud.Options.ColorOption.PotionTimeColor.name", "PotionTimeColor");
+        languageBase.put("Module.Modules.PotionHud.Options.ColorOption.PotionTimeColor.name", "Potion Time Color");
         languageBase.put("Module.Modules.PotionHud.Options.ColorOption.PotionTimeColor.description", "Color of the potion duration text");
+        languageBase.put("Module.Modules.PotionHud.Options.ColorOption.InfiniteColor.name", "Infinite Time Color");
+        languageBase.put("Module.Modules.PotionHud.Options.ColorOption.InfiniteColor.description", "Color of the infinite potion duration text");
         languageBase.put("Module.Modules.PotionHud.Options.DoubleOption.WarnTime.name", "Warn Time");
         languageBase.put("Module.Modules.PotionHud.Options.DoubleOption.WarnTime.description", "Time in seconds to warn about expiring potions");
         languageBase.put("Module.Modules.PotionHud.Options.ColorOption.WarnTimeColor.name", "Warn Time Color");
@@ -2453,5 +2453,8 @@ public class EnglishLanguage extends Language {
         languageBase.put("Module.Modules.PotionHud.Options.DoubleOption.Radius.description", "Radius of the rounded corners");
         languageBase.put("Module.Modules.PotionHud.Options.DoubleOption.TitleOffset.name", "Title Offset");
         languageBase.put("Module.Modules.PotionHud.Options.DoubleOption.TitleOffset.description", "Vertical offset of the title text");
+
+        languageBase.put("Module.Modules.InventoryHud.name", "Inventory Hud");
+        languageBase.put("Module.Modules.InventoryHud.description", "Display a inventory hud on your screen");
     }
 }

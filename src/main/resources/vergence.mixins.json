@@ -15,13 +15,17 @@
     "accessors.render.NativeImageAccessor",
     "accessors.render.WorldRendererAccessor",
     "accessors.world.ClientWorldAccessor",
+    "accessors.render.BufferRendererAccessor",
+    "accessors.render.ItemRendererAccessor",
+    "accessors.render.ItemRenderStateAccessor",
+    "accessors.render.LayerRenderStateAccessor",
     "mixins.chat.MixinChatHud",
     "mixins.chat.MixinChatHudLine",
     "mixins.chat.MixinChatHudLineVisible",
     "mixins.chat.MixinChatInputSuggester",
     "mixins.chat.MixinChatMessages",
-    "mixins.client.MixinInactivityFpsLimiter",
     "mixins.client.MixinMinecraftClient",
+    "mixins.client.MixinInactivityFpsLimiter",
     "mixins.client.MixinWindow",
     "mixins.entity.MixinEntity",
     "mixins.entity.MixinLivingEntity",
@@ -56,17 +60,13 @@
     "mixins.world.MixinBlock",
     "mixins.world.MixinClientWorld",
     "mixins.world.MixinParticleManager",
-    "mixins.world.MixinSodiumBlockOcclusionCache"
+    "mixins.world.MixinSodiumBlockOcclusionCache",
+    "mixins.render.MixinBossBarHud",
+    "mixins.screen.MixinWindow"
   ],
   "injectors": {
     "defaultRequire": 1
   },
   "client": [
-    "accessors.render.BufferRendererAccessor",
-    "accessors.render.ItemRendererAccessor",
-    "accessors.render.ItemRenderStateAccessor",
-    "accessors.render.LayerRenderStateAccessor",
-    "mixins.render.MixinBossBarHud",
-    "mixins.screen.MixinWindow"
   ]
 }

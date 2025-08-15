@@ -64,13 +64,17 @@ public class HudManager implements Wrapper {
     }
 
     private void drawHudEditor(DrawContext context, double tickDelta) {
+        if (mc.getWindow() == null) {
+            return ;
+        }
+
         FontUtil.drawTextWithAlign(
                 context,
                 "LEFT - Move Position",
                 0,
                 0,
-                mc.currentScreen.width,
-                mc.currentScreen.height,
+                mc.getWindow().getScaledWidth(),
+                mc.getWindow().getScaledHeight(),
                 Aligns.LEFT_BOTTOM,
                 Vergence.THEME.getTheme().getHudEditorTipsTextColor(),
                 FontSize.SMALL

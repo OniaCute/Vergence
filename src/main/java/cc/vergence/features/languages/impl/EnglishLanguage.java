@@ -2456,5 +2456,8 @@ public class EnglishLanguage extends Language {
 
         languageBase.put("Module.Modules.InventoryHud.name", "Inventory Hud");
         languageBase.put("Module.Modules.InventoryHud.description", "Display a inventory hud on your screen");
+
+        languageBase.put("Module.Modules.NoInvisible.name", "No Invisible");
+        languageBase.put("Module.Modules.NoInvisible.description", "Always display the hidden entities");
     }
 }

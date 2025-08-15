@@ -38,6 +38,7 @@ public class HudEditor extends Module {
             HudEditor.INSTANCE.enable();
         }  else {
             HudEditor.INSTANCE.disable();
+            HudManager.currentHud = null;
         }
     }
 

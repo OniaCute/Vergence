@@ -14,6 +14,8 @@ import cc.vergence.util.font.FontUtil;
 import cc.vergence.util.render.utils.Render2DUtil;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.scoreboard.ScoreboardEntry;
+import net.minecraft.scoreboard.ScoreboardObjective;
 
 import java.awt.*;
 
@@ -63,6 +65,9 @@ public class Scoreboard extends Module {
         }
 
         net.minecraft.scoreboard.Scoreboard scoreboard = mc.getNetworkHandler().getScoreboard();
+        for (ScoreboardObjective obj : scoreboard.getObjectives()) {
+            scoreboard.getScoreboardEntries(obj);
+        }
 
         double x = getX() + padding.getValue();
         double y = getY() + padding.getValue();

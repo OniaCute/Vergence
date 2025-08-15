@@ -153,6 +153,7 @@ public class ModuleManager {
         registerModule(new HotbarHud());
         registerModule(new PotionHud());
         registerModule(new InventoryHud());
+        registerModule(new NoInvisible());
 
         // special module
         registerModule(new SafeMode());

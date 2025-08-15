@@ -137,7 +137,7 @@ public abstract class MixinLivingEntityRenderer<T extends LivingEntity, S extend
             Direction direction = livingEntityRenderState.sleepingDirection;
             if (direction != null) {
                 float f = livingEntityRenderState.standingEyeHeight - 0.1F;
-                matrixStack.translate((float)(-direction.getOffsetX()) * f, 0.0F, (float)(-direction.getOffsetZ()) * f);
+                matrixStack.translate((float) (-direction.getOffsetX()) * f, 0.0F, (float) (-direction.getOffsetZ()) * f);
             }
         }
 

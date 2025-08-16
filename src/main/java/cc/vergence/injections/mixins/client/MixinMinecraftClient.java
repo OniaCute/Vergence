@@ -9,6 +9,7 @@ import cc.vergence.modules.player.AutoRespawn;
 import cc.vergence.modules.player.MultipleTask;
 import cc.vergence.util.font.FontRenderers;
 import cc.vergence.util.font.FontUtil;
+import cc.vergence.util.interfaces.IRightClick;
 import cc.vergence.util.interfaces.Wrapper;
 import cc.vergence.util.render.other.SkiaContext;
 import cc.vergence.util.render.utils.blur.KawaseBlur;
@@ -17,27 +18,43 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.RunArgs;
 import net.minecraft.client.gui.screen.DeathScreen;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.network.ClientPlayerInteractionManager;
 import net.minecraft.client.util.Window;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.util.thread.ReentrantThreadExecutor;
 import org.jetbrains.annotations.Nullable;
-import org.spongepowered.asm.mixin.Final;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
-import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(MinecraftClient.class)
-public abstract class MixinMinecraftClient extends ReentrantThreadExecutor<Runnable> implements Wrapper {
+public abstract class MixinMinecraftClient extends ReentrantThreadExecutor<Runnable> implements Wrapper, IRightClick {
     private boolean worldIsNull = true;
-    @Shadow @Nullable public ClientWorld world;
-    @Shadow public int attackCooldown;
+    @Shadow
+    @Nullable
+    public ClientWorld world;
+
+    @Shadow
+    public int attackCooldown;
+
     @Shadow
     @Final
     private Window window;
+
+    @Unique
+    private boolean rightClick;
+
+    @Unique
+    private boolean doItemUseCalled;
+
+    @Shadow
+    protected abstract void doItemUse();
+
+    @Shadow
+    @Nullable
+    public ClientPlayerInteractionManager interactionManager;
 
     public MixinMinecraftClient(String string) {
         super(string);
@@ -167,6 +184,9 @@ public abstract class MixinMinecraftClient extends ReentrantThreadExecutor<Runna
                 }
             }
         }
+
+        if (rightClick && !doItemUseCalled && interactionManager != null) doItemUse();
+        rightClick = false;
     }
 
     @Inject(method = "doAttack", at = @At("HEAD"))
@@ -205,5 +225,10 @@ public abstract class MixinMinecraftClient extends ReentrantThreadExecutor<Runna
     public void onResolutionChanged(CallbackInfo info) {
         KawaseBlur.GUI_BLUR.resize();
         KawaseBlur.INGAME_BLUR.resize();
+    }
+
+    @Override
+    public void vergence$rightClick() {
+        rightClick = true;
     }
 }

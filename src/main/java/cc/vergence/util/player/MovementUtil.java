@@ -7,6 +7,7 @@ import cc.vergence.util.maths.MathUtil;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec2f;
+import net.minecraft.util.math.Vec3d;
 import org.joml.Vector2d;
 
 public class MovementUtil implements Wrapper {
@@ -48,5 +49,15 @@ public class MovementUtil implements Wrapper {
         double motionZ = Math.sin(Math.toRadians(yaw + 90.0f));
 
         return new Vector2d(forward * speed * motionX + sideways * speed * motionZ, forward * speed * motionZ - sideways * speed * motionX);
+    }
+
+    public static void setMotionY(double y) {
+        Vec3d motion = mc.player.getVelocity();
+        mc.player.setVelocity(motion.getX(), y, motion.getZ());
+    }
+
+    public void setMotionXZ(double x, double z) {
+        Vec3d motion = mc.player.getVelocity();
+        mc.player.setVelocity(x, motion.y, z);
     }
 }

@@ -42,36 +42,36 @@ public class NetworkManager implements Wrapper {
 
     public void sendPacket(Packet<?> p) {
         if (mc.getNetworkHandler() != null) {
+            PACKETS.add(p);
             mc.getNetworkHandler().sendPacket(p);
         }
     }
 
-    public void sendPacketWithChach(Packet<?> p) {
+    public void sendPacketWithoutChach(Packet<?> p) {
         if (mc.getNetworkHandler() != null) {
-            PACKETS.add(p);
             mc.getNetworkHandler().sendPacket(p);
         }
     }
 
     public void sendSilentPacket(Packet<?> p) {
         if (mc.getNetworkHandler() != null) {
-            ((IClientPlayNetworkHandler) mc.getNetworkHandler()).sendSilentPacket(p);
-        }
-    }
-
-    public void sendSilentPacketWithChach(Packet<?> p) {
-        if (mc.getNetworkHandler() != null) {
             PACKETS.add(p);
             ((IClientPlayNetworkHandler) mc.getNetworkHandler()).sendSilentPacket(p);
         }
     }
 
+    public void sendSilentPacketWithoutChach(Packet<?> p) {
+        if (mc.getNetworkHandler() != null) {
+            ((IClientPlayNetworkHandler) mc.getNetworkHandler()).sendSilentPacket(p);
+        }
+    }
+
     public void sendIgnoredPacket(Packet<?> packet) {
+        PACKETS.add(packet);
         Objects.requireNonNull(mc.getNetworkHandler()).getConnection().send(packet, null, true);
     }
 
-    public void sendIgnoredPacketWithChach(Packet<?> packet) {
-        PACKETS.add(packet);
+    public void sendIgnoredPacketWithoutChach(Packet<?> packet) {
         Objects.requireNonNull(mc.getNetworkHandler()).getConnection().send(packet, null, true);
     }
 

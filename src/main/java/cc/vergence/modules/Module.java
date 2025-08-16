@@ -12,6 +12,7 @@ import cc.vergence.features.options.impl.DoubleOption;
 import cc.vergence.modules.client.SafeMode;
 import cc.vergence.util.interfaces.Wrapper;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.network.ServerAddress;
@@ -31,6 +32,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.shape.VoxelShape;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -509,6 +511,18 @@ public abstract class Module implements Wrapper {
     }
 
     public void onAttackAlways(AttackEvent event, LivingEntity entity) {
+    }
+
+    public void onChangeHandEvent(ChangeHandEvent event, Hand hand) {
+    }
+
+    public void onChangeHandEventAlways(ChangeHandEvent event, Hand hand) {
+    }
+
+    public void onBlockCollisionEvent(BlockCollisionEvent event, Block block, BlockPos pos, BlockState state, VoxelShape shape) {
+    }
+
+    public void onBlockCollisionEventAlways(BlockCollisionEvent event, Block block, BlockPos pos, BlockState state, VoxelShape shape) {
     }
 
     public void setName(String name) {

@@ -154,6 +154,10 @@ public class ModuleManager {
         registerModule(new PotionHud());
         registerModule(new InventoryHud());
         registerModule(new NoInvisible());
+        registerModule(new NoSlowdown());
+        registerModule(new Step());
+        registerModule(new Jesus());
+        registerModule(new LiquidInteract());
 
         // special module
         registerModule(new SafeMode());
@@ -179,6 +183,13 @@ public class ModuleManager {
     }
 
     public void registerModule(Module module) {
+        for (Module mod : modules) {
+            if (mod.getName().equalsIgnoreCase(module.getName())) {
+                Vergence.CONSOLE.logInfo("[MODULE] [WARN] Duplicate registration of module, Module " + module.getName() + " has been skipped!");
+                return ;
+            }
+        }
+
         Vergence.CONSOLE.logInfo("[MODULE] Registering module \"" + module.getName() + "\" ...");
         for (String s : module.getOptionHashMap().keySet()) {
             settingOptionInfo(module, module.getOptionHashMap().get(s));

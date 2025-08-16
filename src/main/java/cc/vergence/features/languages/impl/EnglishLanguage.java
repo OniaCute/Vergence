@@ -1779,30 +1779,22 @@ public class EnglishLanguage extends Language {
         languageBase.put("Module.Modules.QuickStop.name", "Quick Stop");
         languageBase.put("Module.Modules.QuickStop.description", "Stop movements when you released the movement key");
 
-        languageBase.put("Module.Modules.AutoClicker.name", "Auto Clicker");
-        languageBase.put("Module.Modules.AutoClicker.description", "Auto clicks on entities based on the selected mode");
-        languageBase.put("Module.Modules.AutoClicker.Options.EnumOption.Mode.name", "Mode");
-        languageBase.put("Module.Modules.AutoClicker.Options.EnumOption.Mode.description", "The mode used for automatic clicking");
-        languageBase.put("Module.Modules.AutoClicker.Options.MultipleOption.Targets.name", "Targets");
-        languageBase.put("Module.Modules.AutoClicker.Options.MultipleOption.Targets.description", "Types of entities to target");
+        languageBase.put("Module.Modules.AutoClicker.name", "AutoClicker");
+        languageBase.put("Module.Modules.AutoClicker.description", "Auto clicks like normal");
+        languageBase.put("Module.Modules.AutoClicker.Options.MultipleOption.Mode.name", "Mode");
+        languageBase.put("Module.Modules.AutoClicker.Options.MultipleOption.Mode.description", "Which mouse buttons to click automatically");
+        languageBase.put("Module.Modules.AutoClicker.Options.EnumOption.ClickMode.name", "Click Mode");
+        languageBase.put("Module.Modules.AutoClicker.Options.EnumOption.ClickMode.description", "Mode of clicking");
         languageBase.put("Module.Modules.AutoClicker.Options.EnumOption.Swing.name", "Swing");
-        languageBase.put("Module.Modules.AutoClicker.Options.EnumOption.Swing.description", "The swing mode used when clicking");
-        languageBase.put("Module.Modules.AutoClicker.Options.DoubleOption.MinExtraDelay.name", "Min Extra Delay");
-        languageBase.put("Module.Modules.AutoClicker.Options.DoubleOption.MinExtraDelay.description", "Minimum extra delay in milliseconds");
-        languageBase.put("Module.Modules.AutoClicker.Options.DoubleOption.MaxExtraDelay.name", "Max Extra Delay");
-        languageBase.put("Module.Modules.AutoClicker.Options.DoubleOption.MaxExtraDelay.description", "Maximum extra delay in milliseconds");
-        languageBase.put("Module.Modules.AutoClicker.Options.DoubleOption.MinCPS.name", "Min CPS");
-        languageBase.put("Module.Modules.AutoClicker.Options.DoubleOption.MinCPS.description", "Minimum clicks per second");
-        languageBase.put("Module.Modules.AutoClicker.Options.DoubleOption.MaxCPS.name", "Max CPS");
-        languageBase.put("Module.Modules.AutoClicker.Options.DoubleOption.MaxCPS.description", "Maximum clicks per second");
-        languageBase.put("Module.Modules.AutoClicker.Options.DoubleOption.MinTicks.name", "Min Click Ticks");
-        languageBase.put("Module.Modules.AutoClicker.Options.DoubleOption.MinTicks.description", "Minimum click delay between clicks in milliseconds");
-        languageBase.put("Module.Modules.AutoClicker.Options.DoubleOption.MaxTicks.name", "Max Click Ticks");
-        languageBase.put("Module.Modules.AutoClicker.Options.DoubleOption.MaxTicks.description", "Maximum click delay between clicks in milliseconds");
-        languageBase.put("Module.Modules.AutoClicker.Options.BooleanOption.Always.name", "Always");
-        languageBase.put("Module.Modules.AutoClicker.Options.BooleanOption.Always.description", "Always click regardless of the crosshair target");
-        languageBase.put("Module.Modules.AutoClicker.Options.BooleanOption.PacketAttack.name", "Packet Attack");
-        languageBase.put("Module.Modules.AutoClicker.Options.BooleanOption.PacketAttack.description", "Use packet based attack instead of normal attack");
+        languageBase.put("Module.Modules.AutoClicker.Options.EnumOption.Swing.description", "Mode of swinging the arm");
+        languageBase.put("Module.Modules.AutoClicker.Options.DoubleOption.MinDelay.name", "Min Delay");
+        languageBase.put("Module.Modules.AutoClicker.Options.DoubleOption.MinDelay.description", "Minimum delay between clicks in milliseconds");
+        languageBase.put("Module.Modules.AutoClicker.Options.DoubleOption.MaxDelay.name", "Max Delay");
+        languageBase.put("Module.Modules.AutoClicker.Options.DoubleOption.MaxDelay.description", "Maximum delay between clicks in milliseconds");
+        languageBase.put("Module.Modules.AutoClicker.Options.BooleanOption.InScreen.name", "In Screen");
+        languageBase.put("Module.Modules.AutoClicker.Options.BooleanOption.InScreen.description", "Keep click when a screen is open");
+        languageBase.put("Module.Modules.AutoClicker.Options.BooleanOption.Debug.name", "Debug");
+        languageBase.put("Module.Modules.AutoClicker.Options.BooleanOption.Debug.description", "Show debug information");
 
         languageBase.put("Module.Modules.Trajectories.name", "Trajectories");
         languageBase.put("Module.Modules.Trajectories.description", "Shows the flight path of projectiles");
@@ -2459,5 +2451,35 @@ public class EnglishLanguage extends Language {
 
         languageBase.put("Module.Modules.NoInvisible.name", "No Invisible");
         languageBase.put("Module.Modules.NoInvisible.description", "Always display the hidden entities");
+
+        languageBase.put("Module.Modules.NoSlowdown.name", "No Slowdown");
+        languageBase.put("Module.Modules.NoSlowdown.description", "Prevents slowdown from using items or walking on certain blocks");
+        languageBase.put("Module.Modules.NoSlowdown.Options.MultipleOption.Items.name", "Items");
+        languageBase.put("Module.Modules.NoSlowdown.Options.MultipleOption.Items.description", "Items to bypass slowdown for");
+        languageBase.put("Module.Modules.NoSlowdown.Options.BooleanOption.AirBypass.name", "Air Bypass");
+        languageBase.put("Module.Modules.NoSlowdown.Options.BooleanOption.AirBypass.description", "Bypass slowdown in the air");
+        languageBase.put("Module.Modules.NoSlowdown.Options.BooleanOption.GroundBypass.name", "Ground Bypass");
+        languageBase.put("Module.Modules.NoSlowdown.Options.BooleanOption.GroundBypass.description", "Bypass slowdown on the ground");
+
+        languageBase.put("Module.Modules.Step.name", "Step");
+        languageBase.put("Module.Modules.Step.description", "Allows the player to step up blocks higher than normal");
+        languageBase.put("Module.Modules.Step.Options.DoubleOption.Height.name", "Height");
+        languageBase.put("Module.Modules.Step.Options.DoubleOption.Height.description", "Maximum height to step up");
+        languageBase.put("Module.Modules.Step.Options.BooleanOption.UseTimer.name", "Use Timer");
+        languageBase.put("Module.Modules.Step.Options.BooleanOption.UseTimer.description", "Adjust the timer to compensate for stepping");
+        languageBase.put("Module.Modules.Step.Options.BooleanOption.Debug.name", "Debug");
+        languageBase.put("Module.Modules.Step.Options.BooleanOption.Debug.description", "Show debug information");
+
+        languageBase.put("Module.Modules.Jesus.name", "Jesus");
+        languageBase.put("Module.Modules.Jesus.description", "Allows the player to walk on water or lava");
+        languageBase.put("Module.Modules.Jesus.Options.EnumOption.Mode.name", "Mode");
+        languageBase.put("Module.Modules.Jesus.Options.EnumOption.Mode.description", "Mode of walking on fluids");
+        languageBase.put("Module.Modules.Jesus.Options.DoubleOption.FallDistance.name", "Fall Distance");
+        languageBase.put("Module.Modules.Jesus.Options.DoubleOption.FallDistance.description", "Maximum fall distance before resetting");
+        languageBase.put("Module.Modules.Jesus.Options.BooleanOption.Debug.name", "Debug");
+        languageBase.put("Module.Modules.Jesus.Options.BooleanOption.Debug.description", "Show debug information");
+
+        languageBase.put("Module.Modules.LiquidInteract.name", "Liquid Interact");
+        languageBase.put("Module.Modules.LiquidInteract.description", "Interact the liquid like contact other blocks");
     }
 }

@@ -121,4 +121,9 @@ public abstract class MixinClientPlayerEntity extends AbstractClientPlayerEntity
 			info.cancel();
 		}
 	}
+
+	@Inject(method = "setCurrentHand", at = @At(value = "HEAD"))
+	private void setCurrentHand(Hand hand, CallbackInfo info) {
+		Vergence.EVENTBUS.post(new ChangeHandEvent(hand));
+	}
 }

@@ -41,4 +41,13 @@ public interface MinecraftClientAccessor {
     @Mutable
     @Accessor("abuseReportContext")
     void setAbuseReportContextT(AbuseReportContext abuseReportContext);
+
+    @Accessor("attackCooldown")
+    int getAttackCooldown();
+
+    @Accessor("attackCooldown")
+    void setAttackCooldown(int attackCooldown);
+
+    @Invoker("doAttack")
+    boolean leftClick();
 }

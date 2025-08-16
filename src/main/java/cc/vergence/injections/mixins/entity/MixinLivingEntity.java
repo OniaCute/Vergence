@@ -1,13 +1,18 @@
 package cc.vergence.injections.mixins.entity;
 
 import cc.vergence.Vergence;
+import cc.vergence.features.event.Event;
 import cc.vergence.features.event.events.PlayerJumpEvent;
+import cc.vergence.modules.client.AntiCheat;
+import cc.vergence.modules.movement.Step;
 import cc.vergence.modules.player.NoCooldown;
 import cc.vergence.modules.movement.AntiLevitation;
 import cc.vergence.modules.visual.SwingModifier;
 import cc.vergence.util.interfaces.ILivingEntity;
 import cc.vergence.util.interfaces.Wrapper;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -78,19 +83,35 @@ public abstract class MixinLivingEntity extends Entity implements ILivingEntity,
         return original;
     }
 
-    @Inject(method = "jump", at = @At("HEAD"))
-    private void jumpHookHead(CallbackInfo info) {
+    @Inject(method = "jump", at = @At(value = "HEAD"), cancellable = true)
+    private void hookJumpPre(CallbackInfo ci) {
         if ((Object) this != mc.player) {
             return;
         }
-        Vergence.EVENTBUS.post(new PlayerJumpEvent());
+        PlayerJumpEvent playerJumpEvent = new PlayerJumpEvent();
+        playerJumpEvent.setStage(Event.Stage.Pre);
+        Vergence.EVENTBUS.post(playerJumpEvent);
+        if (playerJumpEvent.isCancelled()) {
+            ci.cancel();
+        }
     }
 
-    @Inject(method = "jump", at = @At("RETURN"))
-    private void jumpHookReturn(CallbackInfo info) {
+    @Inject(method = "jump", at = @At(value = "RETURN"))
+    private void hookJumpPost(CallbackInfo ci) {
         if ((Object) this != mc.player) {
             return;
         }
-        Vergence.EVENTBUS.post(new PlayerJumpEvent());
+        PlayerJumpEvent playerJumpEvent = new PlayerJumpEvent();
+        playerJumpEvent.setStage(Event.Stage.Post);
+        Vergence.EVENTBUS.post(playerJumpEvent);
+    }
+
+    @WrapMethod(method = "getStepHeight")
+    private float getStepHeight(Operation<Float> original) {
+        if ((Object) this == mc.player && Step.INSTANCE != null && Step.INSTANCE.getStatus() && AntiCheat.INSTANCE != null && (AntiCheat.INSTANCE.isNone() || AntiCheat.INSTANCE.isLegit())) {
+            return Step.INSTANCE.height.getValue().floatValue();
+        }
+
+        return original.call();
     }
 }

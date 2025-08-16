@@ -31,7 +31,7 @@ public class NoFall extends Module {
             return ;
         }
 
-        if (AntiCheat.INSTANCE.isGrim() && (EntityUtil.isFalling() || alwaysActive.getValue())) {
+        if (AntiCheat.INSTANCE.isGrim() || AntiCheat.INSTANCE.isNone() && (EntityUtil.isFalling() || alwaysActive.getValue())) {
             Vergence.NETWORK.sendPacket(new PlayerMoveC2SPacket.Full(mc.player.getX(), mc.player.getY() + 0.000000001, mc.player.getZ(), mc.player.getYaw(), mc.player.getPitch(), false, mc.player.horizontalCollision));
             mc.player.onLanding();
         }

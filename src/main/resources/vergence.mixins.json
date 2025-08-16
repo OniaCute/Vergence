@@ -12,20 +12,20 @@
     "accessors.player.PlayerMoveC2SPacketAccessor",
     "accessors.player.Vec3dAccessor",
     "accessors.render.AccessiblePassesShaderEffect",
-    "accessors.render.NativeImageAccessor",
-    "accessors.render.WorldRendererAccessor",
-    "accessors.world.ClientWorldAccessor",
     "accessors.render.BufferRendererAccessor",
     "accessors.render.ItemRendererAccessor",
     "accessors.render.ItemRenderStateAccessor",
     "accessors.render.LayerRenderStateAccessor",
+    "accessors.render.NativeImageAccessor",
+    "accessors.render.WorldRendererAccessor",
+    "accessors.world.ClientWorldAccessor",
     "mixins.chat.MixinChatHud",
     "mixins.chat.MixinChatHudLine",
     "mixins.chat.MixinChatHudLineVisible",
     "mixins.chat.MixinChatInputSuggester",
     "mixins.chat.MixinChatMessages",
-    "mixins.client.MixinMinecraftClient",
     "mixins.client.MixinInactivityFpsLimiter",
+    "mixins.client.MixinMinecraftClient",
     "mixins.client.MixinWindow",
     "mixins.entity.MixinEntity",
     "mixins.entity.MixinLivingEntity",
@@ -34,6 +34,7 @@
     "mixins.hardware.MixinMouseActive",
     "mixins.network.MixinClientConnection",
     "mixins.network.MixinClientPlayNetworkHandler",
+    "mixins.player.MixinBlockCollisionSpliterator",
     "mixins.player.MixinCamera",
     "mixins.player.MixinClientPlayerEntity",
     "mixins.player.MixinClientPlayerInteractionManager",
@@ -42,6 +43,7 @@
     "mixins.render.MixinAbstractSignBlockEntityRenderer",
     "mixins.render.MixinArmorFeatureRenderer",
     "mixins.render.MixinBackgroundRenderer",
+    "mixins.render.MixinBossBarHud",
     "mixins.render.MixinEntityRenderer",
     "mixins.render.MixinGameRenderer",
     "mixins.render.MixinHeldItemRenderer",
@@ -57,16 +59,16 @@
     "mixins.screen.MixinDownloadingTerrainScreen",
     "mixins.screen.MixinScreen",
     "mixins.screen.MixinTitleScreen",
+    "mixins.screen.MixinWindow",
     "mixins.world.MixinBlock",
     "mixins.world.MixinClientWorld",
     "mixins.world.MixinParticleManager",
-    "mixins.world.MixinSodiumBlockOcclusionCache",
-    "mixins.render.MixinBossBarHud",
-    "mixins.screen.MixinWindow"
+    "mixins.world.MixinSodiumBlockOcclusionCache"
   ],
   "injectors": {
     "defaultRequire": 1
   },
   "client": [
+    "accessors.player.KeyBindingAccessor"
   ]
 }

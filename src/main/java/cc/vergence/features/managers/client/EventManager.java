@@ -15,6 +15,7 @@ import cc.vergence.modules.Module;
 import cc.vergence.util.interfaces.Wrapper;
 import cc.vergence.util.render.utils.Render2DUtil;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.network.ServerAddress;
@@ -34,6 +35,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.shape.VoxelShape;
 import org.lwjgl.glfw.GLFW;
 
 import java.awt.*;
@@ -698,6 +700,31 @@ public class EventManager implements Wrapper {
             module.onConfigChangeAlways();
             if (module.getStatus()) {
                 module.onConfigChange();
+            }
+        }
+    }
+
+    @EventHandler
+    public void onHandChange(ChangeHandEvent event) {
+        Hand hand = event.getHand();
+        for (Module module : ModuleManager.modules) {
+            module.onChangeHandEventAlways(event, hand);
+            if (module.getStatus()) {
+                module.onChangeHandEvent(event, hand);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onBlockCollisionEvent(BlockCollisionEvent event) {
+        Block block = event.getBlock();
+        BlockPos pos = event.getPos();
+        BlockState state = event.getState();
+        VoxelShape shape = event.getVoxelShape();
+        for (Module module : ModuleManager.modules) {
+            module.onBlockCollisionEventAlways(event, block, pos, state, shape);
+            if (module.getStatus()) {
+                module.onBlockCollisionEvent(event, block, pos, state, shape);
             }
         }
     }

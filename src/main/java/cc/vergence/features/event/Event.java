@@ -35,6 +35,11 @@ public class Event {
     public Stage getStage() {
         return stage;
     }
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
+
     public boolean isPost() {
         return stage == Stage.Post;
     }

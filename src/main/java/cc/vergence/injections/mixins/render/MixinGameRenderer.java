@@ -1,9 +1,9 @@
 package cc.vergence.injections.mixins.render;
 
 import cc.vergence.Vergence;
-import cc.vergence.modules.client.ClickGUI;
 import cc.vergence.modules.client.Client;
 import cc.vergence.modules.player.FreeCamera;
+import cc.vergence.modules.player.LiquidInteract;
 import cc.vergence.modules.player.NoEntityTrace;
 import cc.vergence.modules.visual.AspectRatio;
 import cc.vergence.modules.visual.FOVModifier;
@@ -21,9 +21,11 @@ import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.PickaxeItem;
 import net.minecraft.util.hit.EntityHitResult;
+import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.profiler.Profilers;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
@@ -31,6 +33,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -130,5 +133,17 @@ public abstract class MixinGameRenderer implements Wrapper {
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;render(Lnet/minecraft/client/gui/DrawContext;Lnet/minecraft/client/render/RenderTickCounter;)V", shift = At.Shift.AFTER))
     public void renderGuiBlur(RenderTickCounter tickCounter, boolean tick, CallbackInfo ci) {
         KawaseBlur.GUI_BLUR.draw(Client.INSTANCE.blurIntensity.getValue().intValue());
+    }
+
+    @Redirect(method = "findCrosshairTarget", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;raycast(DFZ)Lnet/minecraft/util/hit/HitResult;"))
+    private HitResult updateTargetedEntityEntityRayTraceProxy(Entity instance, double maxDistance, float tickDelta, boolean includeFluids) {
+        if (LiquidInteract.INSTANCE != null && LiquidInteract.INSTANCE.getStatus()) {
+            HitResult result = instance.raycast(maxDistance, tickDelta, includeFluids);
+            if (result.getType() != HitResult.Type.MISS) {
+                return result;
+            }
+            return instance.raycast(maxDistance, tickDelta, true);
+        }
+        return instance.raycast(maxDistance, tickDelta, includeFluids);
     }
 }

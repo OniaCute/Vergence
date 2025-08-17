@@ -158,6 +158,9 @@ public class ModuleManager {
         registerModule(new Step());
         registerModule(new Jesus());
         registerModule(new LiquidInteract());
+        registerModule(new LongJump());
+        registerModule(new AutoPlace());
+        registerModule(new HotbarHelper());
 
         // special module
         registerModule(new SafeMode());
@@ -185,7 +188,7 @@ public class ModuleManager {
     public void registerModule(Module module) {
         for (Module mod : modules) {
             if (mod.getName().equalsIgnoreCase(module.getName())) {
-                Vergence.CONSOLE.logInfo("[MODULE] [WARN] Duplicate registration of module, Module " + module.getName() + " has been skipped!");
+                Vergence.CONSOLE.logInfo("[MODULE] [WARN] Duplicate registration of module: " + module.getName() + " has been skipped!");
                 return ;
             }
         }

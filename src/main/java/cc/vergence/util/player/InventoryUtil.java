@@ -48,6 +48,10 @@ public class InventoryUtil implements Wrapper {
         return FOOD_ITEMS.contains(stack.getItem());
     }
 
+    public static boolean isFood(Item item) {
+        return FOOD_ITEMS.contains(item);
+    }
+
     public static boolean isThrowable(Item item) {
         return item instanceof EnderPearlItem || item instanceof TridentItem || item instanceof ExperienceBottleItem || item instanceof SnowballItem || item instanceof EggItem || item instanceof SplashPotionItem || item instanceof LingeringPotionItem;
     }

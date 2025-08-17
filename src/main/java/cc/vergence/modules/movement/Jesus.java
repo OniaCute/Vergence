@@ -70,8 +70,9 @@ public class Jesus extends Module {
             return ;
         }
         if (mode.getValue().equals(Modes.Solid)) {
-//            if (isInFluid() || mc.player.fallDistance > 3.0f || mc.player.isSneaking()) {
-//            }
+            if (isInFluid() || mc.player.fallDistance > 3.0f || mc.player.isSneaking()) {
+                return ;
+            }
             if (!mc.options.sneakKey.isPressed() && !mc.options.jumpKey.isPressed()) {
                 if (isInFluid()) {
                     timer = 0;

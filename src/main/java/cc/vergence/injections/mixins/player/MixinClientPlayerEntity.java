@@ -62,9 +62,9 @@ public abstract class MixinClientPlayerEntity extends AbstractClientPlayerEntity
 	public void onMoveHook(MovementType movementType, Vec3d movement, CallbackInfo ci) {
 		MoveEvent event = new MoveEvent(movement.x, movement.y, movement.z);
 		Vergence.EVENTBUS.post(event);
-		ci.cancel();
-		if (!event.isCancel()) {
+		if (event.isCancelled()) {
 			super.move(movementType, new Vec3d(event.getX(), event.getY(), event.getZ()));
+			ci.cancel();
 		}
 	}
 

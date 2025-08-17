@@ -35,7 +35,6 @@ public class Xray extends Module {
 
     @Override
     public void onTick() {
-        MessageManager.newMessage(this, "Hi This is a Test", -1);
     }
 
     @Override

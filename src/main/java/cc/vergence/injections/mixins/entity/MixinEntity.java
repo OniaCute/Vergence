@@ -5,6 +5,7 @@ import cc.vergence.features.event.events.LookDirectionEvent;
 import cc.vergence.features.event.events.UpdateVelocityEvent;
 import cc.vergence.modules.movement.Velocity;
 import cc.vergence.modules.visual.NoInvisible;
+import cc.vergence.util.combat.CombatUtil;
 import cc.vergence.util.interfaces.Wrapper;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.minecraft.client.MinecraftClient;
@@ -76,6 +77,6 @@ public abstract class MixinEntity implements Wrapper {
 
     @ModifyExpressionValue(method = "isInvisible", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;getFlag(I)Z"))
     private boolean invisibleAccessor(boolean original) {
-        return !NoInvisible.INSTANCE.getStatus() && original;
+            return (!NoInvisible.INSTANCE.getStatus() || !NoInvisible.INSTANCE.isValid((Object) this)) && original;
     }
 }

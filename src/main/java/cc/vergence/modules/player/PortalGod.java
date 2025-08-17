@@ -22,11 +22,12 @@ public class PortalGod extends Module {
     }
 
     public Option<Boolean> inventory = addOption(new BooleanOption("Inventory", true));
+    public Option<Boolean> godMode = addOption(new BooleanOption("GodMode", false));
     public Option<Double> confirmTime = addOption(new DoubleOption("ConfirmTime", 0, 99999, 200).setUnit("ms").addSpecialValue(0, "NoDelay").addSpecialValue(99999, "INFINITY"));
 
     @Override
     public String getDetails() {
-        return teleported ? "GodMode" : timer.passedMs(confirmTime.getValue()) ? "Available" : "Waiting";
+        return godMode.getValue() ? (teleported ? "GodMode" : timer.passedMs(confirmTime.getValue()) ? "Available" : "Waiting") : "";
     }
 
     @Override
@@ -43,14 +44,20 @@ public class PortalGod extends Module {
 
     @Override
     public void onSendPacket(PacketEvent.Send event, Packet<?> packet) {
-        if (packet instanceof TeleportConfirmC2SPacket && timer.passedMs(confirmTime.getValue())) {
-            teleported = true;
-            event.cancel();
+        if (godMode.getValue()) {
+            if (packet instanceof TeleportConfirmC2SPacket && timer.passedMs(confirmTime.getValue())) {
+                teleported = true;
+                event.cancel();
+            }
         }
     }
 
     @Override
     public void onTick() {
+        if (!godMode.getValue()) {
+            return ;
+        }
+
         for (int x = (int) (mc.player.getX() - 2); x < mc.player.getX() + 2; x++) {
             for (int z = (int) (mc.player.getZ() - 2); z < mc.player.getZ() + 2; z++) {
                 for (int y = (int) (mc.player.getY() - 2); y < mc.player.getY() + 2; y++) {

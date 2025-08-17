@@ -434,6 +434,8 @@ public class EnglishLanguage extends Language {
         languageBase.put("Module.Modules.PortalGod.description", "Allows you to interact with portals without being teleported");
         languageBase.put("Module.Modules.PortalGod.Options.BooleanOption.Inventory.name", "Inventory");
         languageBase.put("Module.Modules.PortalGod.Options.BooleanOption.Inventory.description", "Allow interaction with inventory while in a portal");
+        languageBase.put("Module.Modules.PortalGod.Options.BooleanOption.GodMode.name", "God Mode");
+        languageBase.put("Module.Modules.PortalGod.Options.BooleanOption.GodMode.description", "Use god mode");
         languageBase.put("Module.Modules.PortalGod.Options.DoubleOption.ConfirmTime.name", "Confirm Time");
         languageBase.put("Module.Modules.PortalGod.Options.DoubleOption.ConfirmTime.description", "Delay before confirming the teleport");
 
@@ -1779,7 +1781,7 @@ public class EnglishLanguage extends Language {
         languageBase.put("Module.Modules.QuickStop.name", "Quick Stop");
         languageBase.put("Module.Modules.QuickStop.description", "Stop movements when you released the movement key");
 
-        languageBase.put("Module.Modules.AutoClicker.name", "AutoClicker");
+        languageBase.put("Module.Modules.AutoClicker.name", "Auto Clicker");
         languageBase.put("Module.Modules.AutoClicker.description", "Auto clicks like normal");
         languageBase.put("Module.Modules.AutoClicker.Options.MultipleOption.Mode.name", "Mode");
         languageBase.put("Module.Modules.AutoClicker.Options.MultipleOption.Mode.description", "Which mouse buttons to click automatically");
@@ -2451,6 +2453,8 @@ public class EnglishLanguage extends Language {
 
         languageBase.put("Module.Modules.NoInvisible.name", "No Invisible");
         languageBase.put("Module.Modules.NoInvisible.description", "Always display the hidden entities");
+        languageBase.put("Module.Modules.NoInvisible.Options.MultipleOption.Targets.name", "Targets");
+        languageBase.put("Module.Modules.NoInvisible.Options.MultipleOption.Targets.description", "entity types to show");
 
         languageBase.put("Module.Modules.NoSlowdown.name", "No Slowdown");
         languageBase.put("Module.Modules.NoSlowdown.description", "Prevents slowdown from using items or walking on certain blocks");
@@ -2481,5 +2485,80 @@ public class EnglishLanguage extends Language {
 
         languageBase.put("Module.Modules.LiquidInteract.name", "Liquid Interact");
         languageBase.put("Module.Modules.LiquidInteract.description", "Interact the liquid like contact other blocks");
+
+        languageBase.put("Module.Modules.LongJump.name", "Long Jump");
+        languageBase.put("Module.Modules.LongJump.description", "Allows the player to jump long distances");
+        languageBase.put("Module.Modules.LongJump.Options.EnumOption.Mode.name", "Mode");
+        languageBase.put("Module.Modules.LongJump.Options.EnumOption.Mode.description", "Mode of long jumping");
+        languageBase.put("Module.Modules.LongJump.Options.DoubleOption.Boost.name", "Boost");
+        languageBase.put("Module.Modules.LongJump.Options.DoubleOption.Boost.description", "Boost value for the long jump");
+        languageBase.put("Module.Modules.LongJump.Options.BooleanOption.AutoDisable.name", "Auto Disable");
+        languageBase.put("Module.Modules.LongJump.Options.BooleanOption.AutoDisable.description", "Auto disable the module after jumping");
+        languageBase.put("Module.Modules.LongJump.Options.BooleanOption.Debug.name", "Debug");
+        languageBase.put("Module.Modules.LongJump.Options.BooleanOption.Debug.description", "Show debug information");
+
+        languageBase.put("Module.Modules.AutoPlace.name", "Auto Place");
+        languageBase.put("Module.Modules.AutoPlace.description", "Auto places blocks");
+        languageBase.put("Module.Modules.AutoPlace.Options.EnumOption.ClickMode.name", "Click Mode");
+        languageBase.put("Module.Modules.AutoPlace.Options.EnumOption.ClickMode.description", "Mode of placing blocks");
+        languageBase.put("Module.Modules.AutoPlace.Options.DoubleOption.MinDelay.name", "Min Delay");
+        languageBase.put("Module.Modules.AutoPlace.Options.DoubleOption.MinDelay.description", "Minimum delay between block placements in milliseconds");
+        languageBase.put("Module.Modules.AutoPlace.Options.DoubleOption.MaxDelay.name", "Max Delay");
+        languageBase.put("Module.Modules.AutoPlace.Options.DoubleOption.MaxDelay.description", "Maximum delay between block placements in milliseconds");
+        languageBase.put("Module.Modules.AutoPlace.Options.BooleanOption.InScreen.name", "In Screen");
+        languageBase.put("Module.Modules.AutoPlace.Options.BooleanOption.InScreen.description", "Only place blocks when a screen is open");
+        languageBase.put("Module.Modules.AutoPlace.Options.BooleanOption.Debug.name", "Debug");
+        languageBase.put("Module.Modules.AutoPlace.Options.BooleanOption.Debug.description", "Show debug information");
+
+        languageBase.put("Module.Modules.HotbarHelper.name", "Hotbar Helper");
+        languageBase.put("Module.Modules.HotbarHelper.description", "Auto sorts and switches items in the hotbar");
+        languageBase.put("Module.Modules.HotbarHelper.Options.BooleanOption.AutoSort.name", "Auto Sort");
+        languageBase.put("Module.Modules.HotbarHelper.Options.BooleanOption.AutoSort.description", "Auto sort items in the hotbar");
+        languageBase.put("Module.Modules.HotbarHelper.Options.EnumOption.SlotMode.name", "Slot Mode");
+        languageBase.put("Module.Modules.HotbarHelper.Options.EnumOption.SlotMode.description", "The swap mode of changing the item slot position");
+        languageBase.put("Module.Modules.HotbarHelper.Options.DoubleOption.MaxDelay.name", "Max Delay");
+        languageBase.put("Module.Modules.HotbarHelper.Options.DoubleOption.MaxDelay.description", "Maximum delay between sorting actions in milliseconds");
+        languageBase.put("Module.Modules.HotbarHelper.Options.DoubleOption.MinDelay.name", "Min Delay");
+        languageBase.put("Module.Modules.HotbarHelper.Options.DoubleOption.MinDelay.description", "Minimum delay between sorting actions in milliseconds");
+        languageBase.put("Module.Modules.HotbarHelper.Options.BooleanOption.FastSwitch.name", "Fast Switch");
+        languageBase.put("Module.Modules.HotbarHelper.Options.BooleanOption.FastSwitch.description", "Enable fast item switching");
+        languageBase.put("Module.Modules.HotbarHelper.Options.BooleanOption.SwitchCheck.name", "Switch Check");
+        languageBase.put("Module.Modules.HotbarHelper.Options.BooleanOption.SwitchCheck.description", "Check item type before switching");
+        languageBase.put("Module.Modules.HotbarHelper.Options.BindOption.Slot_0_Bind.name", "Slot 0 Bind");
+        languageBase.put("Module.Modules.HotbarHelper.Options.BindOption.Slot_0_Bind.description", "Bind key for slot 0");
+        languageBase.put("Module.Modules.HotbarHelper.Options.EnumOption.Slot_0.name", "Slot 0");
+        languageBase.put("Module.Modules.HotbarHelper.Options.EnumOption.Slot_0.description", "Item type for slot 0");
+        languageBase.put("Module.Modules.HotbarHelper.Options.BindOption.Slot_1_Bind.name", "Slot 1 Bind");
+        languageBase.put("Module.Modules.HotbarHelper.Options.BindOption.Slot_1_Bind.description", "Bind key for slot 1");
+        languageBase.put("Module.Modules.HotbarHelper.Options.EnumOption.Slot_1.name", "Slot 1");
+        languageBase.put("Module.Modules.HotbarHelper.Options.EnumOption.Slot_1.description", "Item type for slot 1");
+        languageBase.put("Module.Modules.HotbarHelper.Options.BindOption.Slot_2_Bind.name", "Slot 2 Bind");
+        languageBase.put("Module.Modules.HotbarHelper.Options.BindOption.Slot_2_Bind.description", "Bind key for slot 2");
+        languageBase.put("Module.Modules.HotbarHelper.Options.EnumOption.Slot_2.name", "Slot 2");
+        languageBase.put("Module.Modules.HotbarHelper.Options.EnumOption.Slot_2.description", "Item type for slot 2");
+        languageBase.put("Module.Modules.HotbarHelper.Options.BindOption.Slot_3_Bind.name", "Slot 3 Bind");
+        languageBase.put("Module.Modules.HotbarHelper.Options.BindOption.Slot_3_Bind.description", "Bind key for slot 3");
+        languageBase.put("Module.Modules.HotbarHelper.Options.EnumOption.Slot_3.name", "Slot 3");
+        languageBase.put("Module.Modules.HotbarHelper.Options.EnumOption.Slot_3.description", "Item type for slot 3");
+        languageBase.put("Module.Modules.HotbarHelper.Options.BindOption.Slot_4_Bind.name", "Slot 4 Bind");
+        languageBase.put("Module.Modules.HotbarHelper.Options.BindOption.Slot_4_Bind.description", "Bind key for slot 4");
+        languageBase.put("Module.Modules.HotbarHelper.Options.EnumOption.Slot_4.name", "Slot 4");
+        languageBase.put("Module.Modules.HotbarHelper.Options.EnumOption.Slot_4.description", "Item type for slot 4");
+        languageBase.put("Module.Modules.HotbarHelper.Options.BindOption.Slot_5_Bind.name", "Slot 5 Bind");
+        languageBase.put("Module.Modules.HotbarHelper.Options.BindOption.Slot_5_Bind.description", "Bind key for slot 5");
+        languageBase.put("Module.Modules.HotbarHelper.Options.EnumOption.Slot_5.name", "Slot 5");
+        languageBase.put("Module.Modules.HotbarHelper.Options.EnumOption.Slot_5.description", "Item type for slot 5");
+        languageBase.put("Module.Modules.HotbarHelper.Options.BindOption.Slot_6_Bind.name", "Slot 6 Bind");
+        languageBase.put("Module.Modules.HotbarHelper.Options.BindOption.Slot_6_Bind.description", "Bind key for slot 6");
+        languageBase.put("Module.Modules.HotbarHelper.Options.EnumOption.Slot_6.name", "Slot 6");
+        languageBase.put("Module.Modules.HotbarHelper.Options.EnumOption.Slot_6.description", "Item type for slot 6");
+        languageBase.put("Module.Modules.HotbarHelper.Options.BindOption.Slot_7_Bind.name", "Slot 7 Bind");
+        languageBase.put("Module.Modules.HotbarHelper.Options.BindOption.Slot_7_Bind.description", "Bind key for slot 7");
+        languageBase.put("Module.Modules.HotbarHelper.Options.EnumOption.Slot_7.name", "Slot 7");
+        languageBase.put("Module.Modules.HotbarHelper.Options.EnumOption.Slot_7.description", "Item type for slot 7");
+        languageBase.put("Module.Modules.HotbarHelper.Options.BindOption.Slot_8_Bind.name", "Slot 8 Bind");
+        languageBase.put("Module.Modules.HotbarHelper.Options.BindOption.Slot_8_Bind.description", "Bind key for slot 8");
+        languageBase.put("Module.Modules.HotbarHelper.Options.EnumOption.Slot_8.name", "Slot 8");
+        languageBase.put("Module.Modules.HotbarHelper.Options.EnumOption.Slot_8.description", "Item type for slot 8");
     }
 }

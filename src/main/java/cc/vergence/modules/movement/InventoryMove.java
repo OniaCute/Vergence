@@ -56,15 +56,15 @@ public class InventoryMove extends Module {
         }
     }
 
-    public void onClickSlot(ClickSlotEvent event) {
-        if (!AntiCheat.INSTANCE.isLegit()) {
-            return;
-        }
+        public void onClickSlot(ClickSlotEvent event) {
+            if (!AntiCheat.INSTANCE.isLegit()) {
+                return;
+            }
 
-        if (AntiCheat.INSTANCE.isLegit() && (MovementUtil.isMoving() || mc.options.jumpKey.isPressed())) {
-            event.cancel();
+            if (AntiCheat.INSTANCE.isLegit() && (MovementUtil.isMoving() || mc.options.jumpKey.isPressed())) {
+                event.cancel();
+            }
         }
-    }
 
     @Override
     public void onSendPacket(PacketEvent.Send event, Packet<?> packet) {

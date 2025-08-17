@@ -24,8 +24,9 @@ public class QuickStop extends Module {
         }
 
         if (!mc.options.forwardKey.isPressed() && !mc.options.backKey.isPressed() && !mc.options.leftKey.isPressed() && !mc.options.rightKey.isPressed() && !EntityUtil.isFalling() && mc.player.isOnGround()) {
-            event.set(0, 0, 0);
-            mc.player.setVelocity(0, 0, 0);
+//            event.set(0, 0, 0);
+//            mc.player.setVelocity(0, 0, 0);
+            event.cancel();
         }
     }
 }

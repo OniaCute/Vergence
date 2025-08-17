@@ -171,7 +171,7 @@ public class ArmorHud extends Module {
             if (durability) {
                 int maxDurability = itemStack.getMaxDamage();
                 int currentDurability = maxDurability - itemStack.getDamage();
-                double durabilityWidth = ((currentDurability / (double) maxDurability) * iconSize) - 7;
+                double durabilityWidth = ((currentDurability / (double) maxDurability) * (getWidth() - 7));
 
                 Render2DUtil.drawRect(
                         context,

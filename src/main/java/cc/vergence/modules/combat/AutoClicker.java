@@ -30,10 +30,12 @@ public class AutoClicker extends Module {
     }
 
     public Option<EnumSet<Modes>> mode = addOption(new MultipleOption<Modes>("Mode", EnumSet.of(Modes.Left)));
+    public Option<Boolean> onlyEntity = addOption(new BooleanOption("OnlyEntity", false));
+    public Option<EnumSet<TargetTypes>> targets = addOption(new MultipleOption<TargetTypes>("Targets", EnumSet.of(TargetTypes.EnemyPlayers), v -> onlyEntity.getValue()));
     public Option<Enum<?>> clickMode = addOption(new EnumOption("ClickMode", ClickModes.Press));
     public Option<Enum<?>> swingMode = addOption(new EnumOption("Swing", SwingModes.Client));
-    public Option<Double> minDelay = addOption(new DoubleOption("MinDelay", 1, 550, 30).setUnit("ms"));
-    public Option<Double> maxDelay = addOption(new DoubleOption("MaxDelay", 1, 550, 60).setUnit("ms"));
+    public Option<Double> minDelay = addOption(new DoubleOption("MinDelay", 1, 950, 30).setUnit("ms"));
+    public Option<Double> maxDelay = addOption(new DoubleOption("MaxDelay", 1, 950, 60).setUnit("ms"));
     public Option<Boolean> inScreen = addOption(new BooleanOption("InScreen", false));
     public Option<Boolean> debug = addOption(new BooleanOption("Debug", false));
 

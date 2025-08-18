@@ -2,6 +2,8 @@ package cc.vergence.features.managers.client;
 
 import cc.vergence.Vergence;
 import cc.vergence.features.enums.client.MouseButtons;
+import cc.vergence.features.enums.font.FontSize;
+import cc.vergence.features.enums.other.Aligns;
 import cc.vergence.features.event.eventbus.EventHandler;
 import cc.vergence.features.event.events.*;
 import cc.vergence.features.managers.other.MessageManager;
@@ -12,7 +14,9 @@ import cc.vergence.features.options.Option;
 import cc.vergence.features.options.impl.BindOption;
 import cc.vergence.features.screens.ClickGuiScreen;
 import cc.vergence.modules.Module;
+import cc.vergence.util.font.NewFontUtil;
 import cc.vergence.util.interfaces.Wrapper;
+import cc.vergence.util.render.utils.NewRender2DUtil;
 import cc.vergence.util.render.utils.Render2DUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;

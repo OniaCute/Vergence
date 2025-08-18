@@ -91,27 +91,25 @@ public class ConfigCommand extends Command {
 	@Override
 	public String[] getAutocorrect(int count, List<String> separated) {
 		if (count == 1) {
-			return new String[]{"save", "load", "list", "delete"};
+			return new String[] {"save", "load", "list", "delete"};
 		}
 
 		if (count == 2) {
+			if (separated.size() < 2) {
+				return null;
+			}
 			String cmd = separated.get(separated.size() - 2).toLowerCase();
-			switch (cmd) {
-				case "load":
-				case "delete":
-					File[] fs = ConfigManager.CONFIG_FOLDER.listFiles((d, n) -> n.endsWith(".vgc"));
-					List<String> names = new ArrayList<>();
-					if (fs != null) {
-						for (File f : fs) {
-							names.add(f.getName().replace(".vgc", ""));
-						}
+			if ("load".equals(cmd) || "delete".equals(cmd)) {
+				File[] fs = ConfigManager.CONFIG_FOLDER.listFiles((d, n) -> n.endsWith(".vgc"));
+				List<String> names = new ArrayList<>();
+				if (fs != null) {
+					for (File f : fs) {
+						names.add(f.getName().replace(".vgc", ""));
 					}
-					return names.toArray(new String[0]);
-				default:
-					return null;
+				}
+				return names.toArray(new String[0]);
 			}
 		}
-
 		return null;
 	}
 }

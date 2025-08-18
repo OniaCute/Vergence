@@ -9,6 +9,7 @@ import cc.vergence.modules.player.AutoRespawn;
 import cc.vergence.modules.player.MultipleTask;
 import cc.vergence.util.font.FontRenderers;
 import cc.vergence.util.font.FontUtil;
+import cc.vergence.util.font.NewFontUtil;
 import cc.vergence.util.interfaces.IRightClick;
 import cc.vergence.util.interfaces.Wrapper;
 import cc.vergence.util.render.other.SkiaContext;
@@ -141,6 +142,7 @@ public abstract class MixinMinecraftClient extends ReentrantThreadExecutor<Runna
 
             SkiaContext.createSurface(window.getWidth(), window.getHeight());
             FontUtil.LOADED = true;
+            NewFontUtil.LOADED = true;
         } catch (Exception e) {
             e.printStackTrace();
         }

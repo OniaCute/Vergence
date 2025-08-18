@@ -48,34 +48,36 @@ public class HotbarHud extends Module implements Wrapper {
 
     @Override
     public void onDrawSkia(DrawContext context, float tickDelta) {
-        if (isNull() || !blur.getValue()) {
+        if (isNull()) {
             return ;
         }
 
         int i = mc.getWindow().getScaledWidth() / 2;
-        if (mc.player.getOffHandStack().isEmpty()) {
-            NewRender2DUtil.drawRoundedBlur(i - 90, mc.getWindow().getScaledHeight() - 25, 180, 20, radius.getValue());
-        } else {
-            NewRender2DUtil.drawRoundedBlur(i - 90, mc.getWindow().getScaledHeight() - 25, 180, 20, radius.getValue());
-            NewRender2DUtil.drawRoundedBlur(i - 112.5f, mc.getWindow().getScaledHeight() - 25, 20, 20, radius.getValue());
+        if (blur.getValue()) {
+            if (mc.player.getOffHandStack().isEmpty()) {
+                NewRender2DUtil.drawRoundedBlur(i - 90, mc.getWindow().getScaledHeight() - 25, 180, 20, radius.getValue());
+            } else {
+                NewRender2DUtil.drawRoundedBlur(i - 90, mc.getWindow().getScaledHeight() - 25, 180, 20, radius.getValue());
+                NewRender2DUtil.drawRoundedBlur(i - 112.5f, mc.getWindow().getScaledHeight() - 25, 20, 20, radius.getValue());
+            }
+        }
+
+        PlayerEntity playerEntity = mc.player;
+        if (playerEntity != null) {
+            MatrixStack matrices = context.getMatrices();
+            if (mc.player.getOffHandStack().isEmpty()) {
+                NewRender2DUtil.drawRoundedRect(i - 90, mc.getWindow().getScaledHeight() - 25, 180, 20, radius.getValue(), backgroundColor.getValue());
+            } else {
+                NewRender2DUtil.drawRoundedRect(i - 90, mc.getWindow().getScaledHeight() - 25, 180, 20, radius.getValue(), backgroundColor.getValue());
+                NewRender2DUtil.drawRoundedRect(i - 112.5f, mc.getWindow().getScaledHeight() - 25, 20, 20, radius.getValue(), backgroundColor.getValue());
+            }
+            NewRender2DUtil.drawRoundedRect(i - 88 + playerEntity.getInventory().selectedSlot * 19.8f + 0.5, mc.getWindow().getScaledHeight() - 24, 17, 17, radius.getValue(), selectColor.getValue());
         }
     }
 
     @Override
     public void onDraw2D(DrawContext context, float tickDelta) {
-        PlayerEntity playerEntity = mc.player;
-        if (playerEntity != null) {
-            MatrixStack matrices = context.getMatrices();
-            int i = mc.getWindow().getScaledWidth() / 2;
-
-            if (mc.player.getOffHandStack().isEmpty()) {
-                Render2DUtil.drawRoundedRect(matrices, i - 90, mc.getWindow().getScaledHeight() - 25, 180, 20, radius.getValue(), backgroundColor.getValue());
-            } else {
-                Render2DUtil.drawRoundedRect(matrices, i - 90, mc.getWindow().getScaledHeight() - 25, 180, 20, radius.getValue(), backgroundColor.getValue());
-                Render2DUtil.drawRoundedRect(matrices, i - 112.5f, mc.getWindow().getScaledHeight() - 25, 20, 20, radius.getValue(), backgroundColor.getValue());
-            }
-            Render2DUtil.drawRoundedRect(matrices, i - 88 + playerEntity.getInventory().selectedSlot * 19.8f + 0.5, mc.getWindow().getScaledHeight() - 24, 17, 17, radius.getValue(), selectColor.getValue());
-        }
+        // skia renderer
     }
 
     public void renderHotBarItems(DrawContext context) {

@@ -108,4 +108,25 @@ public class FontRenderers {
         Font font = Font.createFont(Font.TRUETYPE_FONT, fontStream).deriveFont(Font.PLAIN, size);
         return new RendererFontAdapter(font, size);
     }
+
+    public static final String SMOOTH = "assets/vergence/font/smooth.otf";
+    public static final String SANS = "assets/vergence/font/sans.ttf";
+    public static final String RHR = "assets/vergence/font/rhr.ttf";
+    public static final String ICON = "assets/vergence/font/icons.otf";
+
+    public static io.github.humbleui.skija.Font getSans(float size) {
+        return FontHelper.load(SANS, size);
+    }
+
+    public static io.github.humbleui.skija.Font getRhr(float size) {
+        return FontHelper.load(RHR, size);
+    }
+
+    public static io.github.humbleui.skija.Font getSmooth(float size) {
+        return FontHelper.load(SMOOTH, size);
+    }
+
+    public static io.github.humbleui.skija.Font getIcon(float size) {
+        return FontHelper.load(ICON, size);
+    }
 }

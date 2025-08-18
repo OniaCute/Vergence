@@ -437,7 +437,7 @@ public class EventManager implements Wrapper {
         int bindCode = -100 - button;
         boolean shiftPressed = InputUtil.isKeyPressed(mc.getWindow().getHandle(), GLFW.GLFW_KEY_LEFT_SHIFT) || InputUtil.isKeyPressed(mc.getWindow().getHandle(), GLFW.GLFW_KEY_RIGHT_SHIFT);
         for (Module module : ModuleManager.modules) {
-            module.onMouseActiveAlways(button, action);
+            module.onMouseActiveAlways(bindCode, action);
             BindOption bind = module.getBind();
             if (bind.getValue() == bindCode && bind.isNeedShift() == shiftPressed && (mc.currentScreen instanceof ClickGuiScreen || mc.currentScreen == null) && !module.isAlwaysEnable()) {
                 if (action == GLFW.GLFW_PRESS) {
@@ -468,7 +468,7 @@ public class EventManager implements Wrapper {
                 }
             }
             if (module.getStatus()) {
-                module.onMouseActive(button, action);
+                module.onMouseActive(bindCode, action);
             }
         }
     }

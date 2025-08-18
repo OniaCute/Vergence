@@ -68,13 +68,30 @@ public class HotbarHelper extends Module {
     }
 
     @Override
-    public void onKeyboardActive(int key, int action) {
+    public void onKeyboardActive(int key, int action) { 
         if (!fastSwitch.getValue() || isNull()) {
             return ;
         }
         if (action == 1) {
             for (int i = 0; i < 9; i++) {
                 if (getOptionHashMap().get("Slot_" + i + "_Bind") instanceof BindOption bindOption && bindOption.getValue().equals(key)) {
+                    Option<Enum<?>> slotOption = ((EnumOption) getOptionHashMap().get("Slot_" + i));
+                    if (isCorrect(mc.player.getInventory().getStack(i).getItem(), asItemType(slotOption)) || !switchCheck.getValue()) {
+                        Vergence.INVENTORY.setClientSlot(i);
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onMouseActive(int button, int action) {
+        if (!fastSwitch.getValue() || isNull()) {
+            return ;
+        }
+        if (action == 1) {
+            for (int i = 0; i < 9; i++) {
+                if (getOptionHashMap().get("Slot_" + i + "_Bind") instanceof BindOption bindOption && bindOption.getValue().equals(button)) {
                     Option<Enum<?>> slotOption = ((EnumOption) getOptionHashMap().get("Slot_" + i));
                     if (isCorrect(mc.player.getInventory().getStack(i).getItem(), asItemType(slotOption)) || !switchCheck.getValue()) {
                         Vergence.INVENTORY.setClientSlot(i);

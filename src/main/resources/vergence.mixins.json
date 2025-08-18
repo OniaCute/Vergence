@@ -19,6 +19,7 @@
     "accessors.render.NativeImageAccessor",
     "accessors.render.WorldRendererAccessor",
     "accessors.world.ClientWorldAccessor",
+    "accessors.player.KeyBindingAccessor",
     "mixins.chat.MixinChatHud",
     "mixins.chat.MixinChatHudLine",
     "mixins.chat.MixinChatHudLineVisible",
@@ -69,6 +70,5 @@
     "defaultRequire": 1
   },
   "client": [
-    "accessors.player.KeyBindingAccessor"
   ]
 }

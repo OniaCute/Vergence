@@ -49,7 +49,8 @@ public class PotionHud extends Module {
     public Option<Color> backgroundColor = addOption(new ColorOption("BackgroundColor", new Color(241, 241, 241), v -> background.getValue()));
     public Option<Boolean> rounded = addOption(new BooleanOption("Rounded", true, v -> background.getValue()));
     public Option<Double> radius = addOption(new DoubleOption("Radius", 0, 6, 4, v -> background.getValue()));
-    public Option<Double> titleOffset = addOption(new DoubleOption("titleOffset", -5, 5, 0));
+    public Option<Double> titleOffset = addOption(new DoubleOption("TitleOffset", -5, 5, 0));
+    public Option<Double> iconOffset = addOption(new DoubleOption("IconOffset", -5, 5, 0));
 
     @Override
     public String getDetails() {
@@ -94,10 +95,11 @@ public class PotionHud extends Module {
             return ;
         }
 
-        double maxWidth = FontUtil.getWidth(FontSize.SMALL, title.getValue()) + 10;
+        String iconText = icon.getValue() ? "\uF0C3 " : "";
+        double maxWidth = FontUtil.getWidth(FontSize.SMALL, iconText + title.getValue()) + 10;
         for (StatusEffectInstance potionEffect : mc.player.getStatusEffects()) {
             StatusEffect potion = potionEffect.getEffectType().value();
-            maxWidth = Math.max(FontUtil.getWidth(FontSize.SMALLEST, potion.getName().getString() + getDuration(potionEffect) + 35) + FontUtil.getWidth(FontSize.SMALL, title.getValue()), maxWidth);
+            maxWidth = Math.max(FontUtil.getWidth(FontSize.SMALLEST, getDuration(potionEffect)) + 10 + FontUtil.getWidth(FontSize.SMALL, iconText + title.getValue()), maxWidth);
         }
         setWidth(maxWidth);
         setHeight(
@@ -128,14 +130,31 @@ public class PotionHud extends Module {
             }
         }
 
-        FontUtil.drawTextWithAlign(
-                context,
-                title.getValue(),
+
+        double[] pos = Render2DUtil.getAlignPosition(
                 getX() + (titleAlign.getValue().equals(Aligns.Left) ? 2 : 0),
                 getY(),
                 getX() + getWidth() + (titleAlign.getValue().equals(Aligns.Right) ? -2 : 0),
                 getY() + 2 * 2 + FontUtil.getHeight(FontSize.SMALL) + 2 + titleOffset.getValue(),
-                translateAlign((Aligns) titleAlign.getValue()),
+                FontUtil.getWidth(FontSize.SMALL, iconText + title.getValue()),
+                FontUtil.getHeight(FontSize.SMALL),
+                translateAlign((Aligns) titleAlign.getValue())
+        );
+
+        FontUtil.drawIcon(
+                context,
+                iconText,
+                pos[0],
+                pos[1] + 2 + iconOffset.getValue(),
+                titleColor.getValue(),
+                FontSize.SMALL
+        );
+
+        FontUtil.drawText(
+                context,
+                title.getValue(),
+                pos[0] + FontUtil.getWidth(FontSize.SMALL, iconText),
+                pos[1] + titleOffset.getValue(),
                 titleColor.getValue(),
                 FontSize.SMALL
         );

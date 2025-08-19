@@ -91,7 +91,7 @@ public class TickShiftIndicator extends Module {
         }
 
         FontSize size = (FontSize) fontSize.getValue();
-        String iconText = icon.getValue() ? "\uF1DA " : "⚡";
+        String iconText = icon.getValue() ? "\uF1DA " : "";
 
         setHeight(FontUtil.getHeight(size) + 2 * 2); // 2 padding
         setWidth(FontUtil.getWidth(size, iconText) + FontUtil.getWidth(size, text.getValue()) + 3 * 2); // 3 padding

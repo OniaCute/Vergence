@@ -83,14 +83,14 @@ public class InfoManager implements Wrapper {
         int targetSpentMemoryMB = targetSpentMemoryBytes / (1024 * 1024);
         int targetMaxMemoryMB = targetMaxMemoryBytes / (1024 * 1024);
         if (spentMemory < targetSpentMemoryMB) {
-            spentMemory += (targetSpentMemoryMB - spentMemory) / 4;
+            spentMemory += (targetSpentMemoryMB - spentMemory) / 3;
         } else if (spentMemory > targetSpentMemoryMB) {
-            spentMemory -= (spentMemory - targetSpentMemoryMB) / 4;
+            spentMemory -= (spentMemory - targetSpentMemoryMB) / 3;
         }
         if (maxMemory < targetMaxMemoryMB) {
-            maxMemory += (targetMaxMemoryMB - maxMemory) / 4;
+            maxMemory += (targetMaxMemoryMB - maxMemory) / 3;
         } else if (maxMemory > targetMaxMemoryMB) {
-            maxMemory -= (maxMemory - targetMaxMemoryMB) / 4;
+            maxMemory -= (maxMemory - targetMaxMemoryMB) / 3;
         }
     }
 

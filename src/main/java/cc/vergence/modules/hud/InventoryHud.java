@@ -20,10 +20,12 @@ public class InventoryHud extends Module {
     }
 
     public Option<Enum<?>> mode = addOption(new EnumOption("Mode", Modes.Normal));
-    public Option<String> title = addOption(new TextOption("Title", "Inventory Items"));
-    public Option<Enum<?>> titleAlign = addOption(new EnumOption("TitleAlign", Aligns.Center));
-    public Option<Color> titleColor = addOption(new ColorOption("TitleColor", new Color(241, 137, 255)));
-    public Option<Boolean> icon = addOption(new BooleanOption("Icon", true));
+    public Option<Enum<?>> splitMode = addOption(new EnumOption("SplitMode", Modes.Normal));
+    public Option<Boolean> withTitle = addOption(new BooleanOption("Title", true));
+    public Option<String> title = addOption(new TextOption("TitleText", "Inventory Items", v -> withTitle.getValue()));
+    public Option<Enum<?>> titleAlign = addOption(new EnumOption("TitleAlign", Aligns.Center, v -> withTitle.getValue()));
+    public Option<Color> titleColor = addOption(new ColorOption("TitleColor", new Color(241, 137, 255), v -> withTitle.getValue()));
+    public Option<Boolean> icon = addOption(new BooleanOption("Icon", true, v -> withTitle.getValue()));
     public Option<Boolean> count = addOption(new BooleanOption("Count", true));
     public Option<Color> countColor = addOption(new ColorOption("CountColor", new Color(0, 0, 0), v -> count.getValue()));
     public Option<Boolean> background = addOption(new BooleanOption("Background", true));
@@ -79,5 +81,11 @@ public class InventoryHud extends Module {
     private enum Modes {
         Normal,
         Mini
+    }
+
+    private enum SplitMode {
+        Off,
+        Line,
+        All
     }
 }

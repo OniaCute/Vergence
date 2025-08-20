@@ -28,8 +28,9 @@ public class MixinClientPlayerInteractionManager {
 
 	@Inject(method = "cancelBlockBreaking", at = @At("HEAD"), cancellable = true)
 	private void hookCancelBlockBreaking(CallbackInfo ci) {
-		if (SaveBreak.INSTANCE.getStatus())
+		if (SaveBreak.INSTANCE.getStatus()) {
 			ci.cancel();
+		}
 	}
 
 	@Inject(method = "attackBlock", at = @At("HEAD"), cancellable = true)
@@ -38,7 +39,22 @@ public class MixinClientPlayerInteractionManager {
 		Vergence.EVENTBUS.post(event);
 		if (event.isCancelled()) {
 			cir.setReturnValue(false);
+		} else {
+			Vergence.MINE.setMining(true);
 		}
+	}
+
+	@Inject(method = "cancelBlockBreaking", at = @At("HEAD"))
+	private void onBlockBreakingCancelled(CallbackInfo ci) {
+		Vergence.MINE.setMining(false);
+	}
+
+	@Inject(method = "isBreakingBlock", at = @At("HEAD"))
+	private void miningHook(CallbackInfoReturnable<Boolean> cir) {
+		if (cir.isCancelled() || cir.getReturnValue() == null) {
+			return ;
+		}
+		Vergence.MINE.setMining(cir.getReturnValue());
 	}
 
 	@Inject(method = "clickSlot", at = @At("HEAD"), cancellable = true)

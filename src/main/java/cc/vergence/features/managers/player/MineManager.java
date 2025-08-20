@@ -3,6 +3,7 @@ package cc.vergence.features.managers.player;
 import cc.vergence.Vergence;
 import cc.vergence.features.event.eventbus.EventHandler;
 import cc.vergence.features.event.events.PacketEvent;
+import cc.vergence.modules.Module;
 import cc.vergence.util.interfaces.Wrapper;
 import cc.vergence.util.other.FastTimerUtil;
 import cc.vergence.util.render.utils.FadeUtil;
@@ -15,6 +16,8 @@ import net.minecraft.util.math.MathHelper;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class MineManager implements Wrapper {
+    private boolean mining;
+
     public MineManager() {
         Vergence.EVENTBUS.subscribe(this);
     }
@@ -39,11 +42,23 @@ public class MineManager implements Wrapper {
         }
     }
 
+    public void setMining(boolean mining) {
+        this.mining = mining;
+    }
+
+    public boolean isMining() {
+        return mining;
+    }
+
     public boolean isMining(BlockPos pos) {
-        return isMining(pos, true);
+        return isMining(pos, true) ;
     }
 
     public boolean isMining(BlockPos pos, boolean self) {
+        if (Module.isNull()) {
+            return false;
+        }
+
 //        if (self && PacketMine.getBreakPos() != null && PacketMine.getBreakPos().equals(pos)) {
 //            return true;
 //        }
@@ -56,7 +71,7 @@ public class MineManager implements Wrapper {
                 continue;
             }
             if (mineData.pos.equals(pos)) {
-                return true;
+                return self && mc.player.getId() == mineData.entityId;
             }
         }
 

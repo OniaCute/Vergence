@@ -3,6 +3,7 @@ package cc.vergence.injections.mixins.player;
 import cc.vergence.Vergence;
 import cc.vergence.features.event.Event;
 import cc.vergence.features.event.events.*;
+import cc.vergence.modules.client.AntiCheat;
 import cc.vergence.modules.movement.Velocity;
 import cc.vergence.modules.player.PortalGod;
 import cc.vergence.modules.visual.SwingModifier;
@@ -23,6 +24,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ClientPlayerEntity.class)
@@ -52,9 +54,6 @@ public abstract class MixinClientPlayerEntity extends AbstractClientPlayerEntity
 	public void tickHook(CallbackInfo info) {
 		if (MinecraftClient.getInstance().player != null && MinecraftClient.getInstance().world != null) {
 			Vergence.EVENTBUS.post(new PlayerUpdateEvent());
-		}
-		if (Vergence.ROTATE.overrideServerRotation) {
-			info.cancel();
 		}
 	}
 

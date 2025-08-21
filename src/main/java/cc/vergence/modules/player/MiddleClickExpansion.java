@@ -1,6 +1,7 @@
 package cc.vergence.modules.player;
 
 import cc.vergence.Vergence;
+import cc.vergence.features.enums.client.MouseButtons;
 import cc.vergence.features.managers.other.MessageManager;
 import cc.vergence.features.managers.ui.NotifyManager;
 import cc.vergence.features.options.Option;
@@ -27,7 +28,7 @@ public class MiddleClickExpansion extends Module {
 
     @Override
     public void onMouseActive(int button, int act) {
-        if (button == GLFW.GLFW_MOUSE_BUTTON_MIDDLE && act == 1) {
+        if (button == -102 && act == 1) {
             if (action.getValue().equals(Actions.Friend)) {
                 friendAction();
             }

@@ -724,8 +724,12 @@ public class EnglishLanguage extends Language {
 
         languageBase.put("Module.Modules.Chams.name", "Chams");
         languageBase.put("Module.Modules.Chams.description", "Highlights entities through walls with customizable fill and outline colors");
+        languageBase.put("Module.Modules.Chams.Options.EnumOption.Mode.name", "Mode");
+        languageBase.put("Module.Modules.Chams.Options.EnumOption.Mode.description", "The mode of render targets");
         languageBase.put("Module.Modules.Chams.Options.MultipleOption.Targets.name", "Targets");
         languageBase.put("Module.Modules.Chams.Options.MultipleOption.Targets.description", "Entity categories to highlight");
+        languageBase.put("Module.Modules.Chams.Options.DoubleOption.SyncTime.name", "Sync Time");
+        languageBase.put("Module.Modules.Chams.Options.DoubleOption.SyncTime.description", "An interval for color sync");
         languageBase.put("Module.Modules.Chams.Options.BooleanOption.RenderEnemy.name", "Render Enemy");
         languageBase.put("Module.Modules.Chams.Options.BooleanOption.RenderEnemy.description", "Highlight enemy players");
         languageBase.put("Module.Modules.Chams.Options.BooleanOption.RenderFriend.name", "Render Friend");

@@ -71,7 +71,7 @@ public class HotbarHud extends Module implements Wrapper {
                 NewRender2DUtil.drawRoundedRect(i - 90, mc.getWindow().getScaledHeight() - 25, 180, 20, radius.getValue(), backgroundColor.getValue());
                 NewRender2DUtil.drawRoundedRect(i - 112.5f, mc.getWindow().getScaledHeight() - 25, 20, 20, radius.getValue(), backgroundColor.getValue());
             }
-            NewRender2DUtil.drawRoundedRect(i - 88 + playerEntity.getInventory().selectedSlot * 19.8f + 0.5, mc.getWindow().getScaledHeight() - 24, 17, 17, radius.getValue(), selectColor.getValue());
+            NewRender2DUtil.drawRoundedRect(i - 88 + playerEntity.getInventory().selectedSlot * 19.8f + 0.5, mc.getWindow().getScaledHeight() - 22 - (itemFloat.getValue() ? 2 : 0), 17, 17, radius.getValue(), selectColor.getValue());
         }
     }
 
@@ -116,7 +116,7 @@ public class HotbarHud extends Module implements Wrapper {
             context.getMatrices().scale(0.9f, 0.9f, 1.0F);
             context.getMatrices().translate((float) (-(i + 8)), (float) (-(j + 12)), 0.0F);
             context.drawItem(itemStack, i, j);
-            if (!mc.player.isCreative() || itemStack.getCount() != 1) {
+            if (!mc.player.isCreative() && itemStack.getMaxCount() != 1) {
                 FontUtil.drawTextWithAlign(context, String.valueOf(itemStack.getCount()), i, j, i + (20) - 2 + offsetX.getValue(), j + (20) + 3 + offsetY.getValue(), (Aligns) countAligns.getValue(), countColor.getValue(), (FontSize) countFontSize.getValue());
             }
             context.getMatrices().pop();

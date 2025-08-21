@@ -4,6 +4,7 @@ import cc.vergence.Vergence;
 import cc.vergence.features.event.events.LookDirectionEvent;
 import cc.vergence.features.event.events.UpdateVelocityEvent;
 import cc.vergence.modules.movement.Velocity;
+import cc.vergence.modules.visual.Chams;
 import cc.vergence.modules.visual.NoInvisible;
 import cc.vergence.util.combat.CombatUtil;
 import cc.vergence.util.interfaces.Wrapper;
@@ -15,7 +16,9 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Entity.class)
 public abstract class MixinEntity implements Wrapper {
@@ -77,6 +80,16 @@ public abstract class MixinEntity implements Wrapper {
 
     @ModifyExpressionValue(method = "isInvisible", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;getFlag(I)Z"))
     private boolean invisibleAccessor(boolean original) {
-            return (!NoInvisible.INSTANCE.getStatus() || !NoInvisible.INSTANCE.isValid((Object) this)) && original;
+        return (!NoInvisible.INSTANCE.getStatus() || !NoInvisible.INSTANCE.isValid((Object) this)) && original;
+    }
+
+    @ModifyExpressionValue(method = "isGlowing", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;getFlag(I)Z"))
+    private boolean chamsGlowing(boolean original) {
+        if (Chams.INSTANCE != null) {
+            return Chams.INSTANCE.getStatus() &&
+                    Chams.INSTANCE.mode.getValue().equals(Chams.RenderMode.Glow) &&
+                    CombatUtil.isValidTarget((Entity) (Object) this, Chams.INSTANCE.targets.getValue(), 200);
+        }
+        return original;
     }
 }

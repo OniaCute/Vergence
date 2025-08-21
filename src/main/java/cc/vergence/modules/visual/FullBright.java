@@ -49,6 +49,17 @@ public class FullBright extends Module {
         }
     }
 
+    @Override
+    public void onOptionValueUpdate() {
+        if (isNull()) {
+            return ;
+        }
+
+        if (!mode.getValue().equals(Modes.Potion) && mc.player.hasStatusEffect(StatusEffects.NIGHT_VISION)) {
+            mc.player.removeStatusEffect(StatusEffects.NIGHT_VISION);
+        }
+    }
+
     public enum Modes {
         Gamma,
         Potion

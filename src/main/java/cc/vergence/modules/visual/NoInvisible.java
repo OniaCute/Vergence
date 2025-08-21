@@ -20,7 +20,7 @@ public class NoInvisible extends Module {
         INSTANCE = this;
     }
 
-    public Option<EnumSet<Targets>> targets = addOption(new MultipleOption<Targets>("Target", EnumSet.of(Targets.Players)));
+    public Option<EnumSet<Targets>> targets = addOption(new MultipleOption<Targets>("Targets", EnumSet.of(Targets.Players)));
 
     @Override
     public String getDetails() {

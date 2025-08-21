@@ -2573,5 +2573,16 @@ public class EnglishLanguage extends Language {
         languageBase.put("Module.Modules.HotbarHelper.Options.BindOption.Slot_8_Bind.description", "Bind key for slot 8");
         languageBase.put("Module.Modules.HotbarHelper.Options.EnumOption.Slot_8.name", "Slot 8");
         languageBase.put("Module.Modules.HotbarHelper.Options.EnumOption.Slot_8.description", "Item type for slot 8");
+
+        languageBase.put("Module.Modules.HitMarker.name", "Hit Marker");
+        languageBase.put("Module.Modules.HitMarker.description", "Displays a hit marker when you hit an entity");
+        languageBase.put("Module.Modules.HitMarker.Options.DoubleOption.LifeTime.name", "Life Time");
+        languageBase.put("Module.Modules.HitMarker.Options.DoubleOption.LifeTime.description", "Duration the hit marker is displayed");
+        languageBase.put("Module.Modules.HitMarker.Options.ColorOption.Color.name", "Color");
+        languageBase.put("Module.Modules.HitMarker.Options.ColorOption.Color.description", "Color of the hit marker");
+        languageBase.put("Module.Modules.HitMarker.Options.DoubleOption.OffsetX.name", "Offset X");
+        languageBase.put("Module.Modules.HitMarker.Options.DoubleOption.OffsetX.description", "The offset of hitmarker's x axis");
+        languageBase.put("Module.Modules.HitMarker.Options.DoubleOption.OffsetY.name", "Offset Y");
+        languageBase.put("Module.Modules.HitMarker.Options.DoubleOption.OffsetY.description", "The offset of hitmarker's y axis");
     }
 }

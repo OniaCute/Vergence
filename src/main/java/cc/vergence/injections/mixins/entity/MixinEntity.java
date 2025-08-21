@@ -3,6 +3,7 @@ package cc.vergence.injections.mixins.entity;
 import cc.vergence.Vergence;
 import cc.vergence.features.event.events.LookDirectionEvent;
 import cc.vergence.features.event.events.UpdateVelocityEvent;
+import cc.vergence.modules.Module;
 import cc.vergence.modules.movement.Velocity;
 import cc.vergence.modules.visual.Chams;
 import cc.vergence.modules.visual.NoInvisible;
@@ -85,10 +86,13 @@ public abstract class MixinEntity implements Wrapper {
 
     @ModifyExpressionValue(method = "isGlowing", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;getFlag(I)Z"))
     private boolean chamsGlowing(boolean original) {
-        if (Chams.INSTANCE != null) {
+        if (Chams.INSTANCE != null && !Module.isNull()) {
             return Chams.INSTANCE.getStatus() &&
                     Chams.INSTANCE.mode.getValue().equals(Chams.RenderMode.Glow) &&
-                    CombatUtil.isValidTarget((Entity) (Object) this, Chams.INSTANCE.targets.getValue(), 200);
+                    (
+                            CombatUtil.isValidTarget((Entity) (Object) this, Chams.INSTANCE.targets.getValue(), 200) ||
+                            Chams.INSTANCE.forMyself.getValue() && ((Entity) (Object) this) == mc.player
+                    );
         }
         return original;
     }

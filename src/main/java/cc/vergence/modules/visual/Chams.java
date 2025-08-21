@@ -26,7 +26,7 @@ import java.util.Objects;
 
 public class Chams extends Module implements Wrapper {
     public static Chams INSTANCE;
-    private FastTimerUtil timer = new FastTimerUtil();
+    private final FastTimerUtil timer = new FastTimerUtil();
 
     public Chams() {
         super("Chams", Category.VISUAL);
@@ -37,9 +37,9 @@ public class Chams extends Module implements Wrapper {
     public Option<EnumSet<TargetTypes>> targets = addOption(new MultipleOption<>("Targets", EnumSet.of(TargetTypes.EnemyPlayers, TargetTypes.Invisible, TargetTypes.Crystal)));
     public Option<Double> syncTime = addOption(new DoubleOption("SyncTime", 20, 5000, 500, v -> mode.getValue().equals(RenderMode.Glow)).setUnit("ms"));
     public Option<Boolean> shine = addOption(new BooleanOption("Shine", true, v -> mode.getValue().equals(RenderMode.Normal)));
+    public Option<Boolean> forMyself = addOption(new BooleanOption("RenderSelf", false));
     public Option<Boolean> forEnemy = addOption(new BooleanOption("RenderEnemy", true, v -> mode.getValue().equals(RenderMode.Normal)));
     public Option<Boolean> forFriend = addOption(new BooleanOption("RenderFriend", true, v -> mode.getValue().equals(RenderMode.Normal)));
-    public Option<Boolean> forMyself = addOption(new BooleanOption("RenderSelf", false, v -> mode.getValue().equals(RenderMode.Normal)));
     public Option<Boolean> forCrystal = addOption(new BooleanOption("RenderCrystal", true, v -> mode.getValue().equals(RenderMode.Normal)));
     public Option<Color> crystalFillColor = addOption(new ColorOption("CrystalFill", new Color(236, 105, 255, 130), v -> forCrystal.getValue() && mode.getValue().equals(RenderMode.Normal)));
     public Option<Color> crystalOutlineColor = addOption(new ColorOption("CrystalOutline", new Color(165, 84, 255), v -> forCrystal.getValue() && mode.getValue().equals(RenderMode.Normal)));
@@ -160,12 +160,14 @@ public class Chams extends Module implements Wrapper {
             Team mobsTeam = Objects.requireNonNull(mc.getNetworkHandler()).getScoreboard().addTeam("Chams_Mobs_Team");
             Team crystalTeam = Objects.requireNonNull(mc.getNetworkHandler()).getScoreboard().addTeam("Chams_Crystal_Team");
             Team selfTeam = Objects.requireNonNull(mc.getNetworkHandler()).getScoreboard().addTeam("Chams_Self_Team");
+            Team otherTeam = Objects.requireNonNull(mc.getNetworkHandler()).getScoreboard().addTeam("Chams_Other_Team");
             friendTeam.setColor(Formatting.AQUA);
             enemyTeam.setColor(Formatting.RED);
             animalsTeam.setColor(Formatting.GREEN);
             mobsTeam.setColor(Formatting.GOLD);
             crystalTeam.setColor(Formatting.LIGHT_PURPLE);
             selfTeam.setColor(Formatting.DARK_PURPLE);
+            otherTeam.setColor(Formatting.RESET);
 
             for (Entity entity : mc.world.getEntities()) {
                 if (entity instanceof PlayerEntity player) {
@@ -173,15 +175,18 @@ public class Chams extends Module implements Wrapper {
                         mc.getNetworkHandler().getScoreboard().removeScoreHolderFromTeam(player.getName().getString(), friendTeam);
                         mc.getNetworkHandler().getScoreboard().removeScoreHolderFromTeam(player.getName().getString(), enemyTeam);
                         mc.getNetworkHandler().getScoreboard().removeScoreHolderFromTeam(player.getName().getString(), selfTeam);
+                        mc.getNetworkHandler().getScoreboard().removeScoreHolderFromTeam(player.getName().getString(), otherTeam);
                     } catch (IllegalStateException ignored) {
                     }
 
-                    if (player.equals(mc.player) && forMyself.getValue()) {
+                    if (player == mc.player && forMyself.getValue()) {
                         mc.getNetworkHandler().getScoreboard().addScoreHolderToTeam(player.getName().getString(), selfTeam);
                     } else if (Vergence.FRIEND.isFriend(player)) {
                         mc.getNetworkHandler().getScoreboard().addScoreHolderToTeam(player.getName().getString(), friendTeam);
                     } else if (Vergence.ENEMY.isEnemy(player)) {
                         mc.getNetworkHandler().getScoreboard().addScoreHolderToTeam(player.getName().getString(), enemyTeam);
+                    } else {
+                        mc.getNetworkHandler().getScoreboard().addScoreHolderToTeam(player.getName().getString(), otherTeam);
                     }
                 } else if (entity instanceof AnimalEntity || (entity.getType().getSpawnGroup() == SpawnGroup.CREATURE
                         || entity.getType().getSpawnGroup() == SpawnGroup.WATER_CREATURE

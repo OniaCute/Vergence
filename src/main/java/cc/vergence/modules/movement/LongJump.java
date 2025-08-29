@@ -38,7 +38,7 @@ public class LongJump extends Module {
 
     @Override
     public String getDetails() {
-        return debug.getValue() ? String.format("%.3f", speed) + " | " + stage : "";
+        return debug.getValue() ? String.format("%.2f", speed) + " | " + stage : "";
     }
 
     @Override

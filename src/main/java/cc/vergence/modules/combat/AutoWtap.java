@@ -83,6 +83,7 @@ public class AutoWtap extends Module {
 
         if (wasAttacked && !EntityUtil.isFalling() && mc.player.isOnGround()) {
             event.set(0, 0, 0);
+            event.cancel();
         }
     }
 }

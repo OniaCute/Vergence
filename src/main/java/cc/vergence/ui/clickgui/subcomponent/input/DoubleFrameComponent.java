@@ -62,6 +62,9 @@ public class DoubleFrameComponent extends GuiComponent implements Wrapper {
     }
 
     public void keyType(int keyCode) {
+        if (GuiManager.currentInputComponent != this && GuiManager.currentInputComponent != null) {
+            return ;
+        }
         switch (keyCode) {
             case GLFW.GLFW_KEY_V -> {
                 if (InputUtil.isKeyPressed(mc.getWindow().getHandle(), GLFW.GLFW_KEY_LEFT_CONTROL)) {
@@ -87,6 +90,9 @@ public class DoubleFrameComponent extends GuiComponent implements Wrapper {
     }
 
     public void charType(char c) {
+        if (GuiManager.currentInputComponent != this && GuiManager.currentInputComponent != null) {
+            return ;
+        }
         if (inputCache.length() > "10000.000".length()) {
             return ;
         }
@@ -109,17 +115,20 @@ public class DoubleFrameComponent extends GuiComponent implements Wrapper {
             if (isHovered(mouseX, mouseY)) {
                 if (!isListening) {
                     setListening(true);
+                    GuiManager.currentInputComponent = this;
                 }
                 GuiManager.CLICKED_LEFT = false;
             } else {
                 if (isListening) {
                     setListening(false);
+                    GuiManager.currentInputComponent = null;
                 }
             }
         }
 
         if (clickRight && isListening) {
             setListening(false);
+            GuiManager.currentInputComponent = null;
         }
 
         Render2DUtil.drawRoundedRectWithAlign(

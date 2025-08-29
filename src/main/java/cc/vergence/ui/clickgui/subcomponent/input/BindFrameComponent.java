@@ -47,6 +47,9 @@ public class BindFrameComponent extends GuiComponent implements Wrapper {
     }
 
     public void typeIn(int key) {
+        if (GuiManager.currentInputComponent != this && GuiManager.currentInputComponent != null) {
+            return ;
+        }
         switch (key) {
             case GLFW.GLFW_KEY_ESCAPE, GLFW.GLFW_KEY_ENTER, GLFW.GLFW_KEY_KP_ENTER -> {
                 isListening = false;
@@ -82,16 +85,21 @@ public class BindFrameComponent extends GuiComponent implements Wrapper {
             if (clickLeft) {
                 this.isListening = !this.isListening;
                 GuiManager.CLICKED_LEFT = false;
+                if (isListening) {
+                    GuiManager.currentInputComponent = this;
+                }
             }
         } else {
             if (clickLeft && isListening) {
                 this.isListening = false;
                 GuiManager.CLICKED_LEFT = false;
+                GuiManager.currentInputComponent = null;
             }
         }
         if (clickRight && isListening) {
             this.isListening = false;
             GuiManager.CLICKED_RIGHT = false;
+            GuiManager.currentInputComponent = null;
         }
 
         Render2DUtil.drawRoundedRect(

@@ -77,6 +77,9 @@ public class ColorFrameComponent extends GuiComponent implements Wrapper {
     }
 
     public void keyType(int keyCode) {
+        if (GuiManager.currentInputComponent != this && GuiManager.currentInputComponent != null) {
+            return ;
+        }
         switch (keyCode) {
             case GLFW.GLFW_KEY_V -> {
                 if (InputUtil.isKeyPressed(mc.getWindow().getHandle(), GLFW.GLFW_KEY_LEFT_CONTROL)) {
@@ -94,6 +97,9 @@ public class ColorFrameComponent extends GuiComponent implements Wrapper {
     }
 
     public void charType(char c) {
+        if (GuiManager.currentInputComponent != this && GuiManager.currentInputComponent != null) {
+            return ;
+        }
         if (Character.isLetterOrDigit(c) || c == '#') {
             if (inputCache.length() < 9) {
                 inputCache += c;
@@ -119,11 +125,13 @@ public class ColorFrameComponent extends GuiComponent implements Wrapper {
                     animationTimer.reset();
                     showSuffixChar = true;
                     GuiManager.CLICKED_LEFT = false;
+                    GuiManager.currentInputComponent = this;
                 }
             } else {
                 if (isListening) {
                     setListening(false);
                     GuiManager.CLICKED_LEFT = false;
+                    GuiManager.currentInputComponent = null;
                 }
             }
         }
@@ -131,6 +139,7 @@ public class ColorFrameComponent extends GuiComponent implements Wrapper {
         if (clickRight && isListening) {
             setListening(false);
             GuiManager.CLICKED_LEFT = false;
+            GuiManager.currentInputComponent = null;
         }
 
         Render2DUtil.drawRoundedRectWithAlign(

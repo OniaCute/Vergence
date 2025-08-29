@@ -60,6 +60,7 @@ import java.util.Comparator;
 public class GuiManager implements Wrapper {
     public static Pages PAGE = Pages.Empty;
     private static GuiComponent currentComponent = null;
+    public static GuiComponent currentInputComponent = null;
     public static ArrayList<GuiComponent> topbarComponents = new ArrayList<>();
     public static ArrayList<GuiComponent> categoryComponents = new ArrayList<>();
     public static ArrayList<GuiComponent> hoveredComponents = new ArrayList<>();
@@ -646,11 +647,11 @@ public class GuiManager implements Wrapper {
             }
         }
 
-        handlePages(context); // pages
-
         for (GuiComponent component : topbarComponents) {
             component.onDraw(context, MOUSE_X, MOUSE_Y, CLICKED_LEFT && inMainPageArea() && !hoverComponentDrawing && !isDragging, CLICKED_RIGHT && inMainPageArea() && !hoverComponentDrawing && !isDragging);
         }
+
+        handlePages(context); // pages
 
         for (GuiComponent component : hoveredComponents) {
             if (component instanceof HoverEnumChoicesComponent) {

@@ -40,6 +40,9 @@ public class TextFrameComponent extends GuiComponent implements Wrapper {
     }
 
     public void keyType(int keyCode) {
+        if (GuiManager.currentInputComponent != this && GuiManager.currentInputComponent != null) {
+            return ;
+        }
         switch (keyCode) {
             case GLFW.GLFW_KEY_V -> {
                 if (InputUtil.isKeyPressed(mc.getWindow().getHandle(), GLFW.GLFW_KEY_LEFT_CONTROL)) {
@@ -59,6 +62,9 @@ public class TextFrameComponent extends GuiComponent implements Wrapper {
     }
 
     public void charType(char word) {
+        if (GuiManager.currentInputComponent != this && GuiManager.currentInputComponent != null) {
+            return ;
+        }
         if (option.getRawValue().length() >= option.sizeLimit && option.sizeLimit != -1) {
             return ;
         }
@@ -97,15 +103,18 @@ public class TextFrameComponent extends GuiComponent implements Wrapper {
                 if (this.isListening) {
                     animationTimer.reset();
                     showSuffixChar = true;
+                    GuiManager.currentInputComponent = this;
                 }
             }
         } else {
             if (clickLeft && isListening) {
                 this.isListening = false;
+                GuiManager.currentInputComponent = null;
             }
         }
         if (clickRight && isListening) {
             this.isListening = false;
+            GuiManager.currentInputComponent = null;
         }
 
         Render2DUtil.drawRoundedRectWithAlign(

@@ -119,7 +119,6 @@ public class CategoryComponent extends GuiComponent {
                         (float) (component.getX() + component.getWidth()),
                         (float) (GuiManager.MAIN_PAGE_Y + GuiManager.MAIN_PAGE_HEIGHT),
                         1d
-
                 );
 
                 component.onDraw(context, mouseX, mouseY, clickLeft, clickRight);

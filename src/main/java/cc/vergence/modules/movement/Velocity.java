@@ -223,6 +223,7 @@ public class Velocity extends Module {
         Cancel,
         Grim,
         OldGrim,
-        Wall
+        Wall,
+        JumpReset
     }
 }

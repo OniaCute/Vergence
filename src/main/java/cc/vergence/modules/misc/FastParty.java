@@ -18,7 +18,7 @@ public class FastParty extends Module {
         INSTANCE = this;
     }
 
-    public Option<Double> range = addOption(new DoubleOption("Range", 1, 6, 3));
+    public Option<Double> range = addOption(new DoubleOption("Range", 1, 12, 3));
 
     @Override
     public String getDetails() {

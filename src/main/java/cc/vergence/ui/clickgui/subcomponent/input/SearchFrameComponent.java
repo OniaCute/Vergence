@@ -40,6 +40,9 @@ public class SearchFrameComponent extends GuiComponent implements Wrapper {
     }
 
     public void keyType(int keyCode) {
+        if (GuiManager.currentInputComponent != this && GuiManager.currentInputComponent != null) {
+            return ;
+        }
         switch (keyCode) {
             case GLFW.GLFW_KEY_V -> {
                 if (InputUtil.isKeyPressed(mc.getWindow().getHandle(), GLFW.GLFW_KEY_LEFT_CONTROL)) {
@@ -59,6 +62,9 @@ public class SearchFrameComponent extends GuiComponent implements Wrapper {
     }
 
     public void charType(char word) {
+        if (GuiManager.currentInputComponent != this && GuiManager.currentInputComponent != null) {
+            return ;
+        }
         searchText += word;
         GuiManager.resetScroll();
     }
@@ -98,15 +104,18 @@ public class SearchFrameComponent extends GuiComponent implements Wrapper {
                     animationTimer.reset();
                     showSuffixChar = true;
                     GuiManager.resetScroll();
+                    GuiManager.currentInputComponent = this;
                 }
             }
         } else {
             if (clickLeft && isListening) {
                 isListening = false;
+                GuiManager.currentInputComponent = null;
             }
         }
         if (clickRight && isListening) {
             isListening = false;
+            GuiManager.currentInputComponent = null;
         }
 
         Render2DUtil.drawRoundedRectWithAlign(

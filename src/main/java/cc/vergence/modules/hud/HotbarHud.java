@@ -71,7 +71,7 @@ public class HotbarHud extends Module implements Wrapper {
                 NewRender2DUtil.drawRoundedRect(i - 90, mc.getWindow().getScaledHeight() - 25, 180, 20, radius.getValue(), backgroundColor.getValue());
                 NewRender2DUtil.drawRoundedRect(i - 112.5f, mc.getWindow().getScaledHeight() - 25, 20, 20, radius.getValue(), backgroundColor.getValue());
             }
-            NewRender2DUtil.drawRoundedRect(i - 88 + playerEntity.getInventory().selectedSlot * 19.8f + 0.5, mc.getWindow().getScaledHeight() - 22 - (itemFloat.getValue() ? 2 : 0), 17, 17, radius.getValue(), selectColor.getValue());
+            NewRender2DUtil.drawRoundedRect(i - 88 + playerEntity.getInventory().selectedSlot * 19.8f + 0.5, mc.getWindow().getScaledHeight() - 24 + (itemFloat.getValue() ? 0.2 : 0.5), 17, 17, radius.getValue(), selectColor.getValue());
         }
     }
 

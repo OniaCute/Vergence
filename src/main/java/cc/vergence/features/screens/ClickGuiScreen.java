@@ -103,26 +103,41 @@ public class ClickGuiScreen extends Screen {
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         for (GuiComponent component : GuiManager.inputComponents) {
             if (component instanceof TextFrameComponent) {
+                if (GuiManager.currentInputComponent != component) {
+                    ((TextFrameComponent) component).setListening(false);
+                }
                 if (((TextFrameComponent) component).isListening()) {
                     ((TextFrameComponent) component).keyType(keyCode);
                 }
             }
             else if (component instanceof BindFrameComponent) {
+                if (GuiManager.currentInputComponent != component) {
+                    ((BindFrameComponent) component).setListening(false);
+                }
                 if (((BindFrameComponent) component).isListening()) {
                     ((BindFrameComponent) component).typeIn(keyCode);
                 }
             }
             else if (component instanceof DoubleFrameComponent) {
+                if (GuiManager.currentInputComponent != component) {
+                    ((DoubleFrameComponent) component).setListening(false);
+                }
                 if (((DoubleFrameComponent) component).isListening()) {
                     ((DoubleFrameComponent) component).keyType(keyCode);
                 }
             }
             else if (component instanceof ColorFrameComponent) {
+                if (GuiManager.currentInputComponent != component) {
+                    ((ColorFrameComponent) component).setListening(false);
+                }
                 if (((ColorFrameComponent) component).isListening()) {
                     ((ColorFrameComponent) component).keyType(keyCode);
                 }
             }
             else if (component instanceof SearchFrameComponent) {
+                if (GuiManager.currentInputComponent != component) {
+                    ((SearchFrameComponent) component).setListening(false);
+                }
                 if (((SearchFrameComponent) component).isListening()) {
                     ((SearchFrameComponent) component).keyType(keyCode);
                 }

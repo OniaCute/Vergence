@@ -95,6 +95,7 @@ public class ClickGuiScreen extends Screen {
 
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float partialTicks) {
+//        checkTypeIn();
         Vergence.EVENTS.onRenderClickGui(context, mouseX, mouseY, partialTicks);
         Vergence.EVENTS.onMouseMoveInClickGuiScreen(context, mouseX, mouseY);
     }
@@ -144,6 +145,36 @@ public class ClickGuiScreen extends Screen {
             }
         }
         return super.keyPressed(keyCode, scanCode, modifiers);
+    }
+
+    public static void checkTypeIn() {
+        for (GuiComponent component : GuiManager.inputComponents) {
+            if (component instanceof TextFrameComponent) {
+                if (GuiManager.currentInputComponent != component) {
+                    ((TextFrameComponent) component).setListening(false);
+                }
+            }
+            else if (component instanceof BindFrameComponent) {
+                if (GuiManager.currentInputComponent != component) {
+                    ((BindFrameComponent) component).setListening(false);
+                }
+            }
+            else if (component instanceof DoubleFrameComponent) {
+                if (GuiManager.currentInputComponent != component) {
+                    ((DoubleFrameComponent) component).setListening(false);
+                }
+            }
+            else if (component instanceof ColorFrameComponent) {
+                if (GuiManager.currentInputComponent != component) {
+                    ((ColorFrameComponent) component).setListening(false);
+                }
+            }
+            else if (component instanceof SearchFrameComponent) {
+                if (GuiManager.currentInputComponent != component) {
+                    ((SearchFrameComponent) component).setListening(false);
+                }
+            }
+        }
     }
 
     @Override

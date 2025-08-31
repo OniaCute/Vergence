@@ -49,6 +49,11 @@ public class ColorUtil {
         return new Color(color.getRed(), color.getGreen(), color.getBlue(), alpha);
     }
 
+    public static Color applyOpacity(Color color, float opacity) {
+        opacity = Math.min(1, Math.max(0, opacity));
+        return new Color(color.getRed(), color.getGreen(), color.getBlue(), (int) (color.getAlpha() * opacity));
+    }
+
     public static int asRGBA(int r, int g, int b, int a) {
         return (r << 16) + (g << 8) + b + (a << 24);
     }

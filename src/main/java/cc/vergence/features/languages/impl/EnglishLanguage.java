@@ -2468,6 +2468,7 @@ public class EnglishLanguage extends Language {
         languageBase.put("Module.Modules.NoInvisible.description", "Always display the hidden entities");
         languageBase.put("Module.Modules.NoInvisible.Options.MultipleOption.Targets.name", "Targets");
         languageBase.put("Module.Modules.NoInvisible.Options.MultipleOption.Targets.description", "entity types to show");
+        languageBase.put("Module.Modules.NoInvisible.Messages.Invisible", "§r A invisible player §b{player} §rhas §ajoined §rthe range!");
 
         languageBase.put("Module.Modules.NoSlowdown.name", "No Slowdown");
         languageBase.put("Module.Modules.NoSlowdown.description", "Prevents slowdown from using items or walking on certain blocks");
@@ -2584,5 +2585,37 @@ public class EnglishLanguage extends Language {
         languageBase.put("Module.Modules.HitMarker.Options.DoubleOption.OffsetX.description", "The offset of hitmarker's x axis");
         languageBase.put("Module.Modules.HitMarker.Options.DoubleOption.OffsetY.name", "Offset Y");
         languageBase.put("Module.Modules.HitMarker.Options.DoubleOption.OffsetY.description", "The offset of hitmarker's y axis");
+
+        languageBase.put("Module.Modules.Blink.name", "Blink");
+        languageBase.put("Module.Modules.Blink.description", "Allows the player to move without sending position updates");
+        languageBase.put("Module.Modules.Blink.Options.MultipleOption.Mode.name", "Mode");
+        languageBase.put("Module.Modules.Blink.Options.MultipleOption.Mode.description", "Visual mode for the blink");
+        languageBase.put("Module.Modules.Blink.Options.BooleanOption.Auto.name", "Auto");
+        languageBase.put("Module.Modules.Blink.Options.BooleanOption.Auto.description", "Automatically trigger blink");
+        languageBase.put("Module.Modules.Blink.Options.DoubleOption.Time.name", "Time");
+        languageBase.put("Module.Modules.Blink.Options.DoubleOption.Time.description", "Time interval for auto-blink in seconds");
+        languageBase.put("Module.Modules.Blink.Options.DoubleOption.MaxPackets.name", "MaxPackets");
+        languageBase.put("Module.Modules.Blink.Options.DoubleOption.MaxPackets.description", "Maximum number of packets to store before sending");
+        languageBase.put("Module.Modules.Blink.Options.BooleanOption.Velocity.name", "Velocity");
+        languageBase.put("Module.Modules.Blink.Options.BooleanOption.Velocity.description", "Disable blink when receiving velocity updates");
+        languageBase.put("Module.Modules.Blink.Options.DoubleOption.Size.name", "Size");
+        languageBase.put("Module.Modules.Blink.Options.DoubleOption.Size.description", "Size of the visual circle");
+        languageBase.put("Module.Modules.Blink.Options.ColorOption.Color.name", "Color");
+        languageBase.put("Module.Modules.Blink.Options.ColorOption.Color.description", "Color of the visual circle");
+
+        languageBase.put("Module.Modules.JumpCircle.name", "Jump Circle");
+        languageBase.put("Module.Modules.JumpCircle.description", "Displays a circle effect when players jump");
+        languageBase.put("Module.Modules.JumpCircle.Options.BooleanOption.SelfOnly.name", "Self Only");
+        languageBase.put("Module.Modules.JumpCircle.Options.BooleanOption.SelfOnly.description", "Show the circle effect only for the local player");
+        languageBase.put("Module.Modules.JumpCircle.Options.BooleanOption.EaseOut.name", "Ease Out");
+        languageBase.put("Module.Modules.JumpCircle.Options.BooleanOption.EaseOut.description", "Ease out the circle effect over time");
+        languageBase.put("Module.Modules.JumpCircle.Options.DoubleOption.Time.name", "Time");
+        languageBase.put("Module.Modules.JumpCircle.Options.DoubleOption.Time.description", "Duration of the circle effect");
+        languageBase.put("Module.Modules.JumpCircle.Options.DoubleOption.Scale.name", "Scale");
+        languageBase.put("Module.Modules.JumpCircle.Options.DoubleOption.Scale.description", "Scale of the circle effect");
+        languageBase.put("Module.Modules.JumpCircle.Options.DoubleOption.Speed.name", "Speed");
+        languageBase.put("Module.Modules.JumpCircle.Options.DoubleOption.Speed.description", "Speed of the circle effect");
+        languageBase.put("Module.Modules.JumpCircle.Options.ColorOption.Color.name", "Color");
+        languageBase.put("Module.Modules.JumpCircle.Options.ColorOption.Color.description", "Color of the circle effect");
     }
 }

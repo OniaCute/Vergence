@@ -162,6 +162,8 @@ public class ModuleManager {
         registerModule(new AutoPlace());
         registerModule(new HotbarHelper());
         registerModule(new HitMarker());
+        registerModule(new Blink());
+        registerModule(new JumpCircle());
 
         // special module
         registerModule(new SafeMode());

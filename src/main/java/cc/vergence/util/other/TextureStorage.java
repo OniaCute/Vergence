@@ -8,4 +8,6 @@ public final class TextureStorage {
     public static final Identifier dollar = Identifier.of("vergence", "textures/particles/dollar.png");
     public static final Identifier snowflake = Identifier.of("vergence", "textures/particles/snowflake.png");
     public static final Identifier firefly = Identifier.of("vergence", "textures/particles/firefly.png");
+    public static final Identifier bubble = Identifier.of("vergence", "textures/particles/bubble.png");
+    public static final Identifier circle = Identifier.of("vergence", "textures/particles/circle.png");
 }

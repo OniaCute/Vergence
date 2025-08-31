@@ -3,6 +3,7 @@ package cc.vergence.util.render.utils;
 import cc.vergence.features.enums.other.Aligns;
 import cc.vergence.modules.client.ClickGUI;
 import cc.vergence.modules.client.Client;
+import cc.vergence.util.color.ColorUtil;
 import cc.vergence.util.interfaces.Wrapper;
 import cc.vergence.util.maths.MathUtil;
 import cc.vergence.util.other.TextureStorage;
@@ -21,6 +22,8 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import io.github.humbleui.skija.Canvas;
+import net.minecraft.util.math.RotationAxis;
+import net.minecraft.util.math.Vec3d;
 import org.joml.Math;
 import org.joml.Matrix4f;
 import org.joml.Vector4f;
@@ -214,8 +217,6 @@ public class Render2DUtil implements Wrapper {
         Render2DUtil.renderRounded(matrices, fillColor, innerX1, innerY1, innerX2, innerY2, scaledRadius, 4);
         RenderSystem.disableBlend();
     }
-
-
 
     public static void drawCircle(MatrixStack matrices, Color c, double originX, double originY, double radius, int segments) {
         originX *= getScaleFactor();

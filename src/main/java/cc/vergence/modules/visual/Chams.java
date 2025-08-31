@@ -120,7 +120,7 @@ public class Chams extends Module implements Wrapper {
                 }
 
                 if (MurdererCatcher.INSTANCE.getStatus() && (MurdererCatcher.INSTANCE.bowmen.contains(living.getName().getString()) || MurdererCatcher.INSTANCE.murderers.contains(living.getName().getString()))) {
-                    return ;
+                    continue ;
                 }
 
                 ModelRenderer.renderModel(living, 1.0f, tickDelta, new ModelRenderer.Render(true, fill, true, outline, shine.getValue()));

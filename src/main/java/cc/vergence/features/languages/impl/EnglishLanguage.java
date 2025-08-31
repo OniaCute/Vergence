@@ -2596,8 +2596,8 @@ public class EnglishLanguage extends Language {
         languageBase.put("Module.Modules.Blink.Options.DoubleOption.Time.description", "Time interval for auto-blink in seconds");
         languageBase.put("Module.Modules.Blink.Options.DoubleOption.MaxPackets.name", "MaxPackets");
         languageBase.put("Module.Modules.Blink.Options.DoubleOption.MaxPackets.description", "Maximum number of packets to store before sending");
-        languageBase.put("Module.Modules.Blink.Options.BooleanOption.Velocity.name", "Velocity");
-        languageBase.put("Module.Modules.Blink.Options.BooleanOption.Velocity.description", "Disable blink when receiving velocity updates");
+        languageBase.put("Module.Modules.Blink.Options.BooleanOption.Hurt.name", "Hurt");
+        languageBase.put("Module.Modules.Blink.Options.BooleanOption.Hurt.description", "Sync the position when you get hurt");
         languageBase.put("Module.Modules.Blink.Options.DoubleOption.Size.name", "Size");
         languageBase.put("Module.Modules.Blink.Options.DoubleOption.Size.description", "Size of the visual circle");
         languageBase.put("Module.Modules.Blink.Options.ColorOption.Color.name", "Color");

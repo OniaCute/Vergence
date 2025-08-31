@@ -1,5 +1,6 @@
 package cc.vergence.modules.visual;
 
+import cc.vergence.features.event.events.DisconnectEvent;
 import cc.vergence.features.options.Option;
 import cc.vergence.features.options.impl.BooleanOption;
 import cc.vergence.features.options.impl.ColorOption;
@@ -37,13 +38,31 @@ public class JumpCircle extends Module {
 
     public Option<Boolean> selfOnly = addOption(new BooleanOption("SelfOnly", true));
     public Option<Boolean> easeOut = addOption(new BooleanOption("EaseOut", true));
-    public Option<Double> scale = addOption(new DoubleOption("Scale", 0.2, 5, 1));
-    public Option<Double> speed = addOption(new DoubleOption("Speed", 0.5, 8, 2));
+    public Option<Double> time = addOption(new DoubleOption("Time", 0.1, 10, 2.5).setUnit("s"));
+    public Option<Double> size = addOption(new DoubleOption("Scale", 0.2, 5, 1));
     public Option<Color> color = addOption(new ColorOption("Color", new Color(255, 147, 252)));
 
     @Override
     public String getDetails() {
         return "";
+    }
+
+    @Override
+    public void onDisable() {
+        cache.clear();
+        circles.clear();
+    }
+
+    @Override
+    public void onLogout() {
+        cache.clear();
+        circles.clear();
+    }
+
+    @Override
+    public void onDisconnect(DisconnectEvent event, String reason) {
+        cache.clear();
+        circles.clear();
     }
 
     @Override
@@ -65,22 +84,47 @@ public class JumpCircle extends Module {
             }
         });
 
-        circles.removeIf(c -> c.timer.passedMs(easeOut.getValue() ? 5000 : 6000));
+        circles.removeIf(c -> c.timer.passedMs(easeOut.getValue() ? getTime() : getTime() + 1000));
     }
 
     @Override
     public void onDraw3D(MatrixStack matrixStack, float tickDelta) {
-        Collections.reverse(circles);
+        RenderSystem.disableDepthTest();
+        RenderSystem.enableBlend();
+        RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE);
+        RenderSystem.setShaderTexture(0, TextureStorage.circle);
+        RenderSystem.setShader(ShaderProgramKeys.POSITION_TEX_COLOR);
+
+        BufferBuilder buffer = Tessellator.getInstance().begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE_COLOR);
 
         for (Circle c : circles) {
-            float colorAnim = (float) (c.timer.getGapMs()) / 6000f;
-            float sizeAnim = (float) (scale.getValue() - (float) Math.pow(1 - ((c.timer.getGapMs() * (easeOut.getValue() ? 2f : 1f)) / 5000f), 4));
-            float alpha = 1f - colorAnim;
+            float colorAnim = (float) (c.timer.getGapMs()) / (getTime() + 1000);
+            float sizeAnim = (float) (size.getValue() - (float) Math.pow(1 - ((c.timer.getGapMs() * (easeOut.getValue() ? 2f : 1f)) / getTime()), 4));
 
-            Render2DUtil.drawCircle(matrixStack, c.pos(), sizeAnim * speed.getValue().floatValue() * 1000f, color.getValue(), alpha, 0);
+            matrixStack.push();
+            matrixStack.translate(c.pos().x - mc.getEntityRenderDispatcher().camera.getPos().getX(), c.pos().y - mc.getEntityRenderDispatcher().camera.getPos().getY(), c.pos().z - mc.getEntityRenderDispatcher().camera.getPos().getZ());
+            matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(90));
+            matrixStack.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(sizeAnim * 1 * 1000f));
+            Matrix4f matrix = matrixStack.peek().getPositionMatrix();
+
+            float scale = sizeAnim * 2f;
+
+            buffer.vertex(matrix, -sizeAnim, -sizeAnim + scale, 0).texture(0, 1).color(ColorUtil.applyOpacity(color.getValue(), 1f - colorAnim).getRGB());
+            buffer.vertex(matrix, -sizeAnim + scale, -sizeAnim + scale, 0).texture(1, 1).color(ColorUtil.applyOpacity(color.getValue(), 1f - colorAnim).getRGB());
+            buffer.vertex(matrix, -sizeAnim + scale, -sizeAnim, 0).texture(1, 0).color(ColorUtil.applyOpacity(color.getValue(), 1f - colorAnim).getRGB());
+            buffer.vertex(matrix, -sizeAnim, -sizeAnim, 0).texture(0, 0).color(ColorUtil.applyOpacity(color.getValue(), 1f - colorAnim).getRGB());
+
+            matrixStack.pop();
         }
 
-        Collections.reverse(circles);
+        Render2DUtil.endBuilding(buffer);
+        RenderSystem.disableBlend();
+        RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
+        RenderSystem.enableDepthTest();
+    }
+
+    private float getTime() {
+        return time.getValue().floatValue() * 1000f;
     }
 
     public record Circle(Vec3d pos, FastTimerUtil timer) {}

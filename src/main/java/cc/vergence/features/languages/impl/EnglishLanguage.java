@@ -2617,5 +2617,57 @@ public class EnglishLanguage extends Language {
         languageBase.put("Module.Modules.JumpCircle.Options.DoubleOption.Speed.description", "Speed of the circle effect");
         languageBase.put("Module.Modules.JumpCircle.Options.ColorOption.Color.name", "Color");
         languageBase.put("Module.Modules.JumpCircle.Options.ColorOption.Color.description", "Color of the circle effect");
+
+        languageBase.put("Module.Modules.TriggerBot.name", "Trigger Bot");
+        languageBase.put("Module.Modules.TriggerBot.description", "Auto clicks when aiming at a target");
+        languageBase.put("Module.Modules.TriggerBot.Options.MultipleOption.Targets.name", "Targets");
+        languageBase.put("Module.Modules.TriggerBot.Options.MultipleOption.Targets.description", "Types of entities to target");
+        languageBase.put("Module.Modules.TriggerBot.Options.DoubleOption.MinDelay.name", "Min Delay");
+        languageBase.put("Module.Modules.TriggerBot.Options.DoubleOption.MinDelay.description", "Minimum delay between clicks in milliseconds");
+        languageBase.put("Module.Modules.TriggerBot.Options.DoubleOption.MaxDelay.name", "Max Delay");
+        languageBase.put("Module.Modules.TriggerBot.Options.DoubleOption.MaxDelay.description", "Maximum delay between clicks in milliseconds");
+
+        languageBase.put("Module.Modules.AntiEffects.name", "Anti Effects");
+        languageBase.put("Module.Modules.AntiEffects.description", "Auto removes unwanted status effects");
+        languageBase.put("Module.Modules.AntiEffects.Options.MultipleOption.Effects.name", "Effects");
+        languageBase.put("Module.Modules.AntiEffects.Options.MultipleOption.Effects.description", "Status effects to remove");
+
+        languageBase.put("Module.Modules.AutoArmor.name", "Auto Armor");
+        languageBase.put("Module.Modules.AutoArmor.description", "Auto equips the best armor from your inventory");
+        languageBase.put("Module.Modules.AutoArmor.Options.EnumOption.Health.name", "Health");
+        languageBase.put("Module.Modules.AutoArmor.Options.EnumOption.Health.description", "Armor durability selection mode");
+        languageBase.put("Module.Modules.AutoArmor.Options.DoubleOption.MinDelay.name", "Min Delay");
+        languageBase.put("Module.Modules.AutoArmor.Options.DoubleOption.MinDelay.description", "Minimum delay between equip in milliseconds");
+        languageBase.put("Module.Modules.AutoArmor.Options.DoubleOption.MaxDelay.name", "Max Delay");
+        languageBase.put("Module.Modules.AutoArmor.Options.DoubleOption.MaxDelay.description", "Maximum delay between equip in milliseconds");
+        languageBase.put("Module.Modules.AutoArmor.Options.BooleanOption.InventoryOnly.name", "Only Inventory");
+        languageBase.put("Module.Modules.AutoArmor.Options.BooleanOption.InventoryOnly.description", "Only in the inventory will the armor be equipped");
+        languageBase.put("Module.Modules.AutoArmor.Options.BooleanOption.ElytraPriority.name", "Elytra Priority");
+        languageBase.put("Module.Modules.AutoArmor.Options.BooleanOption.ElytraPriority.description", "Prefer elytra over chestplate");
+        languageBase.put("Module.Modules.AutoArmor.Options.BooleanOption.Preserve.name", "Preserve");
+        languageBase.put("Module.Modules.AutoArmor.Options.BooleanOption.Preserve.description", "Keep armor if durability is too low");
+        languageBase.put("Module.Modules.AutoArmor.Options.DoubleOption.PreserveHealth.name", "Preserve Health");
+        languageBase.put("Module.Modules.AutoArmor.Options.DoubleOption.PreserveHealth.description", "Minimum durability percentage to keep armor");
+        languageBase.put("Module.Modules.AutoArmor.Options.BooleanOption.Elytra.name", "Elytra");
+        languageBase.put("Module.Modules.AutoArmor.Options.BooleanOption.Elytra.description", "Allow equipping elytra");
+        languageBase.put("Module.Modules.AutoArmor.Options.BooleanOption.SmartElytra.name", "Smart Elytra");
+        languageBase.put("Module.Modules.AutoArmor.Options.BooleanOption.SmartElytra.description", "Automatically unequip elytra when on ground");
+
+        languageBase.put("Module.Modules.InventoryCleaner.name", "Inventory Cleaner");
+        languageBase.put("Module.Modules.InventoryCleaner.description", "Auto drop unwanted items from your inventory");
+        languageBase.put("Module.Modules.InventoryCleaner.Options.MultipleOption.Items.name", "Items");
+        languageBase.put("Module.Modules.InventoryCleaner.Options.MultipleOption.Items.description", "Types of items to remove");
+        languageBase.put("Module.Modules.InventoryCleaner.Options.DoubleOption.MinDelay.name", "Min Delay");
+        languageBase.put("Module.Modules.InventoryCleaner.Options.DoubleOption.MinDelay.description", "Minimum delay between cleaning actions in milliseconds");
+        languageBase.put("Module.Modules.InventoryCleaner.Options.DoubleOption.MaxDelay.name", "Max Delay");
+        languageBase.put("Module.Modules.InventoryCleaner.Options.DoubleOption.MaxDelay.description", "Maximum delay between cleaning actions in milliseconds");
+        languageBase.put("Module.Modules.InventoryCleaner.Options.BooleanOption.Hotbar.name", "Hot bar");
+        languageBase.put("Module.Modules.InventoryCleaner.Options.BooleanOption.Hotbar.description", "Include the hotbar in cleaning");
+        languageBase.put("Module.Modules.InventoryCleaner.Options.BooleanOption.InventoryOnly.name", "Inventory Only");
+        languageBase.put("Module.Modules.InventoryCleaner.Options.BooleanOption.InventoryOnly.description", "Only clean when the inventory screen is open");
+        languageBase.put("Module.Modules.InventoryCleaner.Options.BooleanOption.KeepBest.name", "Keep Best");
+        languageBase.put("Module.Modules.InventoryCleaner.Options.BooleanOption.KeepBest.description", "Keep the best item of each type");
+        languageBase.put("Module.Modules.InventoryCleaner.Options.BooleanOption.GoldenApple.name", "Golden Apple");
+        languageBase.put("Module.Modules.InventoryCleaner.Options.BooleanOption.GoldenApple.description", "Always keep golden apples");
     }
 }

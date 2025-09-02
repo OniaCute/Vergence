@@ -7,6 +7,10 @@ import cc.vergence.util.blocks.BlockUtil;
 import cc.vergence.util.interfaces.Wrapper;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
+import net.minecraft.client.gui.screen.ingame.GenericContainerScreen;
+import net.minecraft.client.gui.screen.ingame.InventoryScreen;
+import net.minecraft.client.gui.screen.ingame.ShulkerBoxScreen;
 import net.minecraft.item.*;
 import net.minecraft.network.packet.c2s.play.CloseHandledScreenC2SPacket;
 import net.minecraft.network.packet.c2s.play.UpdateSelectedSlotC2SPacket;
@@ -16,6 +20,8 @@ import java.util.*;
 
 public class InventoryUtil implements Wrapper {
     private static final HashSet<Item> FOOD_ITEMS = new HashSet<>();
+    private static final Set<Item> TOOL_ITEMS = new HashSet<>();
+
     static {
         FOOD_ITEMS.add(Items.APPLE);
         FOOD_ITEMS.add(Items.BAKED_POTATO);
@@ -42,6 +48,73 @@ public class InventoryUtil implements Wrapper {
         FOOD_ITEMS.add(Items.DRIED_KELP);
         FOOD_ITEMS.add(Items.SWEET_BERRIES);
         FOOD_ITEMS.add(Items.GLOW_BERRIES);
+    }
+
+    static {
+        TOOL_ITEMS.add(Items.WOODEN_SWORD);
+        TOOL_ITEMS.add(Items.STONE_SWORD);
+        TOOL_ITEMS.add(Items.IRON_SWORD);
+        TOOL_ITEMS.add(Items.GOLDEN_SWORD);
+        TOOL_ITEMS.add(Items.DIAMOND_SWORD);
+        TOOL_ITEMS.add(Items.NETHERITE_SWORD);
+
+        TOOL_ITEMS.add(Items.WOODEN_AXE);
+        TOOL_ITEMS.add(Items.STONE_AXE);
+        TOOL_ITEMS.add(Items.IRON_AXE);
+        TOOL_ITEMS.add(Items.GOLDEN_AXE);
+        TOOL_ITEMS.add(Items.DIAMOND_AXE);
+        TOOL_ITEMS.add(Items.NETHERITE_AXE);
+
+        TOOL_ITEMS.add(Items.WOODEN_PICKAXE);
+        TOOL_ITEMS.add(Items.STONE_PICKAXE);
+        TOOL_ITEMS.add(Items.IRON_PICKAXE);
+        TOOL_ITEMS.add(Items.GOLDEN_PICKAXE);
+        TOOL_ITEMS.add(Items.DIAMOND_PICKAXE);
+        TOOL_ITEMS.add(Items.NETHERITE_PICKAXE);
+
+        TOOL_ITEMS.add(Items.WOODEN_SHOVEL);
+        TOOL_ITEMS.add(Items.STONE_SHOVEL);
+        TOOL_ITEMS.add(Items.IRON_SHOVEL);
+        TOOL_ITEMS.add(Items.GOLDEN_SHOVEL);
+        TOOL_ITEMS.add(Items.DIAMOND_SHOVEL);
+        TOOL_ITEMS.add(Items.NETHERITE_SHOVEL);
+
+        TOOL_ITEMS.add(Items.WOODEN_HOE);
+        TOOL_ITEMS.add(Items.STONE_HOE);
+        TOOL_ITEMS.add(Items.IRON_HOE);
+        TOOL_ITEMS.add(Items.GOLDEN_HOE);
+        TOOL_ITEMS.add(Items.DIAMOND_HOE);
+        TOOL_ITEMS.add(Items.NETHERITE_HOE);
+
+        TOOL_ITEMS.add(Items.SHEARS);
+    }
+
+    public static boolean isTool(ItemStack stack) {
+        return isTool(stack.getItem());
+    }
+
+    public static boolean isTool(Item item) {
+        return TOOL_ITEMS.contains(item);
+    }
+
+    public static boolean isAxe(Item item) {
+        return item instanceof AxeItem;
+    }
+
+    public static boolean isPickaxe(Item item) {
+        return item instanceof PickaxeItem;
+    }
+
+    public static boolean isShovel(Item item) {
+        return item instanceof ShovelItem;
+    }
+
+    public static boolean isHoe(Item item) {
+        return item instanceof HoeItem;
+    }
+
+    public static boolean isShears(Item item) {
+        return item instanceof ShearsItem;
     }
 
     public static boolean isFood(ItemStack stack) {
@@ -188,6 +261,14 @@ public class InventoryUtil implements Wrapper {
         if (AntiCheat.INSTANCE.inventorySync.getValue() && InventoryManager.serverSlot != mc.player.getInventory().selectedSlot) {
             mc.getNetworkHandler().sendPacket(new CloseHandledScreenC2SPacket(mc.player.currentScreenHandler.syncId));
         }
+    }
+
+    public static boolean inInventoryScreen() {
+        return mc.currentScreen instanceof InventoryScreen || mc.currentScreen instanceof CreativeInventoryScreen || mc.currentScreen instanceof GenericContainerScreen || mc.currentScreen instanceof ShulkerBoxScreen;
+    }
+
+    public static boolean inOtherScreen() {
+        return mc.currentScreen instanceof GenericContainerScreen || mc.currentScreen instanceof ShulkerBoxScreen;
     }
 }
 

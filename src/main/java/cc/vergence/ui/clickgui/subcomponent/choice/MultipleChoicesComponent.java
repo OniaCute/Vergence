@@ -104,7 +104,7 @@ public class MultipleChoicesComponent extends GuiComponent {
 
         FontUtil.drawTextWithAlign(
                 context,
-                option.getValue().isEmpty() ? Vergence.TEXT.get("Module.Special.Options.MultipleOptions.Empty") : String.join(", ", valueString),
+                option.getValue().isEmpty() ? Vergence.TEXT.get("Module.Special.Options.MultipleOptions.Empty") : ((FontUtil.getWidth(FontSize.SMALLEST, String.join(", ", valueString)) > getWidth() - 40) ? (valueString.size() != 1 ? valueString.get(0) + " ... " : valueString.get(0) + " ... " + valueString.get(valueString.size() - 1)) : String.join(", ", valueString)),
                 this.getX(),
                 this.getY() + 4,
                 this.getX() + this.getWidth() - 4,

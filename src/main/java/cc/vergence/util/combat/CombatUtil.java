@@ -11,27 +11,57 @@ import cc.vergence.util.interfaces.Wrapper;
 import cc.vergence.util.other.FastTimerUtil;
 import cc.vergence.util.player.EntityUtil;
 import cc.vergence.util.rotation.Rotation;
+import net.minecraft.component.type.ItemEnchantmentsComponent;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.decoration.EndCrystalEntity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.item.ArmorItem;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.item.equipment.ArmorMaterial;
 import net.minecraft.network.packet.c2s.play.PlayerInteractEntityC2SPacket;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
-import java.util.Comparator;
-import java.util.EnumSet;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 public class CombatUtil implements Wrapper {
     public static final FastTimerUtil breakTimer = new FastTimerUtil();
+    private static final Map<String, Integer> BASE_PROT = Map.of(
+            "helmet", 3,
+            "chestplate", 8,
+            "leggings", 6,
+            "boots", 3
+    );
+
+    private static final Map<String, Integer> MATERIAL_PROT = Map.of(
+            "leather", 0,
+            "golden", 1,
+            "chainmail", 2,
+            "iron", 3,
+            "diamond", 4,
+            "netherite", 5
+    );
+
+    private static final Map<String, Integer> ENCHANT_PROT = Map.of(
+            "protection", 1,
+            "blast_protection", 2,
+            "fire_protection", 1,
+            "projectile_protection", 1,
+            "feather_falling", 1
+    );
 
     public static void aimAt(Vec3d pos, int priority, RotateModes rotateModes) {
         if (mc.player == null) {
@@ -144,5 +174,45 @@ public class CombatUtil implements Wrapper {
 
     public static boolean isFriend(PlayerEntity player) {
         return Vergence.FRIEND.isFriend(player.getGameProfile().getName());
+    }
+
+    public static int getProtectionAmount(Iterable<ItemStack> armor) {
+        int x = 0;
+        for (ItemStack stack : armor) {
+            x += getProtectionAmount(stack);
+        }
+
+        return x;
+    }
+
+    public static int getProtectionAmount(ItemStack stack) {
+        int prot = 0;
+
+        String key = stack.getItem().getTranslationKey();
+        if (key.contains("helmet") || key.contains("chestplate") || key.contains("leggings") || key.contains("boots")) {
+            for (var entry : BASE_PROT.entrySet()) {
+                if (key.contains(entry.getKey())) {
+                    prot += entry.getValue();
+                    break;
+                }
+            }
+            for (var entry : MATERIAL_PROT.entrySet()) {
+                if (key.contains(entry.getKey())) {
+                    prot += entry.getValue();
+                    break;
+                }
+            }
+        } else if (stack.isOf(Items.ELYTRA)) {
+            return 999;
+        }
+        ItemEnchantmentsComponent enchants = EnchantmentHelper.getEnchantments(stack);
+        for (var entry : enchants.getEnchantments()) {
+            String id = entry.getIdAsString().replace("minecraft:", "");
+            if (ENCHANT_PROT.containsKey(id)) {
+                prot += enchants.getLevel(entry) * ENCHANT_PROT.get(id);
+            }
+        }
+
+        return prot;
     }
 }

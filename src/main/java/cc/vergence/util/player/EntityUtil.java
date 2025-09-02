@@ -222,4 +222,19 @@ public class EntityUtil implements Wrapper {
         double z = MathHelper.lerp(tickDelta, entity.lastRenderZ, entity.getZ());
         return new Vec3d(x, y, z);
     }
+
+    public static boolean isInWeb(Entity entity) {
+        for (float x : new float[]{0, 0.3F, -0.3f}) {
+            for (float z : new float[]{0, 0.3F, -0.3f}) {
+                for (int y : new int[]{-1, 0, 1, 2}) {
+                    BlockPos pos = BlockPos.ofFloored(entity.getX() + x, entity.getY(), entity.getZ() + z).up(y);
+                    if (new Box(pos).intersects(entity.getBoundingBox()) && mc.world.getBlockState(pos).getBlock() == Blocks.COBWEB) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
 }

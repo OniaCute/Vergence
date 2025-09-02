@@ -30,8 +30,6 @@ public class AutoClicker extends Module {
     }
 
     public Option<EnumSet<Modes>> mode = addOption(new MultipleOption<Modes>("Mode", EnumSet.of(Modes.Left)));
-    public Option<Boolean> onlyEntity = addOption(new BooleanOption("OnlyEntity", false));
-    public Option<EnumSet<TargetTypes>> targets = addOption(new MultipleOption<TargetTypes>("Targets", EnumSet.of(TargetTypes.EnemyPlayers), v -> onlyEntity.getValue()));
     public Option<Enum<?>> clickMode = addOption(new EnumOption("ClickMode", ClickModes.Press));
     public Option<Enum<?>> swingMode = addOption(new EnumOption("Swing", SwingModes.Client));
     public Option<Double> minDelay = addOption(new DoubleOption("MinDelay", 1, 950, 30).setUnit("ms"));
@@ -88,7 +86,7 @@ public class AutoClicker extends Module {
                         delay = RandomUtil.getDouble(min, max);
                     }
                     if (timer.passedMs(delay)) {
-                        click();
+                        click(true);
                         timer.reset();
                     }
                 }
@@ -111,7 +109,7 @@ public class AutoClicker extends Module {
                         delay = RandomUtil.getDouble(min, max);
                     }
                     if (timer.passedMs(delay)) {
-                        rightClick();
+                        rightClick(true);
                         timer.reset();
                     }
                 }
@@ -119,7 +117,7 @@ public class AutoClicker extends Module {
         }
     }
 
-    private void click() {
+    public void click(boolean swing) {
         int attackCooldown = ((MinecraftClientAccessor) mc).getAttackCooldown();
         if (attackCooldown == 10000) {
             ((MinecraftClientAccessor) mc).setAttackCooldown(0);
@@ -128,12 +126,16 @@ public class AutoClicker extends Module {
         ((MinecraftClientAccessor) mc).leftClick();
         mc.options.attackKey.setPressed(false);
 
-        EntityUtil.swingHand(Hands.MainHand, ((SwingModes) swingMode.getValue()));
+        if (swing) {
+            EntityUtil.swingHand(Hands.MainHand, ((SwingModes) swingMode.getValue()));
+        }
     }
 
-    public void rightClick() {
+    public void rightClick(boolean swing) {
         ((IRightClick) mc).vergence$rightClick();
-        EntityUtil.swingHand(Hands.MainHand, ((SwingModes) swingMode.getValue()));
+        if (swing) {
+            EntityUtil.swingHand(Hands.MainHand, ((SwingModes) swingMode.getValue()));
+        }
     }
 
     public enum ClickModes {

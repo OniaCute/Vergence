@@ -164,6 +164,10 @@ public class ModuleManager {
         registerModule(new HitMarker());
         registerModule(new Blink());
         registerModule(new JumpCircle());
+        registerModule(new TriggerBot());
+        registerModule(new AntiEffects());
+        registerModule(new AutoArmor());
+        registerModule(new InventoryCleaner());
 
         // special module
         registerModule(new SafeMode());
